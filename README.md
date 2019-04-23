@@ -1,4 +1,4 @@
-# radiator
+# Radiator CMS
 
 > Frontend for Podlove Radiator.
 

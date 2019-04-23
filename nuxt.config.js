@@ -22,13 +22,6 @@ export default {
   loading: { color: '#fff' },
 
   /*
-   ** Global CSS
-   */
-  css: [
-    '@/assets/css/main.scss'
-  ],
-
-  /*
    ** Plugins to load before mounting the App
    */
   plugins: [],
@@ -42,12 +35,20 @@ export default {
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy'
   ],
+
   /*
    ** Axios module configuration
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+  /*
+   ** Global CSS
+   */
+  css: [
+    '@/assets/css/main.scss'
+  ],
 
   /*
    ** Build configuration
