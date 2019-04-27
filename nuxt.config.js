@@ -3,6 +3,10 @@ import pkg from './package'
 export default {
   mode: 'universal',
 
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:4000'
+  },
+
   /*
    ** Headers of the page
    */

@@ -1,34 +1,94 @@
 <template>
   <section class="section">
-    <div class="columns is-mobile">
-      <card title="Free" icon="github-circle">
-        Open source on <a href="https://github.com/buefy/buefy"> GitHub</a>
-      </card>
-
-      <card title="Responsive" icon="cellphone-link">
-        <b class="has-text-grey">Every</b> component is responsive
-      </card>
-
-      <card title="Modern" icon="alert-decagram">
-        Built with <a href="https://vuejs.org/">Vue.js</a> and
-        <a href="http://bulma.io/">Bulma</a>
-      </card>
-
-      <card title="Lightweight" icon="arrange-bring-to-front">
-        No other internal dependency
-      </card>
-    </div>
+    <b-notification
+      v-if="alert"
+      :type="alert.type"
+      has-icon
+      aria-close-label="Close notification"
+    >
+      {{ alert.message }}
+    </b-notification>
+    <form v-if="isLoggedIn">
+      <b-button
+        type="submit"
+        :loading="loading"
+        :disabled="loading"
+        @click.stop.prevent="logout()"
+      >
+        Logout
+      </b-button>
+    </form>
+    <form v-else>
+      <b-field label="Email">
+        <b-input v-model="username"></b-input>
+      </b-field>
+      <b-field label="Password">
+        <b-input v-model="password" type="password"></b-input>
+      </b-field>
+      <b-button
+        type="submit"
+        :loading="loading"
+        :disabled="loading"
+        @click.stop.prevent="login()"
+      >
+        Login
+      </b-button>
+      {{ token }}
+    </form>
   </section>
 </template>
 
 <script>
-import Card from '~/components/Card'
+import { mapState } from 'vuex'
 
 export default {
   name: 'HomePage',
-
-  components: {
-    Card
+  data() {
+    return {
+      username: '',
+      password: '',
+      alert: null,
+      loading: false,
+      isLoggedIn: false
+    }
+  },
+  computed: mapState(['token']),
+  methods: {
+    login() {
+      this.alert = null
+      this.loading = true
+      this.$store
+        .dispatch('auth/login', {
+          username: this.username,
+          password: this.password
+        })
+        .then(result => {
+          this.alert = {
+            type: 'is-success',
+            message: 'You are logged in.'
+          }
+          this.username = ''
+          this.password = ''
+          this.loading = false
+          this.isLoggedIn = true
+          // this.$router.push('/admin')
+        })
+        .catch(error => {
+          this.loading = false
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
+    logout() {
+      this.alert = {
+        type: 'is-success',
+        message: 'You are logged out.'
+      }
+      this.$store.dispatch('auth/logout')
+      this.isLoggedIn = false
+    }
   }
 }
 </script>
