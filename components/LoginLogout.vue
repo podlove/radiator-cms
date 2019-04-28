@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="login-logout">
     <b-notification
       v-if="alert"
       :type="alert.type"
@@ -37,6 +37,12 @@
   </section>
 </template>
 
+<style>
+.login-logout {
+  margin: 40px 0;
+}
+</style>
+
 <script>
 import { mapState } from 'vuex'
 
@@ -69,7 +75,9 @@ export default {
           this.password = ''
           this.loading = false
           this.isLoggedIn = true
-          // this.$router.push('/admin')
+          setTimeout(() => {
+            this.$router.push('/networks')
+          }, 1000)
         })
         .catch(error => {
           this.loading = false
