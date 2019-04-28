@@ -16,5 +16,8 @@ export default {
       }
       return axios.post(`${process.env.baseUrl}/api/graphql`, query)
     }
+  },
+  network: {
+    create: data => {}
   }
 }
