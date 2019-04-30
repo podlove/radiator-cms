@@ -7,18 +7,33 @@
     <div class="navbar-brand">
       <a class="navbar-item" href="/">Radiator</a>
     </div>
-    <div class="navbar-item has-dropdown is-hoverable">
+    <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
       <a class="navbar-link">Networks</a>
       <div class="navbar-dropdown">
+        <span v-if="networks.length">
+          <a :key="network.id" v-for="network in networks" class="navbar-item">
+            {{ network.title }}
+          </a>
+          <hr class="navbar-divider" />
+        </span>
         <a class="navbar-item">
-          Network 1
+          <b-icon icon="plus-circle"></b-icon>
+          <span class="r_menu__item">Add new Network</span>
         </a>
+      </div>
+    </div>
+    <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">Podcasts</a>
+      <div class="navbar-dropdown">
+        <span v-if="podcasts.length">
+          <a :key="podcast.id" v-for="podcast in podcasts" class="navbar-item">
+            {{ podcast.title }}
+          </a>
+          <hr class="navbar-divider" />
+        </span>
         <a class="navbar-item">
-          Network 2
-        </a>
-        <hr class="navbar-divider" />
-        <a class="navbar-item">
-          Add Network
+          <b-icon icon="plus-circle"></b-icon>
+          <span class="r_menu__item">Add new Podcast</span>
         </a>
       </div>
     </div>
@@ -42,24 +57,24 @@
           <hr class="navbar-divider" />
           <a class="navbar-item">
             <b-icon icon="settings"></b-icon>
-            <span class="r_usermenu__item">Account Settings</span>
+            <span class="r_menu__item">Account Settings</span>
           </a>
           <hr class="navbar-divider" />
           <a class="navbar-item">
             <b-icon icon="library-books"></b-icon>
-            <span class="r_usermenu__item">Documentation</span>
+            <span class="r_menu__item">Documentation</span>
           </a>
           <a class="navbar-item">
             <b-icon icon="help"></b-icon>
-            <span class="r_usermenu__item">Help & FAQ</span>
+            <span class="r_menu__item">Help & FAQ</span>
           </a>
           <a class="navbar-item">
             <b-icon icon="lifebuoy"></b-icon>
-            <span class="r_usermenu__item">Contact Support</span>
+            <span class="r_menu__item">Contact Support</span>
           </a>
           <a class="navbar-item">
             <b-icon icon="bug"></b-icon>
-            <span class="r_usermenu__item">Submit an Issue</span>
+            <span class="r_menu__item">Submit an Issue</span>
           </a>
           <hr class="navbar-divider" />
           <a class="r_usermenu__simple-item navbar-item">Terms & Conditions</a>
@@ -96,7 +111,7 @@
   flex-direction: column;
   line-height: 1.3;
 }
-.r_usermenu__item {
+.r_menu__item {
   margin-left: 18px;
 }
 .r_usermenu__simple-item {
@@ -110,6 +125,8 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
+    networks: state => state.networks.networks,
+    podcasts: state => state.podcasts.podcasts,
     username: state => state.auth.username
   }),
   methods: {

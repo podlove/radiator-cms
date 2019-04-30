@@ -5,22 +5,22 @@ export const state = () => ({
 })
 
 export const mutations = {
-  reset_session(store) {
-    store.isLoggedIn = false
-    store.username = null
-    store.token = null
-  },
-  set_session(store, data) {
-    store.isLoggedIn = true
-    store.username = data.username
-    store.token = data.token
+  set_networks(store, data) {
+    store.networks = data
   }
 }
 
 export const actions = {
-  getNetworks() {
+  getNetworks({ commit }) {
     return api.networks.getNetworks().then(response => {
-      console.log(response)
+      if (response.data.data.networks) {
+        commit('set_networks', response.data.data.networks)
+        return response.data.data.networks
+      } else if (response.data.errors) {
+        throw Error(response.data.errors[0].message)
+      } else {
+        throw Error('No data for networks or errors.')
+      }
     })
   }
 }

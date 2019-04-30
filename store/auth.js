@@ -20,13 +20,15 @@ export const mutations = {
 }
 
 export const actions = {
-  login({ commit }, data) {
+  login({ commit, dispatch }, data) {
     return api.auth.login(data).then(response => {
       if (
         response.data.data.authenticatedSession &&
         response.data.data.authenticatedSession.token
       ) {
         commit('set_session', response.data.data.authenticatedSession)
+        dispatch('networks/getNetworks', null, { root: true })
+        dispatch('podcasts/getPodcasts', null, { root: true })
         return response.data.data.authenticatedSession
       } else if (response.data.errors) {
         throw Error(response.data.errors[0].message)

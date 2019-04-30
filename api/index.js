@@ -18,7 +18,7 @@ export default {
       return axios.post(`${process.env.baseUrl}/api/graphql`, query)
     }
   },
-  network: {
+  networks: {
     create: data => {
       const query = {
         query: `
@@ -39,6 +39,21 @@ export default {
         query: `
           query {
             networks {
+              id,
+              title
+            }
+          }
+        `
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    }
+  },
+  podcasts: {
+    getPodcasts: () => {
+      const query = {
+        query: `
+          query {
+            podcasts {
               id,
               title
             }
