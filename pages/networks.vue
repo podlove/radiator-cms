@@ -7,7 +7,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  computed: mapState({
+    isLoggedIn: state => state.auth.isLoggedIn
+  }),
   methods: {
     createNetwork() {
       console.log('0')

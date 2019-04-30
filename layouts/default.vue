@@ -1,14 +1,6 @@
 <template>
   <div>
-    <nav
-      class="navbar header has-shadow is-primary"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">Radiator</a>
-      </div>
-    </nav>
+    <navigation />
     <section class="main-content">
       <nuxt />
     </section>
@@ -17,8 +9,16 @@
 
 <style>
 .main-content {
-  margin: 0 auto;
+  margin: 160px auto;
   width: 100%;
   max-width: 980px;
 }
 </style>
+
+<script>
+import Navigation from '~/components/Navigation'
+
+export default {
+  components: { Navigation }
+}
+</script>

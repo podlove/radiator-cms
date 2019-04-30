@@ -9,6 +9,7 @@ export default {
             authenticatedSession(usernameOrEmail: "${
               data.username
             }", password: "${data.password}") {
+              username,
               token
             }
           }
@@ -18,6 +19,33 @@ export default {
     }
   },
   network: {
-    create: data => {}
+    create: data => {
+      const query = {
+        query: `
+          mutation {
+            authenticatedSession(usernameOrEmail: "${
+              data.username
+            }", password: "${data.password}") {
+              username,
+              token
+            }
+          }
+        `
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    },
+    getNetworks: () => {
+      const query = {
+        query: `
+          query {
+            networks {
+              id,
+              title
+            }
+          }
+        `
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="login-logout">
+  <section class="login">
     <b-notification
       v-if="alert"
       :type="alert.type"
@@ -8,22 +8,20 @@
     >
       {{ alert.message }}
     </b-notification>
-    <form v-if="isLoggedIn">
-      <b-button
-        type="submit"
-        :loading="loading"
-        :disabled="loading"
-        @click.stop.prevent="logout()"
-      >
-        Logout
-      </b-button>
-    </form>
-    <form v-else>
-      <b-field label="Email">
-        <b-input v-model="username"></b-input>
+    <form v-if="!isLoggedIn">
+      <b-field label="User name or email address">
+        <b-input
+          v-model="username"
+          placeholder="Your user name or email address"
+        ></b-input>
       </b-field>
       <b-field label="Password">
-        <b-input v-model="password" type="password"></b-input>
+        <b-input
+          v-model="password"
+          password-reveal
+          placeholder="Your secure password"
+          type="password"
+        ></b-input>
       </b-field>
       <b-button
         type="submit"
@@ -38,7 +36,7 @@
 </template>
 
 <style>
-.login-logout {
+.login {
   margin: 40px 0;
 }
 </style>
@@ -52,11 +50,12 @@ export default {
       username: '',
       password: '',
       alert: null,
-      loading: false,
-      isLoggedIn: false
+      loading: false
     }
   },
-  computed: mapState(['token']),
+  computed: mapState({
+    isLoggedIn: state => state.auth.isLoggedIn
+  }),
   methods: {
     login() {
       this.alert = null
@@ -74,7 +73,6 @@ export default {
           this.username = ''
           this.password = ''
           this.loading = false
-          this.isLoggedIn = true
           setTimeout(() => {
             this.$router.push('/networks')
           }, 1000)
@@ -86,14 +84,6 @@ export default {
             message: error
           }
         })
-    },
-    logout() {
-      this.alert = {
-        type: 'is-success',
-        message: 'You are logged out.'
-      }
-      this.$store.dispatch('auth/logout')
-      this.isLoggedIn = false
     }
   }
 }
