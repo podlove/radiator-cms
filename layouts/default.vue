@@ -1,15 +1,15 @@
 <template>
   <div>
     <navigation />
-    <section class="main-content">
+    <section class="r_main-content">
       <nuxt />
     </section>
   </div>
 </template>
 
 <style>
-.main-content {
-  margin: 160px auto;
+.r_main-content {
+  margin: 90px auto;
   width: 100%;
   max-width: 980px;
 }

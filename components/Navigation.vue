@@ -11,7 +11,7 @@
       <a class="navbar-link">Networks</a>
       <div class="navbar-dropdown">
         <span v-if="networks.length">
-          <a :key="network.id" v-for="network in networks" class="navbar-item">
+          <a v-for="network in networks" :key="network.id" class="navbar-item">
             {{ network.title }}
           </a>
           <hr class="navbar-divider" />
@@ -26,7 +26,7 @@
       <a class="navbar-link">Podcasts</a>
       <div class="navbar-dropdown">
         <span v-if="podcasts.length">
-          <a :key="podcast.id" v-for="podcast in podcasts" class="navbar-item">
+          <a v-for="podcast in podcasts" :key="podcast.id" class="navbar-item">
             {{ podcast.title }}
           </a>
           <hr class="navbar-divider" />
