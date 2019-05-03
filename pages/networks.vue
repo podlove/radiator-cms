@@ -1,18 +1,24 @@
 <template>
   <section class="r_networks">
-    <section class="r_networks__header">
-      <h1 class="is-size-4">Hello, {{ username }}</h1>
-      <dropdown />
+    <section class="hero is-medium is-primary">
+      <div class="hero-body">
+        <div class="container r_networks__header">
+          <h1 class="title">Hello, {{ username }}</h1>
+          <dropdown />
+        </div>
+      </div>
     </section>
-    <podcast />
+    <section class="r_layout_main">
+      <podcast />
+    </section>
   </section>
 </template>
 
 <style>
 .r_networks__header {
+  align-items: flex-start;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
 }
 </style>
 
@@ -30,11 +36,6 @@ export default {
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
     username: state => state.auth.username
-  }),
-  methods: {
-    createNetwork() {
-      console.log('0')
-    }
-  }
+  })
 }
 </script>

@@ -24,7 +24,7 @@
         ></b-input>
       </b-field>
       <b-button
-        type="submit"
+        type="is-primary"
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="login()"
@@ -66,10 +66,11 @@ export default {
           password: this.password
         })
         .then(result => {
-          this.alert = {
-            type: 'is-success',
-            message: 'You are logged in.'
-          }
+          this.$toast.open({
+            message:
+              'You are logged in and will be redirected to your dashboard.',
+            type: 'is-success'
+          })
           this.username = ''
           this.password = ''
           this.loading = false

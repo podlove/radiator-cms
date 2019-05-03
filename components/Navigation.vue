@@ -1,40 +1,50 @@
 <template>
   <nav
-    class="navbar has-shadow is-white is-fixed-top"
+    class="navbar is-primary is-fixed-top"
     role="navigation"
     aria-label="main navigation"
   >
     <div class="navbar-brand">
       <a class="navbar-item" href="/">Radiator</a>
     </div>
-    <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">Networks</a>
-      <div class="navbar-dropdown">
-        <span v-if="networks.length">
-          <a v-for="network in networks" :key="network.id" class="navbar-item">
-            {{ network.title }}
+    <div class="navbar-start">
+      <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Networks</a>
+        <div class="navbar-dropdown is-boxed">
+          <span v-if="networks.length">
+            <a
+              v-for="network in networks"
+              :key="network.id"
+              class="navbar-item"
+            >
+              {{ network.title }}
+            </a>
+            <hr class="navbar-divider" />
+          </span>
+          <a class="navbar-item">
+            <b-icon icon="plus-circle"></b-icon>
+            <span class="r_menu__item">Add new Network</span>
           </a>
-          <hr class="navbar-divider" />
-        </span>
-        <a class="navbar-item">
-          <b-icon icon="plus-circle"></b-icon>
-          <span class="r_menu__item">Add new Network</span>
-        </a>
+        </div>
       </div>
-    </div>
-    <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">Podcasts</a>
-      <div class="navbar-dropdown">
-        <span v-if="podcasts.length">
-          <a v-for="podcast in podcasts" :key="podcast.id" class="navbar-item">
-            {{ podcast.title }}
+      <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Podcasts</a>
+        <div class="navbar-dropdown is-boxed">
+          <span v-if="podcasts.length">
+            <a
+              v-for="podcast in podcasts"
+              :key="podcast.id"
+              class="navbar-item"
+            >
+              {{ podcast.title }}
+            </a>
+            <hr class="navbar-divider" />
+          </span>
+          <a class="navbar-item">
+            <b-icon icon="plus-circle"></b-icon>
+            <span class="r_menu__item">Add new Podcast</span>
           </a>
-          <hr class="navbar-divider" />
-        </span>
-        <a class="navbar-item">
-          <b-icon icon="plus-circle"></b-icon>
-          <span class="r_menu__item">Add new Podcast</span>
-        </a>
+        </div>
       </div>
     </div>
     <div v-if="isLoggedIn" class="navbar-end">

@@ -22,17 +22,26 @@ export default {
     create: data => {
       const query = {
         query: `
-          mutation {
-            authenticatedSession(usernameOrEmail: "${
-              data.username
-            }", password: "${data.password}") {
-              username,
-              token
+          mutation($networkinput: NetworkInput!) {
+            createNetwork(network: $networkinput) { 
+              id,
+              title
             }
           }
-        `
+        `,
+        variables: {
+          networkinput: {
+            title: data.title
+          }
+        }
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization:
+            'Bearer ' +
+            'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTY4OTYwNTUsImlzcyI6InJhZGlhdG9yIiwic3ViIjoiYWRtaW4iLCJ0eXAiOiJhcGlfc2Vzc2lvbiJ9.VUHcmycbftIKwislm3uir7macfXx1OwXCOSODLGuBip9zlQCzp2EBuTS_rj3Q2Jxb9MxpMr5Q82u4t8R_jqyaA'
+        }
+      })
     },
     getNetworks: () => {
       const query = {

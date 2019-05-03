@@ -27,7 +27,11 @@
             <span> 23943</span>
           </p>
           <p class="r_podcast__episode-info">
-            <b-icon icon="check-circle" size="is-small"></b-icon>
+            <b-icon
+              icon="check-circle"
+              size="is-small"
+              type="is-success"
+            ></b-icon>
             26.10.2019
           </p>
           <b-tooltip
@@ -35,9 +39,11 @@
             class="r_podcast__episode-info"
             type="is-dark"
           >
-            <button class="button">
-              <b-icon icon="open-in-new"></b-icon>
-            </button>
+            <a href="" target="_blank">
+              <button class="button">
+                <b-icon icon="open-in-new"></b-icon>
+              </button>
+            </a>
           </b-tooltip>
           <button class="button">
             <b-icon icon="dots-vertical"></b-icon>
@@ -55,7 +61,11 @@
             <span> 23943</span>
           </p>
           <p class="r_podcast__episode-info">
-            <b-icon icon="check-circle" size="is-small"></b-icon>
+            <b-icon
+              icon="check-circle"
+              size="is-small"
+              type="is-success"
+            ></b-icon>
             26.10.2019
           </p>
           <b-tooltip
@@ -63,9 +73,11 @@
             class="r_podcast__episode-info"
             type="is-dark"
           >
-            <button class="button">
-              <b-icon icon="open-in-new"></b-icon>
-            </button>
+            <a href="" target="_blank">
+              <button class="button">
+                <b-icon icon="open-in-new"></b-icon>
+              </button>
+            </a>
           </b-tooltip>
           <button class="button">
             <b-icon icon="dots-vertical"></b-icon>
