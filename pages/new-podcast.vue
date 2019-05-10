@@ -18,7 +18,13 @@
         {{ alert.message }}
       </b-notification>
       <b-field label="Title">
-        <b-input v-model="title" placeholder="New Network"></b-input>
+        <b-input v-model="title" placeholder="New Podcast"></b-input>
+      </b-field>
+      <b-field label="Description">
+        <b-input
+          v-model="description"
+          placeholder="Podcast Description"
+        ></b-input>
       </b-field>
       <upload />
       <b-button
@@ -26,9 +32,9 @@
         outlined
         :loading="loading"
         :disabled="loading"
-        @click.stop.prevent="createNetwork()"
+        @click.stop.prevent="createPodcast()"
       >
-        Add New Network
+        Add New Podcast
       </b-button>
     </section>
   </section>
@@ -61,17 +67,19 @@ export default {
     return {
       alert: null,
       cover: null,
+      description: null,
       id: null,
       loading: false,
-      title: 'New Network'
+      title: 'New Podcast'
     }
   },
   methods: {
-    createNetwork() {
+    createPodcast() {
       this.loading = true
       this.$store
-        .dispatch('networks/create', {
+        .dispatch('podcasts/create', {
           cover: this.cover,
+          description: this.description,
           title: this.title
         })
         .then(result => {
@@ -80,12 +88,12 @@ export default {
           this.loading = false
           this.$toast.open({
             message:
-              'Your new network was susccessfully created. You will be redirected to your new network page.',
+              'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
             type: 'is-success'
           })
           setTimeout(() => {
             this.$router.push(
-              `/networks/${this.title.replace(/\s+/g, '-').toLowerCase()}-${
+              `/podcasts/${this.title.replace(/\s+/g, '-').toLowerCase()}-${
                 this.id
               }`
             )

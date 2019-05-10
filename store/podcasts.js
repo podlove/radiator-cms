@@ -11,6 +11,18 @@ export const mutations = {
 }
 
 export const actions = {
+  create({ dispatch }, data) {
+    return api.podcasts.create(data).then(response => {
+      if (response.data.data.createPodcast) {
+        dispatch('getPodcasts')
+        return response.data.data.createPodcast
+      } else if (response.data.errors) {
+        throw Error(response.data.errors[0].message)
+      } else {
+        throw Error('No data for podcasts or errors.')
+      }
+    })
+  },
   getPodcasts({ commit }) {
     return api.podcasts.getPodcasts().then(response => {
       if (response.data.data.podcasts) {

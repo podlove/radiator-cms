@@ -12,7 +12,7 @@
         </div>
       </div>
     </section>
-    <section class="r_layout_main">
+    <section class="container">
       <login />
     </section>
   </section>

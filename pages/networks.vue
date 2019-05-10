@@ -8,7 +8,7 @@
         </div>
       </div>
     </section>
-    <section class="r_layout_main">
+    <section class="container r_networks__main">
       <podcast />
     </section>
   </section>
@@ -19,6 +19,9 @@
   align-items: flex-start;
   display: flex;
   justify-content: space-between;
+}
+.r_networks__main {
+  margin: 40px auto;
 }
 </style>
 

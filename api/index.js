@@ -58,6 +58,31 @@ export default {
     }
   },
   podcasts: {
+    create: data => {
+      const query = {
+        query: `
+          mutation($podcastinput: PodcastInput!) {
+            createPodcast(networkId: 1, podcast: $podcastinput) { 
+              id,
+              title
+            }
+          }
+        `,
+        variables: {
+          podcastinput: {
+            description: data.description,
+            title: data.title
+          }
+        }
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization:
+            'Bearer ' +
+            'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTY4OTYwNTUsImlzcyI6InJhZGlhdG9yIiwic3ViIjoiYWRtaW4iLCJ0eXAiOiJhcGlfc2Vzc2lvbiJ9.VUHcmycbftIKwislm3uir7macfXx1OwXCOSODLGuBip9zlQCzp2EBuTS_rj3Q2Jxb9MxpMr5Q82u4t8R_jqyaA'
+        }
+      })
+    },
     getPodcasts: () => {
       const query = {
         query: `
