@@ -83,6 +83,19 @@ export default {
         }
       })
     },
+    getPodcast: () => {
+      const query = {
+        query: `
+          query {
+            podcast(id: 1) {
+              id,
+              title
+            }
+          }
+        `
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    },
     getPodcasts: () => {
       const query = {
         query: `

@@ -1,10 +1,14 @@
 import api from '~/api'
 
 export const state = () => ({
+  podcast: {},
   podcasts: []
 })
 
 export const mutations = {
+  set_podcast(store, data) {
+    store.podcast = data
+  },
   set_podcasts(store, data) {
     store.podcasts = data
   }
@@ -20,6 +24,18 @@ export const actions = {
         throw Error(response.data.errors[0].message)
       } else {
         throw Error('No data for podcasts or errors.')
+      }
+    })
+  },
+  getPodcast({ commit }) {
+    return api.podcasts.getPodcast(1).then(response => {
+      if (response.data && response.data.data && response.data.data.podcast) {
+        commit('set_podcast', response.data.data.podcast)
+        return response.data.data.podcast
+      } else if (response.data.errors) {
+        throw Error(response.data.errors[0].message)
+      } else {
+        throw Error('No data for podcast or errors.')
       }
     })
   },
