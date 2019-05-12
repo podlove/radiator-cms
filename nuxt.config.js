@@ -34,10 +34,19 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
+    // https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    // https://buefy.github.io/#/documentation
+    'nuxt-buefy',
+    // https://github.com/rubystarashe/nuxt-vuex-localstorage
+    ['nuxt-vuex-localstorage', {
+      // If not entered, “localStorage” is the default value
+      localStorage: [
+        'auth',
+        'networks', 
+        'podcasts'
+      ]
+    }]
   ],
 
   /*

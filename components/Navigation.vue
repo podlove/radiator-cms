@@ -9,7 +9,7 @@
     </div>
     <div class="navbar-start">
       <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Networks</a>
+        <a class="navbar-link" href="/networks">Networks</a>
         <div class="navbar-dropdown is-boxed">
           <span v-if="networks.length">
             <a
@@ -21,14 +21,14 @@
             </a>
             <hr class="navbar-divider" />
           </span>
-          <a class="navbar-item">
+          <a class="navbar-item" href="/networks/new">
             <b-icon icon="plus-circle"></b-icon>
             <span class="r_menu__item">Add new Network</span>
           </a>
         </div>
       </div>
       <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">Podcasts</a>
+        <a class="navbar-link" href="/podcasts">Podcasts</a>
         <div class="navbar-dropdown is-boxed">
           <span v-if="podcasts.length">
             <a
@@ -40,15 +40,15 @@
             </a>
             <hr class="navbar-divider" />
           </span>
-          <a class="navbar-item">
+          <a class="navbar-item" href="/podcasts/new">
             <b-icon icon="plus-circle"></b-icon>
             <span class="r_menu__item">Add new Podcast</span>
           </a>
         </div>
       </div>
     </div>
-    <div v-if="isLoggedIn" class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable">
+    <div class="navbar-end">
+      <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link is-arrowless">
           <b-icon icon="account-circle"></b-icon>
         </a>

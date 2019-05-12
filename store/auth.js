@@ -1,7 +1,7 @@
 import api from '~/api'
 
 export const state = () => ({
-  isLoggedIn: false,
+  isLoggedIn: null,
   username: null,
   token: null
 })

@@ -40,5 +40,10 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn,
     username: state => state.auth.username
   })
+  // fetch({ store, redirect }) {
+  //   if (!store.auth) {
+  //     return redirect('/')
+  //   }
+  // }
 }
 </script>

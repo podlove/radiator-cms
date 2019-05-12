@@ -28,7 +28,7 @@
       </nuxt-link>
     </b-dropdown-item>
     <b-dropdown-item aria-role="listitem">
-      <nuxt-link to="/new-network">
+      <nuxt-link to="/networks/new">
         <span
           class="has-background-primary r_dropdown__icon r_dropdown__network-cover"
         ></span>
