@@ -13,10 +13,6 @@
 
 <script>
 export default {
-  // Todo: validate podcast id
-  validate({ params, query, store }) {
-    return true
-  },
   data() {
     return {
       id: null,
@@ -26,11 +22,15 @@ export default {
   created() {
     this.$store
       .dispatch('podcasts/getPodcast', {
-        id: 1
+        id: this.$route.params.id
       })
       .then(result => {
         this.id = result.id
         this.title = result.title
+      })
+      .catch(error => {
+        console.warn(error)
+        this.$router.push('/404')
       })
   }
 }

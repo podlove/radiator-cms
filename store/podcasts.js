@@ -27,8 +27,8 @@ export const actions = {
       }
     })
   },
-  getPodcast({ commit }) {
-    return api.podcasts.getPodcast(1).then(response => {
+  getPodcast({ commit }, data) {
+    return api.podcasts.getPodcast(data.id).then(response => {
       if (response.data && response.data.data && response.data.data.podcast) {
         commit('set_podcast', response.data.data.podcast)
         return response.data.data.podcast

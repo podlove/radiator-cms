@@ -27,8 +27,8 @@ export const actions = {
       }
     })
   },
-  getNetwork({ commit }) {
-    return api.networks.getNetwork(1).then(response => {
+  getNetwork({ commit }, data) {
+    return api.networks.getNetwork(data.id).then(response => {
       if (response.data && response.data.data && response.data.data.network) {
         commit('set_network', response.data.data.network)
         return response.data.data.network

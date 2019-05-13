@@ -41,11 +41,11 @@ export default {
         }
       })
     },
-    getNetwork: () => {
+    getNetwork: data => {
       const query = {
         query: `
           query {
-            network(id: 1) {
+            network(id: ${data}) {
               id,
               title
             }
@@ -92,11 +92,11 @@ export default {
         }
       })
     },
-    getPodcast: () => {
+    getPodcast: data => {
       const query = {
         query: `
           query {
-            podcast(id: 1) {
+            podcast(id: ${data}) {
               id,
               title
             }
