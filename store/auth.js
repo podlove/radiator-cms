@@ -11,6 +11,7 @@ export const mutations = {
     store.isLoggedIn = false
     store.username = null
     store.token = null
+    this.$router.push('/')
   },
   set_session(store, data) {
     store.isLoggedIn = true

@@ -4,7 +4,9 @@
       <div class="hero-body">
         <div class="container r_networks__header">
           <h1 class="title">Hello, {{ username }}</h1>
-          <dropdown />
+          <no-ssr>
+            <dropdown />
+          </no-ssr>
         </div>
       </div>
     </section>
@@ -40,10 +42,5 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn,
     username: state => state.auth.username
   })
-  // fetch({ store, redirect }) {
-  //   if (!store.auth) {
-  //     return redirect('/')
-  //   }
-  // }
 }
 </script>

@@ -13,7 +13,9 @@
       </div>
     </section>
     <section class="container">
-      <login />
+      <no-ssr>
+        <login />
+      </no-ssr>
     </section>
   </section>
 </template>

@@ -9,6 +9,11 @@
 import Navigation from '~/components/Navigation'
 
 export default {
-  components: { Navigation }
+  components: { Navigation },
+  mounted() {
+    if (!this.$store.state.auth.isLoggedIn) {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
