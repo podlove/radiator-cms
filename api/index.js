@@ -97,8 +97,36 @@ export default {
         query: `
           query {
             podcast(id: ${data}) {
+              author,
+              description,
+              episodes(itemsPerPage: 20, page: 1, published: ANY) {
+                content,
+                description,
+                duration,
+                enclosureLength,
+                enclosureType,
+                enclosureUrl,
+                guid,
+                id,
+                image,
+                isPublished,
+                number,
+                publishedAt,
+                slug,
+                subtitle,
+                title,
+              },
               id,
-              title
+              image,
+              isPublished,
+              language,
+              lastBuiltAt,
+              ownerEmail,
+              ownerName,
+              publishedAt,
+              slug,
+              subtitle,
+              title,
             }
           }
         `
@@ -110,8 +138,35 @@ export default {
         query: `
           query {
             podcasts {
+              author,
+              description,
+              episodes(itemsPerPage: 20, page: 1, published: ANY) {
+                content,
+                description,
+                duration,
+                enclosureLength,
+                enclosureType,
+                enclosureUrl,
+                guid,
+                id,
+                image,
+                isPublished,
+                number,
+                publishedAt,
+                slug,
+                subtitle,
+                title,
+              },
               id,
-              title
+              isPublished,
+              language,
+              lastBuiltAt,
+              ownerEmail,
+              ownerName,
+              publishedAt,
+              slug,
+              subtitle,
+              title,
             }
           }
         `
