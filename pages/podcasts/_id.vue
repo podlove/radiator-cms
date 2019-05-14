@@ -10,9 +10,9 @@
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
             {{ podcast.title }}
           </h1>
-          <h1 v-if="podcast" lass="subtitle is-size-6">
+          <h2 v-if="podcast" lass="subtitle is-size-6">
             {{ podcast.subtitle }}
-          </h1>
+          </h2>
         </div>
       </div>
     </section>
