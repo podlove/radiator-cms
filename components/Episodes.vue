@@ -41,13 +41,17 @@
             <span> {{ episode.publishedAt }}</span>
           </p>
           <div class="r_episodes__podcast__aside">
-            <b-button type="is-text" outlined>
-              <b-icon icon="pencil"></b-icon>
-            </b-button>
-            <b-button type="is-text" outlined>
-              <b-icon icon="open-in-new"></b-icon>
-            </b-button>
-            <b-button type="is-text" outlined>
+            <b-tooltip label="Edit episode" type="is-dark">
+              <b-button type="is-text">
+                <b-icon icon="pencil"></b-icon>
+              </b-button>
+            </b-tooltip>
+            <b-tooltip label="Open episode page in new tab" type="is-dark">
+              <b-button type="is-text">
+                <b-icon icon="open-in-new"></b-icon>
+              </b-button>
+            </b-tooltip>
+            <b-button type="is-text">
               <b-icon icon="dots-vertical"></b-icon>
             </b-button>
           </div>
