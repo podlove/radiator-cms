@@ -83,6 +83,29 @@ export default {
           query {
             networks {
               id,
+              image,
+              podcasts {
+                episodes(itemsPerPage: 5, page: 1, published: ANY) {
+                  duration,
+                  guid,
+                  id,
+                  image,
+                  isPublished,
+                  number,
+                  publishedAt,
+                  slug,
+                  subtitle,
+                  title,
+                },
+                id,
+                image,
+                isPublished,
+                publishedAt,
+                slug,
+                subtitle,
+                title,
+              },
+              slug,
               title
             }
           }

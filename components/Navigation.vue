@@ -30,20 +30,20 @@
           </div>
         </div>
         <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="/podcasts">Podcasts</a>
+          <a class="navbar-link" href="/networks/podcasts">Podcasts</a>
           <div class="navbar-dropdown is-boxed">
             <span v-if="podcasts.length">
               <a
                 v-for="podcast in podcasts"
                 :key="podcast.id"
                 class="navbar-item"
-                :href="'/podcasts/' + podcast.id"
+                :href="'/networks/podcasts/' + podcast.id"
               >
                 {{ podcast.title }}
               </a>
               <hr class="navbar-divider" />
             </span>
-            <a class="navbar-item" href="/podcasts/new">
+            <a class="navbar-item" href="/networks/podcasts/new">
               <b-icon icon="plus-circle"></b-icon>
               <span class="r_menu__item">Add new Podcast</span>
             </a>
