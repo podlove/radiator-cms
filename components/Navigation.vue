@@ -10,7 +10,11 @@
       </div>
       <div class="navbar-start">
         <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="/networks">Networks</a>
+          <a class="navbar-link" href="/networks">
+            {{
+              activeNetwork ? getActiveNetworkTitle(activeNetwork) : 'Networks'
+            }}
+          </a>
           <div class="navbar-dropdown is-boxed">
             <span v-if="networks.length">
               <a
@@ -30,18 +34,28 @@
           </div>
         </div>
         <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="/networks/podcasts">Podcasts</a>
+          <a class="navbar-link" href="/networks/podcasts">
+            {{
+              activePodcast ? getActivePodcastTitle(activePodcast) : 'Podcasts'
+            }}
+          </a>
           <div class="navbar-dropdown is-boxed">
-            <span v-if="podcasts.length">
-              <a
-                v-for="podcast in podcasts"
-                :key="podcast.id"
-                class="navbar-item"
-                :href="'/networks/podcasts/' + podcast.id"
-              >
-                {{ podcast.title }}
-              </a>
-              <hr class="navbar-divider" />
+            <span v-if="networks.length">
+              <span v-for="network in networks" :key="network.id">
+                <span v-if="network.podcasts.length">
+                  <a
+                    v-for="podcast in network.podcasts"
+                    :key="podcast.id"
+                    class="navbar-item"
+                    :href="
+                      '/networks/' + network.id + '/podcasts/' + podcast.id
+                    "
+                  >
+                    {{ podcast.title }}
+                  </a>
+                  <hr class="navbar-divider" />
+                </span>
+              </span>
             </span>
             <a class="navbar-item" href="/networks/podcasts/new">
               <b-icon icon="plus-circle"></b-icon>
@@ -143,11 +157,25 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn,
     networks: state => state.networks.networks,
     podcasts: state => state.podcasts.podcasts,
-    username: state => state.auth.username
+    username: state => state.auth.username,
+    activeNetwork: state => state.navigation.activeNetworkId,
+    activePodcast: state => state.navigation.activePodcastId
   }),
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')
+    },
+    getActiveNetworkTitle() {
+      const found = this.networks.find(element => {
+        return element.id === this.activeNetwork
+      })
+      return found.title
+    },
+    getActivePodcastTitle() {
+      const found = this.podcasts.find(element => {
+        return element.id === this.activePodcast
+      })
+      return found.title
     }
   }
 }
