@@ -88,7 +88,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route)
     this.$store
       .dispatch('networks/getNetwork', {
         id: this.$route.params.nid

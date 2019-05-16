@@ -43,6 +43,11 @@
             <span v-if="networks.length">
               <span v-for="network in networks" :key="network.id">
                 <span v-if="network.podcasts.length">
+                  <p
+                    class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
+                  >
+                    {{ network.title }}
+                  </p>
                   <a
                     v-for="podcast in network.podcasts"
                     :key="podcast.id"
@@ -127,6 +132,9 @@
 </template>
 
 <style lang="scss" scoped>
+.r_network-label {
+  padding: 1rem 3rem 0.5rem 1rem;
+}
 .r__usermenu {
   align-items: initial;
   display: flex;
@@ -163,7 +171,8 @@ export default {
     podcasts: state => state.podcasts.podcasts,
     username: state => state.auth.username,
     activeNetwork: state => state.navigation.activeNetworkId,
-    activePodcast: state => state.navigation.activePodcastId
+    activePodcast: state => state.navigation.activePodcastId,
+    activeEpisode: state => state.navigation.activeEpisodeId
   }),
   methods: {
     logout() {
