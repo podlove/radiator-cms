@@ -21,7 +21,7 @@
                 v-for="network in networks"
                 :key="network.id"
                 class="navbar-item"
-                :href="'/networks/' + network.id"
+                :href="'/networks/' + network.id + '/podcasts'"
               >
                 {{ network.title }}
               </a>
@@ -48,7 +48,11 @@
                     :key="podcast.id"
                     class="navbar-item"
                     :href="
-                      '/networks/' + network.id + '/podcasts/' + podcast.id
+                      '/networks/' +
+                        network.id +
+                        '/podcasts/' +
+                        podcast.id +
+                        '/episodes'
                     "
                   >
                     {{ podcast.title }}

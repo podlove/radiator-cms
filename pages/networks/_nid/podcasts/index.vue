@@ -4,7 +4,11 @@
       <div class="hero-body r_network-hero">
         <div
           class="r_network-hero__cover has-background-light"
-          :style="{ backgroundImage: `url(${network ? network.image : ''})` }"
+          :style="{
+            backgroundImage: `url(${
+              network && network.image ? network.image : ''
+            })`
+          }"
         ></div>
         <div class="container r_network-hero__container">
           <h2 v-if="network" lass="subtitle is-size-6 r_network-hero__subtitle">
@@ -84,9 +88,10 @@ export default {
     }
   },
   created() {
+    console.log(this.$route)
     this.$store
       .dispatch('networks/getNetwork', {
-        id: this.$route.params.id
+        id: this.$route.params.nid
       })
       .then(result => {
         this.network = result

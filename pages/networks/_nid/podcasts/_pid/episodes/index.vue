@@ -70,7 +70,7 @@ export default {
   created() {
     this.$store
       .dispatch('podcasts/getPodcast', {
-        id: this.$route.params.id
+        id: this.$route.params.pid
       })
       .then(result => {
         console.log(result)

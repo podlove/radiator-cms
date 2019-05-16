@@ -21,7 +21,9 @@ export default {
     }
     // Check if user is on a network, podcast or episodes page
     const path = this.$route.path
-    const activeNetwork = path.match(NETWORKS_REGEX).groups
+    const activeNetwork = path.match(NETWORKS_REGEX)
+      ? path.match(NETWORKS_REGEX).groups
+      : null
     const activePodcast = path.match(PODCASTS_REGEX)
       ? path.match(PODCASTS_REGEX).groups
       : null
