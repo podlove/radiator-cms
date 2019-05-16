@@ -1,0 +1,16 @@
+kind: pipeline
+name: default
+
+steps:
+- name: docker
+  image: plugins/docker
+  settings:
+    username: podloveradiator
+    password:
+      from_secret: docker_password
+    repo: podlove/radiator-cms
+    tags: latest
+  when:
+    branch:
+    - master
+    - develop
