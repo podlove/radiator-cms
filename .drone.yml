@@ -10,6 +10,7 @@ steps:
       from_secret: docker_password
     repo: podlove/radiator-cms
     tags: latest
+    dockerfile: app/dockerfile
   when:
     branch:
     - master
