@@ -4,7 +4,11 @@
       <div class="hero-body r_podcast-hero">
         <div
           class="r_podcast-hero__cover has-background-light"
-          :style="{ backgroundImage: `url(${podcast ? podcast.image : ''})` }"
+          :style="{
+            backgroundImage: `url(${
+              podcast && podcast.image ? podcast.image : ''
+            })`
+          }"
         ></div>
         <div class="container r_podcast-hero__container">
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">

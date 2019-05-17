@@ -15,62 +15,64 @@
       </b-field>
       <b-button>
         <b-icon size="is-small" icon="plus-circle-outline"></b-icon>
-        <span> Add new Episode</span>
+        <a :href="`${path}/new`"> Add new Episode</a>
       </b-button>
     </section>
-    <section class="r_episodes__main">
-      <ul v-if="podcast && podcast.episodes && podcast.episodes.length > 0">
-        <li
-          v-for="episode in podcast.episodes"
-          :key="episode.guid"
-          class="r_episodes__podcast"
-        >
-          <div class="r_episodes__podcast__main">
-            <div
-              class="r_episodes__main__cover has-background-light"
-              :style="{
-                backgroundImage: `url(${
-                  episode.image ? episode.image : podcast.image
-                })`
-              }"
-            ></div>
-            <p>{{ episode.title }}</p>
-          </div>
-          <p>
-            <b-icon size="is-small" icon="check-circle-outline"></b-icon>
-            <span> {{ episode.publishedAt }}</span>
-          </p>
-          <div class="r_episodes__podcast__aside">
-            <b-tooltip label="Edit episode" type="is-dark">
+    <no-ssr>
+      <section class="r_episodes__main">
+        <ul v-if="podcast && podcast.episodes && podcast.episodes.length > 0">
+          <li
+            v-for="episode in podcast.episodes"
+            :key="episode.guid"
+            class="r_episodes__podcast"
+          >
+            <div class="r_episodes__podcast__main">
+              <div
+                class="r_episodes__main__cover has-background-light"
+                :style="{
+                  backgroundImage: `url(${
+                    episode.image ? episode.image : podcast.image
+                  })`
+                }"
+              ></div>
+              <p>{{ episode.title }}</p>
+            </div>
+            <p>
+              <b-icon size="is-small" icon="check-circle-outline"></b-icon>
+              <span> {{ episode.publishedAt }}</span>
+            </p>
+            <div class="r_episodes__podcast__aside">
+              <b-tooltip label="Edit episode" type="is-dark">
+                <b-button type="is-text">
+                  <b-icon icon="pencil"></b-icon>
+                </b-button>
+              </b-tooltip>
+              <b-tooltip label="Open episode page in new tab" type="is-dark">
+                <b-button type="is-text">
+                  <b-icon icon="open-in-new"></b-icon>
+                </b-button>
+              </b-tooltip>
               <b-button type="is-text">
-                <b-icon icon="pencil"></b-icon>
+                <b-icon icon="dots-vertical"></b-icon>
               </b-button>
-            </b-tooltip>
-            <b-tooltip label="Open episode page in new tab" type="is-dark">
-              <b-button type="is-text">
-                <b-icon icon="open-in-new"></b-icon>
-              </b-button>
-            </b-tooltip>
-            <b-button type="is-text">
-              <b-icon icon="dots-vertical"></b-icon>
-            </b-button>
-          </div>
-        </li>
-      </ul>
-      <div class="r_episodes__footer">
-        <b-pagination
-          :total="total"
-          :current.sync="current"
-          :order="order"
-          :per-page="perPage"
-          aria-next-label="Next page"
-          aria-previous-label="Previous page"
-          aria-page-label="Page"
-          aria-current-label="Current page"
-        >
-        </b-pagination>
-      </div>
-    </section>
+            </div>
+          </li>
+        </ul>
+        <div class="r_episodes__footer">
+          <b-pagination
+            :total="total"
+            :current.sync="current"
+            :order="order"
+            :per-page="perPage"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page"
+          >
+          </b-pagination>
+        </div>
+      </section>
+    </no-ssr>
   </section>
 </template>
 
@@ -141,11 +143,15 @@ export default {
       total: 200,
       current: 1,
       perPage: 20,
-      order: 'is-centered'
+      order: 'is-centered',
+      path: this.$route.path
     }
   },
   computed: mapState({
     podcast: state => state.podcasts.podcast
-  })
+  }),
+  created: function() {
+    console.log('!!', this.$route)
+  }
 }
 </script>

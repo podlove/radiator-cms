@@ -3,7 +3,11 @@
     <header class="r_podcast__header has-background-light">
       <div
         class="r_podcast__cover has-background-dark"
-        :style="{ backgroundImage: `url(${podcast.image})` }"
+        :style="{
+          backgroundImage: `url(${
+            podcast && podcast.image ? podcast.image : ''
+          })`
+        }"
       ></div>
       <div class="r_podcast__title">
         <h1 class="is-size-5">{{ podcast.title }}</h1>
