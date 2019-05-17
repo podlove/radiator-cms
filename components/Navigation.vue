@@ -131,7 +131,7 @@
   </no-ssr>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .r_network-label {
   padding: 1rem 3rem 0.5rem 1rem;
 }
