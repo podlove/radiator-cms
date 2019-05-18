@@ -26,6 +26,17 @@
           placeholder="Podcast Description"
         ></b-input>
       </b-field>
+      <b-field label="Network">
+        <b-select v-model="networkId" placeholder="Select a podcast network">
+          <option
+            v-for="network in networks"
+            :key="network.id"
+            :value="network.id"
+          >
+            {{ network.title }}
+          </option>
+        </b-select>
+      </b-field>
       <upload />
       <b-button
         type="is-primary"
@@ -59,6 +70,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
 
 export default {
@@ -69,10 +81,14 @@ export default {
       cover: null,
       description: null,
       id: null,
+      networkId: null,
       loading: false,
       title: 'New Podcast'
     }
   },
+  computed: mapState({
+    networks: state => state.networks.networks
+  }),
   methods: {
     createPodcast() {
       this.loading = true
@@ -80,7 +96,8 @@ export default {
         .dispatch('podcasts/create', {
           cover: this.cover,
           description: this.description,
-          title: this.title
+          title: this.title,
+          networkId: this.networkId
         })
         .then(result => {
           this.title = result.title
@@ -92,10 +109,8 @@ export default {
             type: 'is-success'
           })
           setTimeout(() => {
-            this.$router.push(
-              `/podcasts/${this.title.replace(/\s+/g, '-').toLowerCase()}-${
-                this.id
-              }`
+            this.$router.replace(
+              `/networks/${this.networkId}/podcasts/${this.id}/episodes`
             )
           }, 1000)
         })

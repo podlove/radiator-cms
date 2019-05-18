@@ -18,6 +18,64 @@ export default {
       return axios.post(`${process.env.baseUrl}/api/graphql`, query)
     }
   },
+  episodes: {
+    create: data => {
+      const query = {
+        query: `
+          mutation($episodeinput: EpisodeInput!) {
+            createEpisode(podcastId: ${
+              data.podcastId
+            }, episode: $episodeinput) { 
+              content,
+              description,
+              duration,
+              guid,
+              id,
+              image,
+              isPublished,
+              number,
+              publishedAt,
+              slug,
+              subtitle,
+              title,
+            }
+          }
+        `,
+        variables: {
+          episodeinput: {
+            title: data.title
+          }
+        }
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    },
+    getEpisode: data => {
+      const query = {
+        query: `
+          query {
+            episode(id: ${data}) {
+              content,
+              description,
+              duration,
+              guid,
+              id,
+              image,
+              isPublished,
+              number,
+              podcast {
+                title
+              },
+              publishedAt,
+              slug,
+              subtitle,
+              title,
+            }
+          }
+        `
+      }
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    }
+  },
   networks: {
     create: data => {
       const query = {
@@ -37,7 +95,7 @@ export default {
       }
       return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
         headers: {
-          Authorization: 'Bearer ' + this.$store.auth.token
+          Authorization: 'Bearer ' + data.token
         }
       })
     },
@@ -119,7 +177,9 @@ export default {
       const query = {
         query: `
           mutation($podcastinput: PodcastInput!) {
-            createPodcast(networkId: 1, podcast: $podcastinput) { 
+            createPodcast(networkId: ${
+              data.networkId
+            }, podcast: $podcastinput) { 
               id,
               title
             }
@@ -132,11 +192,7 @@ export default {
           }
         }
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + this.$store.auth.token
-        }
-      })
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
     },
     getPodcast: data => {
       const query = {

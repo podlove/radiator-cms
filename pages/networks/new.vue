@@ -53,6 +53,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
 
 export default {
@@ -66,13 +67,17 @@ export default {
       title: 'New Network'
     }
   },
+  computed: mapState({
+    token: state => state.auth.token
+  }),
   methods: {
     createNetwork() {
       this.loading = true
       this.$store
         .dispatch('networks/create', {
           cover: this.cover,
-          title: this.title
+          title: this.title,
+          token: this.token
         })
         .then(result => {
           this.title = result.title
@@ -84,11 +89,7 @@ export default {
             type: 'is-success'
           })
           setTimeout(() => {
-            this.$router.push(
-              `/networks/${this.title.replace(/\s+/g, '-').toLowerCase()}-${
-                this.id
-              }`
-            )
+            this.$router.replace(`/networks/${this.id}/podcasts`)
           }, 1000)
         })
         .catch(error => {

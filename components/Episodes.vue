@@ -149,9 +149,6 @@ export default {
   },
   computed: mapState({
     podcast: state => state.podcasts.podcast
-  }),
-  created: function() {
-    console.log('!!', this.$route)
-  }
+  })
 }
 </script>

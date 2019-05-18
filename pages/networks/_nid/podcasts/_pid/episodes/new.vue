@@ -20,13 +20,7 @@
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Episode"></b-input>
       </b-field>
-      <b-field label="Description">
-        <b-input
-          v-model="description"
-          placeholder="Episode Description"
-        ></b-input>
-      </b-field>
-      <upload />
+      <!-- <upload /> -->
       <b-button
         type="is-primary"
         outlined
@@ -59,10 +53,11 @@
 </style>
 
 <script>
-import Upload from '~/components/Upload'
+import { mapState } from 'vuex'
+// import Upload from '~/components/Upload'
 
 export default {
-  components: { Upload },
+  // components: { Upload },
   data() {
     return {
       alert: null,
@@ -73,29 +68,33 @@ export default {
       title: 'New Episode'
     }
   },
+  computed: mapState({
+    activeNetworkId: state => state.navigation.activeNetworkId,
+    activePodcastId: state => state.navigation.activePodcastId
+  }),
   methods: {
-    createPodcast() {
+    createEpisode() {
       this.loading = true
       this.$store
-        .dispatch('podcasts/create', {
-          cover: this.cover,
-          description: this.description,
+        .dispatch('episodes/create', {
+          podcastId: this.activePodcastId,
           title: this.title
         })
         .then(result => {
+          console.log('result', result, this.$router)
           this.title = result.title
           this.id = result.id
           this.loading = false
           this.$toast.open({
             message:
-              'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
+              'Your new episode was susccessfully created. You will be redirected to your new episode page.',
             type: 'is-success'
           })
           setTimeout(() => {
-            this.$router.push(
-              `/podcasts/${this.title.replace(/\s+/g, '-').toLowerCase()}-${
-                this.id
-              }`
+            this.$router.replace(
+              `/networks/${this.activeNetworkId}/podcasts/${
+                this.activePodcastId
+              }/episodes/${this.id}`
             )
           }, 1000)
         })
