@@ -43,7 +43,10 @@
             </p>
             <div class="r_episodes__podcast__aside">
               <b-tooltip label="Edit episode" type="is-dark">
-                <b-button type="is-text">
+                <b-button
+                  type="is-text"
+                  @click="$router.push(`episodes/${episode.id}`)"
+                >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
               </b-tooltip>
