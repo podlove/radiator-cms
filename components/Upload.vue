@@ -1,7 +1,7 @@
 <template>
   <section>
     <b-field label="Cover Image">
-      <b-upload v-model="dropFiles" multiple drag-drop>
+      <b-upload v-model="dropFiles" drag-drop>
         <section class="section">
           <div class="content has-text-centered">
             <p>

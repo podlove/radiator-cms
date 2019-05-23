@@ -20,7 +20,32 @@
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Episode"></b-input>
       </b-field>
-      <!-- <upload /> -->
+      <b-field label="Audio Files">
+        <b-upload v-model="dropFiles" multiple drag-drop>
+          <section class="section">
+            <div class="content has-text-centered">
+              <p>
+                <b-icon icon="upload" size="is-large"></b-icon>
+              </p>
+              <p>Drop your audio files here or click to upload.</p>
+            </div>
+          </section>
+        </b-upload>
+      </b-field>
+      <div class="tags">
+        <span
+          v-for="(file, index) in dropFiles"
+          :key="index"
+          class="tag is-primary"
+        >
+          {{ file.name }}
+          <button
+            class="delete is-small"
+            type="button"
+            @click="deleteDropFile(index)"
+          ></button>
+        </span>
+      </div>
       <b-button
         type="is-primary"
         outlined
@@ -63,6 +88,7 @@ export default {
       alert: null,
       cover: null,
       description: null,
+      dropFiles: [],
       id: null,
       loading: false,
       title: 'New Episode'
@@ -77,6 +103,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('episodes/create', {
+          files: this.dropFiles,
           podcastId: this.activePodcastId,
           title: this.title
         })
@@ -105,6 +132,9 @@ export default {
             message: error
           }
         })
+    },
+    deleteDropFile(index) {
+      this.dropFiles.splice(index, 1)
     },
     toast() {
       this.$toast.open(this.alert)
