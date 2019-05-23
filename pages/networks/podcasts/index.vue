@@ -53,26 +53,10 @@ export default {
     Dropdown,
     Podcast
   },
-  data() {
-    return {
-      networks: null
-    }
-  },
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
-    username: state => state.auth.username
-  }),
-  created() {
-    this.$store
-      .dispatch('networks/getNetworks')
-      .then(result => {
-        this.networks = result
-        console.log(this.networks)
-      })
-      .catch(error => {
-        console.warn(error)
-        this.$router.push('/404')
-      })
-  }
+    username: state => state.auth.username,
+    networks: state => state.networks.networks
+  })
 }
 </script>
