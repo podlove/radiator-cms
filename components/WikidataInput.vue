@@ -10,14 +10,17 @@
 export default {
   data() {
     return {
-      wikidata: ''
+      wikidata: '',
+      language: 'de'
     }
   },
   methods: {
     askWikidata: function() {
       if (this.wikidata.length > 3) {
         fetch(
-          `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${
+          `https://${
+            this.language
+          }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${
             this.wikidata
           }&utf8=&format=json&origin=*`,
           {
