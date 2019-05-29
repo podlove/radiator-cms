@@ -13,7 +13,7 @@
       </div>
     </section>
     <section class="container">
-      <wikidata-input />
+      <wikidata-input language="de" />
       <no-ssr>
         <login />
       </no-ssr>
