@@ -3,15 +3,26 @@
     <b-field label="Wikidata">
       <b-input v-model="wikidata" @input="askWikidata()"></b-input>
     </b-field>
+    <div>
+      <div v-for="r in response" :key="r.pageid">
+        <b>{{ r.title }}</b> - {{ r.snippet }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    language: {
+      type: String,
+      default: 'en'
+    }
+  },
   data() {
     return {
       wikidata: '',
-      language: 'de'
+      response: []
     }
   },
   methods: {
@@ -22,7 +33,7 @@ export default {
             this.language
           }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${
             this.wikidata
-          }&utf8=&format=json&origin=*`,
+          }&srlimit=5&utf8=&format=json&origin=*`,
           {
             method: 'GET',
             headers: {
@@ -30,12 +41,10 @@ export default {
             }
           }
         )
-          .then(function(response) {
-            console.log(response.status)
-            return response.json()
-          })
-          .then(function(text) {
-            console.log('Request successful', text)
+          .then(response => response.json())
+          .then(text => {
+            console.log('Request successful', text.query.search)
+            this.response = text.query.search
           })
           .catch(function(error) {
             console.log('Request failed', error)
