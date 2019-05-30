@@ -36,18 +36,18 @@ export default {
     }
   },
   methods: {
+    constructURL: function(requestInput) {
+      return `https://${
+        this.language
+      }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${requestInput}&srlimit=5&utf8=&format=json&origin=*`
+    },
     askWikidata: function(wiki) {
-      fetch(
-        `https://${
-          this.language
-        }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${wiki}&srlimit=5&utf8=&format=json&origin=*`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      fetch(this.constructURL(wiki), {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      )
+      })
         .then(response => response.json())
         .then(text => {
           const regex = /<[^>]*>/gm
