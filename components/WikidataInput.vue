@@ -41,6 +41,14 @@ export default {
         this.language
       }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${requestInput}&srlimit=5&utf8=&format=json&origin=*`
     },
+    removeHTML: function(resp) {
+      const regex = /<[^>]*>/gm
+      const tmp = resp
+      tmp.forEach(item => {
+        item.snippet = item.snippet.replace(regex, '')
+      })
+      return tmp
+    },
     askWikidata: function(wiki) {
       fetch(this.constructURL(wiki), {
         method: 'GET',
@@ -50,12 +58,7 @@ export default {
       })
         .then(response => response.json())
         .then(text => {
-          const regex = /<[^>]*>/gm
-          const tmp = text.query.search
-          tmp.forEach(item => {
-            item.snippet = item.snippet.replace(regex, '')
-          })
-          this.response = tmp
+          this.response = this.removeHTML(text.query.search)
         })
         .catch(function(error) {
           console.log('Request failed', error)
