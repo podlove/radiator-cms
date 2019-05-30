@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Buefy from 'buefy'
 import WikidataInput from '../components/WikidataInput'
 
@@ -9,7 +9,7 @@ describe('WikidataInput.test.js - default values', () => {
   let cmp
 
   beforeEach(() => {
-    cmp = mount(WikidataInput, {
+    cmp = shallowMount(WikidataInput, {
       localVue
     })
   })
@@ -23,7 +23,7 @@ describe('WikidataInput.test.js', () => {
   let cmp
 
   beforeEach(() => {
-    cmp = mount(WikidataInput, {
+    cmp = shallowMount(WikidataInput, {
       localVue,
       propsData: {
         language: 'de'
