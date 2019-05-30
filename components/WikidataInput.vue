@@ -50,7 +50,12 @@ export default {
       )
         .then(response => response.json())
         .then(text => {
-          this.response = text.query.search
+          const regex = /<[^>]*>/gm
+          const tmp = text.query.search
+          tmp.forEach(item => {
+            item.snippet = item.snippet.replace(regex, '')
+          })
+          this.response = tmp
         })
         .catch(function(error) {
           console.log('Request failed', error)
