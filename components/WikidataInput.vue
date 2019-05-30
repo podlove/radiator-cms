@@ -1,13 +1,23 @@
 <template>
   <div>
+    {{ selected }}
     <b-field label="Wikidata">
-      <b-input v-model="wikidata" @input="askWikidata()"></b-input>
+      <b-autocomplete
+        :data="response"
+        placeholder="e.g. Fight Club"
+        field="title"
+        @typing="askWikidata"
+        @select="option => (selected = option)"
+      >
+        <template slot-scope="props">
+          <b>{{ props.option.title }}</b>
+          <br />
+          <small>
+            {{ props.option.snippet }}
+          </small>
+        </template>
+      </b-autocomplete>
     </b-field>
-    <div>
-      <div v-for="r in response" :key="r.pageid">
-        <b>{{ r.title }}</b> - {{ r.snippet }}
-      </div>
-    </div>
   </div>
 </template>
 
@@ -21,35 +31,30 @@ export default {
   },
   data() {
     return {
-      wikidata: '',
+      selected: '',
       response: []
     }
   },
   methods: {
-    askWikidata: function() {
-      if (this.wikidata.length > 3) {
-        fetch(
-          `https://${
-            this.language
-          }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${
-            this.wikidata
-          }&srlimit=5&utf8=&format=json&origin=*`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
+    askWikidata: function(wiki) {
+      fetch(
+        `https://${
+          this.language
+        }.wikipedia.org/w/api.php?action=query&list=search&srsearch=${wiki}&srlimit=5&utf8=&format=json&origin=*`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
           }
-        )
-          .then(response => response.json())
-          .then(text => {
-            console.log('Request successful', text.query.search)
-            this.response = text.query.search
-          })
-          .catch(function(error) {
-            console.log('Request failed', error)
-          })
-      }
+        }
+      )
+        .then(response => response.json())
+        .then(text => {
+          this.response = text.query.search
+        })
+        .catch(function(error) {
+          console.log('Request failed', error)
+        })
     }
   }
 }
