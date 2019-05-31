@@ -6,33 +6,34 @@ const localVue = createLocalVue()
 localVue.use(Buefy)
 
 const data = {
-  body: {
-    query: {
-      search: [
-        {
-          title: 'Kleid',
-          snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
-        },
-        {
-          title: 'Kleider',
-          snippet: 'Das Kleid und so weiter'
-        },
-        {
-          title: 'Kleiderschrank',
-          snippet: 'Das Kleid und so <span>weiter</span>'
-        },
-        {
-          title: 'Kleidung',
-          snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
-        },
-        {
-          title: 'Kleiderbügel',
-          snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
-        }
-      ]
-    }
+  query: {
+    search: [
+      {
+        title: 'Kleid',
+        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+      },
+      {
+        title: 'Kleider',
+        snippet: 'Das Kleid und so weiter'
+      },
+      {
+        title: 'Kleiderschrank',
+        snippet: 'Das Kleid und so <span>weiter</span>'
+      },
+      {
+        title: 'Kleidung',
+        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+      },
+      {
+        title: 'Kleiderbügel',
+        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+      }
+    ]
   }
 }
+
+const init = { status: 200, statusText: 'SuperSmashingGreat!' }
+const response = new Response(data, init)
 
 const data_clean = [
   {
@@ -95,11 +96,11 @@ describe('WikidataInput.test.js', () => {
   })
 
   test('check if response from wikidata is free of html tags inside snippets', () => {
-    expect(cmp.vm.removeHTML(data.body.query.search)).toEqual(data_clean)
+    expect(cmp.vm.removeHTML(data.query.search)).toEqual(data_clean)
   })
 
   // test('Mock the fetch', () => {
-  //   fetch.mockResponse(JSON.stringify(data))
+  //   fetch.mockResponse(response)
   //   expect(cmp.vm.askWikidata('Kleid')).toEqual(data_clean)
   // })
 })
