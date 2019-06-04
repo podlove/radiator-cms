@@ -41,7 +41,7 @@ export const actions = {
   },
   getPodcasts({ commit }) {
     return api.podcasts.getPodcasts().then(response => {
-      if (response.data.data.podcasts) {
+      if (response.data && response.data.data && response.data.data.podcasts) {
         commit('set_podcasts', response.data.data.podcasts)
         return response.data.data.podcasts
       } else if (response.data.errors) {

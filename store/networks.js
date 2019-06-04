@@ -41,7 +41,7 @@ export const actions = {
   },
   getNetworks({ commit }) {
     return api.networks.getNetworks().then(response => {
-      if (response.data.data.networks) {
+      if (response.data && response.data.data && response.data.data.networks) {
         commit('set_networks', response.data.data.networks)
         return response.data.data.networks
       } else if (response.data.errors) {
