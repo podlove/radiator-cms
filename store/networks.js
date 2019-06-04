@@ -17,7 +17,11 @@ export const mutations = {
 export const actions = {
   create({ dispatch }, data) {
     return api.networks.create(data).then(response => {
-      if (response.data && response.data.data && response.data.data.createNetwork) {
+      if (
+        response.data &&
+        response.data.data &&
+        response.data.data.createNetwork
+      ) {
         dispatch('getNetworks')
         return response.data.data.createNetwork
       } else if (response.data.errors) {

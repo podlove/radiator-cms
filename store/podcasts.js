@@ -17,7 +17,11 @@ export const mutations = {
 export const actions = {
   create({ dispatch }, data) {
     return api.podcasts.create(data).then(response => {
-      if (response.data && response.data.data && response.data.data.createPodcast) {
+      if (
+        response.data &&
+        response.data.data &&
+        response.data.data.createPodcast
+      ) {
         dispatch('getPodcasts')
         return response.data.data.createPodcast
       } else if (response.data.errors) {
