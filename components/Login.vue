@@ -21,6 +21,7 @@
           password-reveal
           placeholder="Your secure password"
           type="password"
+          @keyup.native.enter.prevent="login()"
         ></b-input>
       </b-field>
       <b-button
