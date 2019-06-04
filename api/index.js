@@ -25,14 +25,13 @@ export default {
           mutation($episodeinput: EpisodeInput!) {
             createEpisode(podcastId: ${
               data.podcastId
-            }, episode: $episodeinput) { 
+            }, episode: $episodeinput) {
               content,
               description,
               duration,
               guid,
               id,
               image,
-              isPublished,
               number,
               publishedAt,
               slug,
@@ -60,7 +59,6 @@ export default {
               guid,
               id,
               image,
-              isPublished,
               number,
               podcast {
                 title
@@ -81,7 +79,7 @@ export default {
       const query = {
         query: `
           mutation($networkinput: NetworkInput!) {
-            createNetwork(network: $networkinput) { 
+            createNetwork(network: $networkinput) {
               id,
               title
             }
@@ -107,12 +105,11 @@ export default {
               id,
               image,
               podcasts {
-                episodes(itemsPerPage: 5, page: 1, published: ANY) {
+                episodes(itemsPerPage: 5, page: 1) {
                   duration,
                   guid,
                   id,
                   image,
-                  isPublished,
                   number,
                   publishedAt,
                   slug,
@@ -121,7 +118,6 @@ export default {
                 },
                 id,
                 image,
-                isPublished,
                 publishedAt,
                 slug,
                 subtitle,
@@ -143,22 +139,18 @@ export default {
               id,
               image,
               podcasts {
-                episodes(itemsPerPage: 5, page: 1, published: ANY) {
+                episodes(itemsPerPage: 5, page: 1) {
                   duration,
                   guid,
                   id,
                   image,
-                  isPublished,
                   number,
-                  publishedAt,
                   slug,
                   subtitle,
                   title,
                 },
                 id,
                 image,
-                isPublished,
-                publishedAt,
                 slug,
                 subtitle,
                 title,
@@ -179,7 +171,7 @@ export default {
           mutation($podcastinput: PodcastInput!) {
             createPodcast(networkId: ${
               data.networkId
-            }, podcast: $podcastinput) { 
+            }, podcast: $podcastinput) {
               id,
               title
             }
@@ -201,14 +193,13 @@ export default {
             podcast(id: ${data}) {
               author,
               description,
-              episodes(itemsPerPage: 20, page: 1, published: ANY) {
+              episodes(itemsPerPage: 20, page: 1) {
                 content,
                 description,
                 duration,
                 guid,
                 id,
                 image,
-                isPublished,
                 number,
                 publishedAt,
                 slug,
@@ -217,7 +208,6 @@ export default {
               },
               id,
               image,
-              isPublished,
               language,
               lastBuiltAt,
               ownerEmail,
@@ -239,14 +229,13 @@ export default {
             podcasts {
               author,
               description,
-              episodes(itemsPerPage: 20, page: 1, published: ANY) {
+              episodes(itemsPerPage: 20, page: 1) {
                 content,
                 description,
                 duration,
                 guid,
                 id,
                 image,
-                isPublished,
                 number,
                 publishedAt,
                 slug,
@@ -254,7 +243,6 @@ export default {
                 title,
               },
               id,
-              isPublished,
               language,
               lastBuiltAt,
               ownerEmail,
