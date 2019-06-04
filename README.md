@@ -31,4 +31,4 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 ## License
 
-Radiator is [MIT Licensed][license].
+Radiator is [MIT Licensed](LICENSE).
