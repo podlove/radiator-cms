@@ -1,5 +1,4 @@
 import { mutations } from './navigation'
-import { isTSAnyKeyword } from '@babel/types';
 
 describe('Test navigation mutations', () => {
   let state = {
