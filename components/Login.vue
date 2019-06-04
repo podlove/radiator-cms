@@ -58,9 +58,6 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn
   }),
   methods: {
-    enter() {
-      console.log('ß')
-    },
     login() {
       this.alert = null
       this.loading = true
