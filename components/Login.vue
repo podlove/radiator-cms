@@ -21,6 +21,7 @@
           password-reveal
           placeholder="Your secure password"
           type="password"
+          @keyup.native.enter.prevent="login()"
         ></b-input>
       </b-field>
       <b-button
@@ -57,6 +58,9 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn
   }),
   methods: {
+    enter() {
+      console.log('ß')
+    },
     login() {
       this.alert = null
       this.loading = true
