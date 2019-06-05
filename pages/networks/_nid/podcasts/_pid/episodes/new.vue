@@ -96,16 +96,18 @@ export default {
   },
   computed: mapState({
     activeNetworkId: state => state.navigation.activeNetworkId,
-    activePodcastId: state => state.navigation.activePodcastId
+    activePodcastId: state => state.navigation.activePodcastId,
+    token: state => state.auth.token
   }),
   methods: {
     createEpisode() {
       this.loading = true
       this.$store
         .dispatch('episodes/create', {
-          files: this.dropFiles,
+          file: this.dropFiles[0],
           podcastId: this.activePodcastId,
-          title: this.title
+          title: this.title,
+          token: this.token
         })
         .then(result => {
           console.log('result', result, this.$router)

@@ -77,11 +77,9 @@ export default {
         id: this.$route.params.pid
       })
       .then(result => {
-        console.log(result)
         this.podcast = result
       })
       .catch(error => {
-        console.warn(error)
         this.$router.push('/404')
       })
   }

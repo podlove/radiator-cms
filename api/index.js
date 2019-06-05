@@ -46,7 +46,11 @@ export default {
           }
         }
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     },
     getEpisode: data => {
       const query = {
@@ -72,6 +76,10 @@ export default {
         `
       }
       return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+    },
+    uploadEpisodeAudio: data => {
+      console.log('TODO: Upload episode audio file(s) with data: ', data)
+      return true
     }
   },
   networks: {
