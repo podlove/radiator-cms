@@ -65,6 +65,13 @@ export default {
               image,
               number,
               podcast {
+                title,
+                image
+              },
+              chapters {
+                image,
+                link,
+                start,
                 title
               },
               publishedAt,

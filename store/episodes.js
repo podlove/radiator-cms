@@ -19,14 +19,12 @@ export const actions = {
         response.data.data.createEpisode &&
         response.data.data.createEpisode.id
       ) {
-
         // TODO: Upload episode audio file(s).
         //
         // dispatch('uploadEpisodeAudio', {
         //   file: data.file,
         //   token: data.token
         // })
-
         dispatch('getEpisode', {
           id: response.data.data.createEpisode.id
         })

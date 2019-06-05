@@ -10,7 +10,7 @@
             })`
           }"
         ></div>
-        <div class="container r_podcast-hero__container">
+        <div class="r_podcast-hero__container">
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
             {{ podcast.title }}
           </h1>
@@ -51,7 +51,6 @@
 }
 .r_podcast-hero__title {
   font-weight: 400;
-  margin-bottom: 0.5rem !important;
 }
 .r_podcast-tabs {
   margin: 3.75rem 0.75rem;
@@ -80,6 +79,7 @@ export default {
         this.podcast = result
       })
       .catch(error => {
+        console.log(error)
         this.$router.push('/404')
       })
   }
