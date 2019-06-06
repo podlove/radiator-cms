@@ -19,11 +19,14 @@
       </div>
     </section>
     <section class="container r_episode-main">
-      <section class="r_episode-main">
-        <EpisodeTags v-if="episode" :episode="episode"></EpisodeTags>
-        <EpisodeInfo v-if="episode" :episode="episode"></EpisodeInfo>
-        <EpisodeContent v-if="episode" :episode="episode"></EpisodeContent>
-        <EpisodeChapters v-if="episode" :episode="episode"></EpisodeChapters>
+      <section v-if="episode" class="r_episode-main">
+        <EpisodeTags :episode="episode"></EpisodeTags>
+        <EpisodeInfo :episode="episode"></EpisodeInfo>
+        <EpisodeContent :episode="episode"></EpisodeContent>
+        <EpisodeChapters :episode="episode"></EpisodeChapters>
+        <EpisodeContributors :episode="episode"></EpisodeContributors>
+        <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript>
+        <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles> -->
       </section>
     </section>
   </section>
@@ -59,6 +62,7 @@
 <script>
 import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodeContent from '~/components/EpisodeContent'
+import EpisodeContributors from '~/components/EpisodeContributors'
 import EpisodeInfo from '~/components/EpisodeInfo'
 import EpisodeTags from '~/components/EpisodeTags'
 
@@ -66,12 +70,12 @@ export default {
   components: {
     EpisodeChapters,
     EpisodeContent,
+    EpisodeContributors,
     EpisodeInfo,
     EpisodeTags
   },
   data() {
     return {
-      activeTab: 0,
       cover: null,
       episode: null
     }

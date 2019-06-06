@@ -1,34 +1,42 @@
 <template>
   <ul class="r_episode-info">
     <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label has-text-grey-light"
-        >Number:
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Number:
       </label>
-      <p>{{ episode && episode.number ? episode.number : '' }}</p>
+      <p class="r_episode-info__item__value">
+        {{ episode && episode.number ? episode.number : '' }}
+      </p>
     </li>
     <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label has-text-grey-light"
-        >Slug:
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Slug:
       </label>
-      <p>{{ episode && episode.slug ? episode.slug : '' }}</p>
+      <p class="r_episode-info__item__value">
+        {{ episode && episode.slug ? episode.slug : '' }}
+      </p>
     </li>
     <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label has-text-grey-light"
-        >Title:
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Title:
       </label>
-      <p>{{ episode && episode.title ? episode.title : '' }}</p>
+      <p class="r_episode-info__item__value">
+        {{ episode && episode.title ? episode.title : '' }}
+      </p>
     </li>
     <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label has-text-grey-light"
-        >Subtitle:
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Subtitle:
       </label>
-      <p>{{ episode && episode.subtitle ? episode.subtitle : '' }}</p>
+      <p class="r_episode-info__item__value">
+        {{ episode && episode.subtitle ? episode.subtitle : '' }}
+      </p>
     </li>
     <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label has-text-grey-light"
-        >Description:
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Description:
       </label>
-      <p>
+      <p class="r_episode-info__item__value">
         {{ episode && episode.description ? episode.description : '' }}
       </p>
     </li>
@@ -37,7 +45,9 @@
 
 <style>
 .r_episode-info {
+  background-color: #dce6e8;
   margin: 4rem 0;
+  padding: 1rem;
 }
 .r_episode-info__item {
   display: flex;
@@ -49,8 +59,11 @@
   padding: 0 2rem;
 }
 .r_episode-info__item__label {
-  margin-right: 2rem;
+  margin-right: 1rem;
   width: 5rem;
+}
+.r_episode-info__item__value {
+  width: calc(100% - 5rem);
 }
 </style>
 
