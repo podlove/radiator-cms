@@ -28,6 +28,7 @@
 <style>
 .r_episode-contributors {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin: 4rem 0 0 0;
 }
 .r_episode-contributors__headline {
   margin: 0 !important;

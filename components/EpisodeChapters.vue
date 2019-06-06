@@ -26,7 +26,7 @@
 
 <style>
 .r_episode-chapters {
-  margin: 4rem 0;
+  margin: 4rem 0 0 0;
 }
 .r_episode-chapters {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);

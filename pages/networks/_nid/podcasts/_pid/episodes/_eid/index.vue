@@ -22,11 +22,11 @@
       <section v-if="episode" class="r_episode-main">
         <EpisodeTags :episode="episode"></EpisodeTags>
         <EpisodeInfo :episode="episode"></EpisodeInfo>
+        <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
         <EpisodeContent :episode="episode"></EpisodeContent>
         <EpisodeChapters :episode="episode"></EpisodeChapters>
         <EpisodeContributors :episode="episode"></EpisodeContributors>
-        <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript>
-        <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles> -->
+        <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
       </section>
     </section>
   </section>
@@ -60,6 +60,7 @@
 </style>
 
 <script>
+import EpisodeAudioFiles from '~/components/EpisodeAudioFiles'
 import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodeContent from '~/components/EpisodeContent'
 import EpisodeContributors from '~/components/EpisodeContributors'
@@ -68,6 +69,7 @@ import EpisodeTags from '~/components/EpisodeTags'
 
 export default {
   components: {
+    EpisodeAudioFiles,
     EpisodeChapters,
     EpisodeContent,
     EpisodeContributors,
