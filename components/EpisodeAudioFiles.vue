@@ -1,8 +1,14 @@
 <template>
-  <div class="r_episode-af">
-    <h2 class="title is-size-5 r_episode-af__headline">
-      Audio Files
-    </h2>
+  <section class="r_episode-af">
+    <section class="r_episode-af__header">
+      <h2 class="title is-size-5 r_episode-af__headline">
+        Audio Files
+      </h2>
+      <b-button>
+        <b-icon size="is-small" icon="plus-circle-outline"></b-icon>
+        <a> Add audio files</a>
+      </b-button>
+    </section>
     <ul class="r_episode-af__list">
       <li
         v-for="file in mockData.audioFiles"
@@ -24,9 +30,23 @@
           {{ file.type }}
         </b-tag>
         <span class="r_episode-af__duration">2:48:23</span>
+        <b-tooltip
+          class="r_episode-af__icon"
+          label="Edit audio file"
+          type="is-dark"
+        >
+          <b-button type="is-text">
+            <b-icon icon="pencil"></b-icon>
+          </b-button>
+        </b-tooltip>
+        <b-tooltip label="Delete audio file" type="is-danger">
+          <b-button type="is-text">
+            <b-icon icon="delete"></b-icon>
+          </b-button>
+        </b-tooltip>
       </li>
     </ul>
-  </div>
+  </section>
 </template>
 
 <style>
@@ -34,10 +54,15 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin: 3rem 0 0 0;
 }
+.r_episode-af__header {
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+}
 .r_episode-af__headline {
   margin: 0 !important;
-  padding: 1.75rem 2rem;
-  border-bottom: 1px solid lightgrey;
 }
 .r_episode-af__icon {
   margin-right: 1rem;
@@ -45,15 +70,17 @@
 .r_episode-af__item {
   align-items: center;
   display: flex;
-  margin: 1rem 0;
+  margin: 0;
   padding: 0 2rem;
+  height: 50px;
 }
 .r_episode-af__list {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 .r_episode-af__text {
   padding: 2rem;
 }
+.r_episode-af__duration,
 .r_episode-af__type {
   margin-right: 1rem;
 }

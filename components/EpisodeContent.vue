@@ -1,8 +1,14 @@
 <template>
   <div v-if="episode && episode.content" class="r_episode-content">
-    <h2 class="title is-size-5 r_episode-content__headline">
-      Shownotes
-    </h2>
+    <section class="r_episode-content__header">
+      <h2 class="title is-size-5 r_episode-content__headline">
+        Shownotes
+      </h2>
+      <b-button>
+        <b-icon size="is-small" icon="pencil"></b-icon>
+        <a> Edit shownotes</a>
+      </b-button>
+    </section>
     <div class="r_episode-content__text" v-html="episode.content"></div>
   </div>
 </template>
@@ -14,8 +20,13 @@
 }
 .r_episode-content__headline {
   margin: 0 !important;
-  padding: 1.75rem 2rem;
-  border-bottom: 1px solid lightgrey;
+}
+.r_episode-content__header {
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
 }
 .r_episode-content__text {
   padding: 2rem;

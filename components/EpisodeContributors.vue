@@ -1,8 +1,14 @@
 <template>
   <div class="r_episode-contributors">
-    <h2 class="title is-size-5 r_episode-contributors__headline">
-      Contributors
-    </h2>
+    <section class="r_episode-contributors__header">
+      <h2 class="title is-size-5 r_episode-contributors__headline">
+        Contributors
+      </h2>
+      <b-button>
+        <b-icon size="is-small" icon="plus-circle-outline"></b-icon>
+        <a> Add contributor</a>
+      </b-button>
+    </section>
     <ul class="r_episode-contributors__list">
       <li
         v-for="contributor in mockData.contributors"
@@ -15,11 +21,25 @@
             backgroundImage: `url(${contributor.image})`
           }"
         ></span>
-        <p>
+        <p class="r_episode-contributors__name">
           <a :href="contributor.uri" target="_blank">
             {{ contributor.name }}
           </a>
         </p>
+        <b-tooltip
+          class="r_episode-af__icon"
+          label="Edit contributor"
+          type="is-dark"
+        >
+          <b-button type="is-text">
+            <b-icon icon="pencil"></b-icon>
+          </b-button>
+        </b-tooltip>
+        <b-tooltip label="Delete contributor" type="is-danger">
+          <b-button type="is-text">
+            <b-icon icon="delete"></b-icon>
+          </b-button>
+        </b-tooltip>
       </li>
     </ul>
   </div>
@@ -32,8 +52,13 @@
 }
 .r_episode-contributors__headline {
   margin: 0 !important;
-  padding: 1.75rem 2rem;
-  border-bottom: 1px solid lightgrey;
+}
+.r_episode-contributors__header {
+  align-items: center;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
 }
 .r_episode-contributors__image {
   background-color: lightgrey;
@@ -46,11 +71,15 @@
 .r_episode-contributors__item {
   align-items: center;
   display: flex;
-  margin: 1rem 0;
+  margin: 0;
   padding: 0 2rem;
+  height: 50px;
 }
 .r_episode-contributors__list {
-  padding: 1rem 0;
+  padding: 0.5rem 0;
+}
+.r_episode-contributors__name {
+  flex-grow: 1;
 }
 .r_episode-contributors__text {
   padding: 2rem;
