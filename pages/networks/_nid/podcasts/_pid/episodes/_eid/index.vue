@@ -22,11 +22,23 @@
       <section v-if="episode" class="r_episode-main">
         <EpisodeTags :episode="episode"></EpisodeTags>
         <EpisodeInfo :episode="episode"></EpisodeInfo>
-        <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
-        <EpisodeContent :episode="episode"></EpisodeContent>
-        <EpisodeChapters :episode="episode"></EpisodeChapters>
-        <EpisodeContributors :episode="episode"></EpisodeContributors>
-        <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
+        <b-tabs v-model="activeTab" class="r_network-tabs">
+          <b-tab-item label="Content">
+            <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
+            <EpisodeContent :episode="episode"></EpisodeContent>
+            <EpisodeChapters :episode="episode"></EpisodeChapters>
+            <EpisodeContributors :episode="episode"></EpisodeContributors>
+            <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
+          </b-tab-item>
+          <b-tab-item label="Analytics">
+            <div class="tile">
+              <article class="tile is-child notification is-warning">
+                <p class="title">Placeholder...</p>
+                <p class="subtitle">for episode analytics</p>
+              </article>
+            </div>
+          </b-tab-item>
+        </b-tabs>
       </section>
     </section>
   </section>
@@ -78,6 +90,7 @@ export default {
   },
   data() {
     return {
+      activeTab: 0,
       cover: null,
       episode: null
     }

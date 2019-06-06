@@ -24,8 +24,22 @@
       <b-tab-item label="Episodes">
         <episodes :podcast="podcast"></episodes>
       </b-tab-item>
-      <b-tab-item label="Analytics"></b-tab-item>
-      <b-tab-item label="Settings"></b-tab-item>
+      <b-tab-item label="Analytics">
+        <div class="tile">
+          <article class="tile is-child notification is-warning">
+            <p class="title">Placeholder...</p>
+            <p class="subtitle">for podcast analytics</p>
+          </article>
+        </div>
+      </b-tab-item>
+      <b-tab-item label="Settings">
+        <div class="tile">
+          <article class="tile is-child notification is-warning">
+            <p class="title">Placeholder...</p>
+            <p class="subtitle">for podcast settings</p>
+          </article>
+        </div>
+      </b-tab-item>
     </b-tabs>
   </section>
 </template>

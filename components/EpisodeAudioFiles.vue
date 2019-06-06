@@ -32,7 +32,7 @@
 <style>
 .r_episode-af {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  margin: 4rem 0 0 0;
+  margin: 3rem 0 0 0;
 }
 .r_episode-af__headline {
   margin: 0 !important;

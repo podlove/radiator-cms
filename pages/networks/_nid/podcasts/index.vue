@@ -33,8 +33,22 @@
             </li>
           </ul>
         </b-tab-item>
-        <b-tab-item label="Analytics"></b-tab-item>
-        <b-tab-item label="Settings"></b-tab-item>
+        <b-tab-item label="Analytics">
+          <div class="tile">
+            <article class="tile is-child notification is-warning">
+              <p class="title">Placeholder...</p>
+              <p class="subtitle">for network analytics</p>
+            </article>
+          </div>
+        </b-tab-item>
+        <b-tab-item label="Settings">
+          <div class="tile">
+            <article class="tile is-child notification is-warning">
+              <p class="title">Placeholder...</p>
+              <p class="subtitle">for network settings</p>
+            </article>
+          </div>
+        </b-tab-item>
       </b-tabs>
     </section>
   </section>
