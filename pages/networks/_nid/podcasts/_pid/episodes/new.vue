@@ -17,8 +17,17 @@
       >
         {{ alert.message }}
       </b-notification>
+      <b-field label="Number">
+        <b-numberinput v-model="number" placeholder="283"></b-numberinput>
+      </b-field>
       <b-field label="Title">
-        <b-input v-model="title" placeholder="New Episode"></b-input>
+        <b-input v-model="title"></b-input>
+      </b-field>
+      <b-field label="Subtitle">
+        <b-input v-model="subtitle"></b-input>
+      </b-field>
+      <b-field label="Description">
+        <b-input v-model="description"></b-input>
       </b-field>
       <b-field label="Audio Files">
         <b-upload v-model="dropFiles" multiple drag-drop>
@@ -31,6 +40,11 @@
             </div>
           </section>
         </b-upload>
+      </b-field>
+      <b-field label="Shownotes">
+        <no-ssr>
+          <EpisodesShownotesEditor />
+        </no-ssr>
       </b-field>
       <div class="tags">
         <span
@@ -79,19 +93,23 @@
 
 <script>
 import { mapState } from 'vuex'
-// import Upload from '~/components/Upload'
+import EpisodesShownotesEditor from '../../../../../../components/EpisodesShownotesEditor'
 
 export default {
-  // components: { Upload },
+  components: {
+    EpisodesShownotesEditor
+  },
   data() {
     return {
       alert: null,
       cover: null,
-      description: null,
+      description: '',
       dropFiles: [],
       id: null,
       loading: false,
-      title: 'New Episode'
+      number: 283,
+      subtitle: '',
+      title: ''
     }
   },
   computed: mapState({
@@ -110,7 +128,6 @@ export default {
           token: this.token
         })
         .then(result => {
-          console.log('result', result, this.$router)
           this.title = result.title
           this.id = result.id
           this.loading = false

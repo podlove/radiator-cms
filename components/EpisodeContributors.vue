@@ -88,6 +88,12 @@
 
 <script>
 export default {
+  props: {
+    episode: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       mockData: {
@@ -118,12 +124,6 @@ export default {
           }
         ]
       }
-    }
-  },
-  props: {
-    episode: {
-      type: Object,
-      required: true
     }
   }
 }

@@ -18,7 +18,9 @@
     "cross-env": "^5.2.0",
     "nuxt": "^2.6.3",
     "nuxt-buefy": "^0.3.2",
-    "nuxt-vuex-localstorage": "^1.2.6"
+    "nuxt-vuex-localstorage": "^1.2.6",
+    "tiptap": "^1.22.0",
+    "tiptap-extensions": "^1.22.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
