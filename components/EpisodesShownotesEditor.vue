@@ -167,9 +167,10 @@
 <style lang="scss">
 .editor {
   position: relative;
-  margin: 0 auto 5rem auto;
+  margin: 0 auto 2rem auto;
   &__content {
     background-color: #e9e9e9;
+    min-height: 200px;
     word-wrap: break-word;
     div {
       outline: none;

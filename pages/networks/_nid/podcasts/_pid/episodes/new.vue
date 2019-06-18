@@ -29,37 +29,15 @@
       <b-field label="Description">
         <b-input v-model="description"></b-input>
       </b-field>
-      <b-field label="Audio Files">
-        <b-upload v-model="dropFiles" multiple drag-drop>
-          <section class="section">
-            <div class="content has-text-centered">
-              <p>
-                <b-icon icon="upload" size="is-large"></b-icon>
-              </p>
-              <p>Drop your audio files here or click to upload.</p>
-            </div>
-          </section>
-        </b-upload>
-      </b-field>
+      <upload label="Audio Files" />
       <b-field label="Shownotes">
         <no-ssr>
           <EpisodesShownotesEditor />
         </no-ssr>
       </b-field>
-      <div class="tags">
-        <span
-          v-for="(file, index) in dropFiles"
-          :key="index"
-          class="tag is-primary"
-        >
-          {{ file.name }}
-          <button
-            class="delete is-small"
-            type="button"
-            @click="deleteDropFile(index)"
-          ></button>
-        </span>
-      </div>
+      <upload label="Chapter Marks" />
+      <upload label="Transcript" />
+      <upload label="Episode Cover" />
       <b-button
         type="is-primary"
         outlined
@@ -74,6 +52,9 @@
 </template>
 
 <style>
+.field {
+  margin-bottom: 2rem;
+}
 .r_new-network__header {
   align-items: center;
   display: flex;
@@ -94,17 +75,22 @@
 <script>
 import { mapState } from 'vuex'
 import EpisodesShownotesEditor from '../../../../../../components/EpisodesShownotesEditor'
+import Upload from '../../../../../../components/Upload'
 
 export default {
   components: {
-    EpisodesShownotesEditor
+    EpisodesShownotesEditor,
+    Upload
   },
   data() {
     return {
       alert: null,
       cover: null,
       description: '',
-      dropFiles: [],
+      dropAudioFiles: [],
+      dropChapterMarks: [],
+      dropEpisodeCover: [],
+      dropTranscript: [],
       id: null,
       loading: false,
       number: 283,
@@ -122,7 +108,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('episodes/create', {
-          file: this.dropFiles[0],
+          file: this.dropAudioFiles[0],
           podcastId: this.activePodcastId,
           title: this.title,
           token: this.token
@@ -153,7 +139,7 @@ export default {
         })
     },
     deleteDropFile(index) {
-      this.dropFiles.splice(index, 1)
+      this.dropAudioFiles.splice(index, 1)
     },
     toast() {
       this.$toast.open(this.alert)

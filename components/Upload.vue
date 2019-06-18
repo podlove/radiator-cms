@@ -1,7 +1,7 @@
 <template>
   <section>
-    <b-field label="Cover Image">
-      <b-upload v-model="dropFiles" drag-drop>
+    <b-field :label="label">
+      <b-upload v-model="dropFiles" multiple drag-drop>
         <section class="section">
           <div class="content has-text-centered">
             <p>
@@ -12,7 +12,7 @@
         </section>
       </b-upload>
     </b-field>
-    <div class="tags">
+    <div class="tags field">
       <span
         v-for="(file, index) in dropFiles"
         :key="index"
@@ -29,8 +29,24 @@
   </section>
 </template>
 
+<style>
+.upload-draggable {
+  width: 400px;
+}
+</style>
+
 <script>
 export default {
+  props: {
+    isMultiple: {
+      type: Boolean,
+      required: false
+    },
+    label: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       dropFiles: []
