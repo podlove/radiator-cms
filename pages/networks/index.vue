@@ -34,7 +34,7 @@
                 >
                   <div class="card">
                     <div class="card-image">
-                      <figure class="image is-4by3">
+                      <figure class="image is-1by1">
                         <img :src="`${podcast.image}`" />
                       </figure>
                     </div>
@@ -90,6 +90,7 @@
 .r_networks__podcast {
   margin: 1.5rem 0 2.5rem 0;
   width: 25%;
+  min-width: 250px;
 }
 .r_network-tabs__list {
   display: flex;
