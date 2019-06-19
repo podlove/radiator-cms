@@ -72,15 +72,17 @@
             </a>
           </div>
         </div>
-        <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+        <div
+          v-if="isLoggedIn && activePodcast"
+          class="navbar-item has-dropdown is-hoverable"
+        >
           <a class="navbar-link" href="/networks/podcasts/episodes">
             {{
               activeEpisode ? getActiveEpisodeTitle(activeEpisode) : 'Episodes'
             }}
           </a>
           <div class="navbar-dropdown is-boxed">
-            <p v-if="!activePodcast" class="navbar-item">Select podcast</p>
-            <span v-else>
+            <span>
               <p
                 class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
               >
