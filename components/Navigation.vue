@@ -112,12 +112,16 @@
                   v-for="episode in episodes"
                   :key="episode.id"
                   class="navbar-item"
+                  @click="$router.push(`${episode.id}`)"
                 >
                   {{ episode.title }}
                 </a>
+                <hr class="navbar-divider" />
                 <a class="navbar-item">
                   <b-icon icon="plus-circle"></b-icon>
-                  <span class="r_menu__item">Add new Episode</span>
+                  <span class="r_menu__item" @click="$router.push(`new`)">
+                    Add new Episode
+                  </span>
                 </a>
               </span>
             </div>
