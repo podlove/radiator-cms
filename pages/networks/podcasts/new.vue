@@ -37,7 +37,7 @@
           </option>
         </b-select>
       </b-field>
-      <upload label="Podcast Cover" />
+      <upload class="field" label="Podcast Cover" />
       <b-button
         type="is-primary"
         outlined

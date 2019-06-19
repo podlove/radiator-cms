@@ -29,15 +29,15 @@
       <b-field label="Description">
         <b-input v-model="description"></b-input>
       </b-field>
-      <upload label="Audio Files" />
+      <upload class="field" label="Audio Files" />
       <b-field label="Shownotes">
         <no-ssr>
           <EpisodesShownotesEditor />
         </no-ssr>
       </b-field>
-      <upload label="Chapter Marks" />
-      <upload label="Transcript" />
-      <upload label="Episode Cover" />
+      <upload class="field" label="Chapter Marks" />
+      <upload class="field" label="Transcript" />
+      <upload class="field" label="Episode Cover" />
       <b-button
         type="is-primary"
         outlined

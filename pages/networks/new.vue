@@ -20,7 +20,7 @@
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Network"></b-input>
       </b-field>
-      <upload label="Network Image" />
+      <upload class="field" label="Network Image" />
       <b-button
         type="is-primary"
         outlined
