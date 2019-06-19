@@ -72,6 +72,30 @@
             </a>
           </div>
         </div>
+        <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="/networks/podcasts/episodes">
+            {{
+              activeEpisode ? getActiveEpisodeTitle(activeEpisode) : 'Episodes'
+            }}
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <p v-if="!activePodcast" class="navbar-item">Select podcast</p>
+            <span v-else>
+              <p
+                class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
+              >
+                {{ getActivePodcastTitle() }}
+              </p>
+              <a
+                v-for="episode in getActivePodcastEpisodes()"
+                :key="episode.id"
+                class="navbar-item"
+              >
+                {{ episode.title }}
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
         <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
@@ -187,6 +211,18 @@ export default {
     getActivePodcastTitle() {
       const found = this.podcasts.find(element => {
         return element.id === this.activePodcast
+      })
+      return found.title
+    },
+    getActivePodcastEpisodes() {
+      const found = this.podcasts.find(element => {
+        return element.id === this.activePodcast
+      })
+      return found.episodes
+    },
+    getActiveEpisodeTitle() {
+      const found = this.episode.find(element => {
+        return element.id === this.activeEpisode
       })
       return found.title
     }
