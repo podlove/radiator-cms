@@ -1,8 +1,8 @@
 <template>
-  <section class="r_networks">
+  <section class="r_podcasts">
     <section class="hero is-medium is-primary">
       <div class="hero-body">
-        <div class="container r_networks__header">
+        <div class="container r_podcasts__header">
           <h1 class="title">All Podcasts</h1>
           <no-ssr>
             <dropdown />
@@ -10,14 +10,14 @@
         </div>
       </div>
     </section>
-    <section class="container r_networks__main">
+    <section class="container r_podcasts__main">
       <div v-if="networks">
         <ul v-for="network in networks" :key="network.id">
           <span v-if="network.podcasts">
             <li
               v-for="podcast in network.podcasts"
               :key="podcast.id"
-              class="r_networks__podcast"
+              class="r_podcasts__podcast"
             >
               <podcast :podcast="podcast" />
             </li>
@@ -29,15 +29,15 @@
 </template>
 
 <style>
-.r_networks__header {
+.r_podcasts__header {
   align-items: flex-start;
   display: flex;
   justify-content: space-between;
 }
-.r_networks__main {
+.r_podcasts__main {
   margin: 40px auto;
 }
-.r_networks__podcast {
+.r_podcasts__podcast {
   margin: 2.5rem 0;
 }
 </style>

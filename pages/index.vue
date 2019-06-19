@@ -13,7 +13,6 @@
       </div>
     </section>
     <section class="container">
-      <wikidata-input language="de" />
       <no-ssr>
         <login />
       </no-ssr>
@@ -23,10 +22,9 @@
 
 <script>
 import Login from '~/components/Login'
-import WikidataInput from '~/components/WikidataInput'
 
 export default {
   name: 'HomePage',
-  components: { Login, WikidataInput }
+  components: { Login }
 }
 </script>
