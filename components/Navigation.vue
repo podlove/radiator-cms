@@ -220,10 +220,17 @@ export default {
       const found = this.podcasts.find(element => {
         return element.id === this.activePodcast
       })
+      this.episodes = found.episodes
       return found.episodes
     },
     getActiveEpisodeTitle() {
-      const found = this.episode.find(element => {
+      console.log('active')
+      const podcast = this.podcasts.find(element => {
+        return element.id === this.activePodcast
+      })
+      console.log(podcast)
+      const found = podcast.episodes.find(element => {
+        console.log(element)
         return element.id === this.activeEpisode
       })
       return found.title
