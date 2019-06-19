@@ -72,6 +72,32 @@
             </a>
           </div>
         </div>
+        <div
+          v-if="isLoggedIn && activePodcast"
+          class="navbar-item has-dropdown is-hoverable"
+        >
+          <a class="navbar-link" href="/networks/podcasts/episodes">
+            {{
+              activeEpisode ? getActiveEpisodeTitle(activeEpisode) : 'Episodes'
+            }}
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <span>
+              <p
+                class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
+              >
+                {{ getActivePodcastTitle() }}
+              </p>
+              <a
+                v-for="episode in episodes"
+                :key="episode.id"
+                class="navbar-item"
+              >
+                {{ episode.title }}
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
         <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
@@ -165,6 +191,11 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      episodes: []
+    }
+  },
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
     networks: state => state.networks.networks,
@@ -187,6 +218,16 @@ export default {
     getActivePodcastTitle() {
       const found = this.podcasts.find(element => {
         return element.id === this.activePodcast
+      })
+      return found.title
+    },
+    getActiveEpisodeTitle() {
+      const podcast = this.podcasts.find(element => {
+        return element.id === this.activePodcast
+      })
+      this.episodes = podcast.episodes
+      const found = podcast.episodes.find(element => {
+        return element.id === this.activeEpisode
       })
       return found.title
     }
