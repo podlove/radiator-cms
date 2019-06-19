@@ -89,7 +89,7 @@
                 {{ getActivePodcastTitle() }}
               </p>
               <a
-                v-for="episode in getActivePodcastEpisodes()"
+                v-for="episode in episodes"
                 :key="episode.id"
                 class="navbar-item"
               >
@@ -191,6 +191,11 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      episodes: []
+    }
+  },
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
     networks: state => state.networks.networks,
@@ -216,21 +221,12 @@ export default {
       })
       return found.title
     },
-    getActivePodcastEpisodes() {
-      const found = this.podcasts.find(element => {
-        return element.id === this.activePodcast
-      })
-      this.episodes = found.episodes
-      return found.episodes
-    },
     getActiveEpisodeTitle() {
-      console.log('active')
       const podcast = this.podcasts.find(element => {
         return element.id === this.activePodcast
       })
-      console.log(podcast)
+      this.episodes = podcast.episodes
       const found = podcast.episodes.find(element => {
-        console.log(element)
         return element.id === this.activeEpisode
       })
       return found.title
