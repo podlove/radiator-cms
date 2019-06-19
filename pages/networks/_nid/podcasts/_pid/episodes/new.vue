@@ -1,10 +1,15 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body">
-        <div class="container r_new-network__header">
-          <div class="r_new-network__header__image has-background-white"></div>
-          <h1 class="title">{{ title }}</h1>
+      <div class="hero-body container r_new-network-hero">
+        <div class="r_new-network__header__image has-background-light"></div>
+        <div class="r_new-network__header__container">
+          <h1 class="title is-size-3 r_new-network__header__title">
+            {{ number }} - {{ title }}
+          </h1>
+          <h2 class="subtitle is-size-6">
+            {{ subtitle }}
+          </h2>
         </div>
       </div>
     </section>
@@ -35,6 +40,11 @@
           <EpisodesShownotesEditor />
         </no-ssr>
       </b-field>
+      <b-field>
+        <no-ssr>
+          <WikidataInput language="de" />
+        </no-ssr>
+      </b-field>
       <upload class="field" label="Chapter Marks" />
       <upload class="field" label="Transcript" />
       <upload class="field" label="Episode Cover" />
@@ -55,17 +65,32 @@
 .field {
   margin-bottom: 2rem;
 }
+.r_new-network-hero {
+  padding: 11.25rem 0 2.5rem 0 !important;
+  position: relative;
+}
+.r_new-network__header__container {
+  margin-left: 12.5rem;
+  min-height: 3.8125rem;
+}
 .r_new-network__header {
-  align-items: center;
+  align-items: flex-end;
   display: flex;
   justify-content: flex-start;
 }
 .r_new-network__header__image {
-  border-radius: 50%;
-  opacity: 0.2;
+  border-radius: 0.3125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-right: 20px;
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  bottom: -1.25rem;
+  width: 11.25rem;
+  height: 11.25rem;
+  width: 11.25rem;
+  height: 11.25rem;
+}
+.r_new-network__header__title {
+  font-weight: 400;
 }
 .r_new-network__main {
   margin: 40px auto;
@@ -74,13 +99,15 @@
 
 <script>
 import { mapState } from 'vuex'
-import EpisodesShownotesEditor from '../../../../../../components/EpisodesShownotesEditor'
-import Upload from '../../../../../../components/Upload'
+import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
+import Upload from '~/components/Upload'
+import WikidataInput from '~/components/WikidataInput'
 
 export default {
   components: {
     EpisodesShownotesEditor,
-    Upload
+    Upload,
+    WikidataInput
   },
   data() {
     return {
@@ -94,8 +121,8 @@ export default {
       id: null,
       loading: false,
       number: 283,
-      subtitle: '',
-      title: ''
+      subtitle: 'Episode Placeholder Subitle',
+      title: 'Episode Placeholder Title'
     }
   },
   computed: mapState({

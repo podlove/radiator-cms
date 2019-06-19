@@ -1,7 +1,7 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body r_podcast-hero">
+      <div class="hero-body container r_podcast-hero">
         <div
           class="r_podcast-hero__cover has-background-light"
           :style="{
@@ -14,40 +14,41 @@
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
             {{ podcast.title }}
           </h1>
-          <h2 v-if="podcast" lass="subtitle is-size-6">
+          <h2 v-if="podcast" class="subtitle is-size-6">
             {{ podcast.subtitle }}
           </h2>
         </div>
       </div>
     </section>
-    <b-tabs v-model="activeTab" class="r_podcast-tabs">
-      <b-tab-item label="Episodes">
-        <episodes :podcast="podcast"></episodes>
-      </b-tab-item>
-      <b-tab-item label="Analytics">
-        <div class="tile">
-          <article class="tile is-child notification is-warning">
-            <p class="title">Placeholder...</p>
-            <p class="subtitle">for podcast analytics</p>
-          </article>
-        </div>
-      </b-tab-item>
-      <b-tab-item label="Settings">
-        <div class="tile">
-          <article class="tile is-child notification is-warning">
-            <p class="title">Placeholder...</p>
-            <p class="subtitle">for podcast settings</p>
-          </article>
-        </div>
-      </b-tab-item>
-    </b-tabs>
+    <section class="container">
+      <b-tabs v-model="activeTab" class="r_podcast-tabs">
+        <b-tab-item label="Episodes">
+          <episodes :podcast="podcast"></episodes>
+        </b-tab-item>
+        <b-tab-item label="Analytics">
+          <div class="tile">
+            <article class="tile is-child notification is-warning">
+              <p class="title">Placeholder...</p>
+              <p class="subtitle">for podcast analytics</p>
+            </article>
+          </div>
+        </b-tab-item>
+        <b-tab-item label="Settings">
+          <div class="tile">
+            <article class="tile is-child notification is-warning">
+              <p class="title">Placeholder...</p>
+              <p class="subtitle">for podcast settings</p>
+            </article>
+          </div>
+        </b-tab-item>
+      </b-tabs>
+    </section>
   </section>
 </template>
 
 <style>
 .r_podcast-hero {
-  padding-bottom: 2.5rem !important;
-  padding-top: 11.25rem !important;
+  padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
 }
 .r_podcast-hero__container {
@@ -67,7 +68,7 @@
   font-weight: 400;
 }
 .r_podcast-tabs {
-  margin: 3.75rem 0.75rem;
+  margin: 3.75rem 0;
 }
 </style>
 
