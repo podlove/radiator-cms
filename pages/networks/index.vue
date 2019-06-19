@@ -26,13 +26,27 @@
           </div>
           <b-tabs v-model="activeTab" class="r_network-tabs">
             <b-tab-item label="Podcasts">
-              <ul v-if="network.podcasts">
+              <ul class="r_network-tabs__list" v-if="network.podcasts">
                 <li
                   v-for="podcast in network.podcasts"
                   :key="podcast.id"
                   class="r_networks__podcast"
                 >
-                  <podcast :podcast="podcast" />
+                  <div class="card">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img :src="`${podcast.image}`" />
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-4">{{ podcast.title }}</p>
+                          <p class="subtitle is-6">{{ podcast.subtitle }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </b-tab-item>
@@ -75,6 +89,15 @@
 }
 .r_networks__podcast {
   margin: 1.5rem 0 2.5rem 0;
+  width: 25%;
+}
+.r_network-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.r_network-tabs__list__cover {
+  width: 200px;
+  height: 200px;
 }
 </style>
 
@@ -82,17 +105,15 @@
 import { mapState } from 'vuex'
 
 import Dropdown from '~/components/Dropdown'
-import Podcast from '~/components/Podcast'
 
 export default {
+  components: {
+    Dropdown
+  },
   data() {
     return {
       activeTab: 0
     }
-  },
-  components: {
-    Dropdown,
-    Podcast
   },
   computed: mapState({
     isLoggedIn: state => state.auth.isLoggedIn,
