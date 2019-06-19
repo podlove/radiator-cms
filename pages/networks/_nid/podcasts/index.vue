@@ -1,7 +1,7 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body r_network-hero">
+      <div class="hero-body container r_network-hero">
         <div
           class="r_network-hero__cover has-background-light"
           :style="{
@@ -20,7 +20,7 @@
         </div>
       </div>
     </section>
-    <section class="r_networks__main">
+    <section class="container r_networks__main">
       <b-tabs v-model="activeTab" class="r_network-tabs">
         <b-tab-item label="Podcasts">
           <ul v-if="network">
@@ -59,8 +59,7 @@
   margin: 2.5rem 0;
 }
 .r_network-hero {
-  padding-bottom: 2.5rem !important;
-  padding-top: 11.25rem !important;
+  padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
 }
 .r_network-hero__container {
@@ -89,6 +88,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
 import Podcast from '~/components/Podcast'
 
 export default {
@@ -101,14 +101,17 @@ export default {
       network: null
     }
   },
+  computed: mapState({
+    token: state => state.auth.token
+  }),
   created() {
     this.$store
       .dispatch('networks/getNetwork', {
-        id: this.$route.params.nid
+        id: this.$route.params.nid,
+        token: this.token
       })
       .then(result => {
         this.network = result
-        console.log(this.network)
       })
       .catch(error => {
         console.warn(error)

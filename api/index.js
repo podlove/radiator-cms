@@ -116,7 +116,7 @@ export default {
       const query = {
         query: `
           query {
-            network(id: ${data}) {
+            network(id: ${data.id}) {
               id,
               image,
               podcasts {
@@ -144,9 +144,13 @@ export default {
           }
         `
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     },
-    getNetworks: () => {
+    getNetworks: data => {
       const query = {
         query: `
           query {
@@ -176,7 +180,11 @@ export default {
           }
         `
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     }
   },
   podcasts: {

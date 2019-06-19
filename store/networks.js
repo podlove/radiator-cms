@@ -22,7 +22,9 @@ export const actions = {
         response.data.data &&
         response.data.data.createNetwork
       ) {
-        dispatch('getNetworks')
+        dispatch('getNetworks', {
+          token: data.token
+        })
         return response.data.data.createNetwork
       } else if (response.data.errors) {
         throw Error(response.data.errors[0].message)
@@ -32,7 +34,7 @@ export const actions = {
     })
   },
   getNetwork({ commit }, data) {
-    return api.networks.getNetwork(data.id).then(response => {
+    return api.networks.getNetwork(data).then(response => {
       if (response.data && response.data.data && response.data.data.network) {
         commit('set_network', response.data.data.network)
         return response.data.data.network
@@ -43,8 +45,8 @@ export const actions = {
       }
     })
   },
-  getNetworks({ commit }) {
-    return api.networks.getNetworks().then(response => {
+  getNetworks({ commit }, data) {
+    return api.networks.getNetworks(data).then(response => {
       if (response.data && response.data.data && response.data.data.networks) {
         commit('set_networks', response.data.data.networks)
         return response.data.data.networks

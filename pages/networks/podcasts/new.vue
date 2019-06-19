@@ -1,14 +1,19 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body">
-        <div class="container r_new-network__header">
-          <div class="r_new-network__header__image has-background-white"></div>
-          <h1 class="title">{{ title }}</h1>
+      <div class="hero-body container r_new-podcast-hero">
+        <div class="r_new-podcast__header__image has-background-light"></div>
+        <div class="r_new-podcast__header__container">
+          <h1 class="title is-size-3 r_new-podcast__header__title">
+            {{ title }}
+          </h1>
+          <h2 class="subtitle is-size-6">
+            {{ description }}
+          </h2>
         </div>
       </div>
     </section>
-    <section class="container r_new-network__main">
+    <section class="container r_new-podcast__main">
       <b-notification
         v-if="alert"
         :type="alert.type"
@@ -52,19 +57,31 @@
 </template>
 
 <style>
-.r_new-network__header {
+.r_new-podcast-hero {
+  padding: 11.25rem 0 2.5rem 0 !important;
+  position: relative;
+}
+.r_new-podcast__header {
   align-items: center;
   display: flex;
   justify-content: flex-start;
 }
-.r_new-network__header__image {
-  border-radius: 50%;
-  opacity: 0.2;
-  margin-right: 20px;
-  width: 100px;
-  height: 100px;
+.r_new-podcast__header__container {
+  margin-left: 12.5rem;
+  min-height: 3.8125rem;
 }
-.r_new-network__main {
+.r_new-podcast__header__image {
+  border-radius: 0.3125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-right: 20px;
+  position: absolute;
+  bottom: -1.25rem;
+  width: 11.25rem;
+  height: 11.25rem;
+  width: 11.25rem;
+  height: 11.25rem;
+}
+.r_new-podcast__main {
   margin: 40px auto;
 }
 </style>

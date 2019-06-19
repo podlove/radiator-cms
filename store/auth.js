@@ -28,8 +28,20 @@ export const actions = {
         response.data.data.authenticatedSession.token
       ) {
         commit('set_session', response.data.data.authenticatedSession)
-        dispatch('networks/getNetworks', null, { root: true })
-        dispatch('podcasts/getPodcasts', null, { root: true })
+        dispatch(
+          'networks/getNetworks',
+          {
+            token: response.data.data.authenticatedSession.token
+          },
+          { root: true }
+        )
+        dispatch(
+          'podcasts/getPodcasts',
+          {
+            token: response.data.data.authenticatedSession.token
+          },
+          { root: true }
+        )
         return response.data.data.authenticatedSession
       } else if (response.data.errors) {
         throw Error(response.data.errors[0].message)

@@ -1,7 +1,7 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body r_episode-hero">
+      <div class="hero-body container r_episode-hero">
         <div
           class="r_episode-hero__cover has-background-light"
           :style="{
@@ -46,8 +46,7 @@
 
 <style>
 .r_episode-hero {
-  padding-bottom: 2.5rem !important;
-  padding-top: 11.25rem !important;
+  padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
 }
 .r_episode-hero__container {

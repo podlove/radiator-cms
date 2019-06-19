@@ -1,10 +1,10 @@
 <template>
   <section>
     <section class="hero is-medium is-primary">
-      <div class="hero-body container r_new-network-hero">
-        <div class="r_new-network__header__image has-background-light"></div>
-        <div class="r_new-network__header__container">
-          <h1 class="title is-size-3 r_new-network__header__title">
+      <div class="hero-body container r_new-episode-hero">
+        <div class="r_new-episode__header__image has-background-light"></div>
+        <div class="r_new-episode__header__container">
+          <h1 class="title is-size-3 r_new-episode__header__title">
             {{ number }} - {{ title }}
           </h1>
           <h2 class="subtitle is-size-6">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </section>
-    <section class="container r_new-network__main">
+    <section class="container r_new-episode__main">
       <b-notification
         v-if="alert"
         :type="alert.type"
@@ -65,20 +65,20 @@
 .field {
   margin-bottom: 2rem;
 }
-.r_new-network-hero {
+.r_new-episode-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
 }
-.r_new-network__header__container {
+.r_new-episode__header__container {
   margin-left: 12.5rem;
   min-height: 3.8125rem;
 }
-.r_new-network__header {
+.r_new-episode__header {
   align-items: flex-end;
   display: flex;
   justify-content: flex-start;
 }
-.r_new-network__header__image {
+.r_new-episode__header__image {
   border-radius: 0.3125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-right: 20px;
@@ -89,10 +89,10 @@
   width: 11.25rem;
   height: 11.25rem;
 }
-.r_new-network__header__title {
+.r_new-episode__header__title {
   font-weight: 400;
 }
-.r_new-network__main {
+.r_new-episode__main {
   margin: 40px auto;
 }
 </style>
