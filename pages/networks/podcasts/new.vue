@@ -32,15 +32,17 @@
         ></b-input>
       </b-field>
       <b-field label="Network">
-        <b-select v-model="networkId" placeholder="Select a podcast network">
-          <option
-            v-for="network in networks"
-            :key="network.id"
-            :value="network.id"
-          >
-            {{ network.title }}
-          </option>
-        </b-select>
+        <no-ssr>
+          <b-select v-model="networkId" placeholder="Select a podcast network">
+            <option
+              v-for="network in networks"
+              :key="network.id"
+              :value="network.id"
+            >
+              {{ network.title }}
+            </option>
+          </b-select>
+        </no-ssr>
       </b-field>
       <upload class="field" label="Podcast Cover" />
       <b-button
