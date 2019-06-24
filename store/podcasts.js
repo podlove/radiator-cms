@@ -22,7 +22,7 @@ export const actions = {
         response.data.data &&
         response.data.data.createPodcast
       ) {
-        dispatch('getPodcasts')
+        dispatch('getPodcasts', data)
         return response.data.data.createPodcast
       } else if (response.data.errors) {
         throw Error(response.data.errors[0].message)

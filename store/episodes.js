@@ -25,9 +25,7 @@ export const actions = {
         //   file: data.file,
         //   token: data.token
         // })
-        dispatch('getEpisode', {
-          id: response.data.data.createEpisode.id
-        })
+        dispatch('getEpisode', data)
         return response.data.data.createEpisode
       } else if (response.data.errors) {
         throw Error(response.data.errors[0].message)
