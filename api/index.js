@@ -56,7 +56,7 @@ export default {
       const query = {
         query: `
           query {
-            episode(id: ${data}) {
+            episode(id: ${data.id}) {
               content,
               description,
               duration,
@@ -82,7 +82,11 @@ export default {
           }
         `
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     },
     uploadEpisodeAudio: data => {
       console.log('TODO: Upload episode audio file(s) with data: ', data)
@@ -207,13 +211,17 @@ export default {
           }
         }
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     },
     getPodcast: data => {
       const query = {
         query: `
           query {
-            podcast(id: ${data}) {
+            podcast(id: ${data.id}) {
               author,
               description,
               episodes(itemsPerPage: 20, page: 1) {
@@ -243,9 +251,13 @@ export default {
           }
         `
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     },
-    getPodcasts: () => {
+    getPodcasts: data => {
       const query = {
         query: `
           query {
@@ -278,7 +290,11 @@ export default {
           }
         `
       }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query)
+      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
+        headers: {
+          Authorization: 'Bearer ' + data.token
+        }
+      })
     }
   }
 }

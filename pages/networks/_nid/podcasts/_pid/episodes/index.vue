@@ -73,6 +73,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
 import Episodes from '~/components/Episodes'
 
 export default {
@@ -85,10 +86,14 @@ export default {
       podcast: null
     }
   },
+  computed: mapState({
+    token: state => state.auth.token
+  }),
   created() {
     this.$store
       .dispatch('podcasts/getPodcast', {
-        id: this.$route.params.pid
+        id: this.$route.params.pid,
+        token: this.token
       })
       .then(result => {
         this.podcast = result

@@ -71,6 +71,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
 import EpisodeAudioFiles from '~/components/EpisodeAudioFiles'
 import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodeContent from '~/components/EpisodeContent'
@@ -94,10 +95,14 @@ export default {
       episode: null
     }
   },
+  computed: mapState({
+    token: state => state.auth.token
+  }),
   created() {
     this.$store
       .dispatch('episodes/getEpisode', {
-        id: this.$route.params.eid
+        id: this.$route.params.eid,
+        token: this.token
       })
       .then(result => {
         this.episode = result

@@ -37,7 +37,7 @@ export const actions = {
     })
   },
   getEpisode({ commit }, data) {
-    return api.episodes.getEpisode(data.id).then(response => {
+    return api.episodes.getEpisode(data).then(response => {
       if (response.data && response.data.data && response.data.data.episode) {
         commit('set_episode', response.data.data.episode)
         return response.data.data.episode

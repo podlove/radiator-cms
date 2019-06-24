@@ -106,7 +106,8 @@ export default {
     }
   },
   computed: mapState({
-    networks: state => state.networks.networks
+    networks: state => state.networks.networks,
+    token: state => state.auth.token
   }),
   methods: {
     createPodcast() {
@@ -116,7 +117,8 @@ export default {
           cover: this.cover,
           description: this.description,
           title: this.title,
-          networkId: this.networkId
+          networkId: this.networkId,
+          token: this.token
         })
         .then(result => {
           this.title = result.title
