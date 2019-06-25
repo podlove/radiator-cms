@@ -38,6 +38,10 @@
 <script>
 export default {
   props: {
+    dropFiles: {
+      type: Array,
+      required: true
+    },
     isMultiple: {
       type: Boolean,
       required: false
@@ -45,11 +49,6 @@ export default {
     label: {
       type: String,
       required: true
-    }
-  },
-  data() {
-    return {
-      dropFiles: []
     }
   },
   methods: {

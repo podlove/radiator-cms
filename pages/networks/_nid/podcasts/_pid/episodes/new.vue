@@ -34,7 +34,7 @@
       <b-field label="Description">
         <b-input v-model="description"></b-input>
       </b-field>
-      <upload class="field" label="Audio Files" />
+      <upload class="field" label="Audio Files" :dropFiles="dropAudioFiles" />
       <b-field label="Shownotes">
         <no-ssr>
           <EpisodesShownotesEditor />
@@ -45,9 +45,17 @@
           <WikidataInput language="de" />
         </no-ssr>
       </b-field>
-      <upload class="field" label="Chapter Marks" />
-      <upload class="field" label="Transcript" />
-      <upload class="field" label="Episode Cover" />
+      <upload
+        class="field"
+        label="Chapter Marks"
+        :dropFiles="dropChapterMarks"
+      />
+      <upload class="field" label="Transcript" :dropFiles="dropTranscript" />
+      <upload
+        class="field"
+        label="Episode Cover"
+        :dropFiles="dropEpisodeCover"
+      />
       <b-button
         type="is-primary"
         outlined
