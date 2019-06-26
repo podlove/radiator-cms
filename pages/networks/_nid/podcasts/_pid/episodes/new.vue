@@ -34,7 +34,7 @@
       <b-field label="Description">
         <b-input v-model="description"></b-input>
       </b-field>
-      <upload class="field" label="Audio Files" :dropFiles="dropAudioFiles" />
+      <upload class="field" label="Audio Files" :drop-files="dropAudioFiles" />
       <b-field label="Shownotes">
         <no-ssr>
           <EpisodesShownotesEditor />
@@ -48,13 +48,13 @@
       <upload
         class="field"
         label="Chapter Marks"
-        :dropFiles="dropChapterMarks"
+        :drop-files="dropChapterMarks"
       />
-      <upload class="field" label="Transcript" :dropFiles="dropTranscript" />
+      <upload class="field" label="Transcript" :drop-files="dropTranscript" />
       <upload
         class="field"
         label="Episode Cover"
-        :dropFiles="dropEpisodeCover"
+        :drop-files="dropEpisodeCover"
       />
       <b-button
         type="is-primary"

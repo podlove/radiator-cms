@@ -1,0 +1,6 @@
+mutation authenticatedSession($usernameOrEmail:String!,$password:String!) {
+  authenticatedSession(password: $password, usernameOrEmail: $usernameOrEmail) {
+    token,
+    username
+  }
+}

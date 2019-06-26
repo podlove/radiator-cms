@@ -1,57 +1,46 @@
-import api from '~/api'
+// import api from '~/api'
+import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
 
 export const state = () => ({
-  isLoggedIn: null,
-  username: null,
-  token: null
+  isLoggedIn: null
 })
 
 export const mutations = {
   reset_session(store) {
     store.isLoggedIn = false
-    store.username = null
-    store.token = null
-    this.$router.push('/')
   },
-  set_session(store, data) {
+  set_session(store) {
     store.isLoggedIn = true
-    store.username = data.username
-    store.token = data.token
   }
 }
 
+export const getters = {
+  isLoggedIn: state => state.isLoggedIn
+}
+
 export const actions = {
-  login({ commit, dispatch }, data) {
-    return api.auth.login(data).then(response => {
-      if (
-        response.data.data.authenticatedSession &&
-        response.data.data.authenticatedSession.token
-      ) {
-        commit('set_session', response.data.data.authenticatedSession)
-        dispatch(
-          'networks/getNetworks',
-          {
-            token: response.data.data.authenticatedSession.token
-          },
-          { root: true }
-        )
-        dispatch(
-          'podcasts/getPodcasts',
-          {
-            token: response.data.data.authenticatedSession.token
-          },
-          { root: true }
-        )
-        return response.data.data.authenticatedSession
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for authenticatedSession or errors.')
-      }
-    })
+  login: async function login({ commit, dispatch }, data) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .mutate({
+          mutation: authenticatedSession,
+          variables: {
+            usernameOrEmail: data.username,
+            password: data.password
+          }
+        })
+        .then(({ data }) => data && data.authenticatedSession)
+      await this.$apolloHelpers.onLogin(res.token, undefined, 7)
+    } catch (e) {
+      throw Error(e)
+    }
   },
   logout({ commit }) {
+    this.$apolloHelpers.onLogout()
     commit('reset_session')
-    return Promise.resolve()
+  },
+  setSession({ commit }) {
+    commit('set_session')
   }
 }

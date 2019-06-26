@@ -1,0 +1,25 @@
+{
+  networks {
+    id,
+    image,
+    podcasts {
+      episodes(itemsPerPage: 5, page: 1) {
+        duration,
+        guid,
+        id,
+        image,
+        number,
+        slug,
+        subtitle,
+        title,
+      },
+      id,
+      image,
+      slug,
+      subtitle,
+      title,
+    },
+    slug,
+    title
+  }
+}

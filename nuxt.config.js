@@ -36,6 +36,8 @@ export default {
   modules: [
     // https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    // https://github.com/nuxt-community/apollo-module
+    '@nuxtjs/apollo',
     // https://buefy.github.io/#/documentation
     'nuxt-buefy',
     // https://github.com/rubystarashe/nuxt-vuex-localstorage
@@ -54,6 +56,18 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  /**
+   * Apollo module configuration
+   */
+  apollo: {
+    clientConfigs: {
+      default: {
+        // TODO: use dynamic process.env.baseUrl
+        httpEndpoint: 'http://localhost:4000/api/graphql'
+      }
+    }
   },
 
   /*

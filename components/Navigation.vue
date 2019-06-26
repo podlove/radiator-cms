@@ -227,7 +227,6 @@ export default {
     }
   },
   computed: mapState({
-    isLoggedIn: state => state.auth.isLoggedIn,
     networks: state => state.networks.networks,
     podcast: state => state.podcasts.podcast,
     podcasts: state => state.podcasts.podcasts,
@@ -236,6 +235,12 @@ export default {
     activePodcast: state => state.navigation.activePodcastId,
     activeEpisode: state => state.navigation.activeEpisodeId
   }),
+  props: {
+    isLoggedIn: {
+      type: Boolean,
+      required: true
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')

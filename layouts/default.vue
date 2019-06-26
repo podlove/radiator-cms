@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navigation />
+    <navigation :is-logged-in="this.$store.state.auth.isLoggedIn" />
     <nuxt />
   </div>
 </template>
@@ -14,11 +14,15 @@ const EPISODES_REGEX = /\/networks\/(?<network_id>\d+)\/podcasts\/(?<podcast_id>
 
 export default {
   components: { Navigation },
+  middleware: ['isAuth'],
   mounted() {
     // Check if user is logged in
-    if (!this.$store.state.auth.isLoggedIn) {
-      this.$router.push('/')
-    }
+    this.$store.watch(newValue => {
+      // Do whatever makes sense now
+      if (newValue.auth.isLoggedIn === false) {
+        this.$router.push('/')
+      }
+    })
     // Check if user is on a network, podcast or episodes page
     const path = this.$route.path
     const activeNetwork = path.match(NETWORKS_REGEX)

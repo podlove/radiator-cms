@@ -26,7 +26,7 @@
           </div>
           <b-tabs v-model="activeTab" class="r_network-tabs">
             <b-tab-item label="Podcasts">
-              <ul class="r_network-tabs__list" v-if="network.podcasts">
+              <ul v-if="network.podcasts" class="r_network-tabs__list">
                 <li
                   v-for="podcast in network.podcasts"
                   :key="podcast.id"
