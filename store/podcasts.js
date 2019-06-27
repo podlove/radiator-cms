@@ -1,4 +1,6 @@
 import api from '~/api'
+import podcast from '~/api/queries/podcast.gql'
+import podcasts from '~/api/queries/podcasts.gql'
 
 export const state = () => ({
   podcast: {},
@@ -12,6 +14,11 @@ export const mutations = {
   set_podcasts(store, data) {
     store.podcasts = data
   }
+}
+
+export const getters = {
+  podcast: state => state.podcast,
+  podcasts: state => state.podcasts
 }
 
 export const actions = {
@@ -31,28 +38,33 @@ export const actions = {
       }
     })
   },
-  getPodcast({ commit }, data) {
-    return api.podcasts.getPodcast(data).then(response => {
-      if (response.data && response.data.data && response.data.data.podcast) {
-        commit('set_podcast', response.data.data.podcast)
-        return response.data.data.podcast
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for podcast or errors.')
-      }
-    })
+  getPodcast: async function getPodcast({ commit }, data) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .query({
+          query: podcast,
+          variables: {
+            id: data.id
+          }
+        })
+        .then(({ data }) => data && data.podcast)
+      await commit('set_podcast', res)
+    } catch (e) {
+      throw Error(e)
+    }
   },
-  getPodcasts({ commit }, data) {
-    return api.podcasts.getPodcasts(data).then(response => {
-      if (response.data && response.data.data && response.data.data.podcasts) {
-        commit('set_podcasts', response.data.data.podcasts)
-        return response.data.data.podcasts
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for podcasts or errors.')
-      }
-    })
+  getPodcasts: async function getPodcasts({ commit }) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .query({
+          query: podcasts
+        })
+        .then(({ data }) => data && data.podcasts)
+      await commit('set_podcasts', res)
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }

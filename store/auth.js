@@ -32,6 +32,20 @@ export const actions = {
         })
         .then(({ data }) => data && data.authenticatedSession)
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: res.token
+        },
+        { root: true }
+      )
+      await dispatch(
+        'podcasts/getPodcasts',
+        {
+          token: res.token
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }

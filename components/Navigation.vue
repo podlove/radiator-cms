@@ -220,6 +220,12 @@
 import { mapState } from 'vuex'
 
 export default {
+  props: {
+    isLoggedIn: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
     return {
       episodes: [],
@@ -235,12 +241,6 @@ export default {
     activePodcast: state => state.navigation.activePodcastId,
     activeEpisode: state => state.navigation.activeEpisodeId
   }),
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      required: true
-    }
-  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')

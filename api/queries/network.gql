@@ -1,0 +1,27 @@
+query network($id: ID!) {
+  network(id: $id) {
+    id,
+    image,
+    podcasts {
+      episodes(itemsPerPage: 5, page: 1) {
+        duration,
+        guid,
+        id,
+        image,
+        number,
+        publishedAt,
+        slug,
+        subtitle,
+        title,
+      },
+      id,
+      image,
+      publishedAt,
+      slug,
+      subtitle,
+      title,
+    },
+    slug,
+    title
+  }
+}

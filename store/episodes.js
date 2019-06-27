@@ -1,4 +1,5 @@
 import api from '~/api'
+import episode from '~/api/queries/episode.gql'
 
 export const state = () => ({
   episode: {}
@@ -8,6 +9,10 @@ export const mutations = {
   set_episode(store, data) {
     store.episode = data
   }
+}
+
+export const getters = {
+  episode: state => state.episode
 }
 
 export const actions = {
@@ -34,17 +39,21 @@ export const actions = {
       }
     })
   },
-  getEpisode({ commit }, data) {
-    return api.episodes.getEpisode(data).then(response => {
-      if (response.data && response.data.data && response.data.data.episode) {
-        commit('set_episode', response.data.data.episode)
-        return response.data.data.episode
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for episode or errors.')
-      }
-    })
+  getEpisode: async function getEpisode({ commit }, data) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .query({
+          query: episode,
+          variables: {
+            id: data.id
+          }
+        })
+        .then(({ data }) => data && data.episode)
+      await commit('set_episode', res)
+    } catch (e) {
+      throw Error(e)
+    }
   },
   uploadEpisodeAudio({ dispatch }, data) {
     return api.episodes.uploadEpisodeAudio(data).then(response => {
