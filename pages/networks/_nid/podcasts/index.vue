@@ -97,11 +97,11 @@ export default {
   },
   data() {
     return {
-      activeTab: 0,
-      network: null
+      activeTab: 0
     }
   },
   computed: mapState({
+    network: state => state.networks.network,
     token: state => state.auth.token
   }),
   created() {
@@ -109,9 +109,6 @@ export default {
       .dispatch('networks/getNetwork', {
         id: this.$route.params.nid,
         token: this.token
-      })
-      .then(result => {
-        this.network = result
       })
       .catch(error => {
         console.warn(error)

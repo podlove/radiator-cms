@@ -35,42 +35,6 @@ export default {
         }
       })
     },
-    getEpisode: data => {
-      const query = {
-        query: `
-          query {
-            episode(id: ${data.id}) {
-              content,
-              description,
-              duration,
-              guid,
-              id,
-              image,
-              number,
-              podcast {
-                title,
-                image
-              },
-              chapters {
-                image,
-                link,
-                start,
-                title
-              },
-              publishedAt,
-              slug,
-              subtitle,
-              title,
-            }
-          }
-        `
-      }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
-    },
     uploadEpisodeAudio: data => {
       console.log('TODO: Upload episode audio file(s) with data: ', data)
       return true
@@ -98,80 +62,6 @@ export default {
           Authorization: 'Bearer ' + data.token
         }
       })
-    },
-    getNetwork: data => {
-      const query = {
-        query: `
-          query {
-            network(id: ${data.id}) {
-              id,
-              image,
-              podcasts {
-                episodes(itemsPerPage: 5, page: 1) {
-                  duration,
-                  guid,
-                  id,
-                  image,
-                  number,
-                  publishedAt,
-                  slug,
-                  subtitle,
-                  title,
-                },
-                id,
-                image,
-                publishedAt,
-                slug,
-                subtitle,
-                title,
-              },
-              slug,
-              title
-            }
-          }
-        `
-      }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
-    },
-    getNetworks: data => {
-      const query = {
-        query: `
-          query {
-            networks {
-              id,
-              image,
-              podcasts {
-                episodes(itemsPerPage: 5, page: 1) {
-                  duration,
-                  guid,
-                  id,
-                  image,
-                  number,
-                  slug,
-                  subtitle,
-                  title,
-                },
-                id,
-                image,
-                slug,
-                subtitle,
-                title,
-              },
-              slug,
-              title
-            }
-          }
-        `
-      }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
     }
   },
   podcasts: {
@@ -193,85 +83,6 @@ export default {
             title: data.title
           }
         }
-      }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
-    },
-    getPodcast: data => {
-      const query = {
-        query: `
-          query {
-            podcast(id: ${data.id}) {
-              author,
-              description,
-              episodes(itemsPerPage: 20, page: 1) {
-                content,
-                description,
-                duration,
-                guid,
-                id,
-                image,
-                number,
-                publishedAt,
-                slug,
-                subtitle,
-                title,
-              },
-              id,
-              image,
-              language,
-              lastBuiltAt,
-              ownerEmail,
-              ownerName,
-              publishedAt,
-              slug,
-              subtitle,
-              title,
-            }
-          }
-        `
-      }
-      return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
-        headers: {
-          Authorization: 'Bearer ' + data.token
-        }
-      })
-    },
-    getPodcasts: data => {
-      const query = {
-        query: `
-          query {
-            podcasts {
-              author,
-              description,
-              episodes(itemsPerPage: 20, page: 1) {
-                content,
-                description,
-                duration,
-                guid,
-                id,
-                image,
-                number,
-                publishedAt,
-                slug,
-                subtitle,
-                title,
-              },
-              id,
-              language,
-              lastBuiltAt,
-              ownerEmail,
-              ownerName,
-              publishedAt,
-              slug,
-              subtitle,
-              title,
-            }
-          }
-        `
       }
       return axios.post(`${process.env.baseUrl}/api/graphql`, query, {
         headers: {

@@ -1,4 +1,4 @@
-import api from '~/api'
+import restNetwork from '~/api/rest/networks'
 import network from '~/api/queries/network.gql'
 import networks from '~/api/queries/networks.gql'
 
@@ -22,23 +22,19 @@ export const getters = {
 }
 
 export const actions = {
-  create({ dispatch }, data) {
-    return api.networks.create(data).then(response => {
-      if (
-        response.data &&
-        response.data.data &&
-        response.data.data.createNetwork
-      ) {
-        dispatch('getNetworks', {
-          token: data.token
-        })
-        return response.data.data.createNetwork
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for networks or errors.')
-      }
-    })
+  create: async function create({ dispatch, commit }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restNetwork.create(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getNetworks', {
+        token: this.$apolloHelpers.getToken()
+      })
+      await commit('set_network', res)
+    } catch (e) {
+      throw Error(e)
+    }
   },
   getNetwork: async function getNetwork({ commit }, data) {
     const client = this.app.apolloProvider.defaultClient

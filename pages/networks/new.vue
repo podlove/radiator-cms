@@ -20,7 +20,11 @@
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Network"></b-input>
       </b-field>
-      <upload class="field" label="Network Image" />
+      <upload
+        class="field"
+        label="Network Image"
+        :drop-files="dropNetworkImage"
+      />
       <b-button
         type="is-primary"
         outlined
@@ -62,12 +66,14 @@ export default {
     return {
       alert: null,
       cover: null,
+      dropNetworkImage: [],
       id: null,
       loading: false,
       title: 'New Network'
     }
   },
   computed: mapState({
+    network: state => state.networks.network,
     token: state => state.auth.token
   }),
   methods: {
@@ -79,9 +85,7 @@ export default {
           title: this.title,
           token: this.token
         })
-        .then(result => {
-          this.title = result.title
-          this.id = result.id
+        .then(() => {
           this.loading = false
           this.$toast.open({
             message:
