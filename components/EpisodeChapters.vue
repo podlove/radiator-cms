@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows episode chapter marks as a list. -->
   <div v-if="episode && episode.chapters" class="r_episode-chapters">
     <section class="r_episode-chapters__header">
       <h2 class="title is-size-5 r_episode-chapters__headline">

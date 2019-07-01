@@ -22,6 +22,12 @@ export const getters = {
 }
 
 export const actions = {
+  /**
+   * Creates a new network.
+   * After successful creation:
+   * saves the response as network in store,
+   * dispatches action to get all networks.
+   */
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
@@ -36,6 +42,10 @@ export const actions = {
       throw Error(e)
     }
   },
+  /**
+   * Gets a network by id.
+   * After successful request saves the network in store.
+   */
   getNetwork: async function getNetwork({ commit }, data) {
     const client = this.app.apolloProvider.defaultClient
     try {
@@ -52,6 +62,9 @@ export const actions = {
       throw Error(e)
     }
   },
+  /**
+   * Gets all networks and saves them in store.
+   */
   getNetworks: async function getNetworks({ commit }) {
     const client = this.app.apolloProvider.defaultClient
     try {

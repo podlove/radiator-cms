@@ -1,4 +1,3 @@
-// import api from '~/api'
 import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
 
 export const state = () => ({
@@ -19,7 +18,14 @@ export const getters = {
 }
 
 export const actions = {
-  login: async function login({ commit, dispatch }, data) {
+  /**
+   * User login
+   * ----------
+   * After successful login use Apollo to set token
+   * and dispatch actions to get networks
+   * and podcasts from backend.
+   */
+  login: async function login({ dispatch }, data) {
     const client = this.app.apolloProvider.defaultClient
     try {
       const res = await client
@@ -50,10 +56,20 @@ export const actions = {
       throw Error(e)
     }
   },
+  /**
+   * User logout with Apollo
+   * and mutate session information in store.
+   */
   logout({ commit }) {
     this.$apolloHelpers.onLogout()
     commit('reset_session')
   },
+  /**
+   * Can be used to make the store be aware
+   * that a user is logged in.
+   * Is used by middleware, that checks the token with Apollo
+   * and then sets the session.
+   */
   setSession({ commit }) {
     commit('set_session')
   }

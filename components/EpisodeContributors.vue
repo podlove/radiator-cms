@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows the contributors of an episode as a list. -->
   <div class="r_episode-contributors">
     <section class="r_episode-contributors__header">
       <h2 class="title is-size-5 r_episode-contributors__headline">

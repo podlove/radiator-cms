@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows the most important episode data as tags. -->
   <div class="tile">
     <div class="tile">
       <b-taglist attached>

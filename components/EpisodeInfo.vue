@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows the most important information of an episode in a box. -->
   <ul class="r_episode-info">
     <li class="r_episode-info__item">
       <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">

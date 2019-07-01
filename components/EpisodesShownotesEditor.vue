@@ -1,4 +1,5 @@
 <template>
+  <!-- Markdown and wysiwyg editor to create shownotes. -->
   <div class="editor">
     <editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
       <div class="menubar">

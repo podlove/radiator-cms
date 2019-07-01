@@ -1,4 +1,5 @@
 <template>
+  <!-- Login and notifications. -->
   <section class="login">
     <b-notification
       v-if="alert"

@@ -1,4 +1,7 @@
 <template>
+  <!-- Dropdown Component for adding a new episode / podcast / network. -->
+  <!-- Maybe should be renamed with a more conrete name -->
+  <!-- or refactored to be usable in multiple ways. -->
   <b-dropdown hoverable position="is-bottom-left" aria-role="list">
     <b-button
       slot="trigger"

@@ -22,6 +22,12 @@ export const getters = {
 }
 
 export const actions = {
+  /**
+   * Creates a new podcast.
+   * After successful creation:
+   * saves the response as podcast in store,
+   * dispatches action to get all podcasts.
+   */
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
@@ -34,6 +40,10 @@ export const actions = {
       throw Error(e)
     }
   },
+  /**
+   * Gets a podcast by id.
+   * After successful request saves the podcast in store.
+   */
   getPodcast: async function getPodcast({ commit }, data) {
     const client = this.app.apolloProvider.defaultClient
     try {
@@ -50,6 +60,9 @@ export const actions = {
       throw Error(e)
     }
   },
+  /**
+   * Gets all podcasts and saves them in store.
+   */
   getPodcasts: async function getPodcasts({ commit }) {
     const client = this.app.apolloProvider.defaultClient
     try {

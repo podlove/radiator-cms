@@ -14,6 +14,7 @@ const EPISODES_REGEX = /\/networks\/(?<network_id>\d+)\/podcasts\/(?<podcast_id>
 
 export default {
   components: { Navigation },
+  // Check if user is logged in
   middleware: ['isAuth'],
   mounted() {
     // Check if user is logged in
@@ -34,21 +35,21 @@ export default {
     const activeEpisode = path.match(EPISODES_REGEX)
       ? path.match(EPISODES_REGEX).groups
       : null
-
+    // Set active Episode
     if (activeEpisode) {
       this.$store.dispatch(
         'navigation/setActiveEpisode',
         activeEpisode.episode_id
       )
     }
-
+    // Set active Podcast
     if (activePodcast) {
       this.$store.dispatch(
         'navigation/setActivePodcast',
         activePodcast.podcast_id
       )
     }
-
+    // Set active Network
     if (activeNetwork) {
       this.$store.dispatch(
         'navigation/setActiveNetwork',

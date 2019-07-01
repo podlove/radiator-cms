@@ -8,11 +8,15 @@ export default {
         podcast_id: data.podcastId
       }
     })
-    return axios.post(`${process.env.baseUrl}/api/rest/v1/episodes`, query, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + data.token
+    return axios.post(
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
       }
-    })
+    )
   }
 }

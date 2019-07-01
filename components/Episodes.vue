@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows episodes as a list. -->
   <section class="has-background-white r_episodes">
     <section class="r_episodes__header">
       <b-input

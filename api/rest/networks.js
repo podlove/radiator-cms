@@ -7,11 +7,15 @@ export default {
         title: data.title
       }
     })
-    return axios.post(`${process.env.baseUrl}/api/rest/v1/networks`, query, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + data.token
+    return axios.post(
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
       }
-    })
+    )
   }
 }

@@ -4,7 +4,8 @@ export default {
   mode: 'universal',
 
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:4000'
+    baseUrl: process.env.BASE_URL || 'http://localhost:4000',
+    backendVersion: 'v1'
   },
 
   /*

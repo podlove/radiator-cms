@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows shownotes of an episode. -->
   <div v-if="episode && episode.content" class="r_episode-content">
     <section class="r_episode-content__header">
       <h2 class="title is-size-5 r_episode-content__headline">

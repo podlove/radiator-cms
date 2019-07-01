@@ -1,4 +1,6 @@
 <template>
+  <!-- NEW EPISODE PAGE -->
+  <!-- path: `/networks/[network_id]/podcasts/[podcast_id]/episodes/new` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">

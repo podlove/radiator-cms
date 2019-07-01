@@ -1,4 +1,6 @@
 <template>
+  <!-- PODCASTS PAGE -->
+  <!-- path: `networks/podcasts` -->
   <section class="r_podcasts">
     <section class="hero is-medium is-primary">
       <div class="hero-body">

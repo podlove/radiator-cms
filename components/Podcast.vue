@@ -1,4 +1,5 @@
 <template>
+  <!-- Shows a podcast with a list of episodes. -->
   <article class="r_podcast">
     <header class="r_podcast__header has-background-light">
       <div

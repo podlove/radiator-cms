@@ -1,4 +1,5 @@
 <template>
+  <!-- Creates an upload field with tags for uploaded files. -->
   <section>
     <b-field :label="label">
       <b-upload v-model="dropFiles" multiple drag-drop>

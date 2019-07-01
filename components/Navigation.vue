@@ -1,4 +1,5 @@
 <template>
+  <!-- Main navigation. -->
   <no-ssr>
     <nav
       class="navbar is-primary is-primary"

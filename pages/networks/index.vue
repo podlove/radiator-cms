@@ -1,4 +1,6 @@
 <template>
+  <!-- NETWORKS PAGE -->
+  <!-- path: `/networks` -->
   <section class="r_networks">
     <section class="hero is-medium is-primary">
       <div class="hero-body">

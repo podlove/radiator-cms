@@ -16,6 +16,12 @@ export const mutations = {
   }
 }
 
+export const getters = {
+  getActiveEpisodeId: state => state.activeEpisodeId,
+  getActiveNetworkId: state => state.activeNetworkId,
+  getActivePodcastId: state => state.activePodcastId
+}
+
 export const actions = {
   setActiveNetwork({ commit }, data) {
     commit('set_active_network', data)
