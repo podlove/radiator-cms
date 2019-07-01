@@ -1,4 +1,4 @@
-import api from '~/api'
+import restPodcast from '~/api/rest/podcasts'
 import podcast from '~/api/queries/podcast.gql'
 import podcasts from '~/api/queries/podcasts.gql'
 
@@ -22,21 +22,19 @@ export const getters = {
 }
 
 export const actions = {
-  create({ dispatch }, data) {
-    return api.podcasts.create(data).then(response => {
-      if (
-        response.data &&
-        response.data.data &&
-        response.data.data.createPodcast
-      ) {
-        dispatch('getPodcasts', data)
-        return response.data.data.createPodcast
-      } else if (response.data.errors) {
-        throw Error(response.data.errors[0].message)
-      } else {
-        throw Error('No data for podcasts or errors.')
-      }
-    })
+  create: async function create({ dispatch, commit }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restPodcast.create(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getPodcasts', {
+        token: this.$apolloHelpers.getToken()
+      })
+      await commit('set_podcast', res)
+    } catch (e) {
+      throw Error(e)
+    }
   },
   getPodcast: async function getPodcast({ commit }, data) {
     const client = this.app.apolloProvider.defaultClient

@@ -44,7 +44,7 @@
           </b-select>
         </no-ssr>
       </b-field>
-      <upload class="field" label="Podcast Cover" />
+      <upload class="field" label="Podcast Cover" :drop-files="dropCover" />
       <b-button
         type="is-primary"
         outlined
@@ -99,7 +99,7 @@ export default {
       alert: null,
       cover: null,
       description: null,
-      id: null,
+      dropCover: [],
       networkId: null,
       loading: false,
       title: 'New Podcast'
@@ -107,7 +107,7 @@ export default {
   },
   computed: mapState({
     networks: state => state.networks.networks,
-    token: state => state.auth.token
+    podcast: state => state.podcasts.podcast
   }),
   methods: {
     createPodcast() {
@@ -117,12 +117,9 @@ export default {
           cover: this.cover,
           description: this.description,
           title: this.title,
-          networkId: this.networkId,
-          token: this.token
+          networkId: this.networkId
         })
-        .then(result => {
-          this.title = result.title
-          this.id = result.id
+        .then(() => {
           this.loading = false
           this.$toast.open({
             message:
@@ -131,7 +128,7 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/networks/${this.networkId}/podcasts/${this.id}/episodes`
+              `/networks/${this.networkId}/podcasts/${this.podcast.id}/episodes`
             )
           }, 1000)
         })

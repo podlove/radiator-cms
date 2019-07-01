@@ -82,21 +82,16 @@ export default {
   },
   data() {
     return {
-      activeTab: 0,
-      podcast: null
+      activeTab: 0
     }
   },
   computed: mapState({
-    token: state => state.auth.token
+    podcast: state => state.podcasts.podcast
   }),
   created() {
     this.$store
       .dispatch('podcasts/getPodcast', {
-        id: this.$route.params.pid,
-        token: this.token
-      })
-      .then(result => {
-        this.podcast = result
+        id: this.$route.params.pid
       })
       .catch(error => {
         console.log(error)
