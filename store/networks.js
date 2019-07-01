@@ -28,10 +28,10 @@ export const actions = {
       const res = await restNetwork.create(data).then(data => {
         return data && data.data
       })
+      await commit('set_network', res)
       await dispatch('getNetworks', {
         token: this.$apolloHelpers.getToken()
       })
-      await commit('set_network', res)
     } catch (e) {
       throw Error(e)
     }

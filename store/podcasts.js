@@ -25,13 +25,11 @@ export const actions = {
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restPodcast.create(data).then(data => {
-        return data && data.data
-      })
+      const res = await restPodcast.create(data).then(data => data && data.data)
+      await commit('set_podcast', res)
       await dispatch('getPodcasts', {
         token: this.$apolloHelpers.getToken()
       })
-      await commit('set_podcast', res)
     } catch (e) {
       throw Error(e)
     }

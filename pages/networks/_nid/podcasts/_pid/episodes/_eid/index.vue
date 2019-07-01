@@ -91,26 +91,16 @@ export default {
   data() {
     return {
       activeTab: 0,
-      cover: null,
-      episode: null
+      cover: null
     }
   },
   computed: mapState({
-    token: state => state.auth.token
+    episode: state => state.episodes.episode
   }),
   created() {
     this.$store
       .dispatch('episodes/getEpisode', {
-        id: this.$route.params.eid,
-        token: this.token
-      })
-      .then(result => {
-        this.episode = result
-        if (result && result.image) {
-          this.cover = result.image
-        } else if (result.podcast && result.podcast.image) {
-          this.cover = result.podcast.image
-        }
+        id: this.$route.params.eid
       })
       .catch(error => {
         console.log(error)

@@ -136,7 +136,7 @@ export default {
   computed: mapState({
     activeNetworkId: state => state.navigation.activeNetworkId,
     activePodcastId: state => state.navigation.activePodcastId,
-    token: state => state.auth.token
+    episode: state => state.episodes.episode
   }),
   methods: {
     createEpisode() {
@@ -145,12 +145,9 @@ export default {
         .dispatch('episodes/create', {
           file: this.dropAudioFiles[0],
           podcastId: this.activePodcastId,
-          title: this.title,
-          token: this.token
+          title: this.title
         })
         .then(result => {
-          this.title = result.title
-          this.id = result.id
           this.loading = false
           this.$toast.open({
             message:
@@ -161,7 +158,7 @@ export default {
             this.$router.replace(
               `/networks/${this.activeNetworkId}/podcasts/${
                 this.activePodcastId
-              }/episodes/${this.id}`
+              }/episodes/${this.episode.id}`
             )
           }, 1000)
         })
