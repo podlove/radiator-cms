@@ -35,12 +35,14 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    // https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
     // https://github.com/nuxt-community/apollo-module
     '@nuxtjs/apollo',
+    // https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
     // https://buefy.github.io/#/documentation
     'nuxt-buefy',
+    // https://github.com/nuxt-community/moment-module
+    ['@nuxtjs/moment', { locales: ['de'], defaultLocale: 'de' }],
     // https://github.com/rubystarashe/nuxt-vuex-localstorage
     ['nuxt-vuex-localstorage', {
       // If not entered, “localStorage” is the default value

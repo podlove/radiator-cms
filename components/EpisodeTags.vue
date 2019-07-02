@@ -11,7 +11,9 @@
       <b-taglist attached>
         <b-tag type="is-dark">Release Date:</b-tag>
         <b-tag type="is-info">{{
-          episode && episode.publishedAt ? episode.publishedAt : ''
+          episode && episode.publishedAt
+            ? $moment(episode.publishedAt).format('DD.MM.YYYY')
+            : ''
         }}</b-tag>
       </b-taglist>
     </div>

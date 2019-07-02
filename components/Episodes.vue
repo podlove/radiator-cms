@@ -39,8 +39,14 @@
               <p>{{ episode.title }}</p>
             </div>
             <p>
-              <b-icon size="is-small" icon="check-circle-outline"></b-icon>
-              <span> {{ episode.publishedAt }}</span>
+              <b-icon
+                size="is-small"
+                icon="check-circle"
+                type="is-success"
+              ></b-icon>
+              <span>
+                {{ $moment(episode.publishedAt).format('DD.MM.YYYY') }}
+              </span>
             </p>
             <div class="r_episodes__podcast__aside">
               <b-tooltip label="Edit episode" type="is-dark">

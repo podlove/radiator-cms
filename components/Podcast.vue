@@ -42,7 +42,7 @@
               size="is-small"
               type="is-success"
             ></b-icon>
-            26.10.2019
+            {{ $moment(episode.publishedAt).format('DD.MM.YYYY') }}
           </p>
           <b-tooltip
             label="Open in episode page in new tab"
