@@ -42,16 +42,7 @@ export default {
     // https://buefy.github.io/#/documentation
     'nuxt-buefy',
     // https://github.com/nuxt-community/moment-module
-    ['@nuxtjs/moment', { locales: ['de'], defaultLocale: 'de' }],
-    // https://github.com/rubystarashe/nuxt-vuex-localstorage
-    ['nuxt-vuex-localstorage', {
-      // If not entered, “localStorage” is the default value
-      localStorage: [
-        'auth',
-        'networks', 
-        'podcasts'
-      ]
-    }]
+    '@nuxtjs/moment'
   ],
 
   /*
@@ -71,6 +62,13 @@ export default {
         httpEndpoint: 'http://localhost:4000/api/graphql'
       }
     }
+  },
+
+  /**
+   * Moment module configuration
+   */
+  moment: {
+    locales: ['de']
   },
 
   /*

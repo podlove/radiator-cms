@@ -2,7 +2,7 @@
   podcasts {
     author,
     description,
-    episodes(itemsPerPage: 20, page: 1) {
+    episodes(itemsPerPage: 200, page: 1) {
       content,
       description,
       duration,
