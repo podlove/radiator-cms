@@ -20,7 +20,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${data.networkId}`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
+        data.networkId
+      }`,
       null,
       {
         headers: {
@@ -37,7 +39,9 @@ export default {
       }
     })
     return axios.put(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${data.networkId}`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
+        data.networkId
+      }`,
       query,
       {
         headers: {

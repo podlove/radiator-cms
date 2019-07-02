@@ -21,7 +21,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
+        data.podcastId
+      }`,
       null,
       {
         headers: {
@@ -38,7 +40,9 @@ export default {
       }
     })
     return axios.put(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
+        data.podcastId
+      }`,
       query,
       {
         headers: {
