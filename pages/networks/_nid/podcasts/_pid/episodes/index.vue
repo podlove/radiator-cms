@@ -25,7 +25,7 @@
     <section class="container">
       <b-tabs v-model="activeTab" class="r_podcast-tabs">
         <b-tab-item label="Episodes">
-          <episodes :podcast="podcast"></episodes>
+          <episodes-table :podcast="podcast"></episodes-table>
         </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
@@ -76,11 +76,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import Episodes from '~/components/Episodes'
+import EpisodesTable from '~/components/EpisodesTable'
 
 export default {
   components: {
-    Episodes
+    EpisodesTable
   },
   data() {
     return {
