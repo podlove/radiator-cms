@@ -7,7 +7,7 @@
           :data="podcast.episodes"
           :mobile-cards="true"
           :paginated="true"
-          :per-page="perpage"
+          :per-page="20"
           :loading="
             !(podcast && podcast.episodes && podcast.episodes.length > 0)
           "
@@ -122,16 +122,12 @@
 </style>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
-  data() {
-    return {
-      perPage: 20
+  props: {
+    podcast: {
+      type: Object,
+      required: true
     }
-  },
-  computed: mapState({
-    podcast: state => state.podcasts.podcast
-  })
+  }
 }
 </script>
