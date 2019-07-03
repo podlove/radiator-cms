@@ -1,31 +1,13 @@
 <template>
-  <!-- Shows episodes as a list. -->
+  <!-- Shows episodes as a sortable, paginated table. -->
   <section class="has-background-white r_episodes">
-    <!-- <section class="r_episodes__header">
-      <b-input
-        class="r_episodes__header__search"
-        icon="magnify"
-        type="search"
-        placeholder="Search..."
-      ></b-input>
-      <b-field class="r_episodes__header__sortby" label="Sort by">
-        <b-select placeholder="Latest, alphabetically, ...">
-          <option value="1">Latest</option>
-          <option value="2">Alphabetically</option>
-        </b-select>
-      </b-field>
-      <b-button>
-        <b-icon size="is-small" icon="plus-circle-outline"></b-icon>
-        <a :href="`${path}/new`"> Add new Episode</a>
-      </b-button>
-    </section> -->
     <no-ssr>
       <section class="r_episodes__main">
         <b-table
           :data="podcast.episodes"
           :mobile-cards="true"
           :paginated="true"
-          :per-page="20"
+          :per-page="perpage"
           :loading="
             !(podcast && podcast.episodes && podcast.episodes.length > 0)
           "
@@ -137,57 +119,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   padding: 0.25rem 0 0 0;
 }
-.r_episodes__header {
-  align-items: center;
-  border-bottom: 1px solid lightgray;
-  display: flex;
-  justify-content: space-between;
-  padding: 1.25rem;
-}
-.r_episodes__header__search {
-  flex-grow: 1;
-  margin-right: 1rem;
-}
-.r_episodes__header__sortby {
-  align-items: center;
-  display: flex;
-  margin-bottom: 0 !important;
-  margin-right: 1rem;
-}
-.r_episodes__header__sortby label {
-  font-weight: 400;
-  margin-bottom: 0 !important;
-  margin-right: 0.5rem;
-}
-.r_episodes__footer {
-  padding: 1rem;
-}
-.r_episodes__main__cover {
-  background-size: cover;
-  border-radius: 0.125rem;
-  margin-right: 0.5rem;
-  width: 1.875rem;
-  height: 1.875rem;
-}
-.r_episodes__podcast {
-  align-items: center;
-  border-bottom: 1px solid lightgray;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.675rem 1.25rem;
-  transition: background-color 0.075s ease-in-out;
-}
-.r_episodes__podcast:hover {
-  background-color: lightgray;
-}
-.r_episodes__podcast__aside {
-  margin-left: 2rem;
-}
-.r_episodes__podcast__main {
-  align-items: center;
-  display: flex;
-  flex-grow: 1;
-}
 </style>
 
 <script>
@@ -196,19 +127,11 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      activeTab: 0,
-      total: 200,
-      current: 1,
-      perPage: 20,
-      order: 'is-centered',
-      path: this.$route.path
+      perPage: 20
     }
   },
   computed: mapState({
     podcast: state => state.podcasts.podcast
-  }),
-  created() {
-    console.log(this.podcast)
-  }
+  })
 }
 </script>
