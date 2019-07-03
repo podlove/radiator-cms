@@ -53,7 +53,7 @@
           <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link" href="/networks/podcasts">
               {{
-                activePodcast
+                activePodcast && getActivePodcastTitle(activePodcast)
                   ? getActivePodcastTitle(activePodcast)
                   : 'Podcasts'
               }}
@@ -188,6 +188,14 @@
 </template>
 
 <style lang="scss" scoped>
+// Overwrite Buefy menu
+// Make it scrollable with max-height
+@media screen and (min-width: 1088px) {
+  .navbar-item.is-hoverable .navbar-dropdown.is-boxed {
+    overflow-y: scroll;
+    max-height: 80vh;
+  }
+}
 .r_network-label {
   padding: 1rem 3rem 0.5rem 1rem;
 }

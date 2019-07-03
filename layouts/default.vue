@@ -17,11 +17,16 @@ export default {
   // Check if user is logged in
   middleware: ['isAuth'],
   mounted() {
-    // Check if user is logged in
     this.$store.watch(newValue => {
-      // Do whatever makes sense now
+      // Redirect to homepage if user is not logged in
       if (newValue.auth.isLoggedIn === false) {
         this.$router.push('/')
+        // Get networks for working navigation if user is logged in
+      } else if (
+        !newValue.networks.networks ||
+        newValue.networks.networks.length === 0
+      ) {
+        this.$store.dispatch('networks/getNetworks')
       }
     })
     // Check if user is on a network, podcast or episodes page

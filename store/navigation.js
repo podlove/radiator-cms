@@ -1,12 +1,16 @@
 export const state = () => ({
-  activeNetworkId: null,
+  activeNetwork: null,
   activePodcastId: null,
   activeEpisodeId: null
 })
 
 export const mutations = {
-  set_active_network(store, data) {
-    store.activeNetworkId = data
+  set_active_network(store, id, networks) {
+    if (networks) {
+      store.activeNetwork = networks.find(element => {
+        return element.id === id
+      })
+    }
   },
   set_active_podcast(store, data) {
     store.activePodcastId = data
@@ -23,8 +27,8 @@ export const getters = {
 }
 
 export const actions = {
-  setActiveNetwork({ commit }, data) {
-    commit('set_active_network', data)
+  setActiveNetwork({ commit, rootState }, payload) {
+    commit('set_active_network', payload, rootState.networks.networks)
   },
   setActivePodcast({ commit }, data) {
     commit('set_active_podcast', data)
