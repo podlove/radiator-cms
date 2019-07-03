@@ -22,11 +22,13 @@
     <no-ssr>
       <section class="r_episodes__main">
         <b-table
-          v-if="podcast && podcast.episodes && podcast.episodes.length > 0"
           :data="podcast.episodes"
           :mobile-cards="true"
           :paginated="true"
           :per-page="20"
+          :loading="
+            !(podcast && podcast.episodes && podcast.episodes.length > 0)
+          "
           detailed
           detail-key="id"
           aria-next-label="Next page"
