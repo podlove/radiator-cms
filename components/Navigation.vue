@@ -175,10 +175,10 @@
             </div>
           </div>
           <div v-if="isLoggedIn" class="navbar-item">
-            <div class="buttons">
-              <a class="button" @click.stop.prevent="logout()">
+            <div class="r_navbar-end">
+              <b-button type="is-light" outlined @click.stop.prevent="logout()">
                 Logout
-              </a>
+              </b-button>
             </div>
           </div>
         </div>
@@ -195,6 +195,9 @@
     overflow-y: scroll;
     max-height: 80vh;
   }
+}
+.r_navbar-end {
+  margin-right: 1rem;
 }
 .r_network-label {
   padding: 1rem 3rem 0.5rem 1rem;

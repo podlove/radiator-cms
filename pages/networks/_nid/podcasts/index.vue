@@ -44,12 +44,54 @@
           </div>
         </b-tab-item>
         <b-tab-item label="Settings">
-          <div class="tile">
-            <article class="tile is-child notification is-warning">
-              <p class="title">Placeholder...</p>
-              <p class="subtitle">for network settings</p>
-            </article>
-          </div>
+          <section>
+            <b-field label="Network Name">
+              <b-input
+                v-if="isDisabled"
+                v-model="network.title"
+                disabled
+              ></b-input>
+              <b-input
+                v-if="!isDisabled"
+                v-model="title"
+                :placeholder="network.title"
+                :loading="loading"
+              ></b-input>
+            </b-field>
+            <div class="r_settings__interaction">
+              <b-button
+                v-if="isDisabled"
+                type="is-primary"
+                outlined
+                @click.stop.prevent="edit()"
+              >
+                Edit Settings
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-danger"
+                outlined
+                @click.stop.prevent="deleteNetwork()"
+              >
+                Delete Network
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-dark"
+                outlined
+                @click.stop.prevent="cancel()"
+              >
+                Cancel
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-primary"
+                @click.stop.prevent="save()"
+              >
+                Save
+              </b-button>
+            </div>
+          </section>
         </b-tab-item>
       </b-tabs>
     </section>
@@ -87,6 +129,10 @@
 .r_network-tabs {
   margin: 3.75rem 0.75rem;
 }
+.r_settings__interaction {
+  margin-top: 1rem;
+  text-align: right;
+}
 </style>
 
 <script>
@@ -99,7 +145,10 @@ export default {
   },
   data() {
     return {
-      activeTab: 0
+      activeTab: 0,
+      isDisabled: true,
+      isLoading: false,
+      title: ''
     }
   },
   computed: mapState({
@@ -109,13 +158,48 @@ export default {
   created() {
     this.$store
       .dispatch('networks/getNetwork', {
-        id: this.$route.params.nid,
-        token: this.token
+        id: this.$route.params.nid
       })
       .catch(error => {
         console.warn(error)
         this.$router.push('/404')
       })
+  },
+  methods: {
+    cancel() {
+      this.isDisabled = true
+    },
+    deleteNetwork() {
+      this.$store
+        .dispatch('networks/deleteNetwork', {
+          networkId: this.network.id
+        })
+        .then(() => {
+          this.$router.push('/networks')
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    edit() {
+      this.isDisabled = false
+    },
+    save() {
+      this.isLoading = true
+      this.$store
+        .dispatch('networks/update', {
+          networkId: this.network.id,
+          title: this.title
+        })
+        .then(() => {
+          this.isDisabled = true
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    }
   }
 }
 </script>
