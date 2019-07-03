@@ -75,7 +75,7 @@
               <b-tooltip label="Edit episode" type="is-dark">
                 <b-button
                   type="is-text"
-                  @click="$router.push(`episodes/${episode.id}`)"
+                  @click="$router.push(`episodes/${props.row.id}`)"
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
