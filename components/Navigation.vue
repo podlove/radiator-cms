@@ -154,15 +154,15 @@
                 <span class="r_menu__item">Account Settings</span>
               </a>
               <hr class="navbar-divider" />
-              <a class="navbar-item">
+              <a class="navbar-item" href="/documentation">
                 <b-icon icon="library-books"></b-icon>
                 <span class="r_menu__item">Documentation</span>
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/help">
                 <b-icon icon="help"></b-icon>
                 <span class="r_menu__item">Help & FAQ</span>
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/support">
                 <b-icon icon="lifebuoy"></b-icon>
                 <span class="r_menu__item">Contact Support</span>
               </a>
