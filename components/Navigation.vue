@@ -121,9 +121,18 @@
                   {{ episode.title }}
                 </a>
                 <hr class="navbar-divider" />
-                <a class="navbar-item">
+                <a
+                  class="navbar-item"
+                  :href="
+                    '/networks/' +
+                      activeNetwork +
+                      '/podcasts/' +
+                      activePodcast +
+                      '/episodes/new'
+                  "
+                >
                   <b-icon icon="plus-circle"></b-icon>
-                  <span class="r_menu__item" @click="$router.push(`new`)">
+                  <span class="r_menu__item">
                     Add new Episode
                   </span>
                 </a>
