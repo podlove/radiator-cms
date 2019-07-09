@@ -1,7 +1,7 @@
 import { mutations } from './networks'
 
 describe('Test network mutations', () => {
-  const network =  {
+  const network = {
     id: 1,
     title: 'Metaebene'
   }
