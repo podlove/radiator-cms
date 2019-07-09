@@ -2,6 +2,7 @@
   <!-- Login and notifications. -->
   <section>
     <section class="login">
+      <h1>Login</h1>
       <b-notification
         v-if="alert"
         :type="alert.type"
@@ -33,16 +34,6 @@
           @click.stop.prevent="login()"
         >
           Login
-        </b-button>
-      </form>
-    </section>
-    <section class="reset-password">
-      <form>
-        <b-field label="Forgot your password?">
-          <b-input v-model="email" placeholder="Your email address"></b-input>
-        </b-field>
-        <b-button type="is-primary">
-          Reset Password
         </b-button>
       </form>
     </section>
