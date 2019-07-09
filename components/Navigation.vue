@@ -149,7 +149,7 @@
                 </span>
               </div>
               <hr class="navbar-divider" />
-              <a class="navbar-item">
+              <a class="navbar-item" href="/settings">
                 <b-icon icon="settings"></b-icon>
                 <span class="r_menu__item">Account Settings</span>
               </a>
