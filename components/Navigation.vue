@@ -196,7 +196,7 @@
 @media screen and (min-width: 1088px) {
   .navbar-item.is-hoverable .navbar-dropdown.is-boxed {
     overflow-y: scroll;
-    max-height: 80vh;
+    max-height: 40vh;
   }
 }
 .r_navbar-end {
