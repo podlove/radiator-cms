@@ -4,13 +4,10 @@
     <no-ssr>
       <section class="r_episodes__main">
         <b-table
-          :data="podcast.episodes"
+          :data="episodes"
           :mobile-cards="true"
           :paginated="true"
           :per-page="20"
-          :loading="
-            !(podcast && podcast.episodes && podcast.episodes.length > 0)
-          "
           detailed
           detail-key="id"
           aria-next-label="Next page"
@@ -124,8 +121,8 @@
 <script>
 export default {
   props: {
-    podcast: {
-      type: Object,
+    episodes: {
+      type: Array,
       required: true
     }
   }

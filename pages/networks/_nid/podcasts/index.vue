@@ -55,7 +55,7 @@
                 v-if="!isDisabled"
                 v-model="title"
                 :placeholder="network.title"
-                :isLoading="isLoading"
+                :is-loading="isLoading"
               ></b-input>
             </b-field>
             <div class="r_settings__interaction">

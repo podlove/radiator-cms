@@ -25,7 +25,18 @@
     <section class="container">
       <b-tabs v-model="activeTab" class="r_podcast-tabs">
         <b-tab-item label="Episodes">
-          <episodes-table :podcast="podcast"></episodes-table>
+          <section class="r_episodes__header">
+            <nuxt-link :to="`${this.$route.path}/new`">
+              <b-button type="is-primary" outlined>
+                <b-icon size="is-small" icon="plus-circle"></b-icon>
+                <span> New Episode</span>
+              </b-button>
+            </nuxt-link>
+          </section>
+          <episodes-table
+            v-if="podcast && podcast.episodes && podcast.episodes.length"
+            :episodes="podcast.episodes"
+          ></episodes-table>
         </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
@@ -49,6 +60,10 @@
 </template>
 
 <style>
+.r_episodes__header {
+  text-align: right;
+  padding: 0 0 1rem 0;
+}
 .r_podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;

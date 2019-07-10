@@ -37,6 +37,7 @@ export const actions = {
       throw Error(e)
     }
   },
+
   /**
    * Gets an episode by id and saves the episode data in store.
    */
