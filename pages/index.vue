@@ -16,6 +16,8 @@
     <section class="container">
       <no-ssr>
         <login />
+        <reset-password />
+        <signup />
       </no-ssr>
     </section>
   </section>
@@ -23,9 +25,11 @@
 
 <script>
 import Login from '~/components/Login'
+import ResetPassword from '~/components/ResetPassword'
+import Signup from '~/components/Signup'
 
 export default {
   name: 'HomePage',
-  components: { Login }
+  components: { Login, ResetPassword, Signup }
 }
 </script>

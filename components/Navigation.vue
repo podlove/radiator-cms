@@ -96,11 +96,7 @@
             class="navbar-item has-dropdown is-hoverable"
           >
             <a class="navbar-link" href="/networks/podcasts/episodes">
-              {{
-                activeEpisode
-                  ? getActiveEpisodeTitle(activeEpisode)
-                  : 'Episodes'
-              }}
+              {{ activeEpisode ? episode.title : 'Episodes' }}
             </a>
             <div class="navbar-dropdown is-boxed">
               <span>
@@ -113,14 +109,30 @@
                   v-for="episode in episodes"
                   :key="episode.id"
                   class="navbar-item"
-                  @click="$router.push(`${episode.id}`)"
+                  :href="
+                    '/networks/' +
+                      activeNetwork +
+                      '/podcasts/' +
+                      activePodcast +
+                      '/episodes/' +
+                      episode.id
+                  "
                 >
                   {{ episode.title }}
                 </a>
                 <hr class="navbar-divider" />
-                <a class="navbar-item">
+                <a
+                  class="navbar-item"
+                  :href="
+                    '/networks/' +
+                      activeNetwork +
+                      '/podcasts/' +
+                      activePodcast +
+                      '/episodes/new'
+                  "
+                >
                   <b-icon icon="plus-circle"></b-icon>
-                  <span class="r_menu__item" @click="$router.push(`new`)">
+                  <span class="r_menu__item">
                     Add new Episode
                   </span>
                 </a>
@@ -146,20 +158,20 @@
                 </span>
               </div>
               <hr class="navbar-divider" />
-              <a class="navbar-item">
+              <a class="navbar-item" href="/settings">
                 <b-icon icon="settings"></b-icon>
                 <span class="r_menu__item">Account Settings</span>
               </a>
               <hr class="navbar-divider" />
-              <a class="navbar-item">
+              <a class="navbar-item" href="/documentation">
                 <b-icon icon="library-books"></b-icon>
                 <span class="r_menu__item">Documentation</span>
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/help">
                 <b-icon icon="help"></b-icon>
                 <span class="r_menu__item">Help & FAQ</span>
               </a>
-              <a class="navbar-item">
+              <a class="navbar-item" href="/support">
                 <b-icon icon="lifebuoy"></b-icon>
                 <span class="r_menu__item">Contact Support</span>
               </a>
@@ -193,7 +205,7 @@
 @media screen and (min-width: 1088px) {
   .navbar-item.is-hoverable .navbar-dropdown.is-boxed {
     overflow-y: scroll;
-    max-height: 80vh;
+    max-height: 40vh;
   }
 }
 .r_navbar-end {
@@ -248,6 +260,7 @@ export default {
     networks: state => state.networks.networks,
     podcast: state => state.podcasts.podcast,
     podcasts: state => state.podcasts.podcasts,
+    episode: state => state.episodes.episode,
     username: state => state.auth.username,
     activeNetwork: state => state.navigation.activeNetworkId,
     activePodcast: state => state.navigation.activePodcastId,
@@ -271,21 +284,9 @@ export default {
         : this.podcasts.find(element => {
             return element.id === this.activePodcast
           })
+
       if (found) {
         this.episodes = found.episodes
-        return found.title
-      }
-    },
-    getActiveEpisodeTitle() {
-      const podcast = this.podcast
-        ? this.podcast
-        : this.podcasts.find(element => {
-            return element.id === this.activePodcast
-          })
-      const found = podcast.episodes.find(element => {
-        return element.id === this.activeEpisode
-      })
-      if (found) {
         return found.title
       }
     }

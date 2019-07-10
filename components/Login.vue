@@ -1,39 +1,42 @@
 <template>
   <!-- Login and notifications. -->
-  <section class="login">
-    <b-notification
-      v-if="alert"
-      :type="alert.type"
-      has-icon
-      aria-close-label="Close notification"
-    >
-      {{ alert.message }}
-    </b-notification>
-    <form v-if="!isLoggedIn">
-      <b-field label="User name or email address">
-        <b-input
-          v-model="username"
-          placeholder="Your user name or email address"
-        ></b-input>
-      </b-field>
-      <b-field label="Password">
-        <b-input
-          v-model="password"
-          password-reveal
-          placeholder="Your secure password"
-          type="password"
-          @keyup.native.enter.prevent="login()"
-        ></b-input>
-      </b-field>
-      <b-button
-        type="is-primary"
-        :loading="loading"
-        :disabled="loading"
-        @click.stop.prevent="login()"
+  <section>
+    <section class="login">
+      <h1>Login</h1>
+      <b-notification
+        v-if="alert"
+        :type="alert.type"
+        has-icon
+        aria-close-label="Close notification"
       >
-        Login
-      </b-button>
-    </form>
+        {{ alert.message }}
+      </b-notification>
+      <form v-if="!isLoggedIn">
+        <b-field label="User name or email address">
+          <b-input
+            v-model="username"
+            placeholder="Your user name or email address"
+          ></b-input>
+        </b-field>
+        <b-field label="Password">
+          <b-input
+            v-model="password"
+            password-reveal
+            placeholder="Your secure password"
+            type="password"
+            @keyup.native.enter.prevent="login()"
+          ></b-input>
+        </b-field>
+        <b-button
+          type="is-primary"
+          :loading="loading"
+          :disabled="loading"
+          @click.stop.prevent="login()"
+        >
+          Login
+        </b-button>
+      </form>
+    </section>
   </section>
 </template>
 

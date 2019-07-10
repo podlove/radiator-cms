@@ -73,6 +73,7 @@
   border-radius: 0.25rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   position: relative;
+  /* todo: negative space looks strange on mobile with long description */
   bottom: -20px;
   margin-right: 10px;
   width: 100px;
@@ -97,8 +98,8 @@
   margin-right: 20px;
 }
 .r_podcast__header {
-  align-items: flex-end;
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
   padding: 10px 20px;
 }
@@ -106,7 +107,7 @@
   padding: 20px 20px;
 }
 .r_podcast__title {
-  flex-grow: 1;
+  flex: 3 0px;
 }
 </style>
 
