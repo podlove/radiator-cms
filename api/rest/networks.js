@@ -23,7 +23,6 @@ export default {
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
         data.networkId
       }`,
-      null,
       {
         headers: {
           'Content-Type': 'application/json',
