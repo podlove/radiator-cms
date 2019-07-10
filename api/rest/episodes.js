@@ -19,6 +19,24 @@ export default {
       }
     )
   },
+  createAudio: data => {
+    const query = JSON.stringify({
+      audio: {
+        episode_id: data.id,
+        title: data.file.name
+      }
+    })
+    return axios.post(
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   delete: data => {
     return axios.delete(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes/${

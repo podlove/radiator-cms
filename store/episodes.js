@@ -32,7 +32,9 @@ export const actions = {
     try {
       const res = await restEpisode.create(data).then(data => data && data.data)
       await commit('set_episode', res)
-      await dispatch('uploadEpisodeAudio', data)
+      // Set episode data for uploading audio into episode
+      data.id = res.id
+      await dispatch('createEpisodeAudio', data)
     } catch (e) {
       throw Error(e)
     }
@@ -56,27 +58,26 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  createEpisodeAudio: async function createEpisodeAudio(
+    { dispatch, commit },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restEpisode.uploadAudio(data).then(data => {
+        return data && data.data
+      })
+      await commit('set_audio', res)
+      await dispatch(
+        'podcasts/getPodcasts',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
+    } catch (e) {
+      throw Error(e)
+    }
   }
-  // uploadEpisodeAudio: async function uploadEpisodeAudio(
-  //   { dispatch, commit },
-  //   data
-  // ) {
-  //   data.token = this.$apolloHelpers.getToken()
-  //   try {
-  //     const res = await restEpisode.uploadAudio(data).then(data => {
-  //       console.log(data)
-  //       return data && data.data
-  //     })
-  //     await commit('set_audio', res)
-  //     await dispatch(
-  //       'podcasts/getPodcasts',
-  //       {
-  //         token: this.$apolloHelpers.getToken()
-  //       },
-  //       { root: true }
-  //     )
-  //   } catch (e) {
-  //     throw Error(e)
-  //   }
-  // }
 }
