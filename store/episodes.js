@@ -2,21 +2,16 @@ import episode from '~/api/queries/episode.gql'
 import restEpisode from '~/api/rest/episodes'
 
 export const state = () => ({
-  audio: {},
   episode: {}
 })
 
 export const mutations = {
-  set_audio(store, data) {
-    store.audio = data
-  },
   set_episode(store, data) {
     store.episode = data
   }
 }
 
 export const getters = {
-  audio: state => state.audio,
   episode: state => state.episode
 }
 
@@ -33,7 +28,7 @@ export const actions = {
       const res = await restEpisode.create(data).then(data => data && data.data)
       await commit('set_episode', res)
       // Set episode data for uploading audio into episode
-      data.id = res.id
+      data.episodeId = res.id
       await dispatch('createEpisodeAudio', data)
     } catch (e) {
       throw Error(e)
@@ -59,16 +54,29 @@ export const actions = {
       throw Error(e)
     }
   },
-  createEpisodeAudio: async function createEpisodeAudio(
-    { dispatch, commit },
-    data
-  ) {
+  createEpisodeAudio: async function createEpisodeAudio({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restEpisode.createAudio(data).then(data => {
+        return data && data.data
+      })
+      const params = await {
+        title: data.title,
+        file: data.file,
+        id: res.id,
+        token: this.$apolloHelpers.getToken()
+      }
+      await dispatch('uploadEpisodeAudio', params)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  uploadEpisodeAudio: async function uploadEpisodeAudio({ dispatch }, data) {
     try {
       const res = await restEpisode.uploadAudio(data).then(data => {
         return data && data.data
       })
-      await commit('set_audio', res)
+      console.log('RES uploadEpisodeAudio', res)
       await dispatch(
         'podcasts/getPodcasts',
         {
