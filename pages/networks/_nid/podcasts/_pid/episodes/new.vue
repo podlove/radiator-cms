@@ -127,6 +127,7 @@ export default {
   data() {
     return {
       alert: null,
+      // TODO: simplify audioFileState to LOADING, ERROR, SUCCESS
       audioFileState: null,
       cover: null,
       description: '',
@@ -177,7 +178,7 @@ export default {
         })
     },
     handleAudioFileDrop(file) {
-      this.audioFileState = 'Uploading'
+      this.audioFileState = 'Uploading ...'
       this.$store
         .dispatch('audio/createAudio', {
           file: file,
