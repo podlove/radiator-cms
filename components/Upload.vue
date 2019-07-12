@@ -20,7 +20,17 @@
     </b-field>
     <div class="field">
       <span v-if="dropFile" class="r_upload-progress" :class="classObject">
-        <span>{{ dropFile.name }}</span>
+        <span class="r_upload-progress__left">
+          <b-button
+            v-if="state === 'Successfully uploaded'"
+            type="is-text"
+            class="r_upload-progress__left__button"
+            @click="handleFilePlay()"
+          >
+            <b-icon size="is-small" icon="play"></b-icon>
+          </b-button>
+          {{ dropFile.name }}
+        </span>
         <span class="r_upload-progress__right">
           {{ state }}
           <b-tooltip
@@ -86,6 +96,13 @@
 .r_upload-progress--success {
   background-color: #b9dde4;
 }
+.r_upload-progress__left {
+  display: flex;
+  align-items: center;
+}
+.r_upload-progress__left__button {
+  margin-right: 0.5rem;
+}
 .r_upload-progress__right {
   display: flex;
   align-items: center;
@@ -136,6 +153,10 @@ export default {
     },
     handleFileDrop(event) {
       this.$emit('dropped', this.dropFile)
+    },
+    handleFilePlay(event) {
+      // TODO: Play audio file
+      console.log(this.dropFile)
     }
   }
 }
