@@ -28,8 +28,8 @@ export const actions = {
       const res = await restEpisode.create(data).then(data => data && data.data)
       await commit('set_episode', res)
       // Set episode data for uploading audio into episode
-      data.episodeId = res.id
-      await dispatch('createEpisodeAudio', data)
+      // data.episodeId = res.id
+      // await dispatch('createEpisodeAudio', data)
     } catch (e) {
       throw Error(e)
     }

@@ -1,0 +1,5 @@
+query audio($id: ID!) {
+  audio(id: $id) {
+    title
+  }
+}

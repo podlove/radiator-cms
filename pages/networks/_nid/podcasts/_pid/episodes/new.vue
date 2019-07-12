@@ -36,7 +36,12 @@
       <b-field label="Description">
         <b-input v-model="description"></b-input>
       </b-field>
-      <upload class="field" label="Audio Files" :drop-files="dropAudioFiles" />
+      <upload
+        class="field"
+        label="Audio File"
+        :state="audioFileState"
+        @dropped="file => handleAudioFileDrop(file)"
+      />
       <b-field label="Shownotes">
         <no-ssr>
           <EpisodesShownotesEditor />
@@ -122,9 +127,9 @@ export default {
   data() {
     return {
       alert: null,
+      audioFileState: null,
       cover: null,
       description: '',
-      dropAudioFiles: [],
       dropChapterMarks: [],
       dropEpisodeCover: [],
       dropTranscript: [],
@@ -145,7 +150,6 @@ export default {
       this.loading = true
       this.$store
         .dispatch('episodes/create', {
-          file: this.dropAudioFiles[0],
           podcastId: this.activePodcastId,
           title: this.title
         })
@@ -172,8 +176,25 @@ export default {
           }
         })
     },
-    deleteDropFile(index) {
-      this.dropAudioFiles.splice(index, 1)
+    handleAudioFileDrop(file) {
+      this.audioFileState = 'Uploading'
+      this.$store
+        .dispatch('audio/createAudio', {
+          file: file,
+          networkId: this.activeNetworkId,
+          title: file.name
+        })
+        .then(result => {
+          console.log('result i', result)
+          this.audioFileState = 'Successfully uploaded'
+        })
+        .catch(error => {
+          this.audioFileState = 'Error while uploading'
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     toast() {
       this.$toast.open(this.alert)

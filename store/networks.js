@@ -42,7 +42,7 @@ export const actions = {
       throw Error(e)
     }
   },
-  deleteNetwork: async function deleteNetwork({ dispatch, commit }, data) {
+  deleteNetwork: async function deleteNetwork({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
       await restNetwork.delete(data).then(data => {
