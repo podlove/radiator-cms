@@ -18,7 +18,14 @@
         </section>
       </b-upload>
     </b-field>
-    <div class="field">
+    <div class="r_preview">
+      <!-- TODO: show uploaded image as preview -->
+      <span
+        v-if="state === 'SUCCESS' && type === 'IMAGE'"
+        class="r_peview__cover"
+      >
+        <b-icon size="is-small" icon="image"></b-icon>
+      </span>
       <span v-if="dropFile" class="r_upload-progress" :class="classObject">
         <span class="r_upload-progress__left">
           <b-button
@@ -68,6 +75,17 @@
 <style lang="scss">
 .upload-draggable {
   width: 400px;
+}
+.r_preview {
+  display: flex;
+}
+.r_peview__cover {
+  background-color: #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  width: 3.25rem;
 }
 .r_upload-progress {
   background-color: #dbdbdb;
@@ -137,6 +155,11 @@ export default {
       type: String,
       required: false,
       default: ''
+    },
+    type: {
+      type: String,
+      required: false,
+      default: ''
     }
   },
   data() {
@@ -176,7 +199,10 @@ export default {
       this.dropFile = null
     },
     handleFileDrop(event) {
-      this.$emit('dropped', this.dropFile)
+      this.$emit('dropped', {
+        type: this.type,
+        file: this.dropFile
+      })
     },
     handleFilePlay(sound) {
       if (sound) {

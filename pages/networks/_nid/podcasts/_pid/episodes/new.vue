@@ -40,12 +40,13 @@
         class="field"
         label="Audio File"
         :state="audioFileState"
+        :type="'AUDIO'"
         :audio="
           audioUploadResult && audioUploadResult.public_url
             ? audioUploadResult.public_url
             : null
         "
-        @dropped="file => handleAudioFileDrop(file)"
+        @dropped="params => handleAudioFileDrop(params)"
       />
       <b-field label="Shownotes">
         <no-ssr>
@@ -61,12 +62,23 @@
         class="field"
         label="Chapter Marks"
         :drop-files="dropChapterMarks"
+        :type="'FILE'"
+        @dropped="params => handleFileDrop(params)"
       />
-      <upload class="field" label="Transcript" :drop-files="dropTranscript" />
+      <upload
+        class="field"
+        label="Transcript"
+        :drop-files="dropTranscript"
+        :type="'FILE'"
+        @dropped="params => handleFileDrop(params)"
+      />
       <upload
         class="field"
         label="Episode Cover"
         :drop-files="dropEpisodeCover"
+        :type="'IMAGE'"
+        :state="coverFileState"
+        @dropped="params => handleCoverFileDrop(params)"
       />
       <b-button
         type="is-primary"
@@ -136,13 +148,14 @@ export default {
       audioFileState: null,
       audioUploadResult: null,
       cover: null,
+      coverFileState: null,
       description: '',
-      dropChapterMarks: [],
-      dropEpisodeCover: [],
-      dropTranscript: [],
+      dropChapterMarks: null,
+      dropEpisodeCover: null,
+      dropTranscript: null,
       id: null,
       loading: false,
-      number: 283,
+      number: null,
       subtitle: 'Episode Placeholder Subtitle',
       title: 'Episode Placeholder Title'
     }
@@ -158,7 +171,10 @@ export default {
       this.$store
         .dispatch('episodes/create', {
           podcastId: this.activePodcastId,
-          title: this.title
+          title: this.title,
+          subtitle: this.subtitle,
+          description: this.description,
+          number: this.number
         })
         .then(result => {
           this.loading = false
@@ -183,13 +199,23 @@ export default {
           }
         })
     },
-    handleAudioFileDrop(file) {
+    handleCoverFileDrop(params) {
+      console.log('params', params)
+      // TODO: Implement API Upload
+      //       and get the public url of the image
+      //       to show a preview
+      this.coverFileState = 'SUCCESS'
+    },
+    handleFileDrop(params) {
+      console.log('params', params)
+    },
+    handleAudioFileDrop(params) {
       this.audioFileState = 'LOADING'
       this.$store
         .dispatch('audio/createAudio', {
-          file: file,
+          file: params.file,
           networkId: this.activeNetworkId,
-          title: file.name
+          title: params.file.name
         })
         .then(result => {
           this.audioUploadResult = result
