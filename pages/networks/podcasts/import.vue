@@ -7,8 +7,8 @@
         </div>
       </div>
     </section>
-    <section class="container podcasts__main">
-      <b-steps v-model="activeStep" animated="true" has-navigation="false">
+    <section class="container podcasts__main podcast__import">
+      <b-steps v-model="activeStep" :animated="true" :has-navigation="false">
         <b-step-item label="Enter Url">
           <section>
             <b-field horizontal label="Import from Url">
@@ -19,6 +19,7 @@
               <b-select
                 v-model="networkId"
                 placeholder="Select a podcast network"
+                required
               >
                 <option
                   v-for="network in networks"
@@ -29,7 +30,7 @@
                 </option>
               </b-select>
             </b-field>
-            <b-button class="is-primary">
+            <b-button class="is-primary" @click.stop.prevent="navigateTo(1)">
               Check Podcast
             </b-button>
           </section>
@@ -80,6 +81,12 @@
                 ogg
               </b-switch>
             </div>
+            <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
+              Back
+            </b-button>
+            <b-button class="is-primary" @click.stop.prevent="navigateTo(2)">
+              Import Podcast
+            </b-button>
           </section>
         </b-step-item>
         <b-step-item label="Import Episodes">
@@ -101,7 +108,7 @@
             <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p>
             <p>LADEBALKENPLATZHALTER</p>
 
-            <b-table :data="podcastFeedEpisode" striped="true">
+            <b-table :data="podcastFeedEpisode" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
                   {{ props.row.id }}
@@ -146,6 +153,10 @@
                 </b-table-column>
               </template>
             </b-table>
+            <b-button class="is-primary" @click.stop.prevent="navigateTo(1)"
+              >Back
+            </b-button>
+            <b-button class="is-primary">Finish Export</b-button>
           </section>
         </b-step-item>
       </b-steps>
@@ -158,7 +169,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      activeStep: 2,
+      activeStep: 0,
       episodes: {
         loaded: 123,
         total: 321
@@ -275,12 +286,14 @@ export default {
     }
   },
   computed: mapState({
-    networks: state => state.networks.networks,
-    podcast: state => state.podcasts.podcast
+    networks: state => state.networks.networks
   }),
   methods: {
     checkField(value) {
       return value ? 'is-success' : 'is-danger'
+    },
+    navigateTo(step) {
+      this.activeStep = step
     }
   }
 }
@@ -289,6 +302,9 @@ export default {
 <style lang="scss">
 .podcasts__main {
   margin: 40px auto;
+}
+.podcast__import {
+  text-align: center;
 }
 .podcast-name {
   display: flex;
