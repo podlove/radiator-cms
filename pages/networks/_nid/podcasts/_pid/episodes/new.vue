@@ -40,6 +40,11 @@
         class="field"
         label="Audio File"
         :state="audioFileState"
+        :audio="
+          audioUploadResult && audioUploadResult.public_url
+            ? audioUploadResult.public_url
+            : null
+        "
         @dropped="file => handleAudioFileDrop(file)"
       />
       <b-field label="Shownotes">
@@ -127,8 +132,9 @@ export default {
   data() {
     return {
       alert: null,
-      // TODO: simplify audioFileState to LOADING, ERROR, SUCCESS
+      // can be LOADING, ERROR, SUCCESS
       audioFileState: null,
+      audioUploadResult: null,
       cover: null,
       description: '',
       dropChapterMarks: [],
@@ -137,7 +143,7 @@ export default {
       id: null,
       loading: false,
       number: 283,
-      subtitle: 'Episode Placeholder Subitle',
+      subtitle: 'Episode Placeholder Subtitle',
       title: 'Episode Placeholder Title'
     }
   },
@@ -178,7 +184,7 @@ export default {
         })
     },
     handleAudioFileDrop(file) {
-      this.audioFileState = 'Uploading ...'
+      this.audioFileState = 'LOADING'
       this.$store
         .dispatch('audio/createAudio', {
           file: file,
@@ -186,11 +192,11 @@ export default {
           title: file.name
         })
         .then(result => {
-          console.log('result i', result)
-          this.audioFileState = 'Successfully uploaded'
+          this.audioUploadResult = result
+          this.audioFileState = 'SUCCESS'
         })
         .catch(error => {
-          this.audioFileState = 'Error while uploading'
+          this.audioFileState = 'ERROR'
           this.alert = {
             type: 'is-danger',
             message: error

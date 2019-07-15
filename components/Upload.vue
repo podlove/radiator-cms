@@ -22,24 +22,24 @@
       <span v-if="dropFile" class="r_upload-progress" :class="classObject">
         <span class="r_upload-progress__left">
           <b-button
-            v-if="state === 'Successfully uploaded'"
+            v-if="state === 'SUCCESS' && audio"
             type="is-text"
             class="r_upload-progress__left__button"
-            @click="handleFilePlay()"
+            @click.prevent="handleFilePlay(audio)"
           >
             <b-icon size="is-small" icon="play"></b-icon>
           </b-button>
           {{ dropFile.name }}
         </span>
         <span class="r_upload-progress__right">
-          {{ state }}
+          {{ stateLabel }}
           <b-tooltip
             class="r_upload-progress__right__button"
             label="Delete your uploaded file."
             type="is-dark"
           >
             <b-button
-              v-if="state === 'Successfully uploaded'"
+              v-if="state === 'SUCCESS'"
               type="is-text"
               @click="deleteDropFile()"
             >
@@ -52,7 +52,7 @@
             type="is-dark"
           >
             <b-button
-              v-if="state === 'Error while uploading'"
+              v-if="state === 'ERROR'"
               type="is-text"
               @click="handleFileDrop($event)"
             >
@@ -123,13 +123,20 @@
 <script>
 export default {
   props: {
+    audio: {
+      type: String,
+      required: false,
+      default: null
+    },
     label: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     },
     state: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     }
   },
   data() {
@@ -140,10 +147,27 @@ export default {
   computed: {
     classObject: function() {
       return {
-        'r_upload-progress--loading': this.state === 'Uploading ...',
-        'r_upload-progress--success': this.state === 'Successfully uploaded',
-        'r_upload-progress--error': this.state === 'Error while uploading'
+        'r_upload-progress--loading': this.state === 'LOADING',
+        'r_upload-progress--success': this.state === 'SUCCESS',
+        'r_upload-progress--error': this.state === 'ERROR'
       }
+    },
+    stateLabel: function() {
+      let label = ''
+      switch (this.state) {
+        case 'LOADING':
+          label = 'Uploading ...'
+          break
+        case 'SUCCESS':
+          label = 'Successfully uploaded.'
+          break
+        case 'ERROR':
+          label = 'Error while uploading.'
+          break
+        default:
+          label = ''
+      }
+      return label
     }
   },
   methods: {
@@ -154,9 +178,11 @@ export default {
     handleFileDrop(event) {
       this.$emit('dropped', this.dropFile)
     },
-    handleFilePlay(event) {
-      // TODO: Play audio file
-      console.log(this.dropFile)
+    handleFilePlay(sound) {
+      if (sound) {
+        const audio = new Audio(sound)
+        audio.play()
+      }
     }
   }
 }
