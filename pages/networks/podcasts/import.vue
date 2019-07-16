@@ -30,13 +30,15 @@
                 </option>
               </b-select>
             </b-field>
-            <b-button
-              class="is-primary"
-              :disabled="networkId === null"
-              @click.stop.prevent="navigateTo(1)"
-            >
-              Check Podcast
-            </b-button>
+            <div class="podlove-step-navigation-group">
+              <b-button
+                class="is-primary"
+                :disabled="networkId === null"
+                @click.stop.prevent="navigateTo(1)"
+              >
+                Check Podcast
+              </b-button>
+            </div>
           </section>
         </b-step-item>
         <b-step-item label="Check Podcast">
@@ -85,12 +87,14 @@
                 ogg
               </b-switch>
             </div>
-            <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
-              Back
-            </b-button>
-            <b-button class="is-primary" @click.stop.prevent="navigateTo(2)">
-              Import Podcast
-            </b-button>
+            <div class="podlove-step-navigation-group">
+              <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
+                Back
+              </b-button>
+              <b-button class="is-primary" @click.stop.prevent="navigateTo(2)">
+                Import Podcast
+              </b-button>
+            </div>
           </section>
         </b-step-item>
         <b-step-item label="Import Episodes">
@@ -159,8 +163,10 @@
                 </b-table-column>
               </template>
             </b-table>
-            <b-button class="is-primary">Stop Import</b-button>
-            <b-button class="is-primary">Go to Podcast Overview</b-button>
+            <div class="podlove-step-navigation-group">
+              <b-button class="is-primary">Stop Import</b-button>
+              <b-button class="is-primary">Go to Podcast Overview</b-button>
+            </div>
           </section>
         </b-step-item>
       </b-steps>
@@ -321,6 +327,10 @@ export default {
   margin: 1.5em 0 2em 0;
   // align-items: center;
   // align-content: center;
+}
+
+.podlove-step-navigation-group {
+  margin: 1em 0;
 }
 .r_podcast__cover {
   background-size: cover;
