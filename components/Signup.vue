@@ -1,6 +1,5 @@
 <template>
-  <section class="signup">
-    <h1>Signup</h1>
+  <section class="r_signup">
     <b-notification
       v-if="alert"
       :type="alert.type"
@@ -45,6 +44,12 @@
     </form>
   </section>
 </template>
+
+<style>
+.r_signup {
+  margin: 40px 0;
+}
+</style>
 
 <script>
 import { mapState } from 'vuex'

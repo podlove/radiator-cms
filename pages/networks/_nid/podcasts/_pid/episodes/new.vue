@@ -8,7 +8,9 @@
         <div class="r_new-episode__header__image has-background-light"></div>
         <div class="r_new-episode__header__container">
           <h1 class="title is-size-3 r_new-episode__header__title">
-            {{ number }} - {{ title }}
+            {{ number }}
+            <span v-if="number"> - </span>
+            {{ title }}
           </h1>
           <h2 class="subtitle is-size-6">
             {{ subtitle }}

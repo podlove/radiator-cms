@@ -15,13 +15,27 @@
     </section>
     <section class="container">
       <no-ssr>
-        <login />
-        <reset-password />
-        <signup />
+        <b-tabs v-model="activeTab" class="r_tabs">
+          <b-tab-item label="Login">
+            <login />
+          </b-tab-item>
+          <b-tab-item label="Sign-up">
+            <signup />
+          </b-tab-item>
+          <b-tab-item label="Reset your password">
+            <reset-password />
+          </b-tab-item>
+        </b-tabs>
       </no-ssr>
     </section>
   </section>
 </template>
+
+<style>
+.r_tabs {
+  margin: 2rem 0;
+}
+</style>
 
 <script>
 import Login from '~/components/Login'
@@ -30,6 +44,11 @@ import Signup from '~/components/Signup'
 
 export default {
   name: 'HomePage',
-  components: { Login, ResetPassword, Signup }
+  components: { Login, ResetPassword, Signup },
+  data() {
+    return {
+      activeTab: 0
+    }
+  }
 }
 </script>

@@ -1,8 +1,7 @@
 <template>
   <!-- Login and notifications. -->
   <section>
-    <section class="login">
-      <h1>Login</h1>
+    <section class="r_login">
       <b-notification
         v-if="alert"
         :type="alert.type"
@@ -41,7 +40,7 @@
 </template>
 
 <style>
-.login {
+.r_login {
   margin: 40px 0;
 }
 </style>

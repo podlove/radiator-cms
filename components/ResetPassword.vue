@@ -1,6 +1,5 @@
 <template>
-  <section class="reset-password">
-    <h1>Reset Password</h1>
+  <section class="r_reset-password">
     <b-notification
       v-if="alert"
       :type="alert.type"
@@ -28,6 +27,12 @@
     </form>
   </section>
 </template>
+
+<style>
+.r_reset-password {
+  margin: 40px 0;
+}
+</style>
 
 <script>
 import { mapState } from 'vuex'
