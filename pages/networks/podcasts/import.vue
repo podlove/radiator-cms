@@ -62,8 +62,7 @@
             </div>
             <p>
               With
-              {{ feedInfo.feeds ? feedInfo.feeds[0].episodes.length : 0 }}
-              episodes.
+              {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
             </p>
             <b-field horizontal label="Short ID">
               <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
@@ -96,7 +95,10 @@
               <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
                 Back
               </b-button>
-              <b-button class="is-primary" @click.stop.prevent="navigateTo(2)">
+              <b-button
+                class="is-primary"
+                @click.stop.prevent="fetchEpisodes()"
+              >
                 Import Podcast
               </b-button>
             </div>
@@ -120,13 +122,9 @@
                 </h2>
               </div>
             </div>
-            <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p>
+            <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
             <p>LADEBALKENPLATZHALTER</p>
-
-            <b-table
-              :data="feedInfo.feeds ? feedInfo.feeds[0].episodes : []"
-              :striped="true"
-            >
+            <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
                   {{ props.row.id }}
@@ -173,7 +171,12 @@
             </b-table>
             <div class="podlove-step-navigation-group">
               <b-button class="is-primary">Stop Import</b-button>
-              <b-button class="is-primary">Go to Podcast Overview</b-button>
+              <b-button
+                class="is-primary"
+                @click="$router.push(`/networks/${networkId}/podcasts`)"
+              >
+                Go to Podcast Overview
+              </b-button>
             </div>
           </section>
         </b-step-item>
@@ -188,10 +191,6 @@ export default {
   data() {
     return {
       activeStep: 0,
-      episodes: {
-        loaded: 123,
-        total: 321
-      },
       importAudioFiles: false,
       importMedia: {
         mp3: false,
@@ -205,7 +204,8 @@ export default {
   },
   computed: mapState({
     networks: state => state.networks.networks,
-    feedInfo: state => state.feedInfo.feedInfo
+    feedInfo: state => state.feedInfo.feedInfo,
+    feeds: state => state.feedInfo.feeds
   }),
   methods: {
     checkField(value) {
@@ -219,6 +219,12 @@ export default {
         url: this.url
       })
       this.navigateTo(1)
+    },
+    fetchEpisodes() {
+      this.$store.dispatch('feedInfo/fetchFeeds', {
+        url: this.url
+      })
+      this.navigateTo(2)
     }
   }
 }
