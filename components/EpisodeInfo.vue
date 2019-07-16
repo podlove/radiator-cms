@@ -46,9 +46,9 @@
 
 <style>
 .r_episode-info {
-  background-color: #dce6e8;
-  margin: 4rem 0;
-  padding: 1rem;
+  margin: 1rem auto;
+  padding: 1rem 0;
+  max-width: 960px;
 }
 .r_episode-info__item {
   display: flex;
@@ -57,7 +57,6 @@
 .r_episode-info__item {
   display: flex;
   margin: 1rem 0;
-  padding: 0 2rem;
 }
 .r_episode-info__item__label {
   margin-right: 1rem;

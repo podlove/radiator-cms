@@ -20,10 +20,12 @@
         </div>
       </div>
     </section>
+    <section class="r_episode-highlights">
+      <EpisodeTags :episode="episode"></EpisodeTags>
+      <EpisodeInfo :episode="episode"></EpisodeInfo>
+    </section>
     <section class="container r_episode-main">
       <section v-if="episode" class="r_episode-main">
-        <EpisodeTags :episode="episode"></EpisodeTags>
-        <EpisodeInfo :episode="episode"></EpisodeInfo>
         <b-tabs v-model="activeTab" class="r_network-tabs">
           <b-tab-item label="Content">
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
@@ -66,6 +68,10 @@
 }
 .r_episode-hero__title {
   font-weight: 400;
+}
+.r_episode-highlights {
+  background-color: #e8e8e8;
+  padding: 3.5rem 0 2rem 0;
 }
 .r_episode-main {
   margin: 6rem auto;

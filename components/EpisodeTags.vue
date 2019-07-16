@@ -1,6 +1,6 @@
 <template>
   <!-- Shows the most important episode data as tags. -->
-  <div class="tile">
+  <div class="tile r_episode-tags">
     <div class="tile">
       <b-taglist attached>
         <b-tag type="is-dark">State:</b-tag>
@@ -31,6 +31,14 @@
     </div>
   </div>
 </template>
+
+<style>
+.r_episode-tags {
+  margin: 1rem auto;
+  padding: 1rem 0;
+  max-width: 960px;
+}
+</style>
 
 <script>
 export default {
