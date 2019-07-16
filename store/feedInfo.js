@@ -6,7 +6,6 @@ export const state = () => ({
 
 export const mutations = {
   set_feedInfo(store, data) {
-    console.log(data)
     store.feedInfo = data
   }
 }
@@ -20,7 +19,6 @@ export const actions = {
     const client = this.app.apolloProvider.defaultClient
 
     try {
-      console.log(data)
       const res = await client
         .query({
           query: feedInfo,
