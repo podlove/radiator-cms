@@ -28,6 +28,7 @@
       <section v-if="episode" class="r_episode-main">
         <b-tabs v-model="activeTab" class="r_network-tabs">
           <b-tab-item label="Content">
+            <div id="podlove-webplayer" class="r_episode_player"></div>
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
             <EpisodeChapters :episode="episode"></EpisodeChapters>
@@ -76,6 +77,10 @@
 .r_episode-main {
   margin: 6rem auto;
 }
+.r_episode_player {
+  text-align: center;
+  margin-top: 3rem;
+}
 </style>
 
 <script>
@@ -103,7 +108,8 @@ export default {
     }
   },
   computed: mapState({
-    episode: state => state.episodes.episode
+    episode: state => state.episodes.episode,
+    podcast: state => state.podcasts.podcast
   }),
   created() {
     this.$store
@@ -114,6 +120,143 @@ export default {
         console.log(error)
         this.$router.push('/404')
       })
+    this.$store.dispatch('podcasts/getPodcast', {
+      id: this.$route.params.pid
+    })
+  },
+  updated() {
+    if (typeof this.episode === 'object' && typeof this.podcast === 'object') {
+      const playerConfig = {
+        title: this.episode.title,
+        subtitle: this.episode.subtitle,
+        description: this.episode.description,
+        publicationDate: this.episode.publishedAt,
+        poster: this.episode.image,
+        show: {
+          title: this.podcast.title,
+          subtitle: this.podcast.subtitle,
+          summary: this.podcast.description,
+          poster: this.podcast.image
+        },
+        duration: '04:15:32',
+        chapters: [
+          { start: '00:00:00', title: 'Intro' },
+          { start: '00:01:39', title: 'Begrüßung' },
+          { start: '00:04:58', title: 'IETF Meeting Netzwerk' },
+          { start: '00:18:37', title: 'Kalender' },
+          { start: '00:33:40', title: 'Freak Show Bingo' },
+          { start: '00:35:37', title: 'Wikipedia' },
+          { start: '01:17:26', title: 'iPhone Akkukalibration' },
+          { start: '01:24:55', title: 'Alte iPads und iPod touches' },
+          { start: '01:31:02', title: 'Find My Friends' },
+          { start: '01:41:46', title: 'iPhone Music Player' },
+          { start: '01:56:13', title: 'Apple Watch' },
+          { start: '02:11:51', title: 'Kommandozeile: System Appreciation' },
+          { start: '02:23:10', title: 'Sound und Design für Games' },
+          { start: '02:24:59', title: 'Kommandozeile: Remote Deployment' },
+          { start: '02:32:37', title: 'Kommandozeile: Man Pages' },
+          { start: '02:44:31', title: 'Kommandozeile: screen vs. tmux' },
+          {
+            start: '02:58:02',
+            title: 'Star Wars: Machete Order & Phantom Edit'
+          },
+          { start: '03:20:05', title: 'Kopfhörer-Ersatzteile' },
+          { start: '03:23:39', title: 'Dante' },
+          { start: '03:38:03', title: 'Dante Via' },
+          { start: '03:45:33', title: 'Internet of Things Security' },
+          {
+            start: '03:56:11',
+            title: `'That One Privacy Guy's VPN Comparison Chart'`
+          },
+          { start: '04:10:00', title: 'Ausklang ' }
+        ],
+        audio: [
+          {
+            url:
+              'http://freakshow.fm/podlove/file/4468/s/download/c/select-show/fs171-invasion.m4a',
+            mimeType: 'audio/mp4',
+            size: 93260000,
+            title: 'Audio MP4'
+          },
+          {
+            url:
+              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.mp3',
+            mimeType: 'audio/mpeg',
+            size: 14665000,
+            title: 'Audio MP3'
+          },
+          {
+            url:
+              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.oga',
+            mimeType: 'audio/ogg',
+            size: 94400000,
+            title: 'Audio Ogg'
+          },
+          {
+            url:
+              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.opus',
+            mimeType: 'audio/opus',
+            size: 94400000,
+            title: 'Audio Opus'
+          }
+        ],
+        reference: {
+          config: '//podlove-player.surge.sh/fixtures/example.json',
+          share: '//podlove-player.surge.sh/share'
+        },
+        contributors: [
+          {
+            name: 'Tim Pritlove',
+            avatar:
+              'https://freakshow.fm/wp-content/cache/podlove/47/08928e3c26dcb1141d67ad75869619/tim-pritlove_150x150.jpg',
+            role: { id: '9', slug: 'team', title: 'Team' },
+            group: { id: '1', slug: 'onair', title: 'On Air' },
+            comment: null
+          },
+          {
+            name: 'Clemens Schrimpe',
+            avatar:
+              'https://freakshow.fm/wp-content/cache/podlove/0f/9c18f5e825496b9060337f92814142/clemens-schrimpe_150x150.jpg',
+            role: { id: '9', slug: 'team', title: 'Team' },
+            group: { id: '1', slug: 'onair', title: 'On Air' },
+            comment: null
+          },
+          {
+            name: 'hukl',
+            avatar:
+              'https://freakshow.fm/wp-content/cache/podlove/8e/f30cbe274c3f5e43dc4a7219676f50/hukl_150x150.jpg',
+            role: { id: '9', slug: 'team', title: 'Team' },
+            group: { id: '1', slug: 'onair', title: 'On Air' },
+            comment: null
+          },
+          {
+            name: 'Denis Ahrens',
+            avatar:
+              'https://freakshow.fm/wp-content/cache/podlove/b2/425e5c8f180ddf548c95be1c2d7bcf/denis-ahrens_150x150.jpg',
+            role: { id: '9', slug: 'team', title: 'Team' },
+            group: { id: '1', slug: 'onair', title: 'On Air' },
+            comment: null
+          },
+          {
+            name: 'David Scribane',
+            avatar:
+              'https://freakshow.fm/wp-content/cache/podlove/b3/c8cc8a1989aa0fc4488d473517b1ee/david-scribane_150x150.jpg',
+            role: { id: '7', slug: 'composition', title: 'Komposition' },
+            group: { id: '3', slug: 'support', title: 'Support' },
+            comment: null
+          },
+          {
+            name: 'Xenim Streaming Network',
+            avatar:
+              'https://freakshow.fm/podlove/image/687474703a2f2f6d6574612e6d6574616562656e652e6d652f6d656469612f6d6574616562656e652f636f6e7472696275746f72732f78656e696d2d73747265616d696e672d6e6574776f726b2e706e67/150/150/0/xenim-streaming-network',
+            role: { id: '10', slug: 'streaming', title: 'Streaming' },
+            group: { id: '3', slug: 'support', title: 'Support' },
+            comment: null
+          }
+        ]
+      }
+      window.podlovePlayer('#podlove-webplayer', playerConfig)
+    }
   }
 }
 </script>
