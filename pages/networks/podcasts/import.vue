@@ -30,7 +30,11 @@
                 </option>
               </b-select>
             </b-field>
-            <b-button class="is-primary" @click.stop.prevent="navigateTo(1)">
+            <b-button
+              class="is-primary"
+              :disabled="networkId === null"
+              @click.stop.prevent="navigateTo(1)"
+            >
               Check Podcast
             </b-button>
           </section>
@@ -102,7 +106,9 @@
               ></div>
               <div class="r_podcast__title">
                 <h1 class="is-size-5">{{ podcast.title }}</h1>
-                <h2 class="is-size-7">{{ podcast.subtitle }}</h2>
+                <h2 class="r_podcast__subtitle is-size-7">
+                  {{ podcast.subtitle }}
+                </h2>
               </div>
             </div>
             <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p>
@@ -153,10 +159,8 @@
                 </b-table-column>
               </template>
             </b-table>
-            <b-button class="is-primary" @click.stop.prevent="navigateTo(1)"
-              >Back
-            </b-button>
-            <b-button class="is-primary">Finish Export</b-button>
+            <b-button class="is-primary">Stop Import</b-button>
+            <b-button class="is-primary">Go to Podcast Overview</b-button>
           </section>
         </b-step-item>
       </b-steps>
@@ -303,12 +307,20 @@ export default {
 .podcasts__main {
   margin: 40px auto;
 }
+
+.step-content {
+  margin-top: 2em;
+}
 .podcast__import {
   text-align: center;
 }
 .podcast-name {
   display: flex;
   direction: row;
+  justify-content: flex-end;
+  margin: 1.5em 0 2em 0;
+  // align-items: center;
+  // align-content: center;
 }
 .r_podcast__cover {
   background-size: cover;
@@ -319,6 +331,11 @@ export default {
   width: 100px;
   height: 100px;
 }
+
+.r_podcast__title {
+  text-align: left;
+}
+
 .import-switch {
   label.switch {
     flex-direction: row-reverse;
