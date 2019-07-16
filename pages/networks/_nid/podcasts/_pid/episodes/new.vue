@@ -4,6 +4,7 @@
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">
+        <!-- TODO: show uploaded image as preview -->
         <div class="r_new-episode__header__image has-background-light"></div>
         <div class="r_new-episode__header__container">
           <h1 class="title is-size-3 r_new-episode__header__title">
