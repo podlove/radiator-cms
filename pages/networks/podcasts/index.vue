@@ -13,6 +13,11 @@
       </div>
     </section>
     <section class="container r_podcasts__main">
+      <nuxt-link to="/networks/podcasts/import">
+        <b-button class="is-primary">
+          Import existing Podcast
+        </b-button>
+      </nuxt-link>
       <div v-if="networks">
         <ul v-for="network in networks" :key="network.id">
           <span v-if="network.podcasts">
