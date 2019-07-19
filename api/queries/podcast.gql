@@ -1,8 +1,10 @@
 query podcast($id: ID!) {
   podcast(id: $id) {
     author,
-    description,
-    episodes(itemsPerPage: 200, page: 1) {
+    episodes(
+      itemsPerPage: 200,
+      page: 1
+    ) {
       guid,
       id,
       image,
@@ -17,8 +19,10 @@ query podcast($id: ID!) {
       summarySource,
       title
     },
+    episodesCount,
     id,
     image,
+    isPublished,
     language,
     lastBuiltAt,
     ownerEmail,
@@ -26,6 +30,7 @@ query podcast($id: ID!) {
     publishedAt,
     slug,
     subtitle,
+    summary,
     title,
   }
 }

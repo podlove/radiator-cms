@@ -1,7 +1,6 @@
 {
   podcasts {
     author,
-    description,
     episodes(itemsPerPage: 200, page: 1) {
       guid,
       id,
@@ -17,6 +16,7 @@
       summarySource,
       title
     },
+    episodesCount,
     id,
     language,
     lastBuiltAt,
@@ -25,6 +25,7 @@
     publishedAt,
     slug,
     subtitle,
+    summary,
     title,
   }
 }
