@@ -4,15 +4,19 @@ query network($id: ID!) {
     image,
     podcasts {
       episodes(itemsPerPage: 5, page: 1) {
-        duration,
         guid,
         id,
         image,
+        isPublished,
         number,
         publishedAt,
+        shortId,
         slug,
         subtitle,
-        title,
+        summary,
+        summaryHtml,
+        summarySource,
+        title
       },
       id,
       image,

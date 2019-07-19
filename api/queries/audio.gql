@@ -1,5 +1,21 @@
 query audio($id: ID!) {
   audio(id: $id) {
+    audioFiles {
+      byteLength,
+      mimeType,
+      title
+    },
+    chapters {
+      image,
+      link,
+      start,
+      startString,
+      title
+    },
+    duration,
+    durationString,
+    id,
+    publishedAt,
     title
   }
 }

@@ -1,18 +1,39 @@
 query episode($id: ID!) {
   episode(id: $id) {
-    content,
-    description,
+    audio {
+      audioFiles {
+        byteLength,
+        mimeType,
+        title
+      },
+      chapters {
+        image,
+        link,
+        start,
+        startString,
+        title
+      },
+      duration,
+      durationString,
+      id,
+      publishedAt,
+      title
+    },
     guid,
     id,
     image,
+    isPublished,
     number,
     podcast {
-      title,
-      image
-    },
+    	title
+  	},
     publishedAt,
+    shortId,
     slug,
     subtitle,
-    title,
+    summary,
+    summaryHtml,
+    summarySource,
+    title
   }
 }
