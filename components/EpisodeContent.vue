@@ -1,6 +1,6 @@
 <template>
   <!-- Shows shownotes of an episode. -->
-  <div v-if="episode && episode.content" class="r_episode-content">
+  <div v-if="episode && episode.summary" class="r_episode-content">
     <section class="r_episode-content__header">
       <h2 class="title is-size-5 r_episode-content__headline">
         Shownotes
@@ -10,7 +10,7 @@
         <a> Edit shownotes</a>
       </b-button>
     </section>
-    <div class="r_episode-content__text" v-html="episode.content"></div>
+    <div class="r_episode-content__text" v-html="episode.summary"></div>
   </div>
 </template>
 

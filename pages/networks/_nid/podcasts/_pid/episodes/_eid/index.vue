@@ -132,44 +132,15 @@ export default {
         description: this.episode.description,
         publicationDate: this.episode.publishedAt,
         poster: this.episode.image,
+        summary: this.episode.summary,
         show: {
           title: this.podcast.title,
           subtitle: this.podcast.subtitle,
-          summary: this.podcast.description,
+          summary: this.podcast.summary,
           poster: this.podcast.image
         },
         duration: '04:15:32',
-        chapters: [
-          { start: '00:00:00', title: 'Intro' },
-          { start: '00:01:39', title: 'Begrüßung' },
-          { start: '00:04:58', title: 'IETF Meeting Netzwerk' },
-          { start: '00:18:37', title: 'Kalender' },
-          { start: '00:33:40', title: 'Freak Show Bingo' },
-          { start: '00:35:37', title: 'Wikipedia' },
-          { start: '01:17:26', title: 'iPhone Akkukalibration' },
-          { start: '01:24:55', title: 'Alte iPads und iPod touches' },
-          { start: '01:31:02', title: 'Find My Friends' },
-          { start: '01:41:46', title: 'iPhone Music Player' },
-          { start: '01:56:13', title: 'Apple Watch' },
-          { start: '02:11:51', title: 'Kommandozeile: System Appreciation' },
-          { start: '02:23:10', title: 'Sound und Design für Games' },
-          { start: '02:24:59', title: 'Kommandozeile: Remote Deployment' },
-          { start: '02:32:37', title: 'Kommandozeile: Man Pages' },
-          { start: '02:44:31', title: 'Kommandozeile: screen vs. tmux' },
-          {
-            start: '02:58:02',
-            title: 'Star Wars: Machete Order & Phantom Edit'
-          },
-          { start: '03:20:05', title: 'Kopfhörer-Ersatzteile' },
-          { start: '03:23:39', title: 'Dante' },
-          { start: '03:38:03', title: 'Dante Via' },
-          { start: '03:45:33', title: 'Internet of Things Security' },
-          {
-            start: '03:56:11',
-            title: `'That One Privacy Guy's VPN Comparison Chart'`
-          },
-          { start: '04:10:00', title: 'Ausklang ' }
-        ],
+        chapters: this.episode.audio.chapters,
         audio: [
           {
             url:
