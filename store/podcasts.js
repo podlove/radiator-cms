@@ -4,7 +4,8 @@ import podcasts from '~/api/queries/podcasts.gql'
 
 export const state = () => ({
   podcast: {},
-  podcasts: []
+  podcasts: [],
+  podcastsCollaborators: []
 })
 
 export const mutations = {
@@ -13,12 +14,16 @@ export const mutations = {
   },
   set_podcasts(store, data) {
     store.podcasts = data
+  },
+  set_podcasts_collaborators(store, data) {
+    store.podcastsCollaborators = data
   }
 }
 
 export const getters = {
   podcast: state => state.podcast,
-  podcasts: state => state.podcasts
+  podcasts: state => state.podcasts,
+  podcastsCollaborators: state => state.podcastsCollaborators
 }
 
 export const actions = {

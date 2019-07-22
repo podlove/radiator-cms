@@ -3,8 +3,9 @@ import network from '~/api/queries/network.gql'
 import networks from '~/api/queries/networks.gql'
 
 export const state = () => ({
-  network: [],
-  networks: []
+  network: {},
+  networks: [],
+  networksCollaborators: []
 })
 
 export const mutations = {
@@ -13,12 +14,16 @@ export const mutations = {
   },
   set_networks(store, data) {
     store.networks = data
+  },
+  set_networks_collaborators(store, data) {
+    store.networksCollaborators = data
   }
 }
 
 export const getters = {
   network: state => state.network,
-  networks: state => state.networks
+  networks: state => state.networks,
+  networksCollaborators: state => state.networksCollaborators
 }
 
 export const actions = {
