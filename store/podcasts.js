@@ -45,6 +45,19 @@ export const actions = {
       throw Error(e)
     }
   },
+  deletePodcast: async function deletePodcast({ dispatch }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restPodcast.delete(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getPodcasts', {
+        token: this.$apolloHelpers.getToken()
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   /**
    * Gets a podcast by id.
    * After successful request saves the podcast in store.
@@ -77,6 +90,20 @@ export const actions = {
         })
         .then(({ data }) => data && data.podcasts)
       await commit('set_podcasts', res)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  update: async function update({ dispatch, commit }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restPodcast.update(data).then(data => {
+        return data && data.data
+      })
+      await commit('set_podcast', res)
+      await dispatch('getPodcasts', {
+        token: this.$apolloHelpers.getToken()
+      })
     } catch (e) {
       throw Error(e)
     }

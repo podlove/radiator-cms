@@ -47,12 +47,54 @@
           </div>
         </b-tab-item>
         <b-tab-item label="Settings">
-          <div class="tile">
-            <article class="tile is-child notification is-warning">
-              <p class="title">Placeholder...</p>
-              <p class="subtitle">for podcast settings</p>
-            </article>
-          </div>
+          <section>
+            <b-field label="Podcast Name">
+              <b-input
+                v-if="isDisabled"
+                v-model="podcast.title"
+                disabled
+              ></b-input>
+              <b-input
+                v-if="!isDisabled"
+                v-model="title"
+                :placeholder="podcast.title"
+                :is-loading="isLoading"
+              ></b-input>
+            </b-field>
+            <div class="r_settings__interaction">
+              <b-button
+                v-if="isDisabled"
+                type="is-primary"
+                outlined
+                @click.stop.prevent="edit()"
+              >
+                Edit Settings
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-danger"
+                outlined
+                @click.stop.prevent="deletePodcast()"
+              >
+                Delete Podcast
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-dark"
+                outlined
+                @click.stop.prevent="cancel()"
+              >
+                Cancel
+              </b-button>
+              <b-button
+                v-if="!isDisabled"
+                type="is-primary"
+                @click.stop.prevent="save()"
+              >
+                Save
+              </b-button>
+            </div>
+          </section>
         </b-tab-item>
       </b-tabs>
     </section>
@@ -87,6 +129,10 @@
 .r_podcast-tabs {
   margin: 3.75rem 0;
 }
+.r_settings__interaction {
+  margin-top: 1rem;
+  text-align: right;
+}
 </style>
 
 <script>
@@ -99,7 +145,10 @@ export default {
   },
   data() {
     return {
-      activeTab: 0
+      activeTab: 0,
+      isDisabled: true,
+      isLoading: false,
+      title: ''
     }
   },
   computed: mapState({
@@ -114,6 +163,42 @@ export default {
         console.log(error)
         this.$router.push('/404')
       })
+  },
+  methods: {
+    cancel() {
+      this.isDisabled = true
+    },
+    deletePodcast() {
+      this.$store
+        .dispatch('podcasts/deletePodcast', {
+          podcastId: this.podcast.id
+        })
+        .then(() => {
+          this.$router.push('/networks')
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    edit() {
+      this.isDisabled = false
+    },
+    save() {
+      this.isLoading = true
+      this.$store
+        .dispatch('podcasts/update', {
+          podcastId: this.podcast.id,
+          title: this.title
+        })
+        .then(() => {
+          this.isDisabled = true
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    }
   }
 }
 </script>

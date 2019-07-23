@@ -26,41 +26,29 @@
             ></div>
             <h2 class="is-size-4">{{ network.title }}</h2>
           </div>
-          <b-tabs v-model="activeTab" class="r_network-tabs">
-            <b-tab-item label="Podcasts">
-              <ul v-if="network.podcasts" class="r_network-tabs__list">
-                <li
-                  v-for="podcast in network.podcasts"
-                  :key="podcast.id"
-                  class="r_networks__podcast"
-                >
-                  <div class="card">
-                    <div class="card-image">
-                      <figure class="image is-1by1">
-                        <img :src="`${podcast.image}`" />
-                      </figure>
-                    </div>
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-content">
-                          <p class="title is-4">{{ podcast.title }}</p>
-                          <p class="subtitle is-6">{{ podcast.subtitle }}</p>
-                        </div>
-                      </div>
+          <ul v-if="network.podcasts" class="r_network-tabs__list">
+            <li
+              v-for="podcast in network.podcasts"
+              :key="podcast.id"
+              class="r_networks__podcast"
+            >
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image is-1by1">
+                    <img :src="`${podcast.image}`" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-4">{{ podcast.title }}</p>
+                      <p class="subtitle is-6">{{ podcast.subtitle }}</p>
                     </div>
                   </div>
-                </li>
-              </ul>
-            </b-tab-item>
-            <b-tab-item label="Settings">
-              <div class="tile">
-                <article class="tile is-child notification is-warning">
-                  <p class="title">Placeholder...</p>
-                  <p class="subtitle">for network settings</p>
-                </article>
+                </div>
               </div>
-            </b-tab-item>
-          </b-tabs>
+            </li>
+          </ul>
         </div>
       </div>
     </section>

@@ -152,8 +152,7 @@ export default {
     }
   },
   computed: mapState({
-    network: state => state.networks.network,
-    token: state => state.auth.token
+    network: state => state.networks.network
   }),
   created() {
     this.$store

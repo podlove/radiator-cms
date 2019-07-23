@@ -24,7 +24,6 @@ export default {
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
         data.podcastId
       }`,
-      null,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +34,7 @@ export default {
   },
   update: data => {
     const query = JSON.stringify({
-      network: {
+      podcast: {
         title: data.title
       }
     })
