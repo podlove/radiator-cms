@@ -31,7 +31,7 @@
             <div id="podlove-webplayer" class="r_episode_player"></div>
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
-            <EpisodeChapters :episode="chapters"></EpisodeChapters>
+            <EpisodeChapters></EpisodeChapters>
             <EpisodeContributors :episode="episode"></EpisodeContributors>
             <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
           </b-tab-item>
@@ -104,39 +104,7 @@ export default {
   data() {
     return {
       activeTab: 0,
-      cover: null,
-      chapters: {
-        chapters: [
-          {
-            start: 0,
-            startString: '00:00:00.000',
-            title: 'Moinsen',
-            image: null,
-            link: null
-          },
-          {
-            start: 53100,
-            startString: '00:00:53.100',
-            title: 'Unterstützerdank',
-            image: null,
-            link: null
-          },
-          {
-            start: 139000,
-            startString: '00:02:19.000',
-            title: 'Amt und Alter: Überzeugungstäter Trump',
-            image: null,
-            link: null
-          },
-          {
-            start: 1595050,
-            startString: '00:26:35.050',
-            title: 'Was die Kandidaten erfolgreich macht',
-            image: null,
-            link: null
-          }
-        ]
-      }
+      cover: null
     }
   },
   computed: mapState({
