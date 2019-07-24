@@ -287,7 +287,6 @@ export default {
       ]
       this.chapterMarksState = 'SUCCESS'
       this.dropChapterMarks = chapter
-      this.drawTimeline()
     },
     toast() {
       this.$toast.open(this.alert)
