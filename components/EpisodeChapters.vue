@@ -10,6 +10,9 @@
         <a> Import chapter marks</a>
       </b-button>
     </section>
+    <div>
+      {{ uploadMode }}
+    </div>
     <ul class="r_episode-chapters__list">
       <li
         v-for="chapter in episode.chapters"
@@ -102,6 +105,11 @@ export default {
     episode: {
       type: Object,
       required: true
+    },
+    uploadMode: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   }
 }
