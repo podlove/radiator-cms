@@ -31,7 +31,7 @@
             <div id="podlove-webplayer" class="r_episode_player"></div>
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
-            <EpisodeChapters :episode="episode"></EpisodeChapters>
+            <EpisodeChapters></EpisodeChapters>
             <EpisodeContributors :episode="episode"></EpisodeContributors>
             <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
           </b-tab-item>

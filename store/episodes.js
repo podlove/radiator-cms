@@ -2,17 +2,22 @@ import episode from '~/api/queries/episode.gql'
 import restEpisode from '~/api/rest/episodes'
 
 export const state = () => ({
-  episode: {}
+  episode: {},
+  episodeChapters: []
 })
 
 export const mutations = {
   set_episode(store, data) {
     store.episode = data
+  },
+  set_episode_chapters(store, data) {
+    store.episodeChapters = data
   }
 }
 
 export const getters = {
-  episode: state => state.episode
+  episode: state => state.episode,
+  episodeChapters: state => state.episodeChapters
 }
 
 export const actions = {
@@ -87,5 +92,11 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  createEpisodeChapterMarks: async function createEpisodeChapterMarks(
+    { commit },
+    data
+  ) {
+    await commit('set_episode_chapters', data)
   }
 }

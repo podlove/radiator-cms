@@ -61,13 +61,7 @@
           <WikidataInput language="de" />
         </no-ssr>
       </b-field>
-      <upload
-        class="field"
-        label="Chapter Marks"
-        :drop-files="dropChapterMarks"
-        :type="'FILE'"
-        @dropped="params => handleFileDrop(params)"
-      />
+      <EpisodeChapters :editable="true"></EpisodeChapters>
       <upload
         class="field"
         label="Transcript"
@@ -134,12 +128,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import Upload from '~/components/Upload'
 import WikidataInput from '~/components/WikidataInput'
 
 export default {
   components: {
+    EpisodeChapters,
     EpisodesShownotesEditor,
     Upload,
     WikidataInput
@@ -153,7 +149,6 @@ export default {
       cover: null,
       coverFileState: null,
       description: '',
-      dropChapterMarks: null,
       dropEpisodeCover: null,
       dropTranscript: null,
       id: null,

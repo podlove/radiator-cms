@@ -34,7 +34,7 @@
               <b-button
                 class="is-primary"
                 :disabled="networkId === null"
-                @click.stop.prevent="navigateTo(1)"
+                @click.stop.prevent="fetchPodcastInfos()"
               >
                 Check Podcast
               </b-button>
@@ -51,20 +51,24 @@
                 class="r_podcast__cover has-background-dark"
                 :style="{
                   backgroundImage: `url(${
-                    podcast && podcast.image ? podcast.image : ''
+                    feedInfo && feedInfo.image ? feedInfo.image : ''
                   })`
                 }"
               ></div>
               <div class="r_podcast__title">
-                <h1 class="is-size-5">{{ podcast.title }}</h1>
-                <h2 class="is-size-7">{{ podcast.subtitle }}</h2>
+                <h1 class="is-size-5">{{ feedInfo.title }}</h1>
+                <h2 class="is-size-7">{{ feedInfo.subtitle }}</h2>
               </div>
             </div>
+            <p>
+              With
+              {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
+            </p>
             <b-field horizontal label="Short ID">
-              <b-input v-model="shortID" disabled></b-input>
+              <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
             </b-field>
             <b-field horizontal label="Podcast Url">
-              <b-input v-model="podcast.url" disabled></b-input>
+              <b-input v-model="feedInfo.link" disabled></b-input>
             </b-field>
             <div class="field import-switch">
               <b-switch v-model="importMetaData">Import Meta Data</b-switch>
@@ -91,7 +95,10 @@
               <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
                 Back
               </b-button>
-              <b-button class="is-primary" @click.stop.prevent="navigateTo(2)">
+              <b-button
+                class="is-primary"
+                @click.stop.prevent="fetchEpisodes()"
+              >
                 Import Podcast
               </b-button>
             </div>
@@ -104,21 +111,20 @@
                 class="r_podcast__cover has-background-dark"
                 :style="{
                   backgroundImage: `url(${
-                    podcast && podcast.image ? podcast.image : ''
+                    feedInfo && feedInfo.image ? feedInfo.image : ''
                   })`
                 }"
               ></div>
               <div class="r_podcast__title">
-                <h1 class="is-size-5">{{ podcast.title }}</h1>
+                <h1 class="is-size-5">{{ feedInfo.title }}</h1>
                 <h2 class="r_podcast__subtitle is-size-7">
-                  {{ podcast.subtitle }}
+                  {{ feedInfo.subtitle }}
                 </h2>
               </div>
             </div>
-            <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p>
+            <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
             <p>LADEBALKENPLATZHALTER</p>
-
-            <b-table :data="podcastFeedEpisode" :striped="true">
+            <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
                   {{ props.row.id }}
@@ -165,7 +171,12 @@
             </b-table>
             <div class="podlove-step-navigation-group">
               <b-button class="is-primary">Stop Import</b-button>
-              <b-button class="is-primary">Go to Podcast Overview</b-button>
+              <b-button
+                class="is-primary"
+                @click="$router.push(`/networks/${networkId}/podcasts`)"
+              >
+                Go to Podcast Overview
+              </b-button>
             </div>
           </section>
         </b-step-item>
@@ -180,10 +191,6 @@ export default {
   data() {
     return {
       activeStep: 0,
-      episodes: {
-        loaded: 123,
-        total: 321
-      },
       importAudioFiles: false,
       importMedia: {
         mp3: false,
@@ -192,111 +199,13 @@ export default {
       },
       importMetaData: true,
       networkId: null,
-      podcast: {
-        image: null,
-        subtitle:
-          'Seit über drei Jahren erzählen sich die Historiker Daniel Meßner und Richard Hemmer Woche für Woche eine Geschichte aus der Geschichte: Das ist Zeitsprung',
-        title: 'Zeitsprung',
-        url: 'https://www.zeitsprung.fm'
-      },
-      podcastFeedEpisode: [
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: false,
-          ogg: false,
-          transcripts: true,
-          chapter_marks: false
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: false,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: false
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: false,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: true
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: false,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: true
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: true,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: false
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: false,
-          m4a: false,
-          ogg: true,
-          transcripts: false,
-          chapter_marks: true
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: true,
-          ogg: false,
-          transcripts: true,
-          chapter_marks: false
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: false,
-          m4a: true,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: false
-        },
-        {
-          id: 197,
-          title:
-            'ZS197: Das kurzlebige Königreich Finnland – und ein deutscher Adliger auf dem Thron',
-          mp3: true,
-          m4a: false,
-          ogg: true,
-          transcripts: true,
-          chapter_marks: true
-        }
-      ],
-      shortID: 'zeitsprung-zsfm-2342',
       url: 'https://www.zeitsprung.fm/feed/mp4/'
     }
   },
   computed: mapState({
-    networks: state => state.networks.networks
+    networks: state => state.networks.networks,
+    feedInfo: state => state.feedInfo.feedInfo,
+    feeds: state => state.feedInfo.feeds
   }),
   methods: {
     checkField(value) {
@@ -304,6 +213,18 @@ export default {
     },
     navigateTo(step) {
       this.activeStep = step
+    },
+    fetchPodcastInfos() {
+      this.$store.dispatch('feedInfo/catchFeedInfo', {
+        url: this.url
+      })
+      this.navigateTo(1)
+    },
+    fetchEpisodes() {
+      this.$store.dispatch('feedInfo/fetchFeeds', {
+        url: this.url
+      })
+      this.navigateTo(2)
     }
   }
 }

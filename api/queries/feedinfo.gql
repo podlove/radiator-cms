@@ -1,0 +1,42 @@
+query feedInfo($url: String!){
+  feedInfo(url: $url){
+    title,
+    suggestedShortId,
+    subtitle,
+    link,
+    image,
+    feeds {
+     	episodeCount,
+    	enclosureType,
+      feedUrl
+    }
+  }
+}
+
+query getFeeds($url: String!){
+  feedInfo(url: $url){
+    title,
+    suggestedShortId,
+    subtitle,
+    link,
+    image,
+    feeds {
+    	enclosureType,
+      episodes {
+        title,
+        contentEncoded,
+        description,
+        duration,
+        enclosureUrl,
+        enclosureType,
+        episode,
+        guid,
+        image,
+        link,
+        season,
+        subtitle,
+        summary
+      }
+    }
+  }
+}

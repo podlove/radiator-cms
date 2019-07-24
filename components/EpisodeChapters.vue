@@ -1,18 +1,31 @@
 <template>
   <!-- Shows episode chapter marks as a list. -->
-  <div v-if="episode && episode.chapters" class="r_episode-chapters">
+  <div class="r_episode-chapters">
     <section class="r_episode-chapters__header">
       <h2 class="title is-size-5 r_episode-chapters__headline">
-        Chapters
+        Chapter Marks
       </h2>
-      <b-button>
-        <b-icon size="is-small" icon="upload"></b-icon>
-        <a> Import chapter marks</a>
-      </b-button>
+      <div v-if="episodeChapters.length">
+        <b-button>
+          <b-icon size="is-small" icon="upload"></b-icon>
+          <a> Update chapter marks</a>
+        </b-button>
+        <b-button>
+          <b-icon size="is-small" icon="upload"></b-icon>
+          <a> Export chapter marks</a>
+        </b-button>
+      </div>
     </section>
-    <ul class="r_episode-chapters__list">
+    <upload
+      v-if="editable"
+      class="field"
+      :state="chapterMarksState"
+      :type="'FILE'"
+      @dropped="params => handleChapterMarksDrop(params)"
+    />
+    <ul v-if="episodeChapters" class="r_episode-chapters__list">
       <li
-        v-for="chapter in episode.chapters"
+        v-for="chapter in episodeChapters"
         :key="chapter.start"
         class="r_episode-chapters__item"
       >
@@ -20,7 +33,7 @@
           class="r_episode-chapters__icon r_episode-chapters__icon--ia has-text-grey-light"
           icon="drag-vertical"
         ></b-icon>
-        <p class="r_episode-chapters__item__start">00:00:00</p>
+        <p class="r_episode-chapters__item__start">{{ chapter.startString }}</p>
         <p v-if="chapter.link" class="r_episode-chapters__item__title">
           <a href="" target="_blank">{{ chapter.title }}</a>
         </p>
@@ -97,11 +110,77 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
+
+import Upload from '~/components/Upload'
 export default {
+  components: {
+    Upload
+  },
   props: {
-    episode: {
-      type: Object,
-      required: true
+    editable: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
+  data() {
+    return {
+      default_chapter: [
+        {
+          start: 0,
+          startString: '00:00:00.000',
+          title: 'Moinsen',
+          image: null,
+          link: null
+        },
+        {
+          start: 53100,
+          startString: '00:00:53.100',
+          title: 'Unterstützerdank',
+          image: null,
+          link: null
+        },
+        {
+          start: 139000,
+          startString: '00:02:19.000',
+          title: 'Amt und Alter: Überzeugungstäter Trump',
+          image: null,
+          link: null
+        },
+        {
+          start: 1595050,
+          startString: '00:26:35.050',
+          title: 'Was die Kandidaten erfolgreich macht',
+          image: null,
+          link: null
+        }
+      ],
+      chapterMarksState: null,
+      dropChapterMarks: null
+    }
+  },
+  computed: mapState({
+    episodeChapters: state => state.episodes.episodeChapters
+  }),
+  created() {
+    if (this.episodeChapters.length === 0 && !this.editable) {
+      this.$store.dispatch(
+        'episodes/createEpisodeChapterMarks',
+        this.default_chapter
+      )
+    }
+  },
+  methods: {
+    handleChapterMarksDrop(params) {
+      console.log('params', params)
+      this.chapterMarksState = 'LOADING'
+      this.$store
+        .dispatch('episodes/createEpisodeChapterMarks', this.default_chapter)
+        .then(result => {
+          this.chapterMarksState = 'SUCCESS'
+        })
+      this.dropChapterMarks = this.default_chapter
     }
   }
 }
