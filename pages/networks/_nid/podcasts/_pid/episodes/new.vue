@@ -61,27 +61,7 @@
           <WikidataInput language="de" />
         </no-ssr>
       </b-field>
-      <div>
-        <upload
-          class="field"
-          label="Chapter Marks"
-          :drop-files="dropChapterMarks"
-          :state="chapterMarksState"
-          :type="'FILE'"
-          @dropped="params => handleChapterMarksDrop(params)"
-        />
-        <div v-if="dropChapterMarks">
-          <EpisodeChapters
-            :episode="{ chapters: dropChapterMarks }"
-            :upload-mode="true"
-          ></EpisodeChapters>
-          <h1>Episode {{ number }} - {{ title }}</h1>
-          <b-table
-            :data="dropChapterMarks"
-            :columns="chapterMarksColumns"
-          ></b-table>
-        </div>
-      </div>
+      <EpisodeChapters :editable="true"></EpisodeChapters>
       <upload
         class="field"
         label="Transcript"
@@ -166,15 +146,9 @@ export default {
       // can be LOADING, ERROR, SUCCESS
       audioFileState: null,
       audioUploadResult: null,
-      chapterMarksColumns: [
-        { field: 'startString', label: 'Start Time' },
-        { field: 'title', label: 'Title' }
-      ],
-      chapterMarksState: null,
       cover: null,
       coverFileState: null,
       description: '',
-      dropChapterMarks: null,
       dropEpisodeCover: null,
       dropTranscript: null,
       id: null,
@@ -252,41 +226,6 @@ export default {
             message: error
           }
         })
-    },
-    handleChapterMarksDrop(params) {
-      console.log('params', params)
-      const chapter = [
-        {
-          start: 0,
-          startString: '00:00:00.000',
-          title: 'Moinsen',
-          image: null,
-          link: null
-        },
-        {
-          start: 53100,
-          startString: '00:00:53.100',
-          title: 'Unterstützerdank',
-          image: null,
-          link: null
-        },
-        {
-          start: 139000,
-          startString: '00:02:19.000',
-          title: 'Amt und Alter: Überzeugungstäter Trump',
-          image: null,
-          link: null
-        },
-        {
-          start: 1595050,
-          startString: '00:26:35.050',
-          title: 'Was die Kandidaten erfolgreich macht',
-          image: null,
-          link: null
-        }
-      ]
-      this.chapterMarksState = 'SUCCESS'
-      this.dropChapterMarks = chapter
     },
     toast() {
       this.$toast.open(this.alert)
