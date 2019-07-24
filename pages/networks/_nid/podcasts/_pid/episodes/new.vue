@@ -66,10 +66,15 @@
           class="field"
           label="Chapter Marks"
           :drop-files="dropChapterMarks"
+          :state="chapterMarksState"
           :type="'FILE'"
           @dropped="params => handleChapterMarksDrop(params)"
         />
         <div v-if="dropChapterMarks">
+          <EpisodeChapters
+            :episode="{ chapters: dropChapterMarks }"
+            :upload-mode="true"
+          ></EpisodeChapters>
           <h1>Episode {{ number }} - {{ title }}</h1>
           <b-table
             :data="dropChapterMarks"
@@ -143,12 +148,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import Upload from '~/components/Upload'
 import WikidataInput from '~/components/WikidataInput'
 
 export default {
   components: {
+    EpisodeChapters,
     EpisodesShownotesEditor,
     Upload,
     WikidataInput
@@ -278,8 +285,9 @@ export default {
           link: null
         }
       ]
-      this.chapterMarksState = 'LOADING'
+      this.chapterMarksState = 'SUCCESS'
       this.dropChapterMarks = chapter
+      this.drawTimeline()
     },
     toast() {
       this.$toast.open(this.alert)
