@@ -20,7 +20,7 @@
           class="r_episode-chapters__icon r_episode-chapters__icon--ia has-text-grey-light"
           icon="drag-vertical"
         ></b-icon>
-        <p class="r_episode-chapters__item__start">00:00:00</p>
+        <p class="r_episode-chapters__item__start">{{ chapter.startString }}</p>
         <p v-if="chapter.link" class="r_episode-chapters__item__title">
           <a href="" target="_blank">{{ chapter.title }}</a>
         </p>
