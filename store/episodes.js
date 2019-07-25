@@ -3,7 +3,8 @@ import restEpisode from '~/api/rest/episodes'
 
 export const state = () => ({
   episode: {},
-  episodeChapters: []
+  episodeChapters: [],
+  episodeTranscripts: []
 })
 
 export const mutations = {
@@ -12,12 +13,16 @@ export const mutations = {
   },
   set_episode_chapters(store, data) {
     store.episodeChapters = data
+  },
+  set_episode_transcripts(store, data) {
+    store.episodeTranscripts = data
   }
 }
 
 export const getters = {
   episode: state => state.episode,
-  episodeChapters: state => state.episodeChapters
+  episodeChapters: state => state.episodeChapters,
+  episodeTranscripts: state => state.episodeTranscripts
 }
 
 export const actions = {
@@ -98,5 +103,11 @@ export const actions = {
     data
   ) {
     await commit('set_episode_chapters', data)
+  },
+  createEpisodeTranscripts: async function createEpisodeTranscripts(
+    { commit },
+    data
+  ) {
+    await commit('set_episode_transcripts', data)
   }
 }
