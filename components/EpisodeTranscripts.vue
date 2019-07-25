@@ -27,21 +27,17 @@
         class="r_episode-transcripts__content__line"
       >
         <div v-if="!sentence.speaker">
-          <h2>{{ sentence.text }}</h2>
+          <p>{{ sentence.text }}</p>
         </div>
         <div v-else>
           <div class="r_episode-transcripts__speaker">
             <b-icon icon="account" size="is-small"></b-icon>
             {{ sentence.speaker }}
           </div>
-          <p>&nbsp; {{ sentence.text }}</p>
+          <p class="r_episode-transcripts__speaker__text">
+            &nbsp; {{ sentence.text }}
+          </p>
         </div>
-        <!-- <span v-if="sentence.speaker" class="r_episode-transcripts__speaker">
-          <b-icon icon="account" size="is-small"></b-icon>
-          {{ sentence.speaker }}
-        </span>
-        <h2 v-if="!sentence.speaker">{{ sentence.text }}</h2>
-        <span v-else>&nbsp; {{ sentence.text }}</span> -->
       </div>
     </section>
   </div>
@@ -257,11 +253,6 @@ h2 {
   font-size: 1.25em;
   font-weight: bold;
 }
-p {
-  margin-left: 30px;
-  hyphens: auto;
-  word-break: break-word;
-}
 .r_episode-transcripts {
   margin: 4rem 0 0 0;
 }
@@ -292,5 +283,10 @@ p {
 }
 .r_episode-transcripts__content__line {
   margin: 0.75em 0;
+}
+.r_episode-transcripts__speaker__text {
+  margin-left: 30px;
+  hyphens: auto;
+  word-break: break-word;
 }
 </style>
