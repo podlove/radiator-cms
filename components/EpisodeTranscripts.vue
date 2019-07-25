@@ -7,23 +7,41 @@
       <div v-if="transcripts">
         <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
-          <a> Update chapter marks</a>
+          <a>Assign speaker</a>
         </b-button>
         <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
-          <a> Export chapter marks</a>
+          <a>Update transcripts</a>
+        </b-button>
+        <b-button>
+          <b-icon size="is-small" icon="upload"></b-icon>
+          <a>Export transcripts</a>
         </b-button>
       </div>
     </section>
     <!-- <p>{{ transcripts }}</p> -->
     <section class="r_episode-transcripts__content">
-      <div v-for="(sentence, index) in transcripts" :key="index">
-        <p>
-          <span v-if="sentence.speaker" class="r_episode-transcripts__speaker">
+      <div
+        v-for="(sentence, index) in transcripts"
+        :key="index"
+        class="r_episode-transcripts__content__line"
+      >
+        <div v-if="!sentence.speaker">
+          <h2>{{ sentence.text }}</h2>
+        </div>
+        <div v-else>
+          <div class="r_episode-transcripts__speaker">
+            <b-icon icon="account" size="is-small"></b-icon>
             {{ sentence.speaker }}
-          </span>
-          &nbsp; {{ sentence.text }}
-        </p>
+          </div>
+          <p>&nbsp; {{ sentence.text }}</p>
+        </div>
+        <!-- <span v-if="sentence.speaker" class="r_episode-transcripts__speaker">
+          <b-icon icon="account" size="is-small"></b-icon>
+          {{ sentence.speaker }}
+        </span>
+        <h2 v-if="!sentence.speaker">{{ sentence.text }}</h2>
+        <span v-else>&nbsp; {{ sentence.text }}</span> -->
       </div>
     </section>
   </div>
@@ -46,7 +64,7 @@ export default {
           end: 27.039,
           track: 0,
           text:
-            'Na wie habt ihr diese historische Woche erlebt. Was für eine historische Woche fragt ihr als diese jungen Menschen mal wieder im Fernsehen waren.',
+            'Na wie habt ihr diese historische Woche erlebt. Was für eine historische Woche fragt ihr als diese jungen Menschen mal wieder im Fernsehen waren. Na wie habt ihr diese historische Woche erlebt. Was für eine historische Woche fragt ihr als diese jungen Menschen mal wieder im Fernsehen waren.',
           newpara: true,
           start: 17.919,
           speaker: 'Ich',
@@ -235,6 +253,15 @@ export default {
 
 <style lang="scss">
 @import '~/assets/css/main.scss';
+h2 {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+p {
+  margin-left: 30px;
+  hyphens: auto;
+  word-break: break-word;
+}
 .r_episode-transcripts {
   margin: 4rem 0 0 0;
 }
@@ -252,13 +279,18 @@ export default {
   padding: 1.25rem 2rem;
 }
 .r_episode-transcripts__speaker {
-  padding-left: 4px;
-  padding-right: 1px;
+  padding-left: 3px;
+  padding-right: 5px;
   background: $primary;
   color: white;
   font-weight: bold;
+  border-radius: 3px;
+  float: left;
 }
 .r_episode-transcripts__content {
-  margin: 0.5em 1em;
+  padding: 1em 1.5em;
+}
+.r_episode-transcripts__content__line {
+  margin: 0.75em 0;
 }
 </style>
