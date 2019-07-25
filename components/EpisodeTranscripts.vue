@@ -5,10 +5,53 @@
         Transcripts
       </h2>
       <div v-if="episodeTranscripts.length">
-        <b-button>
+        <!-- <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
           <a>Assign speaker</a>
-        </b-button>
+        </b-button> -->
+        <b-dropdown position="is-bottom-left" aria-role="menu">
+          <button slot="trigger" class="button is-primary">
+            <b-icon size="is-small" icon="upload"></b-icon>
+            <span> Assign speaker</span>
+          </button>
+
+          <b-dropdown-item aria-role="menu-item" custom>
+            <span>
+              <b-field label="Speaker 1">
+                <b-select placeholder="Speaker 1">
+                  <option value="speaker1">Speaker 1</option>
+                  <option value="speaker2">Speaker 2</option>
+                  <option value="speaker3">Speaker 3</option>
+                </b-select>
+              </b-field>
+            </span>
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="menu-item" custom>
+            <span>
+              <b-field label="Speaker 2">
+                <b-select placeholder="Speaker 2">
+                  <option value="speaker1">Speaker 1</option>
+                  <option value="speaker2">Speaker 2</option>
+                  <option value="speaker3">Speaker 3</option>
+                </b-select>
+              </b-field>
+            </span>
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="menu-item" custom>
+            <span>
+              <b-field label="Speaker 3">
+                <b-select placeholder="Speaker 3">
+                  <option value="speaker1">Speaker 1</option>
+                  <option value="speaker2">Speaker 2</option>
+                  <option value="speaker3">Speaker 3</option>
+                </b-select>
+              </b-field>
+            </span>
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="menu-item" custom>
+            <b-button type="is-primary">Finish</b-button>
+          </b-dropdown-item>
+        </b-dropdown>
         <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
           <a>Update transcripts</a>
