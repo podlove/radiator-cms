@@ -4,7 +4,7 @@
       <h2 class="title is-size-5 r_episode-transcripts__headline">
         Transcripts
       </h2>
-      <div v-if="transcripts">
+      <div v-if="episodeTranscripts.length">
         <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
           <a>Assign speaker</a>
@@ -19,10 +19,17 @@
         </b-button>
       </div>
     </section>
+    <upload
+      v-if="editable"
+      class="field"
+      :state="transcriptsState"
+      :type="'FILE'"
+      @dropped="params => handleTranscriptsDrop(params)"
+    />
     <!-- <p>{{ transcripts }}</p> -->
     <section class="r_episode-transcripts__content">
       <div
-        v-for="(sentence, index) in transcripts"
+        v-for="(sentence, index) in episodeTranscripts"
         :key="index"
         class="r_episode-transcripts__content__line"
       >
@@ -44,7 +51,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
+import Upload from '~/components/Upload'
 export default {
+  components: {
+    Upload
+  },
+  props: {
+    editable: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
   data() {
     return {
       transcripts: [
@@ -241,7 +261,31 @@ export default {
             ['Landschaft.', 72.540000000000006, 73.079999999999998, 1.0]
           ]
         }
-      ]
+      ],
+      transcriptsState: null,
+      dropTranscripts: null
+    }
+  },
+  computed: mapState({
+    episodeTranscripts: state => state.episodes.episodeTranscripts
+  }),
+  created() {
+    if (this.episodeTranscripts.length === 0 && !this.editable) {
+      this.$store.dispatch(
+        'episodes/createEpisodeTranscripts',
+        this.transcripts
+      )
+    }
+  },
+  methods: {
+    handleTranscriptsDrop(params) {
+      console.log('params', params)
+      this.transcriptsState = 'LOADING'
+      this.$store
+        .dispatch('episodes/createEpisodeTranscripts', this.transcripts)
+        .then(result => {
+          this.transcriptsState = 'SUCCESS'
+        })
     }
   }
 }
