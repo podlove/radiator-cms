@@ -62,13 +62,7 @@
         </no-ssr>
       </b-field>
       <EpisodeChapters :editable="true"></EpisodeChapters>
-      <upload
-        class="field"
-        label="Transcript"
-        :drop-files="dropTranscript"
-        :type="'FILE'"
-        @dropped="params => handleFileDrop(params)"
-      />
+      <EpisodeTranscripts :editable="true"></EpisodeTranscripts>
       <upload
         class="field"
         label="Episode Cover"
@@ -130,6 +124,7 @@
 import { mapState } from 'vuex'
 import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
+import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import Upload from '~/components/Upload'
 import WikidataInput from '~/components/WikidataInput'
 
@@ -137,6 +132,7 @@ export default {
   components: {
     EpisodeChapters,
     EpisodesShownotesEditor,
+    EpisodeTranscripts,
     Upload,
     WikidataInput
   },
@@ -150,7 +146,6 @@ export default {
       coverFileState: null,
       description: '',
       dropEpisodeCover: null,
-      dropTranscript: null,
       id: null,
       loading: false,
       number: null,

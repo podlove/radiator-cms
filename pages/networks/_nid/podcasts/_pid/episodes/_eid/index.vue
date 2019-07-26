@@ -32,8 +32,8 @@
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
             <EpisodeChapters></EpisodeChapters>
+            <EpisodeTranscripts></EpisodeTranscripts>
             <EpisodeContributors :episode="episode"></EpisodeContributors>
-            <!-- <EpisodeTranscript :episode="episode"></EpisodeTranscript> -->
           </b-tab-item>
           <b-tab-item label="Analytics">
             <div class="tile">
@@ -91,6 +91,7 @@ import EpisodeContent from '~/components/EpisodeContent'
 import EpisodeContributors from '~/components/EpisodeContributors'
 import EpisodeInfo from '~/components/EpisodeInfo'
 import EpisodeTags from '~/components/EpisodeTags'
+import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 
 export default {
   components: {
@@ -99,7 +100,8 @@ export default {
     EpisodeContent,
     EpisodeContributors,
     EpisodeInfo,
-    EpisodeTags
+    EpisodeTags,
+    EpisodeTranscripts
   },
   data() {
     return {
