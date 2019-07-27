@@ -15,7 +15,7 @@ export const mutations = {
     store.feeds = data
   },
   set_current_task(store, data) {
-    store.currentTask = data
+    store.currentTask = data.data
   }
 }
 
