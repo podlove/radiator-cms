@@ -124,6 +124,7 @@
             </div>
             <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
             <p>LADEBALKENPLATZHALTER</p>
+            <p>{{ currentTask }}</p>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
@@ -199,13 +200,14 @@ export default {
       },
       importMetaData: true,
       networkId: null,
-      url: 'https://www.zeitsprung.fm/feed/mp4/'
+      url: 'https://www.zeitsprung.fm/feed/mp3/'
     }
   },
   computed: mapState({
     networks: state => state.networks.networks,
     feedInfo: state => state.feedInfo.feedInfo,
-    feeds: state => state.feedInfo.feeds
+    feeds: state => state.feedInfo.feeds,
+    currentTask: state => state.feedInfo.currentTask
   }),
   methods: {
     checkField(value) {
@@ -221,9 +223,23 @@ export default {
       this.navigateTo(1)
     },
     fetchEpisodes() {
-      this.$store.dispatch('feedInfo/fetchFeeds', {
-        url: this.url
+      console.log(this.feedInfo)
+      let enclosureType = ''
+      let feedUrl = ''
+
+      this.feedInfo.feeds.forEach(d => {
+        if (d.enclosureType === 'audio/mpeg') {
+          enclosureType = d.enclosureType
+          feedUrl = d.feedUrl
+        }
       })
+      const importPodcastFeed = {
+        network_id: this.networkId,
+        feed_url: feedUrl,
+        enclosure_types: enclosureType,
+        short_id: this.feedInfo.suggestedShortId
+      }
+      this.$store.dispatch('feedInfo/createTask', importPodcastFeed)
       this.navigateTo(2)
     }
   }
