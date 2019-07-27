@@ -5,11 +5,10 @@ export default {
     console.log('data create:', data)
     const query = JSON.stringify({
       import_podcast_feed: {
-        network_id: data.networkId,
+        network_id: data.network_id,
         feed_url: data.feed_url,
         enclosure_types: data.enclosure_types,
-        short_id: data.short_id,
-        limit: data.limit
+        short_id: data.short_id
       }
     })
     return axios.post(
