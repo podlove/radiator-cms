@@ -142,7 +142,7 @@ export default {
           poster: this.podcast.image
         },
         duration: '04:15:32',
-        chapters: this.episode.audio.chapters,
+        chapters: this.episode.audio ? this.episode.audio.chapters : null,
         audio: [
           {
             url:

@@ -11,6 +11,14 @@
     </li>
     <li class="r_episode-info__item">
       <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
+        Short-Id:
+      </label>
+      <p class="r_episode-info__item__value">
+        {{ episode && episode.shortId ? episode.shortId : '' }}
+      </p>
+    </li>
+    <li class="r_episode-info__item">
+      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
         Slug:
       </label>
       <p class="r_episode-info__item__value">
@@ -38,7 +46,7 @@
         Description:
       </label>
       <p class="r_episode-info__item__value">
-        {{ episode && episode.description ? episode.description : '' }}
+        {{ episode && episode.summary ? episode.summary : '' }}
       </p>
     </li>
   </ul>

@@ -198,6 +198,7 @@ export default {
       //       and get the public url of the image
       //       to show a preview
       this.coverFileState = 'SUCCESS'
+      this.cover = params.file
     },
     handleFileDrop(params) {
       console.log('params', params)

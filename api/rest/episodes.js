@@ -4,8 +4,11 @@ export default {
   create: data => {
     const query = JSON.stringify({
       episode: {
-        title: data.title,
-        podcast_id: data.podcastId
+        title: data.title || null,
+        podcast_id: data.podcastId || null,
+        subtitle: data.subtitle || null,
+        summary: data.description || null,
+        short_id: data.shortId || null
       }
     })
     return axios.post(

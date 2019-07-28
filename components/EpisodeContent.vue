@@ -10,7 +10,7 @@
         <a> Edit shownotes</a>
       </b-button>
     </section>
-    <div class="r_episode-content__text" v-html="episode.summary"></div>
+    <div class="r_episode-content__text" v-html="episode.summaryHtml"></div>
   </div>
 </template>
 
