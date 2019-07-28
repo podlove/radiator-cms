@@ -180,9 +180,6 @@
                 <span class="r_menu__item">Submit an Issue</span>
               </a>
               <hr class="navbar-divider" />
-              <a class="r_usermenu__simple-item navbar-item">
-                Terms & Conditions
-              </a>
               <a class="r_usermenu__simple-item navbar-item">Privacy Policy</a>
             </div>
           </div>
