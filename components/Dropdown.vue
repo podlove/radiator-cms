@@ -23,6 +23,16 @@
       </nuxt-link>
     </b-dropdown-item>
     <b-dropdown-item aria-role="listitem">
+      <nuxt-link to="audio-publications/new">
+        <b-icon
+          class="r_dropdown__icon"
+          size="is-small"
+          icon="microphone"
+        ></b-icon>
+        <span> New Audio Publication</span>
+      </nuxt-link>
+    </b-dropdown-item>
+    <b-dropdown-item aria-role="listitem">
       <nuxt-link to="/networks/podcasts/new">
         <span
           class="has-background-primary r_dropdown__icon r_dropdown__podcast-cover"

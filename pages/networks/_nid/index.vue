@@ -1,6 +1,6 @@
 <template>
   <!-- NETWORK PAGE -->
-  <!-- path: `/networks/[network_id]/podcasts` -->
+  <!-- path: `/networks/[network_id]` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_network-hero">
@@ -24,16 +24,53 @@
     </section>
     <section class="container r_networks__main">
       <b-tabs v-model="activeTab" class="r_network-tabs">
-        <b-tab-item label="Podcasts">
-          <ul v-if="network">
-            <li
-              v-for="podcast in network.podcasts"
-              :key="podcast.id"
-              class="r_network__podcast"
+        <b-tab-item label="Podcasts and Audio Publications">
+          <section class="r_network__podcasts">
+            <h3 class="is-size-4">
+              Podcasts
+            </h3>
+            <div v-if="!network.podcasts || !network.podcasts.length > 0">
+              <p class="r_network__info-text">
+                There are no podcasts in your network.
+              </p>
+              <p>
+                <nuxt-link to="/networks/podcasts/new">
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Add new podcast</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+            </div>
+            <ul
+              v-if="network && network.podcasts && network.podcasts.length > 0"
             >
-              <podcast :podcast="podcast" />
-            </li>
-          </ul>
+              <li
+                v-for="podcast in network.podcasts"
+                :key="podcast.id"
+                class="r_network__podcast"
+              >
+                <podcast :podcast="podcast" />
+              </li>
+            </ul>
+          </section>
+          <section class="r_network__audio-pubs">
+            <h3 class="is-size-4">
+              Audio Publications
+            </h3>
+            <div v-if="!network.podcasts || !network.podcasts.length > 0">
+              <p class="r_network__info-text">
+                There are no audio publications in your network.
+              </p>
+              <p>
+                <nuxt-link to="/networks/audio-publications/new">
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Add new audio publication</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+            </div>
+            <!-- TODO: list audio pubs -->
+          </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
@@ -101,6 +138,13 @@
 <style>
 .r_network__podcast {
   margin: 2.5rem 0;
+}
+.r_network__info-text {
+  padding: 1rem 0 1rem 0;
+}
+.r_network__audio-pubs,
+.r_network__podcasts {
+  padding: 1rem 0 2rem 0;
 }
 .r_network-hero {
   padding: 11.25rem 0 2.5rem 0 !important;

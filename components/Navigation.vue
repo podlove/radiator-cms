@@ -26,11 +26,7 @@
         <div class="navbar-start">
           <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link" href="/networks">
-              {{
-                activeNetwork
-                  ? getActiveNetworkTitle(activeNetwork)
-                  : 'Networks'
-              }}
+              Networks
             </a>
             <div class="navbar-dropdown is-boxed">
               <span v-if="networks.length">
@@ -38,7 +34,7 @@
                   v-for="network in networks"
                   :key="network.id"
                   class="navbar-item"
-                  :href="'/networks/' + network.id + '/podcasts'"
+                  :href="'/networks/' + network.id"
                 >
                   {{ network.title }}
                 </a>
@@ -46,17 +42,24 @@
               </span>
               <a class="navbar-item" href="/networks/new">
                 <b-icon icon="plus-circle"></b-icon>
-                <span class="r_menu__item">Add new Network</span>
+                <span class="r_menu__item">Add new network</span>
+              </a>
+            </div>
+          </div>
+          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link" href="/networks/audio-publications">
+              Audio Publications
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item" href="/networks/audio-publications/new">
+                <b-icon icon="plus-circle"></b-icon>
+                <span class="r_menu__item">Add new audio publication</span>
               </a>
             </div>
           </div>
           <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link" href="/networks/podcasts">
-              {{
-                activePodcast && getActivePodcastTitle(activePodcast)
-                  ? getActivePodcastTitle(activePodcast)
-                  : 'Podcasts'
-              }}
+              Podcasts
             </a>
             <div class="navbar-dropdown is-boxed">
               <span v-if="networks.length">
@@ -87,7 +90,7 @@
               </span>
               <a class="navbar-item" href="/networks/podcasts/new">
                 <b-icon icon="plus-circle"></b-icon>
-                <span class="r_menu__item">Add new Podcast</span>
+                <span class="r_menu__item">Add new podcast</span>
               </a>
             </div>
           </div>
