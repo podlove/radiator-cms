@@ -82,7 +82,7 @@
         </b-tab-item>
         <b-tab-item label="Settings">
           <section>
-            <b-field label="Network Name">
+            <b-field label="Title">
               <b-input
                 v-if="isDisabled"
                 v-model="network.title"
@@ -94,6 +94,9 @@
                 :placeholder="network.title"
                 :is-loading="isLoading"
               ></b-input>
+            </b-field>
+            <b-field label="Slug">
+              <b-input v-model="network.slug" disabled></b-input>
             </b-field>
             <div class="r_settings__interaction">
               <b-button
