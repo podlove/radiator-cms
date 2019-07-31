@@ -1,19 +1,14 @@
 import restPodcast from '~/api/rest/podcasts'
 import podcast from '~/api/queries/podcast.gql'
-import podcasts from '~/api/queries/podcasts.gql'
 
 export const state = () => ({
   podcast: {},
-  podcasts: [],
   podcastsCollaborators: []
 })
 
 export const mutations = {
   set_podcast(store, data) {
     store.podcast = data
-  },
-  set_podcasts(store, data) {
-    store.podcasts = data
   },
   set_podcasts_collaborators(store, data) {
     store.podcastsCollaborators = data
@@ -38,9 +33,13 @@ export const actions = {
     try {
       const res = await restPodcast.create(data).then(data => data && data.data)
       await commit('set_podcast', res)
-      await dispatch('getPodcasts', {
-        token: this.$apolloHelpers.getToken()
-      })
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
@@ -51,9 +50,13 @@ export const actions = {
       await restPodcast.delete(data).then(data => {
         return data && data.data
       })
-      await dispatch('getPodcasts', {
-        token: this.$apolloHelpers.getToken()
-      })
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
@@ -78,22 +81,6 @@ export const actions = {
       throw Error(e)
     }
   },
-  /**
-   * Gets all podcasts and saves them in store.
-   */
-  getPodcasts: async function getPodcasts({ commit }) {
-    const client = this.app.apolloProvider.defaultClient
-    try {
-      const res = await client
-        .query({
-          query: podcasts
-        })
-        .then(({ data }) => data && data.podcasts)
-      await commit('set_podcasts', res)
-    } catch (e) {
-      throw Error(e)
-    }
-  },
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
@@ -101,9 +88,13 @@ export const actions = {
         return data && data.data
       })
       await commit('set_podcast', res)
-      await dispatch('getPodcasts', {
-        token: this.$apolloHelpers.getToken()
-      })
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }

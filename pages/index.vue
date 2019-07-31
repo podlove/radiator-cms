@@ -3,7 +3,7 @@
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body">
-        <div class="container">
+        <div v-if="!isLoggedIn" class="container">
           <h1 class="title">
             Radiator
           </h1>
@@ -11,11 +11,16 @@
             Podcast Hosting & Publishing
           </h2>
         </div>
+        <div v-if="isLoggedIn && networks && networks.length" class="container">
+          <h1 class="title">
+            {{ networks[0].title }}
+          </h1>
+        </div>
       </div>
     </section>
     <section class="container">
       <no-ssr>
-        <b-tabs v-model="activeTab" class="r_tabs">
+        <b-tabs v-if="!isLoggedIn" v-model="activeTab" class="r_tabs">
           <b-tab-item label="Login">
             <login />
           </b-tab-item>
@@ -38,6 +43,8 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
+
 import Login from '~/components/Login'
 import ResetPassword from '~/components/ResetPassword'
 import Signup from '~/components/Signup'
@@ -49,6 +56,10 @@ export default {
     return {
       activeTab: 0
     }
-  }
+  },
+  computed: mapState({
+    isLoggedIn: state => state.auth.isLoggedIn,
+    networks: state => state.networks.networks
+  })
 }
 </script>

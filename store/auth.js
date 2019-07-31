@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
 
 export const state = () => ({
@@ -6,10 +7,10 @@ export const state = () => ({
 
 export const mutations = {
   reset_session(store) {
-    store.isLoggedIn = false
+    Vue.set(store, 'isLoggedIn', false)
   },
   set_session(store) {
-    store.isLoggedIn = true
+    Vue.set(store, 'isLoggedIn', true)
   }
 }
 
@@ -38,15 +39,9 @@ export const actions = {
         })
         .then(({ data }) => data && data.authenticatedSession)
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
+      await dispatch('setSession')
       await dispatch(
         'networks/getNetworks',
-        {
-          token: res.token
-        },
-        { root: true }
-      )
-      await dispatch(
-        'podcasts/getPodcasts',
         {
           token: res.token
         },

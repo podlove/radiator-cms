@@ -88,7 +88,7 @@ export const actions = {
       })
       console.log('RES uploadEpisodeAudio', res)
       await dispatch(
-        'podcasts/getPodcasts',
+        'networks/getNetworks',
         {
           token: this.$apolloHelpers.getToken()
         },

@@ -79,7 +79,7 @@ export default {
           this.password = ''
           this.loading = false
           setTimeout(() => {
-            this.$router.push('/networks')
+            this.$router.push('/')
           }, 1000)
         })
         .catch(error => {

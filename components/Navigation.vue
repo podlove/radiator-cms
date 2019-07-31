@@ -2,12 +2,53 @@
   <!-- Main navigation. -->
   <no-ssr>
     <nav
-      class="navbar is-primary is-primary"
+      class="navbar is-primary is-fixed-top"
       role="navigation"
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <a class="navbar-item" href="/">Radiator</a>
+        <a
+          v-if="!isLoggedIn || !networks || networks.length === 0"
+          class="navbar-item"
+          href="/"
+        >
+          Radiator
+        </a>
+        <div
+          v-if="isLoggedIn && networks && networks.length"
+          class="navbar-item has-dropdown is-hoverable"
+        >
+          <a class="navbar-link is-arrowless">
+            <b-icon icon="account-switch"></b-icon>
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <p
+              class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
+            >
+              Switch your podcast network
+            </p>
+            <!-- TODO: Remove active network, add images -->
+            <a
+              v-for="network in networks"
+              :key="network.id"
+              class="navbar-item"
+              :href="'/network/' + activeNetwork"
+            >
+              {{ network.title }}
+            </a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item" href="/new-network">
+              <b-icon icon="plus-circle"></b-icon>
+              <span class="r_menu__item">New network</span>
+            </a>
+          </div>
+        </div>
+        <div
+          v-if="isLoggedIn && networks && networks.length"
+          class="navbar-item"
+        >
+          {{ networks[0].title }} Radiator
+        </div>
         <a
           v-if="isLoggedIn"
           role="button"
@@ -23,41 +64,30 @@
         </a>
       </div>
       <div class="navbar-menu" :class="{ 'is-active': isOpen }">
-        <div class="navbar-start">
-          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="/networks">
-              Networks
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <span v-if="networks.length">
-                <a
-                  v-for="network in networks"
-                  :key="network.id"
-                  class="navbar-item"
-                  :href="'/networks/' + network.id"
-                >
-                  {{ network.title }}
-                </a>
-                <hr class="navbar-divider" />
-              </span>
-              <a class="navbar-item" href="/networks/new">
-                <b-icon icon="plus-circle"></b-icon>
-                <span class="r_menu__item">Add new network</span>
-              </a>
-            </div>
-          </div>
-          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" href="/networks/audio-publications">
-              Audio Publications
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="/networks/audio-publications/new">
-                <b-icon icon="plus-circle"></b-icon>
-                <span class="r_menu__item">Add new audio publication</span>
-              </a>
-            </div>
-          </div>
-          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+        <div v-if="isLoggedIn" class="navbar-start">
+          <a class="navbar-item" href="/">
+            Audio Publications
+          </a>
+          <a
+            v-if="
+              networks &&
+                networks.length &&
+                (!networks[0].podcasts || !networks[0].podcasts.length)
+            "
+            class="navbar-item"
+            href="/"
+          >
+            Podcasts
+          </a>
+          <div
+            v-if="
+              networks &&
+                networks.length &&
+                networks[0].podcasts &&
+                networks[0].podcasts.length
+            "
+            class="navbar-item has-dropdown is-hoverable"
+          >
             <a class="navbar-link" href="/networks/podcasts">
               Podcasts
             </a>
@@ -88,10 +118,6 @@
                   </span>
                 </span>
               </span>
-              <a class="navbar-item" href="/networks/podcasts/new">
-                <b-icon icon="plus-circle"></b-icon>
-                <span class="r_menu__item">Add new podcast</span>
-              </a>
             </div>
           </div>
           <div
@@ -124,21 +150,12 @@
                   {{ episode.title }}
                 </a>
                 <hr class="navbar-divider" />
-                <a
-                  class="navbar-item"
-                  :href="
-                    '/networks/' +
-                      activeNetwork +
-                      '/podcasts/' +
-                      activePodcast +
-                      '/episodes/new'
-                  "
-                >
-                  <b-icon icon="plus-circle"></b-icon>
-                  <span class="r_menu__item">
-                    Add new Episode
-                  </span>
-                </a>
+                <div class="navbar-dropdown is-boxed">
+                  <a class="navbar-item" href="/new-episode">
+                    <b-icon icon="plus-circle"></b-icon>
+                    <span class="r_menu__item">New episode</span>
+                  </a>
+                </div>
               </span>
             </div>
           </div>
@@ -146,9 +163,28 @@
         <div class="navbar-end">
           <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link is-arrowless">
+              <b-icon icon="plus-circle"></b-icon>
+            </a>
+            <div class="navbar-dropdown is-boxed is-right">
+              <a class="navbar-item" href="/new-podcast">
+                <b-icon icon="library-books"></b-icon>
+                <span class="r_menu__item">New podcast</span>
+              </a>
+              <a class="navbar-item" href="/new-audio-publication">
+                <b-icon icon="help"></b-icon>
+                <span class="r_menu__item">New audio publication</span>
+              </a>
+              <a class="navbar-item" href="/new-episode">
+                <b-icon icon="lifebuoy"></b-icon>
+                <span class="r_menu__item">New episode</span>
+              </a>
+            </div>
+          </div>
+          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-arrowless">
               <b-icon icon="account-circle"></b-icon>
             </a>
-            <div class="navbar-dropdown is-right">
+            <div class="navbar-dropdown is-boxed is-right">
               <div class="navbar-item">
                 <b-icon
                   class="r__usermenu__avatar"
