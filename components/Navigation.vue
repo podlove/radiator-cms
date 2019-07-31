@@ -27,15 +27,15 @@
             >
               Switch your podcast network
             </p>
-            <!-- TODO: Remove active network, add images -->
-            <a
-              v-for="network in networks"
-              :key="network.id"
-              class="navbar-item"
-              :href="'/network/' + activeNetwork"
-            >
-              {{ network.title }}
-            </a>
+            <span v-for="network in networks" :key="network.id">
+              <a
+                v-if="network !== activeNetwork"
+                class="navbar-item"
+                :href="'/network/' + activeNetwork"
+              >
+                {{ network.title }}
+              </a>
+            </span>
             <hr class="navbar-divider" />
             <a class="navbar-item" href="/new-network">
               <b-icon icon="plus-circle"></b-icon>
@@ -43,11 +43,8 @@
             </a>
           </div>
         </div>
-        <div
-          v-if="isLoggedIn && networks && networks.length"
-          class="navbar-item"
-        >
-          {{ networks[0].title }} Radiator
+        <div v-if="isLoggedIn && activeNetwork" class="navbar-item">
+          {{ activeNetwork.title }} Radiator
         </div>
         <a
           v-if="isLoggedIn"
@@ -70,9 +67,8 @@
           </a>
           <a
             v-if="
-              networks &&
-                networks.length &&
-                (!networks[0].podcasts || !networks[0].podcasts.length)
+              activeNetwork &&
+                (!activeNetwork.podcasts || !activeNetwork.podcasts.length)
             "
             class="navbar-item"
             href="/"
@@ -81,10 +77,9 @@
           </a>
           <div
             v-if="
-              networks &&
-                networks.length &&
-                networks[0].podcasts &&
-                networks[0].podcasts.length
+              activeNetwork &&
+                activeNetwork.podcasts &&
+                activeNetwork.podcasts.length
             "
             class="navbar-item has-dropdown is-hoverable"
           >
@@ -114,7 +109,6 @@
                     >
                       {{ podcast.title }}
                     </a>
-                    <hr class="navbar-divider" />
                   </span>
                 </span>
               </span>
@@ -293,12 +287,11 @@ export default {
     }
   },
   computed: mapState({
+    activeNetwork: state => state.networks.activeNetwork,
     networks: state => state.networks.networks,
     podcast: state => state.podcasts.podcast,
-    podcasts: state => state.podcasts.podcasts,
     episode: state => state.episodes.episode,
     username: state => state.auth.username,
-    activeNetwork: state => state.navigation.activeNetworkId,
     activePodcast: state => state.navigation.activePodcastId,
     activeEpisode: state => state.navigation.activeEpisodeId
   }),

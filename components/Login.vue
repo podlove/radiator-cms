@@ -58,6 +58,7 @@ export default {
     }
   },
   computed: mapState({
+    activeNetwork: state => state.networks.activeNetwork,
     isLoggedIn: state => state.auth.isLoggedIn
   }),
   methods: {
@@ -79,7 +80,9 @@ export default {
           this.password = ''
           this.loading = false
           setTimeout(() => {
-            this.$router.push('/')
+            if (this.activeNetwork && this.activeNetwork.id) {
+              this.$router.push('/network/' + this.activeNetwork.id)
+            }
           }, 1000)
         })
         .catch(error => {

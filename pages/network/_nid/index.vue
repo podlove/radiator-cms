@@ -1,6 +1,6 @@
 <template>
   <!-- NETWORK PAGE -->
-  <!-- path: `/networks/[network_id]` -->
+  <!-- path: `/network/[network_id]` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_network-hero">
@@ -29,7 +29,11 @@
             <h3 class="is-size-4">
               Podcasts
             </h3>
-            <div v-if="!network.podcasts || !network.podcasts.length > 0">
+            <div
+              v-if="
+                network && (!network.podcasts || !network.podcasts.length > 0)
+              "
+            >
               <p class="r_network__info-text">
                 There are no podcasts in your network.
               </p>
@@ -57,7 +61,11 @@
             <h3 class="is-size-4">
               Audio Publications
             </h3>
-            <div v-if="!network.podcasts || !network.podcasts.length > 0">
+            <div
+              v-if="
+                network && (!network.podcasts || !network.podcasts.length > 0)
+              "
+            >
               <p class="r_network__info-text">
                 There are no audio publications in your network.
               </p>
@@ -84,19 +92,19 @@
           <section>
             <b-field label="Title">
               <b-input
-                v-if="isDisabled"
+                v-if="isDisabled && network"
                 v-model="network.title"
                 disabled
               ></b-input>
               <b-input
-                v-if="!isDisabled"
+                v-if="!isDisabled && network"
                 v-model="title"
                 :placeholder="network.title"
                 :is-loading="isLoading"
               ></b-input>
             </b-field>
             <b-field label="Slug">
-              <b-input v-model="network.slug" disabled></b-input>
+              <b-input v-if="network" v-model="network.slug" disabled></b-input>
             </b-field>
             <div class="r_settings__interaction">
               <b-button
@@ -199,7 +207,7 @@ export default {
     }
   },
   computed: mapState({
-    network: state => state.networks.network
+    network: state => state.networks.activeNetwork
   }),
   created() {
     this.$store

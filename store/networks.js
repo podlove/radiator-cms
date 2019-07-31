@@ -3,14 +3,14 @@ import network from '~/api/queries/network.gql'
 import networks from '~/api/queries/networks.gql'
 
 export const state = () => ({
-  network: {},
+  activeNetwork: null,
   networks: [],
   networksCollaborators: []
 })
 
 export const mutations = {
-  set_network(store, data) {
-    store.network = data
+  set_active_network(store, data) {
+    store.activeNetwork = data
   },
   set_networks(store, data) {
     store.networks = data
@@ -21,7 +21,7 @@ export const mutations = {
 }
 
 export const getters = {
-  network: state => state.network,
+  activeNetwork: state => state.activeNetwork,
   networks: state => state.networks,
   networksCollaborators: state => state.networksCollaborators
 }
@@ -39,7 +39,7 @@ export const actions = {
       const res = await restNetwork.create(data).then(data => {
         return data && data.data
       })
-      await commit('set_network', res)
+      await commit('set_active_network', res)
       await dispatch('getNetworks', {
         token: this.$apolloHelpers.getToken()
       })
@@ -75,7 +75,7 @@ export const actions = {
           }
         })
         .then(({ data }) => data && data.network)
-      await commit('set_network', res)
+      await commit('set_active_network', res)
     } catch (e) {
       throw Error(e)
     }
@@ -83,7 +83,7 @@ export const actions = {
   /**
    * Gets all networks and saves them in store.
    */
-  getNetworks: async function getNetworks({ commit }) {
+  getNetworks: async function getNetworks({ commit, state }) {
     const client = this.app.apolloProvider.defaultClient
     try {
       const res = await client
@@ -92,6 +92,9 @@ export const actions = {
         })
         .then(({ data }) => data && data.networks)
       await commit('set_networks', res)
+      if (state.activeNetwork === null) {
+        await commit('set_active_network', res[0])
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -102,7 +105,7 @@ export const actions = {
       const res = await restNetwork.update(data).then(data => {
         return data && data.data
       })
-      await commit('set_network', res)
+      await commit('set_active_network', res)
       await dispatch('getNetworks', {
         token: this.$apolloHelpers.getToken()
       })
