@@ -1,6 +1,6 @@
 <template>
   <!-- NEW NETWORK PAGE -->
-  <!-- path: `/networks/new` -->
+  <!-- path: `/new-network` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body">
@@ -69,14 +69,13 @@ export default {
       alert: null,
       cover: null,
       dropNetworkImage: [],
-      id: null,
       loading: false,
       title: 'New Network'
     }
   },
   computed: mapState({
-    network: state => state.networks.network,
-    token: state => state.auth.token
+    activeNetwork: state => state.networks.activeNetwork,
+    network: state => state.networks.network
   }),
   methods: {
     createNetwork() {
@@ -84,8 +83,7 @@ export default {
       this.$store
         .dispatch('networks/create', {
           cover: this.cover,
-          title: this.title,
-          token: this.token
+          title: this.title
         })
         .then(() => {
           this.loading = false
@@ -95,7 +93,7 @@ export default {
             type: 'is-success'
           })
           setTimeout(() => {
-            this.$router.replace(`/networks/${this.id}/podcasts`)
+            this.$router.replace(`/network/${this.activeNetwork.id}`)
           }, 1000)
         })
         .catch(error => {

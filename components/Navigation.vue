@@ -7,14 +7,6 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <!-- Logo when user is logged-out -->
-        <a
-          v-if="!isLoggedIn || !networks || networks.length === 0"
-          class="navbar-item"
-          href="/"
-        >
-          Radiator
-        </a>
         <!-- Network Switch -->
         <div
           v-if="isLoggedIn && networks && networks.length"
@@ -31,7 +23,10 @@
             </p>
             <span v-for="network in networks" :key="network.id">
               <a
-                v-if="activeNetwork && network.id !== activeNetwork.id"
+                v-if="
+                  (activeNetwork && network.id !== activeNetwork.id) ||
+                    !activeNetwork
+                "
                 class="navbar-item"
                 :href="'/network/' + network.id"
               >
@@ -50,6 +45,16 @@
         <div v-if="isLoggedIn && activeNetwork" class="navbar-item">
           {{ activeNetwork.title }} Radiator
         </div>
+        <!-- Logo when user is logged-out -->
+        <a
+          v-if="
+            !isLoggedIn || !networks || networks.length === 0 || !activeNetwork
+          "
+          class="navbar-item"
+          href="/"
+        >
+          Radiator
+        </a>
         <!-- Mobile menu -->
         <a
           v-if="isLoggedIn"

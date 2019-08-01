@@ -92,9 +92,6 @@ export const actions = {
         })
         .then(({ data }) => data && data.networks)
       await commit('set_networks', res)
-      if (state.activeNetwork === null) {
-        await commit('set_active_network', res[0])
-      }
     } catch (e) {
       throw Error(e)
     }
