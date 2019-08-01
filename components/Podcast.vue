@@ -10,17 +10,34 @@
           })`
         }"
       ></div>
-      <div class="r_podcast__title">
+      <a
+        class="r_podcast__title"
+        :href="this.$route.path + '/podcast/' + podcast.id"
+      >
         <h1 class="is-size-5">{{ podcast.title }}</h1>
         <h2 class="is-size-7">{{ podcast.subtitle }}</h2>
-      </div>
+      </a>
       <p class="r_podcast__analytics">
         <span class="is-size-4">38293</span>
         <span class="is-size-7">Subscriptions</span>
       </p>
     </header>
     <main class="r_podcast__main">
-      <ul class="r_podcast__episodes">
+      <!-- Fallback: No Episodes -->
+      <div v-if="!podcast.episodes || !podcast.episodes.length > 0">
+        <p class="r_network__info-text">
+          Your podcast has no episodes.
+        </p>
+        <p>
+          <nuxt-link :to="'/new-episode?podcastId=' + podcast.id">
+            <b-button outlined type="is-primary" icon-left="plus-circle">
+              <span>Create a new episode</span>
+            </b-button>
+          </nuxt-link>
+        </p>
+      </div>
+      <!-- List of episodes -->
+      <ul v-if="podcast.episodes" class="r_podcast__episodes">
         <li
           v-for="episode in podcast.episodes"
           :key="episode.id"

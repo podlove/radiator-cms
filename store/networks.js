@@ -96,6 +96,10 @@ export const actions = {
       throw Error(e)
     }
   },
+  setActiveNetwork({ commit, state }, data) {
+    const activeNetwork = state.networks.filter(network => network.id === data)
+    commit('set_active_network', activeNetwork)
+  },
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {

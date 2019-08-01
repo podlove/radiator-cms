@@ -1,6 +1,6 @@
 <template>
   <!-- NEW AUDIO PUBLICATION PAGE -->
-  <!-- path: `/networks/audio-publications/new` -->
+  <!-- path: `/new-audio-publication` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-audio-pub-hero">
@@ -109,7 +109,7 @@ export default {
       cover: null,
       description: null,
       dropCover: [],
-      networkId: null,
+      networkId: this.$route.query.networkId || null,
       loading: false,
       title: 'New Audio Publication'
     }

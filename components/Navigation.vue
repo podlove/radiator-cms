@@ -82,13 +82,6 @@
           >
             Audio Publications
           </a>
-          <a
-            v-if="!activeNetwork.podcasts || !activeNetwork.podcasts.length"
-            class="navbar-item"
-            href="/"
-          >
-            Podcasts
-          </a>
           <div
             v-if="activeNetwork.podcasts && activeNetwork.podcasts.length"
             class="navbar-item has-dropdown is-hoverable"

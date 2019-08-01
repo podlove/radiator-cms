@@ -2,13 +2,13 @@ import restPodcast from '~/api/rest/podcasts'
 import podcast from '~/api/queries/podcast.gql'
 
 export const state = () => ({
-  podcast: {},
+  activePodcast: {},
   podcastsCollaborators: []
 })
 
 export const mutations = {
-  set_podcast(store, data) {
-    store.podcast = data
+  set_active_podcast(store, data) {
+    store.activePodcast = data
   },
   set_podcasts_collaborators(store, data) {
     store.podcastsCollaborators = data
@@ -16,7 +16,7 @@ export const mutations = {
 }
 
 export const getters = {
-  podcast: state => state.podcast,
+  activePodcast: state => state.activePodcast,
   podcasts: state => state.podcasts,
   podcastsCollaborators: state => state.podcastsCollaborators
 }
@@ -32,7 +32,7 @@ export const actions = {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPodcast.create(data).then(data => data && data.data)
-      await commit('set_podcast', res)
+      await commit('set_active_podcast', res)
       await dispatch(
         'networks/getNetworks',
         {
@@ -76,10 +76,22 @@ export const actions = {
           }
         })
         .then(({ data }) => data && data.podcast)
-      await commit('set_podcast', res)
+      await commit('set_active_podcast', res)
     } catch (e) {
       throw Error(e)
     }
+  },
+  setActivePodcast({ commit, rootState }, data) {
+    const podcasts = []
+    for (const network in rootState.networks) {
+      if (network.podcasts && network.podcasts.length) {
+        for (const podcast in network.podcasts) {
+          podcasts.push(podcast)
+        }
+      }
+    }
+    const activePodcast = podcasts.filter(podcast => podcast.id === data)
+    commit('set_active_podcast', activePodcast)
   },
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
@@ -87,7 +99,7 @@ export const actions = {
       const res = await restPodcast.update(data).then(data => {
         return data && data.data
       })
-      await commit('set_podcast', res)
+      await commit('set_active_podcast', res)
       await dispatch(
         'networks/getNetworks',
         {

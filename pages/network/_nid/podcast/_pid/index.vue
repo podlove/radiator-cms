@@ -152,7 +152,7 @@ export default {
     }
   },
   computed: mapState({
-    podcast: state => state.podcasts.podcast
+    podcast: state => state.podcasts.activePodcast
   }),
   created() {
     this.$store
