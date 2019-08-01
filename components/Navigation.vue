@@ -102,45 +102,6 @@
               </a>
             </div>
           </div>
-          <div
-            v-if="isLoggedIn && activePodcast"
-            class="navbar-item has-dropdown is-hoverable"
-          >
-            <a class="navbar-link" href="/networks/podcasts/episodes">
-              {{ activeEpisode ? episode.title : 'Episodes' }}
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <span>
-                <p
-                  class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
-                >
-                  {{ getActivePodcastTitle() }}
-                </p>
-                <a
-                  v-for="episode in episodes"
-                  :key="episode.id"
-                  class="navbar-item"
-                  :href="
-                    '/networks/' +
-                      activeNetwork +
-                      '/podcasts/' +
-                      activePodcast +
-                      '/episodes/' +
-                      episode.id
-                  "
-                >
-                  {{ episode.title }}
-                </a>
-                <hr class="navbar-divider" />
-                <div class="navbar-dropdown is-boxed">
-                  <a class="navbar-item" href="/new-episode">
-                    <b-icon icon="plus-circle"></b-icon>
-                    <span class="r_menu__item">New episode</span>
-                  </a>
-                </div>
-              </span>
-            </div>
-          </div>
         </div>
         <div class="navbar-end">
           <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
@@ -298,35 +259,14 @@ export default {
   computed: mapState({
     activeNetwork: state => state.networks.activeNetwork,
     networks: state => state.networks.networks,
-    podcast: state => state.podcasts.podcast,
     episode: state => state.episodes.episode,
     username: state => state.auth.username,
-    activePodcast: state => state.navigation.activePodcastId,
-    activeEpisode: state => state.navigation.activeEpisodeId
+    activePodcast: state => state.podcasts.activePodcast,
+    activeEpisode: state => state.episodes.activeEpisode
   }),
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')
-    },
-    getActiveNetworkTitle() {
-      const found = this.networks.find(element => {
-        return element.id === this.activeNetwork
-      })
-      if (found) {
-        return found.title
-      }
-    },
-    getActivePodcastTitle() {
-      const found = this.podcast
-        ? this.podcast
-        : this.podcasts.find(element => {
-            return element.id === this.activePodcast
-          })
-
-      if (found) {
-        this.episodes = found.episodes
-        return found.title
-      }
     }
   }
 }

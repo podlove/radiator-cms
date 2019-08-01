@@ -27,6 +27,19 @@
       >
         {{ alert.message }}
       </b-notification>
+      <b-field label="Podcast">
+        <no-ssr v-if="activeNetwork && activeNetwork.podcasts">
+          <b-select v-model="activePodcast.id" placeholder="Select a podcast">
+            <option
+              v-for="podcast in activeNetwork.podcasts"
+              :key="podcast.id"
+              :value="podcast.id"
+            >
+              {{ podcast.title }}
+            </option>
+          </b-select>
+        </no-ssr>
+      </b-field>
       <b-field label="Number">
         <b-numberinput v-model="number" placeholder="283"></b-numberinput>
       </b-field>
@@ -154,16 +167,16 @@ export default {
     }
   },
   computed: mapState({
-    activeNetworkId: state => state.navigation.activeNetworkId,
-    activePodcastId: state => state.navigation.activePodcastId,
-    episode: state => state.episodes.episode
+    episode: state => state.episodes.episode,
+    activePodcast: state => state.podcasts.activePodcast,
+    activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
     createEpisode() {
       this.loading = true
       this.$store
         .dispatch('episodes/create', {
-          podcastId: this.activePodcastId,
+          podcastId: this.activePodcast.id,
           title: this.title,
           subtitle: this.subtitle,
           description: this.description,
@@ -178,8 +191,8 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/networks/${this.activeNetworkId}/podcasts/${
-                this.activePodcastId
+              `/networks/${this.activeNetwork.id}/podcasts/${
+                this.activePodcast.id
               }/episodes/${this.episode.id}`
             )
           }, 1000)
@@ -208,7 +221,7 @@ export default {
       this.$store
         .dispatch('audio/createAudio', {
           file: params.file,
-          networkId: this.activeNetworkId,
+          networkId: this.activeNetwork.id,
           title: params.file.name
         })
         .then(result => {
