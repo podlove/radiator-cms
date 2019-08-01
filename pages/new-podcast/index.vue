@@ -1,6 +1,6 @@
 <template>
   <!-- NEW PODCAST PAGE -->
-  <!-- path: `/networks/podcasts/new` -->
+  <!-- path: `/new-podcast` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-podcast-hero">
@@ -102,7 +102,7 @@ export default {
       cover: null,
       description: null,
       dropCover: [],
-      networkId: null,
+      networkId: this.$route.query.networkId || null,
       loading: false,
       title: 'New Podcast'
     }
@@ -130,7 +130,7 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/networks/${this.networkId}/podcasts/${this.podcast.id}/episodes`
+              `/network/${this.networkId}/podcast/${this.podcast.id}`
             )
           }, 1000)
         })

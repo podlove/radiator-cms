@@ -38,7 +38,7 @@
                 There are no podcasts in your network.
               </p>
               <p>
-                <nuxt-link to="/networks/podcasts/new">
+                <nuxt-link :to="'/new-podcast?networkId=' + network.id">
                   <b-button outlined type="is-primary" icon-left="plus-circle">
                     <span>Add new podcast</span>
                   </b-button>
@@ -70,7 +70,9 @@
                 There are no audio publications in your network.
               </p>
               <p>
-                <nuxt-link to="/networks/audio-publications/new">
+                <nuxt-link
+                  :to="'/new-audio-publication?networkId=' + network.id"
+                >
                   <b-button outlined type="is-primary" icon-left="plus-circle">
                     <span>Add new audio publication</span>
                   </b-button>

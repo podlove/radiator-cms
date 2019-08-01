@@ -42,9 +42,13 @@
           </div>
         </div>
         <!-- Logo when user is logged-in -->
-        <div v-if="isLoggedIn && activeNetwork" class="navbar-item">
+        <a
+          v-if="isLoggedIn && activeNetwork"
+          class="navbar-item"
+          :href="'/network/' + activeNetwork.id"
+        >
           {{ activeNetwork.title }} Radiator
-        </div>
+        </a>
         <!-- Logo when user is logged-out -->
         <a
           v-if="
@@ -151,15 +155,36 @@
               <b-icon icon="plus-circle"></b-icon>
             </a>
             <div class="navbar-dropdown is-boxed is-right">
-              <a class="navbar-item" href="/new-podcast">
+              <a
+                class="navbar-item"
+                :href="
+                  activeNetwork
+                    ? '/new-podcast?networkId=' + activeNetwork.id
+                    : '/new-podcast'
+                "
+              >
                 <b-icon icon="library-books"></b-icon>
                 <span class="r_menu__item">New podcast</span>
               </a>
-              <a class="navbar-item" href="/new-audio-publication">
+              <a
+                class="navbar-item"
+                :href="
+                  activeNetwork
+                    ? '/new-audio-publication?networkId=' + activeNetwork.id
+                    : '/new-audio-publication'
+                "
+              >
                 <b-icon icon="help"></b-icon>
                 <span class="r_menu__item">New audio publication</span>
               </a>
-              <a class="navbar-item" href="/new-episode">
+              <a
+                class="navbar-item"
+                :href="
+                  activeNetwork
+                    ? '/new-episode?networkId=' + activeNetwork.id
+                    : '/new-episode'
+                "
+              >
                 <b-icon icon="lifebuoy"></b-icon>
                 <span class="r_menu__item">New episode</span>
               </a>
