@@ -7,6 +7,7 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
+        <!-- Logo when user is logged-out -->
         <a
           v-if="!isLoggedIn || !networks || networks.length === 0"
           class="navbar-item"
@@ -14,6 +15,7 @@
         >
           Radiator
         </a>
+        <!-- Network Switch -->
         <div
           v-if="isLoggedIn && networks && networks.length"
           class="navbar-item has-dropdown is-hoverable"
@@ -37,15 +39,18 @@
               </a>
             </span>
             <hr class="navbar-divider" />
+            <!-- TODO: Send parameter of network when there is an active network -->
             <a class="navbar-item" href="/new-network">
               <b-icon icon="plus-circle"></b-icon>
               <span class="r_menu__item">New network</span>
             </a>
           </div>
         </div>
+        <!-- Logo when user is logged-in -->
         <div v-if="isLoggedIn && activeNetwork" class="navbar-item">
           {{ activeNetwork.title }} Radiator
         </div>
+        <!-- Mobile menu -->
         <a
           v-if="isLoggedIn"
           role="button"
@@ -61,57 +66,38 @@
         </a>
       </div>
       <div class="navbar-menu" :class="{ 'is-active': isOpen }">
-        <div v-if="isLoggedIn" class="navbar-start">
-          <a class="navbar-item" href="/">
+        <div v-if="isLoggedIn && activeNetwork" class="navbar-start">
+          <a
+            class="navbar-item"
+            :href="'/network/' + activeNetwork.id + '/audio-publications'"
+          >
             Audio Publications
           </a>
           <a
-            v-if="
-              activeNetwork &&
-                (!activeNetwork.podcasts || !activeNetwork.podcasts.length)
-            "
+            v-if="!activeNetwork.podcasts || !activeNetwork.podcasts.length"
             class="navbar-item"
             href="/"
           >
             Podcasts
           </a>
           <div
-            v-if="
-              activeNetwork &&
-                activeNetwork.podcasts &&
-                activeNetwork.podcasts.length
-            "
+            v-if="activeNetwork.podcasts && activeNetwork.podcasts.length"
             class="navbar-item has-dropdown is-hoverable"
           >
-            <a class="navbar-link" href="/networks/podcasts">
+            <div class="navbar-item navbar-link">
               Podcasts
-            </a>
+            </div>
             <div class="navbar-dropdown is-boxed">
-              <span v-if="networks.length">
-                <span v-for="network in networks" :key="network.id">
-                  <span v-if="network.podcasts.length">
-                    <p
-                      class="has-text-grey-light has-text-weight-bold is-size-7 r_network-label"
-                    >
-                      {{ network.title }}
-                    </p>
-                    <a
-                      v-for="podcast in network.podcasts"
-                      :key="podcast.id"
-                      class="navbar-item"
-                      :href="
-                        '/networks/' +
-                          network.id +
-                          '/podcasts/' +
-                          podcast.id +
-                          '/episodes'
-                      "
-                    >
-                      {{ podcast.title }}
-                    </a>
-                  </span>
-                </span>
-              </span>
+              <a
+                v-for="podcast in activeNetwork.podcasts"
+                :key="podcast.id"
+                class="navbar-item"
+                :href="
+                  '/network/' + activeNetwork.id + '/podcast/' + podcast.id
+                "
+              >
+                {{ podcast.title }}
+              </a>
             </div>
           </div>
           <div
