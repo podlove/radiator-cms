@@ -29,9 +29,9 @@
             </p>
             <span v-for="network in networks" :key="network.id">
               <a
-                v-if="network !== activeNetwork"
+                v-if="activeNetwork && network.id !== activeNetwork.id"
                 class="navbar-item"
-                :href="'/network/' + activeNetwork"
+                :href="'/network/' + network.id"
               >
                 {{ network.title }}
               </a>
