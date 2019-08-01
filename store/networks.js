@@ -83,7 +83,7 @@ export const actions = {
   /**
    * Gets all networks and saves them in store.
    */
-  getNetworks: async function getNetworks({ commit, state }) {
+  getNetworks: async function getNetworks({ commit }) {
     const client = this.app.apolloProvider.defaultClient
     try {
       const res = await client
@@ -96,9 +96,28 @@ export const actions = {
       throw Error(e)
     }
   },
-  setActiveNetwork({ commit, state }, data) {
-    const activeNetwork = state.networks.filter(network => network.id === data)
-    commit('set_active_network', activeNetwork)
+  setActiveNetworkId: async function setActiveNetworkId(
+    { dispatch, commit, state },
+    data
+  ) {
+    let networks = null
+    // Check if there are networks and get them if there are none
+    if (state.networks && state.networks.length) {
+      networks = state.networks
+    } else {
+      await dispatch('getNetworks', {
+        token: this.$apolloHelpers.getToken()
+      })
+      networks = state.networks
+    }
+    // Set active network
+    if (networks) {
+      for (const network of networks) {
+        if (network.id === data) {
+          commit('set_active_network', network)
+        }
+      }
+    }
   },
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()

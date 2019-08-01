@@ -26,7 +26,7 @@
       <b-tabs v-model="activeTab" class="r_podcast-tabs">
         <b-tab-item label="Episodes">
           <section class="r_episodes__header">
-            <nuxt-link :to="`${this.$route.path}/new`">
+            <nuxt-link :to="`/new-episode?podcastId=${podcast.id}`">
               <b-button type="is-primary" outlined>
                 <b-icon size="is-small" icon="plus-circle"></b-icon>
                 <span> New Episode</span>

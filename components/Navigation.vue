@@ -151,7 +151,7 @@
               <a
                 class="navbar-item"
                 :href="
-                  activeNetwork
+                  activeNetwork && activeNetwork.id
                     ? '/new-podcast?networkId=' + activeNetwork.id
                     : '/new-podcast'
                 "
