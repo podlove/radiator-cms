@@ -1,6 +1,6 @@
 <template>
   <!-- NEW EPISODE PAGE -->
-  <!-- path: `/networks/[network_id]/podcasts/[podcast_id]/episodes/new` -->
+  <!-- path: `/network/[network_id]/podcast/[podcast_id]/new-episode` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">
@@ -27,19 +27,6 @@
       >
         {{ alert.message }}
       </b-notification>
-      <b-field label="Podcast">
-        <no-ssr v-if="activeNetwork && activeNetwork.podcasts">
-          <b-select v-model="activePodcast.id" placeholder="Select a podcast">
-            <option
-              v-for="podcast in activeNetwork.podcasts"
-              :key="podcast.id"
-              :value="podcast.id"
-            >
-              {{ podcast.title }}
-            </option>
-          </b-select>
-        </no-ssr>
-      </b-field>
       <b-field label="Number">
         <b-numberinput v-model="number" placeholder="283"></b-numberinput>
       </b-field>

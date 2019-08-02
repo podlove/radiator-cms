@@ -77,6 +77,10 @@
       <div class="navbar-menu" :class="{ 'is-active': isOpen }">
         <div v-if="isLoggedIn && activeNetwork" class="navbar-start">
           <a
+            v-if="
+              activeNetwork.audioPublications &&
+                activeNetwork.audioPublications.length
+            "
             class="navbar-item"
             :href="'/network/' + activeNetwork.id + '/audio-publications'"
           >
@@ -104,39 +108,46 @@
           </div>
         </div>
         <div class="navbar-end">
-          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
+          <div
+            v-if="isLoggedIn && activeNetwork && activeNetwork.id"
+            class="navbar-item has-dropdown is-hoverable"
+          >
             <a class="navbar-link is-arrowless">
               <b-icon icon="plus-circle"></b-icon>
             </a>
             <div class="navbar-dropdown is-boxed is-right">
               <a
                 class="navbar-item"
-                :href="
-                  activeNetwork && activeNetwork.id
-                    ? '/new-podcast?networkId=' + activeNetwork.id
-                    : '/new-podcast'
-                "
+                :href="'/network/' + activeNetwork.id + '/new-podcast'"
               >
                 <b-icon icon="library-books"></b-icon>
                 <span class="r_menu__item">New podcast</span>
               </a>
               <a
                 class="navbar-item"
+                :href="'/network/' + activeNetwork.id + '/import-podcast'"
+              >
+                <b-icon icon="library-books"></b-icon>
+                <span class="r_menu__item">Import podcast</span>
+              </a>
+              <a
+                class="navbar-item"
                 :href="
-                  activeNetwork
-                    ? '/new-audio-publication?networkId=' + activeNetwork.id
-                    : '/new-audio-publication'
+                  '/network/' + activeNetwork.id + '/new-audio-publication'
                 "
               >
                 <b-icon icon="help"></b-icon>
                 <span class="r_menu__item">New audio publication</span>
               </a>
               <a
+                v-if="activePodcast && activePodcast.id"
                 class="navbar-item"
                 :href="
-                  activeNetwork
-                    ? '/new-episode?networkId=' + activeNetwork.id
-                    : '/new-episode'
+                  '/network/' +
+                    activeNetwork.id +
+                    '/podcast/' +
+                    activePodcast.id +
+                    '/new-episode'
                 "
               >
                 <b-icon icon="lifebuoy"></b-icon>

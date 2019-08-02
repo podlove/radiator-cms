@@ -81,24 +81,10 @@ export const actions = {
       throw Error(e)
     }
   },
-  setActivePodcastId({ commit, rootState }, data) {
-    const podcasts = []
-    let newActivePodcast = null
-    for (const network in rootState.networks) {
-      if (network.podcasts && network.podcasts.length) {
-        for (const podcast in network.podcasts) {
-          podcasts.push(podcast)
-        }
-      }
-    }
-    for (const podcast in podcasts) {
-      if (podcast.id === data) {
-        newActivePodcast = podcast
-      }
-    }
-    if (newActivePodcast) {
-      commit('set_active_podast', newActivePodcast)
-    }
+  setActivePodcastId({ commit, dispatch }, data) {
+    dispatch('getPodcast', {
+      id: data
+    })
   },
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()

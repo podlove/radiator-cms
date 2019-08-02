@@ -16,7 +16,7 @@ export default {
   components: { Navigation },
   // Check if user is logged in
   middleware: ['isAuth'],
-  mounted() {
+  beforeCreate() {
     this.$store.watch((newValue, oldValue) => {
       // Redirect to homepage if user is not logged in
       if (newValue.auth.isLoggedIn === false) {
@@ -43,7 +43,7 @@ export default {
       }
     })
   },
-  created() {
+  mounted() {
     // Check if user is on a network, podcast or episodes page
     const path = this.$route.path
     const activeNetwork = path.match(NETWORKS_REGEX)

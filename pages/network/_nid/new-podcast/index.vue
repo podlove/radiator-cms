@@ -33,19 +33,6 @@
           placeholder="Podcast Description"
         ></b-input>
       </b-field>
-      <b-field label="Network">
-        <no-ssr>
-          <b-select v-model="networkId" placeholder="Select a podcast network">
-            <option
-              v-for="network in networks"
-              :key="network.id"
-              :value="network.id"
-            >
-              {{ network.title }}
-            </option>
-          </b-select>
-        </no-ssr>
-      </b-field>
       <upload class="field" label="Podcast Cover" :drop-files="dropCover" />
       <b-button
         type="is-primary"
@@ -102,14 +89,13 @@ export default {
       cover: null,
       description: null,
       dropCover: [],
-      networkId: this.$route.query.networkId || null,
       loading: false,
       title: 'New Podcast'
     }
   },
   computed: mapState({
-    networks: state => state.networks.networks,
-    podcast: state => state.podcasts.podcast
+    activeNetwork: state => state.networks.activeNetwork,
+    activePodcast: state => state.podcasts.activePodcast
   }),
   methods: {
     createPodcast() {
@@ -119,7 +105,7 @@ export default {
           cover: this.cover,
           description: this.description,
           title: this.title,
-          networkId: this.networkId
+          networkId: this.activeNetwork.id
         })
         .then(() => {
           this.loading = false
@@ -130,7 +116,9 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/network/${this.networkId}/podcast/${this.podcast.id}`
+              `/network/${this.activeNetwork.id}/podcast/${
+                this.activePodcast.id
+              }`
             )
           }, 1000)
         })

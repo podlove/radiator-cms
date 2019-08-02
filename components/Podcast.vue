@@ -29,7 +29,15 @@
           Your podcast has no episodes.
         </p>
         <p>
-          <nuxt-link :to="'/new-episode?podcastId=' + podcast.id">
+          <nuxt-link
+            :to="
+              '/network/' +
+                network.id +
+                '/podcast/' +
+                podcast.id +
+                '/new-episode'
+            "
+          >
             <b-button outlined type="is-primary" icon-left="plus-circle">
               <span>Create a new episode</span>
             </b-button>
@@ -131,6 +139,10 @@
 <script>
 export default {
   props: {
+    network: {
+      type: Object,
+      required: true
+    },
     podcast: {
       type: Object,
       required: true

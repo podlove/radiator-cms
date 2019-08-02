@@ -22,6 +22,7 @@
       image,
       slug,
       subtitle,
+      summary,
       title,
     },
     slug,

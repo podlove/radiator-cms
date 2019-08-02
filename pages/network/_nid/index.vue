@@ -38,7 +38,7 @@
                 There are no podcasts in your network.
               </p>
               <p>
-                <nuxt-link :to="'/new-podcast?networkId=' + network.id">
+                <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
                   <b-button outlined type="is-primary" icon-left="plus-circle">
                     <span>Add new podcast</span>
                   </b-button>
@@ -53,7 +53,7 @@
                 :key="podcast.id"
                 class="r_network__podcast"
               >
-                <podcast :podcast="podcast" />
+                <podcast :network="network" :podcast="podcast" />
               </li>
             </ul>
           </section>
@@ -63,7 +63,9 @@
             </h3>
             <div
               v-if="
-                network && (!network.podcasts || !network.podcasts.length > 0)
+                network &&
+                  (!network.audioPublications ||
+                    !network.audioPublications.length > 0)
               "
             >
               <p class="r_network__info-text">
@@ -71,7 +73,7 @@
               </p>
               <p>
                 <nuxt-link
-                  :to="'/new-audio-publication?networkId=' + network.id"
+                  :to="'/network/' + network.id + '/new-audio-publication'"
                 >
                   <b-button outlined type="is-primary" icon-left="plus-circle">
                     <span>Add new audio publication</span>
