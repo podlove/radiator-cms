@@ -2,7 +2,15 @@ query audio($id: ID!) {
   audio(id: $id) {
     audioFiles {
       byteLength,
+      file,
+      id
       mimeType,
+      title
+    },
+    audioPublication {
+      id,
+      publishState,
+      publishedAt,
       title
     },
     chapters {
@@ -12,10 +20,33 @@ query audio($id: ID!) {
       startString,
       title
     },
+    contributions {
+      contributionRole {
+        id,
+        title
+      },
+      id,
+      person {
+        displayName,
+        id,
+        image,
+        name,
+        nick
+      },
+      position
+    },
     duration,
     durationString,
+    episodes {
+      id,
+      podcast {
+        id,
+        title
+      },
+      title
+    },
     id,
-    publishedAt,
+    image,
     title
   }
 }
