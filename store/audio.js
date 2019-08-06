@@ -96,6 +96,11 @@ export const actions = {
       throw Error(e)
     }
   },
+  setActiveAudioId({ dispatch }, data) {
+    dispatch('getAudio', {
+      id: data
+    })
+  },
   updateAudio: async function updateAudio({ dispatch }, data) {
     console.log('Upadte Audio', data)
     data.token = this.$apolloHelpers.getToken()

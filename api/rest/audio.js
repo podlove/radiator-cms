@@ -60,12 +60,9 @@ export default {
     )
   },
   updateAudio: data => {
-    const query = JSON.stringify({
-      audio: {
-        // image: data.image,
-        title: data.title
-      }
-    })
+    const query = new FormData()
+    query.append('audio[image]', data.image)
+    query.append('audio[title]', data.title)
     return axios.patch(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
         data.id
@@ -73,7 +70,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }

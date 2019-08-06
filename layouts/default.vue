@@ -10,6 +10,7 @@ import Navigation from '~/components/Navigation'
 
 const NETWORKS_REGEX = /\/network\/(?<network_id>\d+)/
 const PODCASTS_REGEX = /\/network\/(?<network_id>\d+)\/podcast\/(?<podcast_id>\d+)/
+const AUDIO_REGEX = /\/network\/(?<network_id>\d+)\/audio-publications\/(?<audio_id>\d+)/
 // const EPISODES_REGEX = /\/network\/(?<network_id>\d+)\/podcast\/(?<podcast_id>\d+)\/episode\/(?<episode_id>\d+)/
 
 export default {
@@ -52,18 +53,17 @@ export default {
     const activePodcast = path.match(PODCASTS_REGEX)
       ? path.match(PODCASTS_REGEX).groups
       : null
-    // const activeEpisode = path.match(EPISODES_REGEX)
-    //   ? path.match(EPISODES_REGEX).groups
-    //   : null
-    // Set active Episode
-    // if (activeEpisode) {
-    //   this.$store.dispatch(
-    //     'navigation/setActiveEpisode',
-    //     activeEpisode.episode_id
-    //   )
-    // }
+    const activeAudio = path.match(AUDIO_REGEX)
+      ? path.match(AUDIO_REGEX).groups
+      : null
+    // Set active Audio
+    if (activeAudio) {
+      console.log('active audio', activeAudio)
+      this.$store.dispatch('audio/setActiveAudioId', activeAudio.audio_id)
+    }
     // Set active Podcast
     if (activePodcast) {
+      console.log('active podcast', activePodcast)
       this.$store.dispatch(
         'podcasts/setActivePodcastId',
         activePodcast.podcast_id

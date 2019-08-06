@@ -1,6 +1,6 @@
 <template>
   <!-- PODCAST PAGE -->
-  <!-- path: `/networks/[network_id]/podcasts/[podcast_id]/episodes` -->
+  <!-- path: `/network/[network_id]/podcast/[podcast_id]` -->
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_podcast-hero">

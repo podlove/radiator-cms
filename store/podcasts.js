@@ -81,7 +81,7 @@ export const actions = {
       throw Error(e)
     }
   },
-  setActivePodcastId({ commit, dispatch }, data) {
+  setActivePodcastId({ dispatch }, data) {
     dispatch('getPodcast', {
       id: data
     })
