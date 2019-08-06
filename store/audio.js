@@ -24,24 +24,16 @@ export const getters = {
 }
 
 export const actions = {
-  createAudioPublication: async function createAudioPublication(
-    { dispatch },
-    data
-  ) {
-    console.log('Create Audio Publication', data)
+  createAudio: async function createAudio({ dispatch }, data) {
+    console.log('Create Audio', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restAudio.createAudioPublication(data).then(data => {
+      const res = await restAudio.createAudio(data).then(data => {
         return data && data.data
       })
-      console.log('Audio Publication Res', res)
-      const params = await {
-        title: data.title,
-        file: data.file,
-        id: res.id,
-        token: this.$apolloHelpers.getToken()
-      }
-      return await dispatch('createAudioFile', params)
+      await dispatch('getAudio', {
+        id: res.id
+      })
     } catch (e) {
       throw Error(e)
     }
@@ -65,13 +57,14 @@ export const actions = {
   },
   createAudioFile: async function createAudioFile({ dispatch }, data) {
     console.log('Create Audio File', data)
+    data.token = this.$apolloHelpers.getToken()
     try {
       await restAudio.createAudioFile(data).then(data => {
         return data && data.data
       })
       // use audio publication/podcast audio id for audio request
       const params = await {
-        id: data.id,
+        id: data.audioId,
         token: this.$apolloHelpers.getToken()
       }
       return await dispatch('getAudio', params)

@@ -17,15 +17,38 @@
             v-if="activeAudio"
             class="title is-size-3 r_audio-pub-hero__title"
           >
+            <!-- TODO: Use Publication Title -->
             {{ activeAudio.title }}
           </h1>
         </div>
       </div>
     </section>
-    <section>
+    <section v-if="activeAudio">
+      <section
+        v-for="file in activeAudio.audioFiles"
+        :key="file.id"
+        class="r_audio-pub__audio-file"
+      >
+        {{ file.title }}
+      </section>
+      <section
+        v-for="contribution in activeAudio.contributions"
+        :key="contribution.id"
+        class="r_audio-pub__contribution"
+      >
+        {{ contribution.title }}
+      </section>
+      <section
+        v-for="chapter in activeAudio.chapters"
+        :key="chapter.id"
+        class="r_audio-pub__chapters"
+      >
+        {{ chapter.title }}
+      </section>
+      <div>Duration: {{ activeAudio.durationString }}</div>
+      <div>Publish state: {{ activeAudio.audioPublication.publishState }}</div>
+      <div>Published at: {{ activeAudio.audioPublication.publishedAt }}</div>
       <!-- editable: title, image, files, contributions, chapters -->
-      <!-- show: duration, audioPub state, audioPub publishedAt -->
-      <!-- ?? audioPub title -->
     </section>
   </section>
 </template>

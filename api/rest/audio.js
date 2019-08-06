@@ -3,12 +3,14 @@ import axios from 'axios'
 export default {
   createAudioFile: data => {
     const query = new FormData()
-    query.append('audio_file[audio_id]', data.id)
+    query.append('audio_file[audio_id]', data.audioId)
     query.append('audio_file[file]', data.file)
     query.append('audio_file[title]', data.title)
+    query.append('audio_file[mime_type]', data.mimeType)
+    query.append('audio_file[byte_size]', data.byteSize)
     return axios.post(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.id
+        data.audioId
       }/audio_files`,
       query,
       {
@@ -19,14 +21,12 @@ export default {
       }
     )
   },
-  createAudioPublication: data => {
-    const query = JSON.stringify({
-      audio: {
-        episode_id: data.episodeId,
-        title: data.file.name,
-        network_id: data.networkId
-      }
-    })
+  createAudio: data => {
+    const query = new FormData()
+    query.append('audio[image]', data.image)
+    query.append('audio[title]', data.title)
+    query.append('audio[episode_id]', data.episodeId)
+    query.append('audio[network_id]', data.networkId)
     return axios.post(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
         data.networkId
@@ -34,7 +34,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }

@@ -4,7 +4,12 @@
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-audio-pub-hero">
-        <div class="r_new-audio-pub__header__image has-background-light"></div>
+        <div
+          class="r_new-audio-pub__header__image has-background-light"
+          :style="{
+            backgroundImage: `url(${cover ? cover : ''})`
+          }"
+        ></div>
         <div class="r_new-audio-pub__header__container">
           <h1 class="title is-size-3 r_new-audio-pub__header__title">
             {{ title }}
@@ -143,32 +148,103 @@ export default {
     },
     handleAudioFileDrop(params) {
       this.audioFileState = 'LOADING'
-      this.$store
-        .dispatch('audio/createAudioPublication', {
-          file: params.file,
-          networkId: this.activeNetwork.id,
-          title: params.file.name
-        })
-        .then(() => {
-          console.log('Handle Audio File Drop', this.activeAudio)
-          this.audioUploadResult = this.activeAudio
-          this.audioFileState = 'SUCCESS'
-        })
-        .catch(error => {
-          this.audioFileState = 'ERROR'
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: params.file.name
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createAudioFile', {
+                file: params.file,
+                title: params.file.name,
+                byteSize: params.file.size,
+                mimeType: params.file.type,
+                audioId: this.activeAudio.id
+              })
+              .then(() => {
+                console.log('Handle Audio File Drop Create', this.activeAudio)
+                this.audioUploadResult = this.activeAudio
+                this.audioFileState = 'SUCCESS'
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('audio/createAudioFile', {
+            file: params.file,
+            title: params.file.name,
+            byteSize: params.file.size,
+            mimeType: params.file.type,
+            audioId: this.activeAudio.id
+          })
+          .then(() => {
+            console.log('Handle Audio File Drop Create', this.activeAudio)
+            this.audioUploadResult = this.activeAudio
+            this.audioFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
     },
     handleCoverFileDrop(params) {
       console.log('params', params)
       // TODO: Implement API Upload
       //       and get the public url of the image
       //       to show a preview
-      this.coverFileState = 'SUCCESS'
+      this.coverFileState = 'LOADING'
       this.cover = params.file
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            console.log('Handle Cover File Drop Create', this.activeAudio)
+            this.cover = this.activeAudio.image
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('audio/updateAudio', {
+            id: this.activeAudio.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            console.log('Handle Cover File Drop Create', this.activeAudio)
+            this.cover = this.activeAudio.image
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
     },
     toast() {
       this.$toast.open(this.alert)

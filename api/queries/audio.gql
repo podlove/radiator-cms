@@ -46,7 +46,6 @@ query audio($id: ID!) {
       title
     },
     id,
-    image,
-    title
+    image
   }
 }
