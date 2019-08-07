@@ -107,5 +107,22 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  updateAudioPublication: async function updateAudioPublication(
+    { dispatch },
+    data
+  ) {
+    console.log('Upadte Audio Publication', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudio.updateAudio(data).then(data => {
+        return data && data.data
+      })
+      return await dispatch('getAudio', {
+        id: data.id
+      })
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }

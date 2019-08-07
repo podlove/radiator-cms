@@ -76,6 +76,7 @@
   min-height: 3.8125rem;
 }
 .r_new-audio-pub__header__image {
+  background-size: cover;
   border-radius: 0.3125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-right: 20px;
@@ -115,12 +116,12 @@ export default {
     activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
+    // TODO: Set audioPublication title
     createAudioPublication() {
       this.loading = true
       this.$store
-        .dispatch('audio/updateAudio', {
+        .dispatch('audio/updateAudioPublication', {
           id: this.activeAudio.id,
-          image: this.cover,
           title: this.title
         })
         .then(() => {
@@ -148,6 +149,9 @@ export default {
     },
     handleAudioFileDrop(params) {
       this.audioFileState = 'LOADING'
+      // Check if there is an activeAudio object in store
+      // and if not create one first
+      // TODO: refactor
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {
@@ -164,7 +168,6 @@ export default {
                 audioId: this.activeAudio.id
               })
               .then(() => {
-                console.log('Handle Audio File Drop Create', this.activeAudio)
                 this.audioUploadResult = this.activeAudio
                 this.audioFileState = 'SUCCESS'
               })
@@ -186,7 +189,6 @@ export default {
             audioId: this.activeAudio.id
           })
           .then(() => {
-            console.log('Handle Audio File Drop Create', this.activeAudio)
             this.audioUploadResult = this.activeAudio
             this.audioFileState = 'SUCCESS'
           })
@@ -200,12 +202,11 @@ export default {
       }
     },
     handleCoverFileDrop(params) {
-      console.log('params', params)
-      // TODO: Implement API Upload
-      //       and get the public url of the image
-      //       to show a preview
       this.coverFileState = 'LOADING'
       this.cover = params.file
+      // Check if there is an activeAudio object in store
+      // and if not create one first
+      // TODO: refactor
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {
@@ -214,7 +215,6 @@ export default {
             image: params.file
           })
           .then(() => {
-            console.log('Handle Cover File Drop Create', this.activeAudio)
             this.cover = this.activeAudio.image
             this.coverFileState = 'SUCCESS'
           })
@@ -233,7 +233,6 @@ export default {
             image: params.file
           })
           .then(() => {
-            console.log('Handle Cover File Drop Create', this.activeAudio)
             this.cover = this.activeAudio.image
             this.coverFileState = 'SUCCESS'
           })

@@ -23,31 +23,81 @@
         </div>
       </div>
     </section>
-    <section v-if="activeAudio">
-      <section
-        v-for="file in activeAudio.audioFiles"
-        :key="file.id"
-        class="r_audio-pub__audio-file"
-      >
-        {{ file.title }}
+    <section v-if="activeAudio" class="r_audio-pub-highlights">
+      <div class="tile r_audio-pub-highlights__tile">
+        <div class="tile">
+          <b-taglist attached>
+            <b-tag type="is-dark">State:</b-tag>
+            <b-tag type="is-success">
+              {{ activeAudio.audioPublication.publishState }}
+            </b-tag>
+          </b-taglist>
+        </div>
+        <div class="tile">
+          <b-taglist attached>
+            <b-tag type="is-dark">Published at:</b-tag>
+            <b-tag type="is-success">
+              {{ activeAudio.audioPublication.publishedAt }}
+            </b-tag>
+          </b-taglist>
+        </div>
+        <div class="tile">
+          <b-taglist attached>
+            <b-tag type="is-dark">Duration:</b-tag>
+            <b-tag type="is-primary">
+              {{ activeAudio.durationString }}
+            </b-tag>
+          </b-taglist>
+        </div>
+      </div>
+    </section>
+    <section v-if="activeAudio" class="container r_audio-pub-main">
+      <section class="r_audio-pub-main__container r_audio-pub__files">
+        <h3 class="is-size-4">Audio Files:</h3>
+        <div
+          v-for="file in activeAudio.audioFiles"
+          :key="file.id"
+          class="r_audio-pub__audio-file"
+        >
+          {{ file.title }}
+        </div>
       </section>
-      <section
-        v-for="contribution in activeAudio.contributions"
-        :key="contribution.id"
-        class="r_audio-pub__contribution"
-      >
-        {{ contribution.title }}
+      <section class="r_audio-pub-main__container r_audio-pub__contributions">
+        <h3 class="is-size-4">Contributions:</h3>
+        <div
+          v-if="
+            !activeAudio.contributions || activeAudio.contributions.length === 0
+          "
+        >
+          <p class="r_audio-pub__info-text">
+            There are no contributions.
+          </p>
+          <!-- TODO: Add button/link and upload field when button/link was pressed, to upload contributions. -->
+        </div>
+        <div
+          v-for="contribution in activeAudio.contributions"
+          :key="contribution.id"
+          class="r_audio-pub__contribution"
+        >
+          {{ contribution.title }}
+        </div>
       </section>
-      <section
-        v-for="chapter in activeAudio.chapters"
-        :key="chapter.id"
-        class="r_audio-pub__chapters"
-      >
-        {{ chapter.title }}
+      <section class="r_audio-pub-main__container r_audio-pub__files">
+        <h3 class="is-size-4">Chapter Marks:</h3>
+        <div v-if="!activeAudio.chapters || activeAudio.chapters.length === 0">
+          <p class="r_audio-pub__info-text">
+            There are no chapter marks.
+          </p>
+          <!-- TODO: Add button/link and upload field when button/link was pressed, to upload chapter marks. -->
+        </div>
+        <div
+          v-for="chapter in activeAudio.chapters"
+          :key="chapter.id"
+          class="r_audio-pub__chapter"
+        >
+          {{ chapter.title }}
+        </div>
       </section>
-      <div>Duration: {{ activeAudio.durationString }}</div>
-      <div>Publish state: {{ activeAudio.audioPublication.publishState }}</div>
-      <div>Published at: {{ activeAudio.audioPublication.publishedAt }}</div>
       <!-- editable: title, image, files, contributions, chapters -->
     </section>
   </section>
@@ -73,6 +123,21 @@
 }
 .r_audio-pub-hero__title {
   font-weight: 400;
+}
+.r_audio-pub-highlights {
+  background-color: #e8e8e8;
+  padding: 3.5rem 0 2rem 0;
+}
+.r_audio-pub-highlights__tile {
+  margin: 1rem auto;
+  padding: 1rem 0;
+  max-width: 960px;
+}
+.r_audio-pub-main {
+  padding: 1rem 0 3rem 0;
+}
+.r_audio-pub-main__container {
+  padding: 2rem 0 0 0;
 }
 </style>
 
