@@ -26,7 +26,6 @@ export default {
     if (data.image) {
       query.append('audio[image]', data.image)
     }
-    query.append('audio[title]', data.title)
     query.append('audio[episode_id]', data.episodeId)
     query.append('audio[network_id]', data.networkId)
     return axios.post(
@@ -66,7 +65,6 @@ export default {
     if (data.image) {
       query.append('audio[image]', data.image)
     }
-    query.append('audio[title]', data.title)
     return axios.patch(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
         data.id
