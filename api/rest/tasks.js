@@ -23,7 +23,6 @@ export default {
     )
   },
   read: data => {
-    console.log('data read:', data)
     return axios.get(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/tasks/${
         data.taskId
@@ -37,7 +36,6 @@ export default {
     )
   },
   delete: data => {
-    console.log('data delete:', data)
     return axios.delete(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/tasks/${
         data.taskId
