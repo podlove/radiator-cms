@@ -1,7 +1,71 @@
 query network($id: ID!) {
   network(id: $id) {
+    audioPublications {
+      audio {
+        audioFiles {
+          byteLength,
+          file,
+          id,
+          mimeType,
+          title
+        },
+        chapters {
+          duration,
+          durationString,
+          image,
+          link,
+          start,
+          startString,
+          title
+        },
+        contributions {
+          contributionRole {
+            id,
+            isPublic,
+            title
+          },
+          id,
+          person {
+            displayName,
+            email,
+            id,
+            image,
+            link,
+            name,
+            nick
+          },
+          position
+        },
+        duration,
+        durationString,
+        id,
+        image
+      },
+      id,
+      publishState,
+      publishedAt,
+      title
+    },
+    collaborators {
+      permission,
+      user {
+        displayName,
+        email,
+        image,
+        username
+      }
+    },
     id,
     image,
+    people {
+      displayName,
+      email,
+      id,
+      image,
+      link,
+      name,
+      nick
+    },
     podcasts {
       episodes(itemsPerPage: 5, page: 1) {
         guid,
