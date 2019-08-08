@@ -43,6 +43,7 @@
         </b-step-item>
         <b-step-item label="Check Podcast">
           <section>
+            <b-loading :active.sync="isFetchingInfos"></b-loading>
             <b-field horizontal label="Feed Url">
               <b-input v-model="url" disabled></b-input>
             </b-field>
@@ -64,6 +65,9 @@
               With
               {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
             </p>
+            <b-field horizontal label="Limit import to episode count">
+              <b-input v-model="episodeCount"></b-input>
+            </b-field>
             <b-field horizontal label="Short ID">
               <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
             </b-field>
@@ -192,6 +196,7 @@ export default {
   data() {
     return {
       activeStep: 0,
+      episodeCount: 0,
       importAudioFiles: false,
       importMedia: {
         mp3: false,
@@ -203,12 +208,20 @@ export default {
       url: 'https://www.zeitsprung.fm/feed/mp3/'
     }
   },
-  computed: mapState({
-    networks: state => state.networks.networks,
-    feedInfo: state => state.feedInfo.feedInfo,
-    feeds: state => state.feedInfo.feeds,
-    currentTask: state => state.feedInfo.currentTask
-  }),
+  computed: {
+    ...mapState({
+      networks: state => state.networks.networks,
+      feedInfo: state => state.feedInfo.feedInfo,
+      feeds: state => state.feedInfo.feeds,
+      currentTask: state => state.feedInfo.currentTask
+    }),
+    isFetchingInfos() {
+      return (
+        Object.entries(this.feedInfo).length === 0 &&
+        this.feedInfo.constructor === Object
+      )
+    }
+  },
   methods: {
     checkField(value) {
       return value ? 'is-success' : 'is-danger'
