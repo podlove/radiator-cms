@@ -52,6 +52,24 @@
       </div>
     </section>
     <section v-if="activeAudio" class="container r_audio-pub-main">
+      <section class="r_audio-pub-main__container r_audio-pub__info">
+        <b-field label="Title">
+          <p v-if="isDisabled && !activeAudio.title">
+            No title set.
+          </p>
+          <b-input
+            v-if="isDisabled && activeAudio.title"
+            v-model="activeAudio.title"
+            disabled
+          ></b-input>
+          <b-input
+            v-if="!isDisabled"
+            v-model="title"
+            :placeholder="activeAudio.title"
+            :is-loading="isLoading"
+          ></b-input>
+        </b-field>
+      </section>
       <section class="r_audio-pub-main__container r_audio-pub__files">
         <h3 class="is-size-4">Audio Files:</h3>
         <div
@@ -98,12 +116,49 @@
           {{ chapter.title }}
         </div>
       </section>
+      <section class="r_audio-pub__interaction">
+        <b-button
+          v-if="isDisabled"
+          type="is-primary"
+          outlined
+          @click.stop.prevent="edit()"
+        >
+          Edit Audio
+        </b-button>
+        <b-button
+          v-if="!isDisabled"
+          type="is-danger"
+          outlined
+          @click.stop.prevent="deleteNetwork()"
+        >
+          Delete Audio
+        </b-button>
+        <b-button
+          v-if="!isDisabled"
+          type="is-dark"
+          outlined
+          @click.stop.prevent="cancel()"
+        >
+          Cancel
+        </b-button>
+        <b-button
+          v-if="!isDisabled"
+          type="is-primary"
+          @click.stop.prevent="save()"
+        >
+          Save
+        </b-button>
+      </section>
       <!-- editable: title, image, files, contributions, chapters -->
     </section>
   </section>
 </template>
 
 <style>
+.r_audio-pub__interaction {
+  margin-top: 1rem;
+  text-align: right;
+}
 .r_audio-pub-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
@@ -145,8 +200,38 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      isDisabled: true,
+      isLoading: false,
+      title: ''
+    }
+  },
   computed: mapState({
     activeAudio: state => state.audio.activeAudio
-  })
+  }),
+  methods: {
+    cancel() {
+      this.isDisabled = true
+    },
+    edit() {
+      this.isDisabled = false
+    },
+    save() {
+      this.isLoading = true
+      this.$store
+        .dispatch('audio/updateAudioPublication', {
+          id: 1,
+          title: this.title
+        })
+        .then(() => {
+          this.isDisabled = true
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    }
+  }
 }
 </script>

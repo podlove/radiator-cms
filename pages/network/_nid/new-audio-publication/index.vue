@@ -121,7 +121,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          id: this.activeAudio.id,
+          id: this.activeAudio.audioPublication.id,
           title: this.title
         })
         .then(() => {
@@ -152,7 +152,9 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
+      console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
+        console.log('Here')
         this.$store
           .dispatch('audio/createAudio', {
             networkId: this.activeNetwork.id,

@@ -115,7 +115,7 @@ export const actions = {
     console.log('Upadte Audio Publication', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.updateAudio(data).then(data => {
+      await restAudio.updateAudioPublication(data).then(data => {
         return data && data.data
       })
       return await dispatch('getAudio', {

@@ -77,5 +77,25 @@ export default {
         }
       }
     )
+  },
+  updateAudioPublication: data => {
+    console.log('updateAudioPublication', data)
+    const query = JSON.stringify({
+      audio_publication: {
+        title: data.title
+      }
+    })
+    return axios.patch(
+      `${process.env.baseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audio_publications/${data.id}`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
   }
 }
