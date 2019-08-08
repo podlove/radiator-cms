@@ -81,5 +81,15 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  readTask: async function readTask({ dispatch, commit }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restTasks.read(data).then(data => data && data.data)
+      console.log(res)
+      // await commit('reset_current_task')
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }
