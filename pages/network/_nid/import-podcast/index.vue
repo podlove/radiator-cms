@@ -126,8 +126,12 @@
                 </h2>
               </div>
             </div>
-            <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
-            <p>LADEBALKENPLATZHALTER</p>
+            <p>
+              LADEBALKENPLATZHALTER
+              <span v-if="currentTask">
+                {{ currentTask.progress }} / {{ currentTask.total }}
+              </span>
+            </p>
             <p>
               {{ currentTask }}
               <b-button class="is-primary" @click.stop.prevent="stopImport()">
@@ -200,6 +204,7 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -261,12 +266,33 @@ export default {
       }
       this.$store.dispatch('feedInfo/createTask', importPodcastFeed)
       this.navigateTo(2)
+      this.observeTaskStatus()
     },
     stopImport() {
-      this.$store.dispatch('feedInfo/deleteTask', { taskId: this.currentTask })
+      this.$store.dispatch('feedInfo/deleteTask', {
+        taskId: this.currentTask.id
+      })
     },
     showTask() {
-      this.$store.dispatch('feedInfo/readTask', { taskId: this.currentTask })
+      this.$store.dispatch('feedInfo/readTask', { taskId: this.currentTask.id })
+    },
+    observeTaskStatus(callback) {
+      const self = this
+      setTimeout(checkTaskStatus, 0)
+      function checkTaskStatus() {
+        if (self.currentTask.id !== undefined) {
+          self.$store.dispatch('feedInfo/readTask', {
+            taskId: self.currentTask.id
+          })
+        }
+        if (self.currentTask.state !== 'done') {
+          setTimeout(checkTaskStatus, 2000)
+        } else {
+          self.$store.dispatch('feedInfo/deleteTask', {
+            taskId: self.currentTask.id
+          })
+        }
+      }
     }
   }
 }
