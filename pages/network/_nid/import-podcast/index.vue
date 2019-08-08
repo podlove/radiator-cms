@@ -128,7 +128,15 @@
             </div>
             <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
             <p>LADEBALKENPLATZHALTER</p>
-            <p>{{ currentTask }}</p>
+            <p>
+              {{ currentTask }}
+              <b-button class="is-primary" @click.stop.prevent="stopImport()">
+                Stop Import
+              </b-button>
+              <b-button class="is-primary" @click.stop.prevent="showTask()">
+                show Task
+              </b-button>
+            </p>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
@@ -236,7 +244,6 @@ export default {
       this.navigateTo(1)
     },
     fetchEpisodes() {
-      console.log(this.feedInfo)
       let enclosureType = ''
       let feedUrl = ''
 
@@ -254,6 +261,12 @@ export default {
       }
       this.$store.dispatch('feedInfo/createTask', importPodcastFeed)
       this.navigateTo(2)
+    },
+    stopImport() {
+      this.$store.dispatch('feedInfo/deleteTask', { taskId: this.currentTask })
+    },
+    showTask() {
+      this.$store.dispatch('feedInfo/readTask', { taskId: this.currentTask })
     }
   }
 }
