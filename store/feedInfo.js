@@ -15,7 +15,7 @@ export const mutations = {
     store.feeds = data
   },
   set_current_task(store, data) {
-    store.currentTask = data.id
+    store.currentTask = data
   },
   reset_current_task(store) {
     store.currentTask = {}
@@ -75,8 +75,7 @@ export const actions = {
   deleteTask: async function deleteTask({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restTasks.delete(data).then(data => data && data.data)
-      console.log(res)
+      await restTasks.delete(data)
       await commit('reset_current_task')
     } catch (e) {
       throw Error(e)
@@ -86,8 +85,7 @@ export const actions = {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restTasks.read(data).then(data => data && data.data)
-      console.log(res)
-      // await commit('reset_current_task')
+      await commit('set_current_task', res)
     } catch (e) {
       throw Error(e)
     }
