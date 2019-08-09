@@ -17,6 +17,11 @@ export default {
   components: { Navigation },
   // Check if user is logged in
   middleware: ['isAuth'],
+  watch: {
+    $route() {
+      this.checkRouteAndLoadData()
+    }
+  },
   beforeCreate() {
     this.$store.watch((newValue, oldValue) => {
       // Redirect to homepage if user is not logged in
@@ -45,36 +50,39 @@ export default {
     })
   },
   mounted() {
-    // Check if user is on a network, podcast or episodes page
-    const path = this.$route.path
-    const activeNetwork = path.match(NETWORKS_REGEX)
-      ? path.match(NETWORKS_REGEX).groups
-      : null
-    const activePodcast = path.match(PODCASTS_REGEX)
-      ? path.match(PODCASTS_REGEX).groups
-      : null
-    const activeAudio = path.match(AUDIO_REGEX)
-      ? path.match(AUDIO_REGEX).groups
-      : null
-    // Set active Audio
-    if (activeAudio) {
-      console.log('active audio', activeAudio)
-      this.$store.dispatch('audio/setActiveAudioId', activeAudio.audio_id)
-    }
-    // Set active Podcast
-    if (activePodcast) {
-      console.log('active podcast', activePodcast)
-      this.$store.dispatch(
-        'podcasts/setActivePodcastId',
-        activePodcast.podcast_id
-      )
-    }
-    // Set active Network
-    if (activeNetwork) {
-      this.$store.dispatch(
-        'networks/setActiveNetworkId',
-        activeNetwork.network_id
-      )
+    this.checkRouteAndLoadData()
+  },
+  methods: {
+    checkRouteAndLoadData() {
+      // Check if user is on a network, podcast or episodes page
+      const path = this.$route.path
+      const activeNetwork = path.match(NETWORKS_REGEX)
+        ? path.match(NETWORKS_REGEX).groups
+        : null
+      const activePodcast = path.match(PODCASTS_REGEX)
+        ? path.match(PODCASTS_REGEX).groups
+        : null
+      const activeAudio = path.match(AUDIO_REGEX)
+        ? path.match(AUDIO_REGEX).groups
+        : null
+      // Set active Audio
+      if (activeAudio) {
+        this.$store.dispatch('audio/setActiveAudioId', activeAudio.audio_id)
+      }
+      // Set active Podcast
+      if (activePodcast) {
+        this.$store.dispatch(
+          'podcasts/setActivePodcastId',
+          activePodcast.podcast_id
+        )
+      }
+      // Set active Network
+      if (activeNetwork) {
+        this.$store.dispatch(
+          'networks/setActiveNetworkId',
+          activeNetwork.network_id
+        )
+      }
     }
   }
 }
