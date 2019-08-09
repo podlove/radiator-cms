@@ -121,6 +121,23 @@
             <b-field label="Slug">
               <b-input v-if="network" v-model="network.slug" disabled></b-input>
             </b-field>
+            <b-field label="Network Cover">
+              <div
+                v-if="isDisabled && network"
+                class="r_settings__cover"
+                :style="{
+                  backgroundImage: `url(${network.image ? network.image : ''})`
+                }"
+              ></div>
+              <upload
+                v-if="!isDisabled && network"
+                class="field"
+                :state="coverFileState"
+                :type="'IMAGE'"
+                :image="cover"
+                @dropped="params => handleCoverFileDrop(params)"
+              />
+            </b-field>
             <div class="r_settings__interaction">
               <b-button
                 v-if="isDisabled"
@@ -206,6 +223,12 @@
 .r_network-tabs {
   margin: 3.75rem 0.75rem;
 }
+.r_settings__cover {
+  background-size: cover;
+  border-radius: 50%;
+  width: 6rem;
+  height: 6rem;
+}
 .r_settings__interaction {
   margin-top: 1rem;
   text-align: right;
@@ -216,15 +239,19 @@
 import { mapState } from 'vuex'
 import AudioPublicationsTable from '~/components/AudioPublicationsTable'
 import Podcast from '~/components/Podcast'
+import Upload from '~/components/Upload'
 
 export default {
   components: {
     AudioPublicationsTable,
-    Podcast
+    Podcast,
+    Upload
   },
   data() {
     return {
       activeTab: 0,
+      cover: null,
+      coverFileState: null,
       isDisabled: true,
       isLoading: false,
       title: ''
@@ -262,6 +289,28 @@ export default {
     },
     edit() {
       this.isDisabled = false
+    },
+    handleCoverFileDrop(params) {
+      console.log('params', params)
+      this.coverFileState = 'LOADING'
+      this.cover = params.file
+      this.$store
+        .dispatch('networks/update', {
+          networkId: this.network.id,
+          image: params.file
+        })
+        .then(() => {
+          this.cover = this.network.image
+          this.coverFileState = 'SUCCESS'
+        })
+        .catch(error => {
+          console.log(error)
+          this.coverFileState = 'ERROR'
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     save() {
       this.isLoading = true

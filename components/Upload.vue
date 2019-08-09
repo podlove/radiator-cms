@@ -23,6 +23,9 @@
       <span
         v-if="state === 'SUCCESS' && type === 'IMAGE'"
         class="r_peview__cover"
+        :style="{
+          backgroundImage: `url(${image ? image : ''})`
+        }"
       >
         <b-icon size="is-small" icon="image"></b-icon>
       </span>

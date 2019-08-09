@@ -32,11 +32,13 @@ export default {
     )
   },
   update: data => {
-    const query = JSON.stringify({
-      network: {
-        title: data.title
-      }
-    })
+    const query = new FormData()
+    if (data.title) {
+      query.append('network[title]', data.title)
+    }
+    if (data.image) {
+      query.append('network[image]', data.image)
+    }
     return axios.put(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
         data.networkId
@@ -44,7 +46,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }
