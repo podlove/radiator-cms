@@ -95,6 +95,37 @@
             </section>
           </section>
         </b-tab-item>
+        <b-tab-item label="Collaborators">
+          <section>
+            <p v-if="network" class="r_network__collaborator__new">
+              <nuxt-link
+                :to="'/network/' + network.id + '/new-audio-publication'"
+              >
+                <b-button outlined type="is-primary" icon-left="plus-circle">
+                  <span>Add new collaborator</span>
+                </b-button>
+              </nuxt-link>
+            </p>
+            <h3 class="is-size-4">Network Collaborators</h3>
+            <p
+              v-if="
+                network &&
+                  (!network.collaborators || !network.collaborators.length > 0)
+              "
+            >
+              There are no collaborators yet.
+            </p>
+            <NetworkCollaborators
+              v-if="
+                network &&
+                  network.collaborators &&
+                  network.collaborators.length > 0
+              "
+              class="r_network__collaborator__table"
+              :network="network"
+            ></NetworkCollaborators>
+          </section>
+        </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
             <article class="tile is-child notification is-warning">
@@ -190,10 +221,12 @@
   padding: 1rem 0 2rem 0;
 }
 .r_network__audio-pubs__new,
+.r_network__collaborator__new,
 .r_network__podcasts__new {
   float: right;
 }
-.r_network__audio-pubs__table {
+.r_network__audio-pubs__table,
+.r_network__collaborator__table {
   margin-top: 1rem;
 }
 .r_network-hero {
@@ -238,12 +271,14 @@
 <script>
 import { mapState } from 'vuex'
 import AudioPublicationsTable from '~/components/AudioPublicationsTable'
+import NetworkCollaborators from '~/components/NetworkCollaborators'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
     AudioPublicationsTable,
+    NetworkCollaborators,
     Podcast,
     Upload
   },
