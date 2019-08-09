@@ -26,6 +26,13 @@
       <b-tabs v-model="activeTab" class="r_network-tabs">
         <b-tab-item label="Podcasts and Audio Publications">
           <section class="r_network__podcasts">
+            <p v-if="network" class="r_network__podcasts__new">
+              <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
+                <b-button outlined type="is-primary" icon-left="plus-circle">
+                  <span>Add new podcast</span>
+                </b-button>
+              </nuxt-link>
+            </p>
             <h3 class="is-size-4">
               Podcasts
             </h3>
@@ -36,13 +43,6 @@
             >
               <p class="r_network__info-text">
                 There are no podcasts in your network.
-              </p>
-              <p>
-                <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
-                  <b-button outlined type="is-primary" icon-left="plus-circle">
-                    <span>Add new podcast</span>
-                  </b-button>
-                </nuxt-link>
               </p>
             </div>
             <ul
@@ -58,6 +58,15 @@
             </ul>
           </section>
           <section class="r_network__audio-pubs">
+            <p v-if="network" class="r_network__audio-pubs__new">
+              <nuxt-link
+                :to="'/network/' + network.id + '/new-audio-publication'"
+              >
+                <b-button outlined type="is-primary" icon-left="plus-circle">
+                  <span>Add new audio publication</span>
+                </b-button>
+              </nuxt-link>
+            </p>
             <h3 class="is-size-4">
               Audio Publications
             </h3>
@@ -71,15 +80,6 @@
               <p class="r_network__info-text">
                 There are no audio publications in your network.
               </p>
-              <p>
-                <nuxt-link
-                  :to="'/network/' + network.id + '/new-audio-publication'"
-                >
-                  <b-button outlined type="is-primary" icon-left="plus-circle">
-                    <span>Add new audio publication</span>
-                  </b-button>
-                </nuxt-link>
-              </p>
             </div>
             <section
               v-if="
@@ -87,6 +87,7 @@
                   network.audioPublications &&
                   network.audioPublications.length > 0
               "
+              class="r_network__audio-pubs__table"
             >
               <AudioPublicationsTable
                 :network="network"
@@ -170,6 +171,13 @@
 .r_network__audio-pubs,
 .r_network__podcasts {
   padding: 1rem 0 2rem 0;
+}
+.r_network__audio-pubs__new,
+.r_network__podcasts__new {
+  float: right;
+}
+.r_network__audio-pubs__table {
+  margin-top: 1rem;
 }
 .r_network-hero {
   padding: 11.25rem 0 2.5rem 0 !important;

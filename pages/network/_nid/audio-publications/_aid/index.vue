@@ -148,7 +148,6 @@
           Save
         </b-button>
       </section>
-      <!-- editable: title, image, files, contributions, chapters -->
     </section>
   </section>
 </template>

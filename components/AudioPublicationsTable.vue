@@ -10,6 +10,18 @@
     aria-current-label="Current page"
   >
     <template slot-scope="props">
+      <b-table-column field="image" label="Image" sortable>
+        <div
+          class="r_audio-pub__cover has-background-light"
+          :style="{
+            backgroundImage: `url(${
+              props.row.audio && props.row.audio.image
+                ? props.row.audio.image
+                : ''
+            })`
+          }"
+        ></div>
+      </b-table-column>
       <b-table-column field="title" label="Title" sortable>
         {{ props.row.title }}
       </b-table-column>
@@ -49,6 +61,16 @@
     </template>
   </b-table>
 </template>
+
+<style>
+.r_audio-pub__cover {
+  background-size: cover;
+  border-radius: 0.2125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  width: 2.25rem;
+  height: 2.25rem;
+}
+</style>
 
 <script>
 export default {
