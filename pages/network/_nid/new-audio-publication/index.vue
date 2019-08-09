@@ -154,11 +154,10 @@ export default {
       // TODO: refactor
       console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
-        console.log('Here')
         this.$store
           .dispatch('audio/createAudio', {
             networkId: this.activeNetwork.id,
-            title: params.file.name
+            title: this.title
           })
           .then(() => {
             this.$store

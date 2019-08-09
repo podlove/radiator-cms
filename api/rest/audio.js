@@ -28,6 +28,7 @@ export default {
     }
     query.append('audio[episode_id]', data.episodeId)
     query.append('audio[network_id]', data.networkId)
+    query.append('audio_publication[title]', data.title)
     return axios.post(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
         data.networkId
@@ -52,6 +53,19 @@ export default {
     return axios.post(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios`,
       query,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  deleteAudioFile: data => {
+    return axios.delete(
+      `${process.env.baseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audio_files/${data.id}`,
       {
         headers: {
           'Content-Type': 'application/json',

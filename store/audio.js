@@ -72,6 +72,23 @@ export const actions = {
       throw Error(e)
     }
   },
+  deleteAudioFile: async function deleteAudioFile({ dispatch }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudio.deleteAudioFile(data).then(data => {
+        return data && data.data
+      })
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   deleteAudioPublication: async function deleteAudioPublication(
     { dispatch },
     data

@@ -53,18 +53,18 @@
     <section v-if="activeAudio" class="container r_audio-pub-main">
       <section class="r_audio-pub-main__container r_audio-pub__info">
         <b-field label="Title">
-          <p v-if="isDisabled && !activeAudio.title">
+          <p v-if="isDisabled && !activeAudio.audioPublication.title">
             No title set.
           </p>
           <b-input
-            v-if="isDisabled && activeAudio.title"
-            v-model="activeAudio.title"
+            v-if="isDisabled && activeAudio.audioPublication.title"
+            v-model="activeAudio.audioPublication.title"
             disabled
           ></b-input>
           <b-input
             v-if="!isDisabled"
             v-model="title"
-            :placeholder="activeAudio.title"
+            :placeholder="activeAudio.audioPublication.title"
             :is-loading="isLoading"
           ></b-input>
         </b-field>
@@ -76,7 +76,28 @@
           :key="file.id"
           class="r_audio-pub__audio-file"
         >
-          <div id="podlove-webplayer" class="r_audio-pub__player"></div>
+          <upload
+            class="field"
+            :state="'SUCCESS'"
+            :type="'AUDIO'"
+            :drop-file="file"
+            :audio="file.file"
+            @deleted="params => handleAudioFileDelete(params)"
+          />
+        </div>
+        <div v-if="!isDisabled">
+          <upload
+            class="field"
+            :state="audioFileState"
+            :type="'AUDIO'"
+            :audio="
+              audioUploadResult && audioUploadResult.public_url
+                ? audioUploadResult.public_url
+                : null
+            "
+            @dropped="params => handleAudioFileDrop(params)"
+            @deleted="params => handleAudioFileDelete(params)"
+          />
         </div>
       </section>
       <section class="r_audio-pub-main__container r_audio-pub__contributions">
@@ -153,6 +174,9 @@
 </template>
 
 <style>
+.r_audio-pub__audio-file {
+  margin-bottom: 1rem;
+}
 .r_audio-pub__interaction {
   margin-top: 1rem;
   text-align: right;
@@ -200,48 +224,23 @@
 
 <script>
 import { mapState } from 'vuex'
+import Upload from '~/components/Upload'
 
 export default {
+  components: { Upload },
   data() {
     return {
+      audioFileState: null,
+      audioUploadResult: null,
       isDisabled: true,
       isLoading: false,
-      title: ''
+      title: this.activeAudio ? this.activeAudio.audioPublication.title : ''
     }
   },
   computed: mapState({
     activeAudio: state => state.audio.activeAudio,
     activeNetwork: state => state.networks.activeNetwork
   }),
-  updated() {
-    if (
-      typeof this.activeAudio === 'object' &&
-      this.activeAudio.audioFiles &&
-      this.activeAudio.audioFiles.length > 0
-    ) {
-      // TODO: add chapter marks and transcript to player
-      const playerConfig = {
-        title: this.activeAudio.audioPublication.title,
-        audio: [],
-        duration: this.activeAudio.durationString,
-        publicationDate: this.activeAudio.publishedAt,
-        poster: this.activeAudio.image,
-        chapters:
-          this.activeAudio.audio && this.activeAudio.audio.chapters
-            ? this.activeAudio.audio.chapters
-            : null
-      }
-      for (const file of this.activeAudio.audioFiles) {
-        playerConfig.audio.push({
-          url: file.file,
-          mimeType: file.mimeType,
-          size: file.byteLength,
-          title: file.title
-        })
-      }
-      window.podlovePlayer('#podlove-webplayer', playerConfig)
-    }
-  },
   methods: {
     cancel() {
       this.isDisabled = true
@@ -261,6 +260,44 @@ export default {
     },
     edit() {
       this.isDisabled = false
+    },
+    handleAudioFileDelete(params) {
+      if (params && params.file && params.file.id) {
+        this.$store
+          .dispatch('audio/deleteAudioFile', {
+            id: params.file.id
+          })
+          .then(() => {
+            this.$store.dispatch('audio/getAudio', {
+              id: this.activeAudio.id
+            })
+          })
+          .catch(error => {
+            console.warn(error)
+          })
+      }
+    },
+    handleAudioFileDrop(params) {
+      this.audioFileState = 'LOADING'
+      this.$store
+        .dispatch('audio/createAudioFile', {
+          file: params.file,
+          title: params.file.name,
+          byteSize: params.file.size,
+          mimeType: params.file.type,
+          audioId: this.activeAudio.id
+        })
+        .then(() => {
+          this.audioUploadResult = this.activeAudio
+          this.audioFileState = 'SUCCESS'
+        })
+        .catch(error => {
+          this.audioFileState = 'ERROR'
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     save() {
       this.isLoading = true

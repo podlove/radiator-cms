@@ -39,7 +39,7 @@
           >
             <b-icon size="is-small" icon="play"></b-icon>
           </b-button>
-          {{ dropFile.name }}
+          {{ dropFile.name || dropFile.title }}
         </span>
         <span class="r_upload-progress__right">
           {{ stateLabel }}
@@ -149,6 +149,11 @@ export default {
       required: false,
       default: null
     },
+    dropFile: {
+      type: Object,
+      required: false,
+      default: null
+    },
     label: {
       type: String,
       required: false,
@@ -165,11 +170,11 @@ export default {
       default: ''
     }
   },
-  data() {
-    return {
-      dropFile: null
-    }
-  },
+  // data() {
+  //   return {
+  //     dropFile: null
+  //   }
+  // },
   computed: {
     classObject: function() {
       return {
@@ -197,9 +202,12 @@ export default {
     }
   },
   methods: {
-    deleteDropFile() {
-      // TODO: Delete file from DB
-      this.dropFile = null
+    deleteDropFile(event) {
+      console.log('deleteDropFile', this)
+      this.$emit('deleted', {
+        type: this.type,
+        file: this.dropFile
+      })
     },
     handleFileDrop(event) {
       this.$emit('dropped', {
