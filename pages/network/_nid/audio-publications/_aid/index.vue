@@ -76,7 +76,7 @@
           :key="file.id"
           class="r_audio-pub__audio-file"
         >
-          {{ file.title }}
+          <div id="podlove-webplayer" class="r_audio-pub__player"></div>
         </div>
       </section>
       <section class="r_audio-pub-main__container r_audio-pub__contributions">
@@ -157,6 +157,10 @@
   margin-top: 1rem;
   text-align: right;
 }
+.r_audio-pub__player {
+  text-align: center;
+  margin-top: 3rem;
+}
 .r_audio-pub-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
@@ -209,6 +213,35 @@ export default {
     activeAudio: state => state.audio.activeAudio,
     activeNetwork: state => state.networks.activeNetwork
   }),
+  updated() {
+    if (
+      typeof this.activeAudio === 'object' &&
+      this.activeAudio.audioFiles &&
+      this.activeAudio.audioFiles.length > 0
+    ) {
+      // TODO: add chapter marks and transcript to player
+      const playerConfig = {
+        title: this.activeAudio.audioPublication.title,
+        audio: [],
+        duration: this.activeAudio.durationString,
+        publicationDate: this.activeAudio.publishedAt,
+        poster: this.activeAudio.image,
+        chapters:
+          this.activeAudio.audio && this.activeAudio.audio.chapters
+            ? this.activeAudio.audio.chapters
+            : null
+      }
+      for (const file of this.activeAudio.audioFiles) {
+        playerConfig.audio.push({
+          url: file.file,
+          mimeType: file.mimeType,
+          size: file.byteLength,
+          title: file.title
+        })
+      }
+      window.podlovePlayer('#podlove-webplayer', playerConfig)
+    }
+  },
   methods: {
     cancel() {
       this.isDisabled = true
