@@ -60,6 +60,19 @@ export default {
       }
     )
   },
+  deleteAudioPublication: data => {
+    return axios.delete(
+      `${process.env.baseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audio_publications/${data.id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   updateAudio: data => {
     const query = new FormData()
     if (data.image) {

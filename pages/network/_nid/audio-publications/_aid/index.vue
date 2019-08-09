@@ -17,8 +17,7 @@
             v-if="activeAudio"
             class="title is-size-3 r_audio-pub-hero__title"
           >
-            <!-- TODO: Use Publication Title -->
-            {{ activeAudio.title }}
+            {{ activeAudio.audioPublication.title }}
           </h1>
         </div>
       </div>
@@ -129,7 +128,7 @@
           v-if="!isDisabled"
           type="is-danger"
           outlined
-          @click.stop.prevent="deleteNetwork()"
+          @click.stop.prevent="deleteAudioPublication()"
         >
           Delete Audio
         </b-button>
@@ -208,11 +207,25 @@ export default {
     }
   },
   computed: mapState({
-    activeAudio: state => state.audio.activeAudio
+    activeAudio: state => state.audio.activeAudio,
+    activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
     cancel() {
       this.isDisabled = true
+    },
+    deleteAudioPublication() {
+      this.$store
+        .dispatch('audio/deleteAudioPublication', {
+          id: this.activeAudio.audioPublication.id
+        })
+        .then(() => {
+          this.$router.push('/network/' + this.activeNetwork.id)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
     },
     edit() {
       this.isDisabled = false

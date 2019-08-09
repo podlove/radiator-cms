@@ -72,6 +72,26 @@ export const actions = {
       throw Error(e)
     }
   },
+  deleteAudioPublication: async function deleteAudioPublication(
+    { dispatch },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudio.deleteAudioPublication(data).then(data => {
+        return data && data.data
+      })
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   getAudio: async function getAudio({ commit }, data) {
     console.log('Getting GQL Audio', data)
     const client = this.app.apolloProvider.defaultClient
