@@ -25,7 +25,8 @@ export const mutations = {
 export const getters = {
   feedInfo: state => state.feedInfo,
   feeds: state => state.feeds,
-  currentTask: state => state.currentTask
+  currentTask: state => state.currentTask,
+  currentPodcast: state => state.currentPodcast
 }
 
 export const actions = {
@@ -63,7 +64,7 @@ export const actions = {
       throw Error(e)
     }
   },
-  createTask: async function createTask({ dispatch, commit }, data) {
+  createTask: async function createTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restTasks.create(data).then(data => data && data.data)
@@ -72,7 +73,7 @@ export const actions = {
       throw Error(e)
     }
   },
-  deleteTask: async function deleteTask({ dispatch, commit }, data) {
+  deleteTask: async function deleteTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
       await restTasks.delete(data)
@@ -81,7 +82,7 @@ export const actions = {
       throw Error(e)
     }
   },
-  readTask: async function readTask({ dispatch, commit }, data) {
+  readTask: async function readTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restTasks.read(data).then(data => data && data.data)
