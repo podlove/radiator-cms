@@ -132,15 +132,16 @@
                 {{ currentTask.progress }} / {{ currentTask.total }}
               </span>
             </p>
-            <p>
+            <div>
               {{ currentTask }}
+              <p>{{ podcast }}</p>
               <b-button class="is-primary" @click.stop.prevent="stopImport()">
                 Stop Import
               </b-button>
               <b-button class="is-primary" @click.stop.prevent="showTask()">
                 show Task
               </b-button>
-            </p>
+            </div>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
@@ -226,7 +227,8 @@ export default {
       networks: state => state.networks.networks,
       feedInfo: state => state.feedInfo.feedInfo,
       feeds: state => state.feedInfo.feeds,
-      currentTask: state => state.feedInfo.currentTask
+      currentTask: state => state.feedInfo.currentTask,
+      podcast: state => state.podcasts.podcast
     }),
     isFetchingInfos() {
       return (
@@ -280,6 +282,15 @@ export default {
       const self = this
       setTimeout(checkTaskStatus, 0)
       function checkTaskStatus() {
+        if (
+          self.currentTask._links !== undefined &&
+          self.currentTask._links['rad:subject'] !== undefined
+        ) {
+          const pid = self.currentTask._links['rad:subject'].href.split('/')
+          self.$store.dispatch('podcasts/getPodcast', {
+            id: pid[pid.length - 1]
+          })
+        }
         if (self.currentTask.id !== undefined) {
           self.$store.dispatch('feedInfo/readTask', {
             taskId: self.currentTask.id
