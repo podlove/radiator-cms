@@ -130,12 +130,21 @@
               <span>Aktueller Task: <br /></span>
               {{ currentTask }}
             </p>
-            <p>
-              LADEBALKENPLATZHALTER
-              <span v-if="currentTask">
-                {{ currentTask.progress }} / {{ currentTask.total }}
-              </span>
-            </p>
+            <b-progress
+              v-if="
+                !(
+                  Object.entries(currentTask).length === 0 &&
+                  currentTask.constructor === Object
+                )
+              "
+              :value="currentTask.progress"
+              :max="currentTask.total"
+              type="is-primary"
+              size="is-medium"
+              show-value
+            >
+              {{ currentTask.progress }} / {{ currentTask.total }}
+            </b-progress>
             <div>
               <episodes-table
                 v-if="podcast && podcast.episodes && podcast.episodes.length"
