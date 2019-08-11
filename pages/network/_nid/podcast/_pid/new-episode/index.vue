@@ -127,6 +127,7 @@ import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import Upload from '~/components/Upload'
 import WikidataInput from '~/components/WikidataInput'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
@@ -171,7 +172,7 @@ export default {
         })
         .then(result => {
           this.loading = false
-          this.$toast.open({
+          Toast.open({
             message:
               'Your new episode was susccessfully created. You will be redirected to your new episode page.',
             type: 'is-success'
@@ -224,7 +225,7 @@ export default {
         })
     },
     toast() {
-      this.$toast.open(this.alert)
+      Toast.open(this.alert)
     }
   }
 }
