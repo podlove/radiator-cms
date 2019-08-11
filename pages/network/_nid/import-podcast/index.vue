@@ -127,14 +127,20 @@
               </div>
             </div>
             <p>
+              <span>Aktueller Task: <br /></span>
+              {{ currentTask }}
+            </p>
+            <p>
               LADEBALKENPLATZHALTER
               <span v-if="currentTask">
                 {{ currentTask.progress }} / {{ currentTask.total }}
               </span>
             </p>
             <div>
-              {{ currentTask }}
-              <p>{{ podcast }}</p>
+              <episodes-table
+                v-if="podcast && podcast.episodes && podcast.episodes.length"
+                :episodes="podcast.episodes"
+              ></episodes-table>
               <b-button class="is-primary" @click.stop.prevent="stopImport()">
                 Stop Import
               </b-button>
@@ -205,8 +211,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import EpisodesTable from '~/components/EpisodesTable'
 
 export default {
+  components: {
+    EpisodesTable
+  },
   data() {
     return {
       activeStep: 0,
