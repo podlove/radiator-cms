@@ -126,10 +126,6 @@
                 </h2>
               </div>
             </div>
-            <p>
-              <span>Aktueller Task: <br /></span>
-              {{ currentTask }}
-            </p>
             <b-progress
               v-if="
                 !(
