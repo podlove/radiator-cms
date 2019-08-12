@@ -52,7 +52,18 @@
             <div class="r_podcast__episode-cover has-background-dark"></div>
           </a>
           <h3 class="r_podcast__episode-title">
-            <a href="#">{{ episode.title }}</a>
+            <nuxt-link
+              :to="
+                '/network/' +
+                  network.id +
+                  '/podcast/' +
+                  podcast.id +
+                  '/episode/' +
+                  episode.id
+              "
+            >
+              {{ episode.title }}
+            </nuxt-link>
           </h3>
           <p class="r_podcast__episode-info">
             <span class="is-size-7">Downloads:</span>
