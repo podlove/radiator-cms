@@ -10,13 +10,10 @@
           })`
         }"
       ></div>
-      <a
-        class="r_podcast__title"
-        :href="this.$route.path + '/podcast/' + podcast.id"
-      >
+      <nuxt-link :to="'/network/' + network.id + '/podcast/' + podcast.id">
         <h1 class="is-size-5">{{ podcast.title }}</h1>
         <h2 class="is-size-7">{{ podcast.subtitle }}</h2>
-      </a>
+      </nuxt-link>
       <p class="r_podcast__analytics">
         <span class="is-size-4">38293</span>
         <span class="is-size-7">Subscriptions</span>
