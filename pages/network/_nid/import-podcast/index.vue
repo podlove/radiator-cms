@@ -243,7 +243,7 @@ export default {
       feedInfo: state => state.feedInfo.feedInfo,
       feeds: state => state.feedInfo.feeds,
       currentTask: state => state.feedInfo.currentTask,
-      podcast: state => state.podcasts.podcast
+      podcast: state => state.podcasts.activePodcast
     }),
     isFetchingInfos() {
       return (
