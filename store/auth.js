@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
+import userSignup from '~/api/mutations/userSignup.gql'
 
 export const state = () => ({
   isLoggedIn: null
@@ -67,5 +68,22 @@ export const actions = {
    */
   setSession({ commit }) {
     commit('set_session')
+  },
+  signup: async function signup({ dispatch, commit }, data) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .mutate({
+          mutation: userSignup,
+          variables: {
+            email: data.email,
+            password: data.password,
+            username: data.username
+          }
+        })
+        .then(({ data }) => data)
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }
