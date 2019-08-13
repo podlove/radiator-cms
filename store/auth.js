@@ -82,6 +82,7 @@ export const actions = {
           }
         })
         .then(({ data }) => data)
+      console.log(res)
     } catch (e) {
       throw Error(e)
     }
