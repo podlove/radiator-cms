@@ -83,6 +83,8 @@ export default {
           setTimeout(() => {
             if (this.activeNetwork && this.activeNetwork.id) {
               this.$router.push('/network/' + this.activeNetwork.id)
+            } else {
+              this.$router.push('/new-network/')
             }
           }, 1000)
         })

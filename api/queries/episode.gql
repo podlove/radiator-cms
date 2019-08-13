@@ -15,9 +15,7 @@ query episode($id: ID!) {
       },
       duration,
       durationString,
-      id,
-      publishedAt,
-      title
+      id
     },
     guid,
     id,

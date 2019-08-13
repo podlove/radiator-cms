@@ -26,7 +26,9 @@
       <b-tabs v-model="activeTab" class="r_podcast-tabs">
         <b-tab-item label="Episodes">
           <section class="r_episodes__header">
-            <nuxt-link :to="`/new-episode?podcastId=${podcast.id}`">
+            <nuxt-link
+              :to="`/network/${network.id}/podcast/${podcast.id}/new-episode`"
+            >
               <b-button type="is-primary" outlined>
                 <b-icon size="is-small" icon="plus-circle"></b-icon>
                 <span> New Episode</span>
@@ -152,7 +154,8 @@ export default {
     }
   },
   computed: mapState({
-    podcast: state => state.podcasts.activePodcast
+    podcast: state => state.podcasts.activePodcast,
+    network: state => state.networks.activeNetwork
   }),
   created() {
     this.$store
