@@ -207,8 +207,14 @@
         </b-tab-item>
       </b-tabs>
     </section>
-    <b-modal :active.sync="isCollaboratorModalActive" has-modal-card>
+    <b-modal
+      v-if="network"
+      :active.sync="isCollaboratorModalActive"
+      has-modal-card
+    >
+      <!-- TODO: use all persons available -->
       <new-collaborator-modal
+        :persons="network.collaborators"
         @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
       ></new-collaborator-modal>
     </b-modal>

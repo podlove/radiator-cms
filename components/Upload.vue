@@ -4,7 +4,7 @@
     <b-field :label="label">
       <b-upload
         v-if="!dropFile"
-        v-model="dropFile"
+        v-model="newDropFile"
         drag-drop
         @input="handleFileDrop($event)"
       >
@@ -29,7 +29,11 @@
       >
         <b-icon size="is-small" icon="image"></b-icon>
       </span>
-      <span v-if="dropFile" class="r_upload-progress" :class="classObject">
+      <span
+        v-if="dropFile || newDropFile"
+        class="r_upload-progress"
+        :class="classObject"
+      >
         <span class="r_upload-progress__left">
           <b-button
             v-if="state === 'SUCCESS' && audio"
@@ -39,7 +43,12 @@
           >
             <b-icon size="is-small" icon="play"></b-icon>
           </b-button>
-          {{ dropFile.name || dropFile.title }}
+          <span v-if="dropFile">
+            {{ dropFile.name || dropFile.title }}
+          </span>
+          <span v-if="newDropFile">
+            {{ newDropFile.name || newDropFile.title }}
+          </span>
         </span>
         <span class="r_upload-progress__right">
           {{ stateLabel }}
@@ -154,6 +163,10 @@ export default {
       required: false,
       default: null
     },
+    image: {
+      required: false,
+      default: null
+    },
     label: {
       type: String,
       required: false,
@@ -170,11 +183,11 @@ export default {
       default: ''
     }
   },
-  // data() {
-  //   return {
-  //     dropFile: null
-  //   }
-  // },
+  data() {
+    return {
+      newDropFile: null
+    }
+  },
   computed: {
     classObject: function() {
       return {
@@ -212,7 +225,7 @@ export default {
     handleFileDrop(event) {
       this.$emit('dropped', {
         type: this.type,
-        file: this.dropFile
+        file: this.newDropFile
       })
     },
     handleFilePlay(sound) {
