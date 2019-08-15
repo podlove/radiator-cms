@@ -98,13 +98,14 @@
         <b-tab-item label="Collaborators">
           <section>
             <p v-if="network" class="r_network__collaborator__new">
-              <nuxt-link
-                :to="'/network/' + network.id + '/new-audio-publication'"
+              <b-button
+                outlined
+                type="is-primary"
+                icon-left="plus-circle"
+                @click="isCollaboratorModalActive = true"
               >
-                <b-button outlined type="is-primary" icon-left="plus-circle">
-                  <span>Add new collaborator</span>
-                </b-button>
-              </nuxt-link>
+                <span>Add new collaborator</span>
+              </b-button>
             </p>
             <h3 class="is-size-4">Network Collaborators</h3>
             <p
@@ -206,6 +207,11 @@
         </b-tab-item>
       </b-tabs>
     </section>
+    <b-modal :active.sync="isCollaboratorModalActive" has-modal-card>
+      <new-collaborator-modal
+        @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
+      ></new-collaborator-modal>
+    </b-modal>
   </section>
 </template>
 
@@ -272,6 +278,7 @@
 import { mapState } from 'vuex'
 import AudioPublicationsTable from '~/components/AudioPublicationsTable'
 import NetworkCollaborators from '~/components/NetworkCollaborators'
+import NewCollaboratorModal from '~/components/NewCollaboratorModal'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
@@ -279,6 +286,7 @@ export default {
   components: {
     AudioPublicationsTable,
     NetworkCollaborators,
+    NewCollaboratorModal,
     Podcast,
     Upload
   },
@@ -287,6 +295,7 @@ export default {
       activeTab: 0,
       cover: null,
       coverFileState: null,
+      isCollaboratorModalActive: false,
       isDisabled: true,
       isLoading: false,
       title: ''
@@ -346,6 +355,9 @@ export default {
             message: error
           }
         })
+    },
+    handleNewCollaborator(collaborator) {
+      console.log('New Collaborator', collaborator)
     },
     save() {
       this.isLoading = true
