@@ -71,6 +71,7 @@ export const actions = {
       const res = await client
         .query({
           query: podcast,
+          fetchPolicy: 'network-only',
           variables: {
             id: data.id
           }

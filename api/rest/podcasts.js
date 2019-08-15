@@ -32,6 +32,19 @@ export default {
       }
     )
   },
+  read: data => {
+    return axios.get(
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
+        data.podcastId
+      }`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   update: data => {
     const query = JSON.stringify({
       podcast: {

@@ -47,6 +47,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   data() {
@@ -71,7 +72,7 @@ export default {
           password: this.password
         })
         .then(result => {
-          this.$toast.open({
+          Toast.open({
             message:
               'You are logged in and will be redirected to your dashboard.',
             type: 'is-success'
@@ -82,6 +83,8 @@ export default {
           setTimeout(() => {
             if (this.activeNetwork && this.activeNetwork.id) {
               this.$router.push('/network/' + this.activeNetwork.id)
+            } else {
+              this.$router.push('/new-network/')
             }
           }, 1000)
         })

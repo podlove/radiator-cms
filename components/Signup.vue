@@ -1,47 +1,60 @@
 <template>
   <section class="r_signup">
-    <b-notification
-      v-if="alert"
-      :type="alert.type"
-      has-icon
-      aria-close-label="Close notification"
-    >
-      {{ alert.message }}
-    </b-notification>
-    <form v-if="!isLoggedIn">
-      <b-field label="User name">
-        <b-input v-model="username" placeholder="Your user name"></b-input>
-      </b-field>
-      <b-field label="Email address">
-        <b-input v-model="email" placeholder="Your email address"></b-input>
-      </b-field>
-      <b-field label="Password">
-        <b-input
-          v-model="password"
-          password-reveal
-          placeholder="Your secure password"
-          type="password"
-          @keyup.native.enter.prevent="signup()"
-        ></b-input>
-      </b-field>
-      <b-field label="Repeat Password">
-        <b-input
-          v-model="repeatPassword"
-          password-reveal
-          placeholder="Repeat your secure password"
-          type="password"
-          @keyup.native.enter.prevent="signup()"
-        ></b-input>
-      </b-field>
-      <b-button
-        type="is-primary"
-        :loading="loading"
-        :disabled="loading"
-        @click.stop.prevent="signup()"
+    <div v-if="!success">
+      <b-notification
+        v-if="alert"
+        :type="alert.type"
+        has-icon
+        aria-close-label="Close notification"
       >
-        Signup
-      </b-button>
-    </form>
+        {{ alert.message }}
+      </b-notification>
+      <form v-if="!isLoggedIn">
+        <b-field label="User name">
+          <b-input v-model="username" placeholder="Your user name"></b-input>
+        </b-field>
+        <b-field label="Email address">
+          <b-input v-model="email" placeholder="Your email address"></b-input>
+        </b-field>
+        <b-field label="Password">
+          <b-input
+            v-model="password"
+            password-reveal
+            placeholder="Your secure password"
+            type="password"
+            @keyup.native.enter.prevent="signup()"
+          ></b-input>
+        </b-field>
+        <b-field
+          label="Repeat Password"
+          :type="{ 'is-danger': password !== repeatPassword }"
+          :message="{
+            'Your passwords are not the same.': password !== repeatPassword
+          }"
+        >
+          <b-input
+            v-model="repeatPassword"
+            password-reveal
+            placeholder="Repeat your secure password"
+            type="password"
+            @keyup.native.enter.prevent="signup()"
+          ></b-input>
+        </b-field>
+        <b-button
+          type="is-primary"
+          :loading="loading"
+          :disabled="loading"
+          @click.stop.prevent="signup()"
+        >
+          Signup
+        </b-button>
+      </form>
+    </div>
+    <div v-else>
+      <p>
+        Your will recive an email with authentication information..
+      </p>
+    </div>
   </section>
 </template>
 
@@ -53,6 +66,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   data() {
@@ -62,7 +76,8 @@ export default {
       password: '',
       repeatPassword: '',
       alert: null,
-      loading: false
+      loading: false,
+      success: false
     }
   },
   computed: mapState({
@@ -70,7 +85,26 @@ export default {
   }),
   methods: {
     signup() {
-      console.log('signup')
+      if (this.password === this.repeatPassword) {
+        this.$store
+          .dispatch('auth/signup', {
+            email: this.email,
+            username: this.username,
+            password: this.password
+          })
+          .then(result => {
+            console.log(result)
+            this.success = true
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } else {
+        Toast.open({
+          message: 'Your passwords are not the same.',
+          type: 'is-danger'
+        })
+      }
     }
   }
 }

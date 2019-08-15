@@ -43,6 +43,7 @@
         </b-step-item>
         <b-step-item label="Check Podcast">
           <section>
+            <b-loading :active.sync="isFetchingInfos"></b-loading>
             <b-field horizontal label="Feed Url">
               <b-input v-model="url" disabled></b-input>
             </b-field>
@@ -64,6 +65,9 @@
               With
               {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
             </p>
+            <b-field horizontal label="Limit import to episode count">
+              <b-input v-model="episodeCount"></b-input>
+            </b-field>
             <b-field horizontal label="Short ID">
               <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
             </b-field>
@@ -122,8 +126,33 @@
                 </h2>
               </div>
             </div>
-            <!-- <p>{{ episodes.loaded }} / {{ episodes.total }} Episodes loaded</p> -->
-            <p>LADEBALKENPLATZHALTER</p>
+            <b-progress
+              v-if="
+                !(
+                  Object.entries(currentTask).length === 0 &&
+                  currentTask.constructor === Object
+                )
+              "
+              :value="currentTask.progress"
+              :max="currentTask.total"
+              type="is-primary"
+              size="is-medium"
+              show-value
+            >
+              {{ currentTask.progress }} / {{ currentTask.total }}
+            </b-progress>
+            <div>
+              <episodes-table
+                v-if="podcast && podcast.episodes && podcast.episodes.length"
+                :episodes="podcast.episodes"
+              ></episodes-table>
+              <b-button class="is-primary" @click.stop.prevent="stopImport()">
+                Stop Import
+              </b-button>
+              <b-button class="is-primary" @click.stop.prevent="showTask()">
+                show Task
+              </b-button>
+            </div>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
@@ -187,10 +216,16 @@
 
 <script>
 import { mapState } from 'vuex'
+import EpisodesTable from '~/components/EpisodesTable'
+
 export default {
+  components: {
+    EpisodesTable
+  },
   data() {
     return {
       activeStep: 0,
+      episodeCount: 0,
       importAudioFiles: false,
       importMedia: {
         mp3: false,
@@ -199,14 +234,24 @@ export default {
       },
       importMetaData: true,
       networkId: null,
-      url: 'https://www.zeitsprung.fm/feed/mp4/'
+      url: 'https://www.zeitsprung.fm/feed/mp3/'
     }
   },
-  computed: mapState({
-    networks: state => state.networks.networks,
-    feedInfo: state => state.feedInfo.feedInfo,
-    feeds: state => state.feedInfo.feeds
-  }),
+  computed: {
+    ...mapState({
+      networks: state => state.networks.networks,
+      feedInfo: state => state.feedInfo.feedInfo,
+      feeds: state => state.feedInfo.feeds,
+      currentTask: state => state.feedInfo.currentTask,
+      podcast: state => state.podcasts.activePodcast
+    }),
+    isFetchingInfos() {
+      return (
+        Object.entries(this.feedInfo).length === 0 &&
+        this.feedInfo.constructor === Object
+      )
+    }
+  },
   methods: {
     checkField(value) {
       return value ? 'is-success' : 'is-danger'
@@ -221,10 +266,59 @@ export default {
       this.navigateTo(1)
     },
     fetchEpisodes() {
-      this.$store.dispatch('feedInfo/fetchFeeds', {
-        url: this.url
+      let enclosureType = ''
+      let feedUrl = ''
+
+      this.feedInfo.feeds.forEach(d => {
+        if (d.enclosureType === 'audio/mpeg') {
+          enclosureType = d.enclosureType
+          feedUrl = d.feedUrl
+        }
       })
+      const importPodcastFeed = {
+        network_id: this.networkId,
+        feed_url: feedUrl,
+        enclosure_types: enclosureType,
+        short_id: this.feedInfo.suggestedShortId
+      }
+      this.$store.dispatch('feedInfo/createTask', importPodcastFeed)
       this.navigateTo(2)
+      this.observeTaskStatus()
+    },
+    stopImport() {
+      this.$store.dispatch('feedInfo/deleteTask', {
+        taskId: this.currentTask.id
+      })
+    },
+    showTask() {
+      this.$store.dispatch('feedInfo/readTask', { taskId: this.currentTask.id })
+    },
+    observeTaskStatus(callback) {
+      const self = this
+      setTimeout(checkTaskStatus, 0)
+      function checkTaskStatus() {
+        if (
+          self.currentTask._links !== undefined &&
+          self.currentTask._links['rad:subject'] !== undefined
+        ) {
+          const pid = self.currentTask._links['rad:subject'].href.split('/')
+          self.$store.dispatch('podcasts/getPodcast', {
+            id: pid[pid.length - 1]
+          })
+        }
+        if (self.currentTask.id !== undefined) {
+          self.$store.dispatch('feedInfo/readTask', {
+            taskId: self.currentTask.id
+          })
+        }
+        if (self.currentTask.state !== 'done') {
+          setTimeout(checkTaskStatus, 2000)
+        } else {
+          self.$store.dispatch('feedInfo/deleteTask', {
+            taskId: self.currentTask.id
+          })
+        }
+      }
     }
   }
 }
