@@ -1,0 +1,7 @@
+mutation userSignup($email: String!, $password: String!, $username: String!) {
+  userSignup(email: $email, password: $password, username: $username) {
+    expiresAt,
+    token,
+    username
+  }
+}
