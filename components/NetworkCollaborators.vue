@@ -13,7 +13,7 @@
     <template slot-scope="props">
       <b-table-column field="image" label="Image" sortable>
         <div
-          class="r_audio-pub__cover has-background-light"
+          class="r_collaborator__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               props.row.user && props.row.user.image ? props.row.user.image : ''
@@ -40,6 +40,16 @@
     </template>
   </b-table>
 </template>
+
+<style>
+.r_collaborator__cover {
+  background-size: cover;
+  border-radius: 0.2125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  width: 2.25rem;
+  height: 2.25rem;
+}
+</style>
 
 <script>
 export default {

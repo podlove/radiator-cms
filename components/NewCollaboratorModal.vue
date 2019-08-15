@@ -6,35 +6,26 @@
       </header>
       <section class="modal-card-body">
         <section>
-          <h2>Select existing user as collaborator</h2>
+          <h2 class="is-size-5">
+            Select existing user as collaborator
+          </h2>
           <b-field>
-            <b-dropdown>
-              <button class="button is-primary" type="button" slot="trigger">
-                <template v-if="isPublic">
-                  <b-icon icon="earth"></b-icon>
-                  <span>Public</span>
-                </template>
-                <template v-else>
-                  <b-icon icon="account-multiple"></b-icon>
-                  <span>Friends</span>
-                </template>
-                <b-icon icon="menu-down"></b-icon>
-              </button>
-              <b-dropdown-item
+            <b-select ref="select" placeholder="Select a name">
+              <option
                 v-for="person in persons"
+                :value="person.id"
                 :key="person.id"
-                :value="true"
-                aria-role="listitem"
               >
-                <div class="media">
-                  <!-- TODO: avatar -->
-                  <p>{{ person.user.username }}</p>
-                </div>
-              </b-dropdown-item>
-            </b-dropdown>
+                {{ person.user.username }}
+              </option>
+            </b-select>
           </b-field>
         </section>
+        <hr />
         <section>
+          <h2 class="is-size-5">
+            Add new user as collaborator
+          </h2>
           <b-field label="Name">
             <b-input
               v-model="newCollaborator.name"
@@ -134,6 +125,16 @@
   </form>
 </template>
 
+<style>
+.r_collaborator__cover {
+  background-size: cover;
+  border-radius: 0.2125rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  width: 2.25rem;
+  height: 2.25rem;
+}
+</style>
+
 <script>
 import Upload from '~/components/Upload'
 
@@ -148,6 +149,7 @@ export default {
   data() {
     return {
       avatarFileState: null,
+      existingSelectedCollaborator: null,
       newCollaborator: {
         displayName: '',
         email: '',
@@ -162,9 +164,13 @@ export default {
   components: {
     Upload
   },
+  mounted() {
+    console.log(this.$refs.select)
+  },
   methods: {
     handleAddCollaborator() {
-      console.log('AddCollaborator', this.newCollaborator)
+      console.log(this.$refs.select)
+      console.log('AddCollaborator', this.existingSelectedCollaborator)
       this.$emit('collaboratorAdded', {
         collaborator: this.newCollaborator
       })
