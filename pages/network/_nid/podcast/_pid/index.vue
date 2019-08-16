@@ -27,6 +27,7 @@
         <b-tab-item label="Episodes">
           <section class="r_episodes__header">
             <nuxt-link
+              v-if="network && podcast"
               :to="`/network/${network.id}/podcast/${podcast.id}/new-episode`"
             >
               <b-button type="is-primary" outlined>
@@ -39,6 +40,38 @@
             v-if="podcast && podcast.episodes && podcast.episodes.length"
             :episodes="podcast.episodes"
           ></episodes-table>
+        </b-tab-item>
+        <b-tab-item label="Collaborators">
+          <section>
+            <p v-if="network" class="r_podcast__collaborator__new">
+              <b-button
+                outlined
+                type="is-primary"
+                icon-left="plus-circle"
+                @click="isCollaboratorModalActive = true"
+              >
+                <span>Add new collaborator</span>
+              </b-button>
+            </p>
+            <h3 class="is-size-4">Podcast Collaborators</h3>
+            <p
+              v-if="
+                podcast &&
+                  (!podcast.collaborators || !podcast.collaborators.length > 0)
+              "
+            >
+              There are no collaborators yet.
+            </p>
+            <collaborators-table
+              v-if="
+                podcast &&
+                  podcast.collaborators &&
+                  podcast.collaborators.length > 0
+              "
+              class="r_podcast__collaborator__table"
+              :collaborators="podcast.collaborators"
+            ></collaborators-table>
+          </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
@@ -100,6 +133,13 @@
         </b-tab-item>
       </b-tabs>
     </section>
+    <!-- TODO: use all persons available -->
+    <new-collaborator-modal
+      v-if="network"
+      :isCollaboratorModalActive="isCollaboratorModalActive"
+      :persons="network.people"
+      @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
+    ></new-collaborator-modal>
   </section>
 </template>
 
@@ -107,6 +147,12 @@
 .r_episodes__header {
   text-align: right;
   padding: 0 0 1rem 0;
+}
+.r_podcast__collaborator__new {
+  float: right;
+}
+.r_podcast__collaborator__table {
+  margin-top: 1rem;
 }
 .r_podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
@@ -139,15 +185,20 @@
 
 <script>
 import { mapState } from 'vuex'
+import CollaboratorsTable from '~/components/CollaboratorsTable'
 import EpisodesTable from '~/components/EpisodesTable'
+import NewCollaboratorModal from '~/components/NewCollaboratorModal'
 
 export default {
   components: {
-    EpisodesTable
+    CollaboratorsTable,
+    EpisodesTable,
+    NewCollaboratorModal
   },
   data() {
     return {
       activeTab: 0,
+      isCollaboratorModalActive: false,
       isDisabled: true,
       isLoading: false,
       title: ''

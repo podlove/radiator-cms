@@ -2,15 +2,16 @@ import axios from 'axios'
 
 export default {
   create: data => {
+    console.log('data', data)
     const query = JSON.stringify({
-      podcast: {
-        username: data.username,
-        // one of "own", "manage", "edit", "readonly"
-        permission: data.permission
-      }
+      username: data.username,
+      // one of "own", "manage", "edit", "readonly",
+      permisssion: data.permisssion
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${data.podcastId}/collaborators`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
+        data.id
+      }/collaborators`,
       query,
       {
         headers: {
@@ -23,8 +24,8 @@ export default {
   delete: data => {
     return axios.delete(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
-        data.podcastId
-      }/collaborators`,
+        data.id
+      }/collaborators/${data.username}`,
       null,
       {
         headers: {
@@ -38,12 +39,12 @@ export default {
     const query = JSON.stringify({
       network: {
         username: data.username,
-        permission: data.permission
+        permisssion: data.permisssion
       }
     })
     return axios.put(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
-        data.podcastId
+        data.id
       }/collaborators/${data.username}`,
       query,
       {

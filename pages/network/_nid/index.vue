@@ -116,15 +116,15 @@
             >
               There are no collaborators yet.
             </p>
-            <NetworkCollaborators
+            <collaborators-table
               v-if="
                 network &&
                   network.collaborators &&
                   network.collaborators.length > 0
               "
               class="r_network__collaborator__table"
-              :network="network"
-            ></NetworkCollaborators>
+              :collaborators="network.collaborators"
+            ></collaborators-table>
           </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
@@ -207,17 +207,13 @@
         </b-tab-item>
       </b-tabs>
     </section>
-    <b-modal
+    <!-- TODO: use all persons available -->
+    <new-collaborator-modal
       v-if="network"
-      :active.sync="isCollaboratorModalActive"
-      has-modal-card
-    >
-      <!-- TODO: use all persons available -->
-      <new-collaborator-modal
-        :persons="network.collaborators"
-        @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
-      ></new-collaborator-modal>
-    </b-modal>
+      :isCollaboratorModalActive="isCollaboratorModalActive"
+      :persons="network.people"
+      @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
+    ></new-collaborator-modal>
   </section>
 </template>
 
@@ -283,7 +279,7 @@
 <script>
 import { mapState } from 'vuex'
 import AudioPublicationsTable from '~/components/AudioPublicationsTable'
-import NetworkCollaborators from '~/components/NetworkCollaborators'
+import CollaboratorsTable from '~/components/CollaboratorsTable'
 import NewCollaboratorModal from '~/components/NewCollaboratorModal'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
@@ -291,7 +287,7 @@ import Upload from '~/components/Upload'
 export default {
   components: {
     AudioPublicationsTable,
-    NetworkCollaborators,
+    CollaboratorsTable,
     NewCollaboratorModal,
     Podcast,
     Upload
@@ -363,7 +359,19 @@ export default {
         })
     },
     handleNewCollaborator(collaborator) {
-      console.log('New Collaborator', collaborator)
+      this.$store
+        .dispatch('networks/createNetworkCollaborator', {
+          id: this.network.id,
+          username: collaborator.name,
+          permisssion: collaborator.permisssion
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     save() {
       this.isLoading = true

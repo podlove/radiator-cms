@@ -1,4 +1,5 @@
 import restNetwork from '~/api/rest/networks'
+import restNetworkCollaborators from '~/api/rest/networks-collaborators'
 import network from '~/api/queries/network.gql'
 import networks from '~/api/queries/networks.gql'
 
@@ -40,6 +41,23 @@ export const actions = {
         return data && data.data
       })
       await commit('set_active_network', res)
+      await dispatch('getNetworks', {
+        token: this.$apolloHelpers.getToken()
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  createNetworkCollaborator: async function createNetworkCollaborator(
+    { dispatch },
+    data
+  ) {
+    console.log('1', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restNetworkCollaborators.create(data).then(data => {
+        return data && data.data
+      })
       await dispatch('getNetworks', {
         token: this.$apolloHelpers.getToken()
       })

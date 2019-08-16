@@ -1,7 +1,7 @@
 <template>
-  <!-- Shows the collaborators of a network. -->
+  <!-- Shows the collaborators in a table. -->
   <b-table
-    :data="network.collaborators"
+    :data="collaborators"
     :mobile-cards="true"
     :paginated="true"
     :per-page="5"
@@ -54,8 +54,8 @@
 <script>
 export default {
   props: {
-    network: {
-      type: Object,
+    collaborators: {
+      type: Array,
       required: true
     }
   }
