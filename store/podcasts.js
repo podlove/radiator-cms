@@ -1,4 +1,5 @@
 import restPodcast from '~/api/rest/podcasts'
+import restPodcastCollaborators from '~/api/rest/podcasts-collaborators'
 import podcast from '~/api/queries/podcast.gql'
 
 export const state = () => ({
@@ -33,6 +34,26 @@ export const actions = {
     try {
       const res = await restPodcast.create(data).then(data => data && data.data)
       await commit('set_active_podcast', res)
+      await dispatch(
+        'networks/getNetworks',
+        {
+          token: this.$apolloHelpers.getToken()
+        },
+        { root: true }
+      )
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  createPodcastCollaborator: async function createPodcastCollaborator(
+    { dispatch },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restPodcastCollaborators.create(data).then(data => {
+        return data && data.data
+      })
       await dispatch(
         'networks/getNetworks',
         {

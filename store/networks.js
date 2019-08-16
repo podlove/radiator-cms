@@ -52,7 +52,6 @@ export const actions = {
     { dispatch },
     data
   ) {
-    console.log('1', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       await restNetworkCollaborators.create(data).then(data => {

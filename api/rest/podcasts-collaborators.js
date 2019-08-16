@@ -10,7 +10,9 @@ export default {
       }
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}/collaborators`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
+        data.id
+      }/collaborators`,
       query,
       {
         headers: {
@@ -23,7 +25,7 @@ export default {
   delete: data => {
     return axios.delete(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
-        data.podcastId
+        data.id
       }/collaborators`,
       null,
       {
@@ -43,7 +45,7 @@ export default {
     })
     return axios.put(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
-        data.podcastId
+        data.id
       }/collaborators/${data.username}`,
       query,
       {

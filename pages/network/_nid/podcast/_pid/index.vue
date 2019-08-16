@@ -238,6 +238,21 @@ export default {
     edit() {
       this.isDisabled = false
     },
+    handleNewCollaborator(collaborator) {
+      this.$store
+        .dispatch('podcasts/createPodcastCollaborator', {
+          id: this.podcast.id,
+          username: collaborator.name,
+          permisssion: collaborator.permisssion
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
     save() {
       this.isLoading = true
       this.$store
