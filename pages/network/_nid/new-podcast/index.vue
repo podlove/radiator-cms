@@ -10,7 +10,7 @@
             {{ title }}
           </h1>
           <h2 class="subtitle is-size-6">
-            {{ description }}
+            {{ subtitle }}
           </h2>
         </div>
       </div>
@@ -24,16 +24,36 @@
       >
         {{ alert.message }}
       </b-notification>
+      <b-field label="Short Id">
+        <b-input v-model="shortId" placeholder="NE"></b-input>
+      </b-field>
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Podcast"></b-input>
       </b-field>
-      <b-field label="Description">
+      <b-field label="Subtitle">
         <b-input
-          v-model="description"
-          placeholder="Podcast Description"
+          v-model="subtitle"
+          placeholder="Subtitle of the New Podcast"
         ></b-input>
       </b-field>
-      <upload class="field" label="Podcast Cover" :drop-files="dropCover" />
+      <b-field label="Summary">
+        <b-input v-model="summary" placeholder="Podcast Summary"></b-input>
+      </b-field>
+      <b-field label="Author">
+        <b-input v-model="author" placeholder="Author's name"></b-input>
+      </b-field>
+      <b-field label="Language">
+        <b-input v-model="language" placeholder="Podcast language"></b-input>
+      </b-field>
+      <b-field label="Podcast Cover">
+        <upload
+          class="field"
+          :type="'IMAGE'"
+          :state="coverFileState"
+          :image="cover"
+          @dropped="params => handleCoverFileDrop(params)"
+        />
+      </b-field>
       <b-button
         type="is-primary"
         outlined
@@ -80,17 +100,22 @@
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
-import { ToastProgrammatic as Toast } from 'buefy'
+// import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: { Upload },
   data() {
     return {
       alert: null,
+      author: null,
       cover: null,
-      description: null,
-      dropCover: [],
+      coverFileState: null,
+      language: 'DE',
+      ownerName: null,
+      summary: null,
       loading: false,
+      shortId: 'NE',
+      subtitle: null,
       title: 'New Podcast'
     }
   },
@@ -103,18 +128,22 @@ export default {
       this.loading = true
       this.$store
         .dispatch('podcasts/create', {
-          cover: this.cover,
-          description: this.description,
-          title: this.title,
-          networkId: this.activeNetwork.id
+          author: this.author,
+          image: this.cover,
+          language: this.language,
+          networkId: this.activeNetwork.id,
+          summary: this.summary,
+          shortId: this.shortId,
+          subtitle: this.subtitle,
+          title: this.title
         })
         .then(() => {
           this.loading = false
-          Toast.open({
-            message:
-              'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
-            type: 'is-success'
-          })
+          // Toast.open({
+          //   message:
+          //     'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
+          //   type: 'is-success'
+          // })
           setTimeout(() => {
             this.$router.replace(
               `/network/${this.activeNetwork.id}/podcast/${
@@ -131,8 +160,9 @@ export default {
           }
         })
     },
-    toast() {
-      Toast.open(this.alert)
+    handleCoverFileDrop(params) {
+      this.cover = params.file
+      this.coverFileState = 'SUCCESS'
     }
   }
 }

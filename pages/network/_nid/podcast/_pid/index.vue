@@ -83,54 +83,15 @@
           </div>
         </b-tab-item>
         <b-tab-item label="Settings">
-          <section>
-            <b-field label="Podcast Name">
-              <b-input
-                v-if="isDisabled"
-                v-model="podcast.title"
-                disabled
-              ></b-input>
-              <b-input
-                v-if="!isDisabled"
-                v-model="title"
-                :placeholder="podcast.title"
-                :is-loading="isLoading"
-              ></b-input>
-            </b-field>
-            <div class="r_settings__interaction">
-              <b-button
-                v-if="isDisabled"
-                type="is-primary"
-                outlined
-                @click.stop.prevent="edit()"
-              >
-                Edit Settings
-              </b-button>
-              <b-button
-                v-if="!isDisabled"
-                type="is-danger"
-                outlined
-                @click.stop.prevent="deletePodcast()"
-              >
-                Delete Podcast
-              </b-button>
-              <b-button
-                v-if="!isDisabled"
-                type="is-dark"
-                outlined
-                @click.stop.prevent="cancel()"
-              >
-                Cancel
-              </b-button>
-              <b-button
-                v-if="!isDisabled"
-                type="is-primary"
-                @click.stop.prevent="save()"
-              >
-                Save
-              </b-button>
-            </div>
-          </section>
+          <podcast-settings
+            :is-disabled="isDisabled"
+            :is-loading="isLoading"
+            :podcast="podcast"
+            @cancel="cancel()"
+            @delete="deletePodcast()"
+            @edit="edit()"
+            @save="newPodcastSettings => save(newPodcastSettings)"
+          ></podcast-settings>
         </b-tab-item>
       </b-tabs>
     </section>
@@ -196,13 +157,15 @@ import ContributorsTable from '~/components/ContributorsTable'
 import EpisodesTable from '~/components/EpisodesTable'
 // import EditContributorModal from '~/components/EditContributorModal'
 import NewContributorModal from '~/components/NewContributorModal'
+import PodcastSettings from '~/components/PodcastSettings'
 
 export default {
   components: {
     ContributorsTable,
     EpisodesTable,
     // EditContributorModal,
-    NewContributorModal
+    NewContributorModal,
+    PodcastSettings
   },
   data() {
     return {
@@ -211,8 +174,7 @@ export default {
       // isEditContributorModalActive: false,
       isNewContributorModalActive: false,
       isDisabled: true,
-      isLoading: false,
-      title: ''
+      isLoading: false
     }
   },
   computed: mapState({
@@ -239,7 +201,7 @@ export default {
           podcastId: this.podcast.id
         })
         .then(() => {
-          this.$router.push('/networks')
+          this.$router.push('/')
         })
         .catch(error => {
           console.warn(error)
@@ -266,12 +228,21 @@ export default {
           }
         })
     },
-    save() {
+    save(newPodcastSettings) {
+      console.log('newPodcastSettings', newPodcastSettings)
       this.isLoading = true
       this.$store
         .dispatch('podcasts/update', {
           podcastId: this.podcast.id,
-          title: this.title
+          author: newPodcastSettings.author,
+          image: newPodcastSettings.cover,
+          language: newPodcastSettings.language,
+          owner: newPodcastSettings.owner,
+          ownerEmail: newPodcastSettings.ownerEmail,
+          summary: newPodcastSettings.summary,
+          shortId: newPodcastSettings.shortId,
+          subtitle: newPodcastSettings.subtitle,
+          title: newPodcastSettings.title
         })
         .then(() => {
           this.isDisabled = true

@@ -29,6 +29,7 @@ query podcast($id: ID!) {
     ownerName,
     publishedAt,
     slug,
+    shortId,
     subtitle,
     summary,
     title,
