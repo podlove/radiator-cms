@@ -22,11 +22,15 @@
       <b-field label="Title">
         <b-input v-model="title" placeholder="New Network"></b-input>
       </b-field>
-      <upload
-        class="field"
-        label="Network Image"
-        :drop-files="dropNetworkImage"
-      />
+      <b-field label="Network Cover">
+        <upload
+          class="field"
+          :type="'IMAGE'"
+          :state="coverFileState"
+          :image="cover"
+          @dropped="params => handleCoverFileDrop(params)"
+        />
+      </b-field>
       <b-button
         type="is-primary"
         outlined
@@ -61,7 +65,7 @@
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
-import { ToastProgrammatic as Toast } from 'buefy'
+// import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: { Upload },
@@ -69,7 +73,7 @@ export default {
     return {
       alert: null,
       cover: null,
-      dropNetworkImage: [],
+      coverFileState: null,
       loading: false,
       title: 'New Network'
     }
@@ -83,16 +87,16 @@ export default {
       this.loading = true
       this.$store
         .dispatch('networks/create', {
-          cover: this.cover,
+          image: this.cover,
           title: this.title
         })
         .then(() => {
           this.loading = false
-          Toast.open({
-            message:
-              'Your new network was susccessfully created. You will be redirected to your new network page.',
-            type: 'is-success'
-          })
+          // Toast.open({
+          //   message:
+          //     'Your new network was susccessfully created. You will be redirected to your new network page.',
+          //   type: 'is-success'
+          // })
           setTimeout(() => {
             this.$router.replace(`/network/${this.activeNetwork.id}`)
           }, 1000)
@@ -105,8 +109,9 @@ export default {
           }
         })
     },
-    toast() {
-      Toast.open(this.alert)
+    handleCoverFileDrop(params) {
+      this.cover = params.file
+      this.coverFileState = 'SUCCESS'
     }
   }
 }

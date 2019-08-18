@@ -3,7 +3,7 @@
   <section>
     <b-field :label="label">
       <b-upload
-        v-if="!dropFile"
+        v-if="!newDropFile"
         v-model="newDropFile"
         drag-drop
         @input="handleFileDrop($event)"

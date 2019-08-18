@@ -1,7 +1,7 @@
 <template>
-  <!-- Shows the collaborators in a table. -->
+  <!-- Shows the contributors in a table. -->
   <b-table
-    :data="collaborators"
+    :data="contributors"
     :mobile-cards="true"
     :paginated="true"
     :per-page="5"
@@ -13,7 +13,7 @@
     <template slot-scope="props">
       <b-table-column field="image" label="Image" sortable>
         <div
-          class="r_collaborator__cover has-background-light"
+          class="r_contributor__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               props.row.user && props.row.user.image ? props.row.user.image : ''
@@ -31,8 +31,11 @@
         {{ props.row.permission }}
       </b-table-column>
       <b-table-column width="50">
-        <b-tooltip label="Edit collaborator" type="is-dark">
-          <b-button type="is-text">
+        <b-tooltip label="Edit contributor" type="is-dark">
+          <b-button
+            @click.prevent="handleEditContributor(props.row.user.username)"
+            type="is-text"
+          >
             <b-icon icon="pencil"></b-icon>
           </b-button>
         </b-tooltip>
@@ -42,7 +45,7 @@
 </template>
 
 <style>
-.r_collaborator__cover {
+.r_contributor__cover {
   background-size: cover;
   border-radius: 0.2125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -54,9 +57,17 @@
 <script>
 export default {
   props: {
-    collaborators: {
+    contributors: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    handleEditContributor(username) {
+      console.log('username', username)
+      this.$emit('contributorAdded', {
+        username: username
+      })
     }
   }
 }

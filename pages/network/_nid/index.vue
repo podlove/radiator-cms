@@ -95,38 +95,6 @@
             </section>
           </section>
         </b-tab-item>
-        <b-tab-item label="Collaborators">
-          <section>
-            <p v-if="network" class="r_network__collaborator__new">
-              <b-button
-                outlined
-                type="is-primary"
-                icon-left="plus-circle"
-                @click="isCollaboratorModalActive = true"
-              >
-                <span>Add new collaborator</span>
-              </b-button>
-            </p>
-            <h3 class="is-size-4">Network Collaborators</h3>
-            <p
-              v-if="
-                network &&
-                  (!network.collaborators || !network.collaborators.length > 0)
-              "
-            >
-              There are no collaborators yet.
-            </p>
-            <collaborators-table
-              v-if="
-                network &&
-                  network.collaborators &&
-                  network.collaborators.length > 0
-              "
-              class="r_network__collaborator__table"
-              :collaborators="network.collaborators"
-            ></collaborators-table>
-          </section>
-        </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
             <article class="tile is-child notification is-warning">
@@ -207,13 +175,6 @@
         </b-tab-item>
       </b-tabs>
     </section>
-    <!-- TODO: use all persons available -->
-    <new-collaborator-modal
-      v-if="network"
-      :isCollaboratorModalActive="isCollaboratorModalActive"
-      :persons="network.people"
-      @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
-    ></new-collaborator-modal>
   </section>
 </template>
 
@@ -229,12 +190,10 @@
   padding: 1rem 0 2rem 0;
 }
 .r_network__audio-pubs__new,
-.r_network__collaborator__new,
 .r_network__podcasts__new {
   float: right;
 }
-.r_network__audio-pubs__table,
-.r_network__collaborator__table {
+.r_network__audio-pubs__table {
   margin-top: 1rem;
 }
 .r_network-hero {
@@ -279,16 +238,12 @@
 <script>
 import { mapState } from 'vuex'
 import AudioPublicationsTable from '~/components/AudioPublicationsTable'
-import CollaboratorsTable from '~/components/CollaboratorsTable'
-import NewCollaboratorModal from '~/components/NewCollaboratorModal'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
     AudioPublicationsTable,
-    CollaboratorsTable,
-    NewCollaboratorModal,
     Podcast,
     Upload
   },
@@ -297,7 +252,6 @@ export default {
       activeTab: 0,
       cover: null,
       coverFileState: null,
-      isCollaboratorModalActive: false,
       isDisabled: true,
       isLoading: false,
       title: ''
@@ -337,7 +291,6 @@ export default {
       this.isDisabled = false
     },
     handleCoverFileDrop(params) {
-      console.log('params', params)
       this.coverFileState = 'LOADING'
       this.cover = params.file
       this.$store
@@ -352,21 +305,6 @@ export default {
         .catch(error => {
           console.log(error)
           this.coverFileState = 'ERROR'
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
-    },
-    handleNewCollaborator(collaborator) {
-      this.$store
-        .dispatch('networks/createNetworkCollaborator', {
-          id: this.network.id,
-          username: collaborator.name,
-          permisssion: collaborator.permisssion
-        })
-        .catch(error => {
-          console.log(error)
           this.alert = {
             type: 'is-danger',
             message: error

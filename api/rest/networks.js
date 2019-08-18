@@ -2,17 +2,22 @@ import axios from 'axios'
 
 export default {
   create: data => {
-    const query = JSON.stringify({
-      network: {
-        title: data.title
-      }
-    })
+    const query = new FormData()
+    if (data.title) {
+      query.append('network[title]', data.title)
+    }
+    if (data.image) {
+      query.append('network[image]', data.image)
+    }
+    if (data.slug) {
+      query.append('network[slug]', data.slug)
+    }
     return axios.post(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks`,
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }

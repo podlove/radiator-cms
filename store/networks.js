@@ -149,5 +149,22 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  updateCollaborator: async function updateCollaborator(
+    { dispatch, commit },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restNetwork.update(data).then(data => {
+        return data && data.data
+      })
+      await commit('set_active_network', res)
+      await dispatch('getNetworks', {
+        token: this.$apolloHelpers.getToken()
+      })
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }

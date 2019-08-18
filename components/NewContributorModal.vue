@@ -1,29 +1,29 @@
 <template>
-  <b-modal :active.sync="isCollaboratorModalActive" has-modal-card>
+  <b-modal :active.sync="isModalActive" has-modal-card>
     <form action="">
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
-          <p class="modal-card-title">New Collaborator</p>
+          <p class="modal-card-title">New Team Member</p>
         </header>
         <section class="modal-card-body">
           <section v-if="persons && persons.length">
             <h2 class="is-size-5">
-              Select existing user as collaborator
+              Select existing user as contributor
             </h2>
             <b-field>
               <b-select
                 ref="select"
+                v-model="existingSelectedContributor"
                 placeholder="Select a name"
-                v-model="existingSelectedCollaborator"
-                @input="handleSelectCollaborator()"
+                @input="handleSelectContributor()"
               >
                 <option :value="null">
                   Select a name
                 </option>
                 <option
                   v-for="person in persons"
-                  :value="person.id"
                   :key="person.id"
+                  :value="person.id"
                 >
                   {{ person.user.username }}
                 </option>
@@ -33,11 +33,11 @@
           <hr v-if="persons && persons.length" />
           <section>
             <h2 class="is-size-5">
-              Add new user as collaborator
+              Add a new team member to contribute to your podcast
             </h2>
             <b-field label="Name">
               <b-input
-                v-model="newCollaborator.name"
+                v-model="newContributor.name"
                 type="text"
                 placeholder="Name"
                 required
@@ -47,28 +47,28 @@
             <b-field label="Permission">
               <div>
                 <b-radio
-                  v-model="newCollaborator.permisssion"
+                  v-model="newContributor.permisssion"
                   name="name"
                   native-value="own"
                 >
                   Own
                 </b-radio>
                 <b-radio
-                  v-model="newCollaborator.permisssion"
+                  v-model="newContributor.permisssion"
                   name="name"
                   native-value="manage"
                 >
                   Manage
                 </b-radio>
                 <b-radio
-                  v-model="newCollaborator.permisssion"
+                  v-model="newContributor.permisssion"
                   name="name"
                   native-value="edit"
                 >
                   Edit
                 </b-radio>
                 <b-radio
-                  v-model="newCollaborator.permisssion"
+                  v-model="newContributor.permisssion"
                   name="name"
                   native-value="readonly"
                 >
@@ -78,7 +78,7 @@
             </b-field>
             <b-field label="Nick name">
               <b-input
-                v-model="newCollaborator.nickName"
+                v-model="newContributor.nickName"
                 type="text"
                 placeholder="Nick name"
               >
@@ -86,7 +86,7 @@
             </b-field>
             <b-field label="Display name">
               <b-input
-                v-model="newCollaborator.displayName"
+                v-model="newContributor.displayName"
                 type="text"
                 placeholder="Display name"
               >
@@ -94,7 +94,7 @@
             </b-field>
             <b-field label="Email">
               <b-input
-                v-model="newCollaborator.email"
+                v-model="newContributor.email"
                 type="email"
                 placeholder="Email adress"
               >
@@ -102,7 +102,7 @@
             </b-field>
             <b-field label="Link">
               <b-input
-                v-model="newCollaborator.link"
+                v-model="newContributor.link"
                 type="text"
                 placeholder="Link"
               >
@@ -113,7 +113,7 @@
                 class="field"
                 :state="avatarFileState"
                 :type="'IMAGE'"
-                :image="newCollaborator.image"
+                :image="newContributor.image"
                 @dropped="params => handleAvatarFileDrop(params)"
               />
             </b-field>
@@ -125,9 +125,9 @@
           </button>
           <button
             class="button is-primary"
-            @click.prevent="handleAddCollaborator()"
+            @click.prevent="handleAddContributor()"
           >
-            Add new collaborator
+            Add new contributor
           </button>
         </footer>
       </div>
@@ -136,7 +136,7 @@
 </template>
 
 <style>
-.r_collaborator__cover {
+.r_contributor__cover {
   background-size: cover;
   border-radius: 0.2125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -149,8 +149,11 @@
 import Upload from '~/components/Upload'
 
 export default {
+  components: {
+    Upload
+  },
   props: {
-    isCollaboratorModalActive: {
+    isModalActive: {
       type: Boolean,
       required: true
     },
@@ -163,8 +166,8 @@ export default {
   data() {
     return {
       avatarFileState: null,
-      existingSelectedCollaborator: null,
-      newCollaborator: {
+      existingSelectedContributor: null,
+      newContributor: {
         displayName: '',
         email: '',
         image: null,
@@ -175,23 +178,25 @@ export default {
       }
     }
   },
-  components: {
-    Upload
-  },
   methods: {
-    handleAddCollaborator() {
-      this.$emit('collaboratorAdded', {
-        name: this.newCollaborator.name,
-        permisssion: this.newCollaborator.permisssion
+    handleAddContributor() {
+      this.$emit('contributorAdded', {
+        displayName: this.newContributor.displayName,
+        email: this.newContributor.email,
+        image: this.newContributor.image,
+        link: this.newContributor.link,
+        name: this.newContributor.name,
+        nick: this.newContributor.nick,
+        permisssion: this.newContributor.permisssion
       })
       // this.$parent.close()
     },
     handleAvatarFileDrop(params) {
-      this.newCollaborator.image = params.file
+      this.newContributor.image = params.file
       this.avatarFileState = 'SUCCESS'
     },
-    handleSelectCollaborator() {
-      console.log('handleSelectCollaborator', this.existingSelectedCollaborator)
+    handleSelectContributor() {
+      console.log('handleSelectContributor', this.existingSelectedContributor)
     }
   }
 }

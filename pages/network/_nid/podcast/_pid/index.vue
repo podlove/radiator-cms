@@ -41,36 +41,37 @@
             :episodes="podcast.episodes"
           ></episodes-table>
         </b-tab-item>
-        <b-tab-item label="Collaborators">
+        <b-tab-item label="Team">
           <section>
-            <p v-if="network" class="r_podcast__collaborator__new">
+            <p v-if="network" class="r_podcast__contributor__new">
               <b-button
                 outlined
                 type="is-primary"
                 icon-left="plus-circle"
-                @click="isCollaboratorModalActive = true"
+                @click="isNewContributorModalActive = true"
               >
-                <span>Add new collaborator</span>
+                <span>Add new team member</span>
               </b-button>
             </p>
-            <h3 class="is-size-4">Podcast Collaborators</h3>
+            <h3 class="is-size-4">Podcast Team</h3>
             <p
               v-if="
                 podcast &&
-                  (!podcast.collaborators || !podcast.collaborators.length > 0)
+                  (!podcast.contributors || !podcast.contributors.length > 0)
               "
             >
-              There are no collaborators yet.
+              There are no contributions to your podcast yet.
             </p>
-            <collaborators-table
+            <contributors-table
               v-if="
                 podcast &&
-                  podcast.collaborators &&
-                  podcast.collaborators.length > 0
+                  podcast.contributors &&
+                  podcast.contributors.length > 0
               "
-              class="r_podcast__collaborator__table"
-              :collaborators="podcast.collaborators"
-            ></collaborators-table>
+              class="r_podcast__contributor__table"
+              :contributors="podcast.contributors"
+              @contributorAdded="username => handleEditContributor(username)"
+            ></contributors-table>
           </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
@@ -133,13 +134,19 @@
         </b-tab-item>
       </b-tabs>
     </section>
+    <!-- <edit-contributor-modal
+      v-if="podcast && podcast.contributions"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="podcast.contributions[0]"
+      @contributorUpdated="contributor => handleUpdateContributor(contributor)"
+    ></edit-contributor-modal> -->
     <!-- TODO: use all persons available -->
-    <new-collaborator-modal
-      v-if="network"
-      :isCollaboratorModalActive="isCollaboratorModalActive"
-      :persons="network.people"
-      @collaboratorAdded="collaborator => handleNewCollaborator(collaborator)"
-    ></new-collaborator-modal>
+    <new-contributor-modal
+      v-if="podcast"
+      :is-modal-active="isNewContributorModalActive"
+      :persons="podcast.contributions"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
+    ></new-contributor-modal>
   </section>
 </template>
 
@@ -148,10 +155,10 @@
   text-align: right;
   padding: 0 0 1rem 0;
 }
-.r_podcast__collaborator__new {
+.r_podcast__contributor__new {
   float: right;
 }
-.r_podcast__collaborator__table {
+.r_podcast__contributor__table {
   margin-top: 1rem;
 }
 .r_podcast-hero {
@@ -185,20 +192,24 @@
 
 <script>
 import { mapState } from 'vuex'
-import CollaboratorsTable from '~/components/CollaboratorsTable'
+import ContributorsTable from '~/components/ContributorsTable'
 import EpisodesTable from '~/components/EpisodesTable'
-import NewCollaboratorModal from '~/components/NewCollaboratorModal'
+// import EditContributorModal from '~/components/EditContributorModal'
+import NewContributorModal from '~/components/NewContributorModal'
 
 export default {
   components: {
-    CollaboratorsTable,
+    ContributorsTable,
     EpisodesTable,
-    NewCollaboratorModal
+    // EditContributorModal,
+    NewContributorModal
   },
   data() {
     return {
       activeTab: 0,
-      isCollaboratorModalActive: false,
+      editableContributor: null,
+      // isEditContributorModalActive: false,
+      isNewContributorModalActive: false,
       isDisabled: true,
       isLoading: false,
       title: ''
@@ -238,12 +249,14 @@ export default {
     edit() {
       this.isDisabled = false
     },
-    handleNewCollaborator(collaborator) {
+    handleEditContributor(params) {
+      console.log('Params', params)
+    },
+    handleNewContributor(contributor) {
       this.$store
-        .dispatch('podcasts/createPodcastCollaborator', {
-          id: this.podcast.id,
-          username: collaborator.name,
-          permisssion: collaborator.permisssion
+        .dispatch('people/create', {
+          networkId: this.network.id,
+          name: contributor.name
         })
         .catch(error => {
           console.log(error)
