@@ -117,11 +117,6 @@ export default {
     isModalActive: {
       type: Boolean,
       required: true
-    },
-    persons: {
-      type: Array,
-      required: false,
-      default: null
     }
   },
   data() {
@@ -138,9 +133,6 @@ export default {
         nick: null
       }
     }
-  },
-  mounted() {
-    console.log('persons', this.persons)
   },
   methods: {
     handleAddContributor() {

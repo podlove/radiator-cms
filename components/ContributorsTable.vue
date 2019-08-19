@@ -64,15 +64,12 @@ export default {
       required: true
     }
   },
-  mounted() {
-    console.log('contributors', this.contributors)
-  },
   methods: {
     handleEditContributor(id) {
-      console.log('id', id)
-      this.$emit('edit', {
-        id: id
-      })
+      const contributor = this.contributors.filter(
+        contributor => contributor.id === id
+      )
+      this.$emit('edit', contributor[0])
     }
   }
 }

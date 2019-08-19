@@ -36,10 +36,17 @@ export const actions = {
     console.log('Create Contribution', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restContributions.create(data).then(data => {
+      await restContributions.create(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
+      await dispatch(
+        'podcasts/getPodcast',
+        {
+          token: this.$apolloHelpers.getToken(),
+          id: data.podcastId
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
@@ -59,6 +66,18 @@ export const actions = {
         .then(({ data }) => data && data.podcast)
       console.log('data', data)
       await commit('set_contribution_roles', res)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  update: async function update({ dispatch }, data) {
+    console.log('Update Contribution', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restContributions.update(data).then(data => {
+        return data && data.data
+      })
+      console.log('res', res)
     } catch (e) {
       throw Error(e)
     }

@@ -1,6 +1,6 @@
 <template>
   <b-modal :active.sync="isActive" has-modal-card>
-    <form action="">
+    <form v-if="contributor">
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
           <p class="modal-card-title">Edit Contributor</p>
@@ -8,51 +8,33 @@
         <section class="modal-card-body">
           <b-field label="Name">
             <b-input
-              v-model="newContributor.username"
+              v-model="newContributor.name"
               type="text"
-              :value="contributor.user.username"
-              placeholder="Name"
+              :placeholder="contributor.person.name"
               required
             >
             </b-input>
           </b-field>
-          <b-field label="Permission" :value="contributor.permission">
-            <div>
-              <b-radio
-                v-model="newContributor.permisssion"
-                name="name"
-                native-value="own"
+          <b-field v-if="contributionRoles" label="Role">
+            <b-select
+              v-model="newContributor.contributionRoleId"
+              placeholder="Select a contribution role"
+              required
+            >
+              <option
+                v-for="role in contributionRoles"
+                :key="role.id"
+                :value="role.id"
               >
-                Own
-              </b-radio>
-              <b-radio
-                v-model="newContributor.permisssion"
-                name="name"
-                native-value="manage"
-              >
-                Manage
-              </b-radio>
-              <b-radio
-                v-model="newContributor.permisssion"
-                name="name"
-                native-value="edit"
-              >
-                Edit
-              </b-radio>
-              <b-radio
-                v-model="newContributor.permisssion"
-                name="name"
-                native-value="readonly"
-              >
-                Readonly
-              </b-radio>
-            </div>
+                {{ role.title }}
+              </option>
+            </b-select>
           </b-field>
           <b-field label="Nick name">
             <b-input
-              v-model="newContributor.nickName"
+              v-model="newContributor.nick"
+              :placeholder="contributor.person.nick"
               type="text"
-              placeholder="Nick name"
             >
             </b-input>
           </b-field>
@@ -60,7 +42,7 @@
             <b-input
               v-model="newContributor.displayName"
               type="text"
-              placeholder="Display name"
+              :placeholder="contributor.person.displayName"
             >
             </b-input>
           </b-field>
@@ -68,7 +50,7 @@
             <b-input
               v-model="newContributor.email"
               type="email"
-              placeholder="Email adress"
+              :placeholder="contributor.person.email"
             >
             </b-input>
           </b-field>
@@ -76,7 +58,7 @@
             <b-input
               v-model="newContributor.link"
               type="text"
-              placeholder="Link"
+              :placeholder="contributor.person.link"
             >
             </b-input>
           </b-field>
@@ -96,7 +78,7 @@
           </button>
           <button
             class="button is-primary"
-            @click.prevent="handleAddContributor()"
+            @click.prevent="handleEditContributor()"
           >
             Save
           </button>
@@ -123,7 +105,13 @@ export default {
   props: {
     contributor: {
       type: Object,
-      required: true
+      required: false,
+      default: null
+    },
+    contributionRoles: {
+      type: Array,
+      required: false,
+      default: null
     },
     isModalActive: {
       type: Boolean,
@@ -140,13 +128,13 @@ export default {
       avatarFileState: null,
       existingSelectedContributor: null,
       newContributor: {
-        displayName: '',
-        email: '',
+        contributionRoleId: null,
+        displayName: null,
+        email: null,
         image: null,
-        link: '',
-        name: '',
-        nick: '',
-        permisssion: 'readonly'
+        link: null,
+        name: null,
+        nick: null
       }
     }
   },
@@ -157,10 +145,15 @@ export default {
     console.log(this.contributor)
   },
   methods: {
-    handleAddContributor() {
-      this.$emit('contributorAdded', {
+    handleEditContributor() {
+      this.$emit('contributorUpdated', {
+        contributionRoleId: this.newContributor.contributionRoleId,
+        displayName: this.newContributor.displayName,
+        email: this.newContributor.email,
+        image: this.newContributor.image,
+        link: this.newContributor.link,
         name: this.newContributor.name,
-        permisssion: this.newContributor.permisssion
+        nick: this.newContributor.nick
       })
       // this.$parent.close()
     },

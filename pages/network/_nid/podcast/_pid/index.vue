@@ -70,7 +70,7 @@
               "
               class="r_podcast__contributor__table"
               :contributors="podcast.contributions"
-              @contributorAdded="username => handleEditContributor(username)"
+              @edit="id => handleEditContributor(id)"
             ></contributors-table>
           </section>
         </b-tab-item>
@@ -95,18 +95,17 @@
         </b-tab-item>
       </b-tabs>
     </section>
-    <!-- <edit-contributor-modal
+    <edit-contributor-modal
       v-if="podcast && podcast.contributions"
+      :contributionRoles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
-      :contributor="podcast.contributions[0]"
+      :contributor="activeContributor"
       @contributorUpdated="contributor => handleUpdateContributor(contributor)"
-    ></edit-contributor-modal> -->
-    <!-- TODO: use all persons available -->
+    ></edit-contributor-modal>
     <new-contributor-modal
       v-if="podcast"
       :contributionRoles="contributionRoles"
       :is-modal-active="isNewContributorModalActive"
-      :persons="podcast.contributions"
       @contributorAdded="contributor => handleNewContributor(contributor)"
     ></new-contributor-modal>
   </section>
@@ -156,7 +155,7 @@
 import { mapState } from 'vuex'
 import ContributorsTable from '~/components/ContributorsTable'
 import EpisodesTable from '~/components/EpisodesTable'
-// import EditContributorModal from '~/components/EditContributorModal'
+import EditContributorModal from '~/components/EditContributorModal'
 import NewContributorModal from '~/components/NewContributorModal'
 import PodcastSettings from '~/components/PodcastSettings'
 
@@ -164,15 +163,16 @@ export default {
   components: {
     ContributorsTable,
     EpisodesTable,
-    // EditContributorModal,
+    EditContributorModal,
     NewContributorModal,
     PodcastSettings
   },
   data() {
     return {
+      activeContributor: null,
       activeTab: 0,
       editableContributor: null,
-      // isEditContributorModalActive: false,
+      isEditContributorModalActive: false,
       isNewContributorModalActive: false,
       isDisabled: true,
       isLoading: false
@@ -213,10 +213,38 @@ export default {
     edit() {
       this.isDisabled = false
     },
-    handleEditContributor(params) {
-      console.log('Params', params)
+    handleEditContributor(contributor) {
+      console.log('edit contributor', contributor)
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
+    handleUpdateContributor(contributor) {
+      console.log('update contributor', contributor)
+      this.isEditContributorModalActive = false
+      this.$store
+        .dispatch('people/update', {
+          contributionId: this.activeContributor.id,
+          contributionRoleId: contributor.contributionRoleId,
+          displayName: contributor.displayName,
+          email: contributor.email,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
+          networkId: this.network.id,
+          nick: contributor.nick,
+          personId: this.activeContributor.person.id,
+          podcastId: this.podcast.id
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     handleNewContributor(contributor) {
+      this.isNewContributorModalActive = false
       this.$store
         .dispatch('people/create', {
           contributionRoleId: contributor.contributionRoleId,
