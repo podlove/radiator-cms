@@ -20,6 +20,19 @@ export default {
       }
     )
   },
+  deleteContribution: data => {
+    return axios.delete(
+      `${process.env.baseUrl}/api/rest/${
+        process.env.backendVersion
+      }/contributions/${data.contributionId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   update: data => {
     console.log('update', data)
     const query = new FormData()

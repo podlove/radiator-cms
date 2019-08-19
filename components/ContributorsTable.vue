@@ -32,13 +32,21 @@
       <b-table-column field="contributionRole" label="Role" sortable>
         {{ props.row.contributionRole.title }}
       </b-table-column>
-      <b-table-column width="50">
+      <b-table-column width="100">
         <b-tooltip label="Edit contributor" type="is-dark">
           <b-button
             @click.prevent="handleEditContributor(props.row.id)"
             type="is-text"
           >
             <b-icon icon="pencil"></b-icon>
+          </b-button>
+        </b-tooltip>
+        <b-tooltip label="Delete contributor" type="is-danger">
+          <b-button
+            @click.prevent="handleDeleteContributor(props.row.id)"
+            type="is-text"
+          >
+            <b-icon icon="delete"></b-icon>
           </b-button>
         </b-tooltip>
       </b-table-column>
@@ -65,6 +73,9 @@ export default {
     }
   },
   methods: {
+    handleDeleteContributor(id) {
+      this.$emit('delete', id)
+    },
     handleEditContributor(id) {
       const contributor = this.contributors.filter(
         contributor => contributor.id === id

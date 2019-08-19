@@ -51,6 +51,25 @@ export const actions = {
       throw Error(e)
     }
   },
+  deleteContribution: async function deleteContribution({ dispatch }, data) {
+    console.log('Delete Contribution', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restContributions.deleteContribution(data).then(data => {
+        return data && data.data
+      })
+      await dispatch(
+        'podcasts/getPodcast',
+        {
+          token: this.$apolloHelpers.getToken(),
+          id: data.podcastId
+        },
+        { root: true }
+      )
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   getContributionRoles: async function getContributionRoles(
     { dispatch, commit },
     data

@@ -70,7 +70,8 @@
               "
               class="r_podcast__contributor__table"
               :contributors="podcast.contributions"
-              @edit="id => handleEditContributor(id)"
+              @delete="contributor => handleDeleteContributor(contributor)"
+              @edit="contributor => handleEditContributor(contributor)"
             ></contributors-table>
           </section>
         </b-tab-item>
@@ -100,7 +101,7 @@
       :contributionRoles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
-      @contributorUpdated="contributor => handleUpdateContributor(contributor)"
+      @contributorUpdated="id => handleUpdateContributor(id)"
     ></edit-contributor-modal>
     <new-contributor-modal
       v-if="podcast"
@@ -212,6 +213,27 @@ export default {
     },
     edit() {
       this.isDisabled = false
+    },
+    handleDeleteContributor(id) {
+      console.log('delete id', id)
+      this.$store
+        .dispatch('contributions/deleteContribution', {
+          contributionId: id,
+          podcastId: this.podcast.id
+        })
+        .then(() => {
+          this.alert = {
+            type: 'is-success',
+            message: 'Contributor successfully removed.'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     },
     handleEditContributor(contributor) {
       console.log('edit contributor', contributor)
