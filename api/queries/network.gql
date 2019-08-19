@@ -29,7 +29,6 @@ query network($id: ID!) {
             displayName,
             email,
             id,
-            image,
             link,
             name,
             nick
@@ -61,7 +60,6 @@ query network($id: ID!) {
       displayName,
       email,
       id,
-      image,
       link,
       name,
       nick

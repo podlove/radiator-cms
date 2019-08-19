@@ -6,86 +6,74 @@
           <p class="modal-card-title">New Team Member</p>
         </header>
         <section class="modal-card-body">
-          <section v-if="persons && persons.length">
-            <h2 class="is-size-5">
-              Select existing user as contributor
-            </h2>
-            <b-field>
-              <b-select
-                ref="select"
-                v-model="existingSelectedContributor"
-                placeholder="Select a name"
-                @input="handleSelectContributor()"
+          <b-field label="Name">
+            <b-input
+              v-model="newContributor.name"
+              type="text"
+              placeholder="Name"
+              required
+            >
+            </b-input>
+          </b-field>
+          <b-field v-if="contributionRoles" label="Role">
+            <b-select
+              v-model="newContributor.contributionRoleId"
+              placeholder="Select a contribution role"
+              required
+            >
+              <option
+                v-for="role in contributionRoles"
+                :key="role.id"
+                :value="role.id"
               >
-                <option :value="null">
-                  Select a name
-                </option>
-                <option
-                  v-for="person in persons"
-                  :key="person.id"
-                  :value="person.id"
-                >
-                  {{ person.user.username }}
-                </option>
-              </b-select>
-            </b-field>
-          </section>
-          <hr v-if="persons && persons.length" />
-          <section>
-            <h2 class="is-size-5">
-              Add a new team member to contribute to your podcast
-            </h2>
-            <b-field label="Name">
-              <b-input
-                v-model="newContributor.name"
-                type="text"
-                placeholder="Name"
-                required
-              >
-              </b-input>
-            </b-field>
-            <b-field label="Nick name">
-              <b-input
-                v-model="newContributor.nick"
-                type="text"
-                placeholder="Nick name"
-              >
-              </b-input>
-            </b-field>
-            <b-field label="Display name">
-              <b-input
-                v-model="newContributor.displayName"
-                type="text"
-                placeholder="Display name"
-              >
-              </b-input>
-            </b-field>
-            <b-field label="Email">
-              <b-input
-                v-model="newContributor.email"
-                type="email"
-                placeholder="Email adress"
-              >
-              </b-input>
-            </b-field>
-            <b-field label="Link">
-              <b-input
-                v-model="newContributor.link"
-                type="text"
-                placeholder="Link"
-              >
-              </b-input>
-            </b-field>
-            <b-field label="Avatar">
-              <upload
-                class="field"
-                :state="avatarFileState"
-                :type="'IMAGE'"
-                :image="newContributor.image"
-                @dropped="params => handleAvatarFileDrop(params)"
-              />
-            </b-field>
-          </section>
+                {{ role.title }}
+              </option>
+            </b-select>
+          </b-field>
+          <b-field label="Nick name">
+            <b-input
+              v-model="newContributor.nick"
+              type="text"
+              placeholder="Nick name"
+              required
+            >
+            </b-input>
+          </b-field>
+          <b-field label="Display name">
+            <b-input
+              v-model="newContributor.displayName"
+              type="text"
+              placeholder="Display name"
+              required
+            >
+            </b-input>
+          </b-field>
+          <b-field label="Email">
+            <b-input
+              v-model="newContributor.email"
+              type="email"
+              placeholder="Email adress"
+            >
+            </b-input>
+          </b-field>
+          <b-field label="Link">
+            <b-input
+              v-model="newContributor.link"
+              type="text"
+              placeholder="Link"
+            >
+            </b-input>
+          </b-field>
+          <b-field label="Avatar">
+            <upload
+              class="field"
+              :state="avatarFileState"
+              :type="'IMAGE'"
+              :image="newContributor.image"
+              @dropped="params => handleAvatarFileDrop(params)"
+              required
+            />
+          </b-field>
         </section>
         <footer class="modal-card-foot">
           <button class="button" type="button" @click="$parent.close()">
@@ -121,6 +109,11 @@ export default {
     Upload
   },
   props: {
+    contributionRoles: {
+      type: Array,
+      required: false,
+      default: null
+    },
     isModalActive: {
       type: Boolean,
       required: true
@@ -136,6 +129,7 @@ export default {
       avatarFileState: null,
       existingSelectedContributor: null,
       newContributor: {
+        contributionRoleId: null,
         displayName: null,
         email: null,
         image: null,
@@ -145,9 +139,14 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log('persons', this.persons)
+  },
   methods: {
     handleAddContributor() {
+      console.log('handleAddContributor', this.newContributor)
       this.$emit('contributorAdded', {
+        contributionRoleId: this.newContributor.contributionRoleId,
         displayName: this.newContributor.displayName,
         email: this.newContributor.email,
         image: this.newContributor.image,

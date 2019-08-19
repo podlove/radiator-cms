@@ -16,24 +16,26 @@
           class="r_contributor__cover has-background-light"
           :style="{
             backgroundImage: `url(${
-              props.row.user && props.row.user.image ? props.row.user.image : ''
+              props.row.person && props.row.person.image
+                ? props.row.person.image
+                : ''
             })`
           }"
         ></div>
       </b-table-column>
-      <b-table-column field="username" label="Username" sortable>
-        {{ props.row.user.username }}
+      <b-table-column field="username" label="Name" sortable>
+        {{ props.row.person.name }}
       </b-table-column>
       <b-table-column field="displayName" label="Display name" sortable>
-        {{ props.row.user.displayName }}
+        {{ props.row.person.displayName }}
       </b-table-column>
-      <b-table-column field="permission" label="Permission" sortable>
-        {{ props.row.permission }}
+      <b-table-column field="contributionRole" label="Role" sortable>
+        {{ props.row.contributionRole.title }}
       </b-table-column>
       <b-table-column width="50">
         <b-tooltip label="Edit contributor" type="is-dark">
           <b-button
-            @click.prevent="handleEditContributor(props.row.user.username)"
+            @click.prevent="handleEditContributor(props.row.id)"
             type="is-text"
           >
             <b-icon icon="pencil"></b-icon>
@@ -62,11 +64,14 @@ export default {
       required: true
     }
   },
+  mounted() {
+    console.log('contributors', this.contributors)
+  },
   methods: {
-    handleEditContributor(username) {
-      console.log('username', username)
-      this.$emit('contributorAdded', {
-        username: username
+    handleEditContributor(id) {
+      console.log('id', id)
+      this.$emit('edit', {
+        id: id
       })
     }
   }

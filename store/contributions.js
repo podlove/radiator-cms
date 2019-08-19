@@ -1,8 +1,24 @@
-// import restContributions from '~/api/rest/contributions'
+import restContributions from '~/api/rest/contributions'
 import contributionRoles from '~/api/queries/contributionRoles.gql'
 
 export const state = () => ({
-  contributionRoles: []
+  contributionRoles: [
+    {
+      id: '1',
+      isPublic: true,
+      title: 'On Air'
+    },
+    {
+      id: '2',
+      isPublic: true,
+      title: 'Support'
+    },
+    {
+      id: '3',
+      isPublic: false,
+      title: 'Internal Support'
+    }
+  ]
 })
 
 export const mutations = {
@@ -20,11 +36,10 @@ export const actions = {
     console.log('Create Contribution', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      await dispatch('getContributionRoles')
-      // const res = await restContributions.create(data).then(data => {
-      //   return data && data.data
-      // })
-      // console.log('res', res)
+      const res = await restContributions.create(data).then(data => {
+        return data && data.data
+      })
+      console.log('res', res)
     } catch (e) {
       throw Error(e)
     }

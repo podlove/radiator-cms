@@ -14,7 +14,8 @@ export const actions = {
         {
           token: this.$apolloHelpers.getToken(),
           personId: res.id,
-          podcastId: data.podcastId
+          podcastId: data.podcastId,
+          contributionRoleId: data.contributionRoleId
         },
         { root: true }
       )

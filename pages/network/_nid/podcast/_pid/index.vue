@@ -65,11 +65,11 @@
             <contributors-table
               v-if="
                 podcast &&
-                  podcast.contributors &&
-                  podcast.contributors.length > 0
+                  podcast.contributions &&
+                  podcast.contributions.length > 0
               "
               class="r_podcast__contributor__table"
-              :contributors="podcast.contributors"
+              :contributors="podcast.contributions"
               @contributorAdded="username => handleEditContributor(username)"
             ></contributors-table>
           </section>
@@ -104,6 +104,7 @@
     <!-- TODO: use all persons available -->
     <new-contributor-modal
       v-if="podcast"
+      :contributionRoles="contributionRoles"
       :is-modal-active="isNewContributorModalActive"
       :persons="podcast.contributions"
       @contributorAdded="contributor => handleNewContributor(contributor)"
@@ -178,6 +179,7 @@ export default {
     }
   },
   computed: mapState({
+    contributionRoles: state => state.contributions.contributionRoles,
     podcast: state => state.podcasts.activePodcast,
     network: state => state.networks.activeNetwork
   }),
@@ -217,13 +219,15 @@ export default {
     handleNewContributor(contributor) {
       this.$store
         .dispatch('people/create', {
+          contributionRoleId: contributor.contributionRoleId,
           displayName: contributor.displayName,
           email: contributor.email,
           image: contributor.image,
           link: contributor.link,
           name: contributor.name,
           networkId: this.network.id,
-          nick: contributor.nick
+          nick: contributor.nick,
+          podcastId: this.podcast.id
         })
         .catch(error => {
           console.log(error)
