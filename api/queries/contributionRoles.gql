@@ -1,0 +1,7 @@
+{
+  contributionRoles {
+    id,
+    isPublic,
+    title
+  }
+}

@@ -1,6 +1,23 @@
 query podcast($id: ID!) {
   podcast(id: $id) {
     author,
+    contributions {
+      contributionRole {
+        id,
+        isPublic,
+        title
+      },
+      id,
+      person {
+        displayName,
+        email,
+        id,
+        link,
+        name,
+        nick
+      },
+      position
+    },
     episodes(
       itemsPerPage: 200,
       page: 1

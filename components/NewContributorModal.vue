@@ -44,41 +44,9 @@
               >
               </b-input>
             </b-field>
-            <b-field label="Permission">
-              <div>
-                <b-radio
-                  v-model="newContributor.permisssion"
-                  name="name"
-                  native-value="own"
-                >
-                  Own
-                </b-radio>
-                <b-radio
-                  v-model="newContributor.permisssion"
-                  name="name"
-                  native-value="manage"
-                >
-                  Manage
-                </b-radio>
-                <b-radio
-                  v-model="newContributor.permisssion"
-                  name="name"
-                  native-value="edit"
-                >
-                  Edit
-                </b-radio>
-                <b-radio
-                  v-model="newContributor.permisssion"
-                  name="name"
-                  native-value="readonly"
-                >
-                  Readonly
-                </b-radio>
-              </div>
-            </b-field>
             <b-field label="Nick name">
               <b-input
-                v-model="newContributor.nickName"
+                v-model="newContributor.nick"
                 type="text"
                 placeholder="Nick name"
               >
@@ -168,13 +136,12 @@ export default {
       avatarFileState: null,
       existingSelectedContributor: null,
       newContributor: {
-        displayName: '',
-        email: '',
+        displayName: null,
+        email: null,
         image: null,
-        link: '',
-        name: '',
-        nick: '',
-        permisssion: 'readonly'
+        link: null,
+        name: null,
+        nick: null
       }
     }
   },
@@ -186,8 +153,7 @@ export default {
         image: this.newContributor.image,
         link: this.newContributor.link,
         name: this.newContributor.name,
-        nick: this.newContributor.nick,
-        permisssion: this.newContributor.permisssion
+        nick: this.newContributor.nick
       })
       // this.$parent.close()
     },

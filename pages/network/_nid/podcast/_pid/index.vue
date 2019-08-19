@@ -57,7 +57,7 @@
             <p
               v-if="
                 podcast &&
-                  (!podcast.contributors || !podcast.contributors.length > 0)
+                  (!podcast.contributions || !podcast.contributions.length > 0)
               "
             >
               There are no contributions to your podcast yet.
@@ -217,8 +217,13 @@ export default {
     handleNewContributor(contributor) {
       this.$store
         .dispatch('people/create', {
+          displayName: contributor.displayName,
+          email: contributor.email,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
           networkId: this.network.id,
-          name: contributor.name
+          nick: contributor.nick
         })
         .catch(error => {
           console.log(error)
@@ -229,7 +234,6 @@ export default {
         })
     },
     save(newPodcastSettings) {
-      console.log('newPodcastSettings', newPodcastSettings)
       this.isLoading = true
       this.$store
         .dispatch('podcasts/update', {

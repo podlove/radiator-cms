@@ -8,9 +8,16 @@ export const actions = {
       const res = await restPeople.create(data).then(data => {
         return data && data.data
       })
-      await dispatch('getAudio', {
-        id: res.id
-      })
+      console.log('res', res)
+      await dispatch(
+        'contributions/create',
+        {
+          token: this.$apolloHelpers.getToken(),
+          personId: res.id,
+          podcastId: data.podcastId
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
