@@ -6,10 +6,16 @@
         Chapter Marks
       </h2>
       <div v-if="episodeChapters.length">
-        <b-button>
-          <b-icon size="is-small" icon="upload"></b-icon>
-          <a> Update chapter marks</a>
-        </b-button>
+        <b-upload
+          :state="chapterMarksState"
+          :type="'FILE'"
+          @input="params => handleChapterMarksDrop(params)"
+        >
+          <a class="button">
+            <b-icon size="is-small" icon="upload"></b-icon>
+            <a> Update chapter marks</a>
+          </a>
+        </b-upload>
         <b-button>
           <b-icon size="is-small" icon="upload"></b-icon>
           <a> Export chapter marks</a>
@@ -21,7 +27,7 @@
       class="field"
       :state="chapterMarksState"
       :type="'FILE'"
-      @dropped="params => handleChapterMarksDrop(params)"
+      @dropped="params => handleChapterMarksDrop(params.file)"
     />
     <ul v-if="episodeChapters" class="r_episode-chapters__list">
       <li
@@ -156,8 +162,7 @@ export default {
           link: null
         }
       ],
-      chapterMarksState: null,
-      dropChapterMarks: null
+      chapterMarksState: null
     }
   },
   computed: mapState({
@@ -175,12 +180,36 @@ export default {
     handleChapterMarksDrop(params) {
       console.log('params', params)
       this.chapterMarksState = 'LOADING'
+      if (params.type === 'text/plain') {
+        const reader = new FileReader()
+        reader.readAsText(params, 'UTF-8')
+        reader.onprogress = this.updateFile
+        reader.onload = this.loadTxtFile
+        reader.onerror = this.errorFile
+      }
+    },
+    updateFile(evt) {
+      console.log(evt)
+    },
+    loadTxtFile(evt) {
+      const lines = evt.target.result.split('\n')
+      this.default_chapter = lines
+        .filter(x => x !== '')
+        .map(x => {
+          return {
+            startString: x.substr(0, x.indexOf(' ')),
+            title: x.substr(x.indexOf(' ') + 1)
+          }
+        })
+
       this.$store
         .dispatch('episodes/createEpisodeChapterMarks', this.default_chapter)
         .then(result => {
           this.chapterMarksState = 'SUCCESS'
         })
-      this.dropChapterMarks = this.default_chapter
+    },
+    errorFile(evt) {
+      console.log(evt)
     }
   }
 }
