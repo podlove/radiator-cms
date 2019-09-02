@@ -12,6 +12,7 @@ query podcast($id: ID!) {
         displayName,
         email,
         id,
+        image,
         link,
         name,
         nick
