@@ -1,4 +1,5 @@
 import restAudio from '~/api/rest/audio'
+import restAudioChapters from '~/api/rest/audio-chapters'
 import audio from '~/api/queries/audio.gql'
 
 // An Audio Publication (createAudioPublication)
@@ -10,17 +11,23 @@ import audio from '~/api/queries/audio.gql'
 // 3. createAudioFile will then trigger getAudio to set activeAudio
 
 export const state = () => ({
-  activeAudio: null
+  activeAudio: null,
+  activeAudioChapters: null
 })
 
 export const mutations = {
   set_active_audio(store, data) {
     store.activeAudio = data
+  },
+  set_active_audio_chapters(store, data) {
+    console.log('set audio chapters', data)
+    store.activeAudioChapters = data
   }
 }
 
 export const getters = {
-  activeAudio: state => state.activeAudio
+  activeAudio: state => state.activeAudio,
+  activeAudioChapters: state => state.activeAudioChapters
 }
 
 export const actions = {
@@ -158,6 +165,56 @@ export const actions = {
       return await dispatch('getAudio', {
         id: data.id
       })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  convertAudioChapters: async function convertAudioChapters(
+    { dispatch },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restAudioChapters.convertChapters(data).then(data => {
+        return data && data.data
+      })
+      res.forEach(async r => {
+        await dispatch('createAudioChapters', {
+          chapter: {
+            audio_id: data.audio_id,
+            start: r.start,
+            title: r.title,
+            link: r.link,
+            image: r.image
+          }
+        })
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  createAudioChapters: async function createAudioChapters({ dispatch }, data) {
+    console.log('create audio chapters', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudioChapters.createChapters(data).then(data => {
+        console.log('return data: ', data)
+        return data && data.data
+      })
+      await dispatch('getAudioChapters', { audio_id: data.chapter.audio_id })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  getAudioChapters: async function getAudioChapters({ commit }, data) {
+    console.log('Getting Audio Chapters', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restAudioChapters.getChapters(data).then(data => {
+        console.log('return data: ', data)
+        return data && data.data
+      })
+      await commit('set_active_audio_chapters', res)
     } catch (e) {
       throw Error(e)
     }
