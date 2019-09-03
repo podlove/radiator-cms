@@ -120,23 +120,9 @@
           {{ contribution.title }}
         </div>
       </section>
-      <EpisodeChapters :editable="true"></EpisodeChapters>
-      <section class="r_audio-pub-main__container r_audio-pub__files">
-        <h3 class="is-size-4">Chapter Marks:</h3>
-        <div v-if="!activeAudio.chapters || activeAudio.chapters.length === 0">
-          <p class="r_audio-pub__info-text">
-            There are no chapter marks.
-          </p>
-          <!-- TODO: Add button/link and upload field when button/link was pressed, to upload chapter marks. -->
-        </div>
-        <div
-          v-for="chapter in activeAudio.chapters"
-          :key="chapter.id"
-          class="r_audio-pub__chapter"
-        >
-          {{ chapter.title }}
-        </div>
-      </section>
+      <EpisodeChapters
+        :editable="activeAudioChapters.length === 0"
+      ></EpisodeChapters>
       <section class="r_audio-pub__interaction">
         <b-button
           v-if="isDisabled"
@@ -241,6 +227,7 @@ export default {
   },
   computed: mapState({
     activeAudio: state => state.audio.activeAudio,
+    activeAudioChapters: state => state.audio.activeAudioChapters,
     activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
