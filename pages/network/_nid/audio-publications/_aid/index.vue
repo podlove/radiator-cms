@@ -279,6 +279,9 @@
       @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="contributor => handleUpdateContributor(contributor)"
     ></EditContributorModal>
+    <EpisodeChapters
+      :editable="activeAudioChapters.length === 0"
+    ></EpisodeChapters>
   </section>
 </template>
 
@@ -410,11 +413,13 @@ import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
 import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
+import EpisodeChapters from '~/components/EpisodeChapters'
 
 export default {
   components: {
     ContributionsField,
     EditContributorModal,
+    EpisodeChapters,
     NewContributorModal,
     Upload
   },
