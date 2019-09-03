@@ -128,6 +128,7 @@ export const actions = {
           }
         })
         .then(({ data }) => data && data.audio)
+      await commit('set_active_audio_chapters', res.chapters)
       await commit('set_active_audio', res)
     } catch (e) {
       throw Error(e)
@@ -178,6 +179,7 @@ export const actions = {
       const res = await restAudioChapters.convertChapters(data).then(data => {
         return data && data.data
       })
+      await dispatch('getAudioChapters', { audio_id: data.audio_id })
       res.forEach(async r => {
         await dispatch('createAudioChapters', {
           chapter: {
