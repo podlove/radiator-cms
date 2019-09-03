@@ -120,6 +120,7 @@
           {{ contribution.title }}
         </div>
       </section>
+      <EpisodeChapters :editable="true"></EpisodeChapters>
       <section class="r_audio-pub-main__container r_audio-pub__files">
         <h3 class="is-size-4">Chapter Marks:</h3>
         <div v-if="!activeAudio.chapters || activeAudio.chapters.length === 0">
@@ -225,9 +226,10 @@
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
+import EpisodeChapters from '~/components/EpisodeChapters'
 
 export default {
-  components: { Upload },
+  components: { Upload, EpisodeChapters },
   data() {
     return {
       audioFileState: null,
