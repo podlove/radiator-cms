@@ -29,6 +29,8 @@
       :type="'FILE'"
       @dropped="params => handleChapterMarksDrop(params.file)"
     />
+    {{ activeAudio }}
+    {{ activeAudioChapters }}
     <ul v-if="episodeChapters" class="r_episode-chapters__list">
       <li
         v-for="chapter in episodeChapters"
@@ -166,6 +168,8 @@ export default {
     }
   },
   computed: mapState({
+    activeAudio: state => state.audio.activeAudio,
+    activeAudioChapters: state => state.audio.activeAudioChapters,
     episodeChapters: state => state.episodes.episodeChapters
   }),
   created() {
@@ -178,18 +182,20 @@ export default {
   },
   methods: {
     handleChapterMarksDrop(params) {
-      console.log('params', params)
+      // console.log('params', params)
       this.chapterMarksState = 'LOADING'
-      if (params.type === 'text/plain') {
-        const reader = new FileReader()
-        reader.readAsText(params, 'UTF-8')
-        reader.onprogress = this.updateFile
-        reader.onload = this.loadTxtFile
-        reader.onerror = this.errorFile
-      }
+      const reader = new FileReader()
+      reader.readAsText(params, 'UTF-8')
+      reader.onprogress = this.updateFile
+      reader.onerror = this.errorFile
+      // if (params.type === 'text/plain') {
+      //   reader.onload = this.loadTxtFile
+      // } else if (params.type === 'text/xml') {
+      reader.onload = this.loadXmlFile
+      // }
     },
     updateFile(evt) {
-      console.log(evt)
+      // console.log(evt)
     },
     loadTxtFile(evt) {
       const lines = evt.target.result.split('\n')
@@ -208,8 +214,19 @@ export default {
           this.chapterMarksState = 'SUCCESS'
         })
     },
+    loadXmlFile(evt) {
+      // console.log(evt.target.result)
+      this.$store
+        .dispatch('audio/convertAudioChapters', {
+          file: evt.target.result,
+          audio_id: this.activeAudio.id
+        })
+        .then(result => {
+          this.chapterMarksState = 'SUCCESS'
+        })
+    },
     errorFile(evt) {
-      console.log(evt)
+      // console.log(evt)
     }
   }
 }
