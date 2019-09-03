@@ -5,7 +5,7 @@
       <h2 class="title is-size-5 r_episode-chapters__headline">
         Chapter Marks
       </h2>
-      <div v-if="episodeChapters.length">
+      <div v-if="activeAudioChapters">
         <b-upload
           :state="chapterMarksState"
           :type="'FILE'"
@@ -29,11 +29,9 @@
       :type="'FILE'"
       @dropped="params => handleChapterMarksDrop(params.file)"
     />
-    {{ activeAudio }}
-    {{ activeAudioChapters }}
-    <ul v-if="episodeChapters" class="r_episode-chapters__list">
+    <ul v-if="activeAudioChapters" class="r_episode-chapters__list">
       <li
-        v-for="chapter in episodeChapters"
+        v-for="chapter in activeAudioChapters"
         :key="chapter.start"
         class="r_episode-chapters__item"
       >
@@ -134,36 +132,6 @@ export default {
   },
   data() {
     return {
-      default_chapter: [
-        {
-          start: 0,
-          startString: '00:00:00.000',
-          title: 'Moinsen',
-          image: null,
-          link: null
-        },
-        {
-          start: 53100,
-          startString: '00:00:53.100',
-          title: 'Unterstützerdank',
-          image: null,
-          link: null
-        },
-        {
-          start: 139000,
-          startString: '00:02:19.000',
-          title: 'Amt und Alter: Überzeugungstäter Trump',
-          image: null,
-          link: null
-        },
-        {
-          start: 1595050,
-          startString: '00:26:35.050',
-          title: 'Was die Kandidaten erfolgreich macht',
-          image: null,
-          link: null
-        }
-      ],
       chapterMarksState: null
     }
   },
@@ -172,49 +140,19 @@ export default {
     activeAudioChapters: state => state.audio.activeAudioChapters,
     episodeChapters: state => state.episodes.episodeChapters
   }),
-  created() {
-    if (this.episodeChapters.length === 0 && !this.editable) {
-      this.$store.dispatch(
-        'episodes/createEpisodeChapterMarks',
-        this.default_chapter
-      )
-    }
-  },
   methods: {
     handleChapterMarksDrop(params) {
-      // console.log('params', params)
       this.chapterMarksState = 'LOADING'
       const reader = new FileReader()
       reader.readAsText(params, 'UTF-8')
       reader.onprogress = this.updateFile
       reader.onerror = this.errorFile
-      // if (params.type === 'text/plain') {
-      //   reader.onload = this.loadTxtFile
-      // } else if (params.type === 'text/xml') {
-      reader.onload = this.loadXmlFile
-      // }
+      reader.onload = this.convertChapterFile
     },
     updateFile(evt) {
       // console.log(evt)
     },
-    loadTxtFile(evt) {
-      const lines = evt.target.result.split('\n')
-      this.default_chapter = lines
-        .filter(x => x !== '')
-        .map(x => {
-          return {
-            startString: x.substr(0, x.indexOf(' ')),
-            title: x.substr(x.indexOf(' ') + 1)
-          }
-        })
-
-      this.$store
-        .dispatch('episodes/createEpisodeChapterMarks', this.default_chapter)
-        .then(result => {
-          this.chapterMarksState = 'SUCCESS'
-        })
-    },
-    loadXmlFile(evt) {
+    convertChapterFile(evt) {
       // console.log(evt.target.result)
       this.$store
         .dispatch('audio/convertAudioChapters', {
