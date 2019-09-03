@@ -447,7 +447,8 @@ export default {
   computed: mapState({
     activeAudio: state => state.audio.activeAudio,
     activeNetwork: state => state.networks.activeNetwork,
-    contributionRoles: state => state.contributions.contributionRoles
+    contributionRoles: state => state.contributions.contributionRoles,
+    activeAudioChapters: state => state.audio.activeAudioChapters
   }),
   methods: {
     deleteAudioPublication() {
