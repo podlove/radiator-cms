@@ -208,12 +208,28 @@ export const actions = {
       throw Error(e)
     }
   },
+  deleteAudioChapters: async function deleteAudioChapters(
+    { dispatch, getters },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    await Promise.all(
+      getters.activeAudioChapters.map(async chapter => {
+        const query = {
+          chapter: chapter,
+          audio_id: data.audio_id
+        }
+        await restAudioChapters.deleteChapter(query).then(data => {
+          return data && data.data
+        })
+      })
+    )
+  },
   getAudioChapters: async function getAudioChapters({ commit }, data) {
     console.log('Getting Audio Chapters', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restAudioChapters.getChapters(data).then(data => {
-        console.log('return data: ', data)
         return data && data.data
       })
       await commit('set_active_audio_chapters', res)
