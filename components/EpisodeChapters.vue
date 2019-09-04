@@ -5,7 +5,7 @@
       <h2 class="title is-size-5 r_episode-chapters__headline">
         Chapter Marks
       </h2>
-      <div v-if="activeAudioChapters">
+      <div v-if="activeAudioChapters.length !== 0">
         <b-upload
           :state="chapterMarksState"
           :type="'FILE'"
@@ -153,10 +153,23 @@ export default {
       // console.log(evt)
     },
     convertChapterFile(evt) {
-      // console.log(evt.target.result)
+      if (this.activeAudioChapters.length !== 0) {
+        this.$store
+          .dispatch('audio/deleteAudioChapters', {
+            chapters: this.activeAudioChapters,
+            audio_id: this.activeAudio.id
+          })
+          .then(result => {
+            this.convertChapters(evt.target.result)
+          })
+      } else {
+        this.convertChapters(evt.target.result)
+      }
+    },
+    convertChapters(file) {
       this.$store
         .dispatch('audio/convertAudioChapters', {
-          file: evt.target.result,
+          file: file,
           audio_id: this.activeAudio.id
         })
         .then(result => {
