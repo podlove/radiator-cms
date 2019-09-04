@@ -2,14 +2,14 @@ import episode from '~/api/queries/episode.gql'
 import restEpisode from '~/api/rest/episodes'
 
 export const state = () => ({
-  episode: {},
+  activeEpisode: null,
   episodeChapters: [],
   episodeTranscripts: []
 })
 
 export const mutations = {
-  set_episode(store, data) {
-    store.episode = data
+  set_active_episode(store, data) {
+    store.activeEpisode = data
   },
   set_episode_chapters(store, data) {
     store.episodeChapters = data
@@ -20,7 +20,7 @@ export const mutations = {
 }
 
 export const getters = {
-  episode: state => state.episode,
+  activeEpisode: state => state.activeEpisode,
   episodeChapters: state => state.episodeChapters,
   episodeTranscripts: state => state.episodeTranscripts
 }
@@ -36,7 +36,7 @@ export const actions = {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restEpisode.create(data).then(data => data && data.data)
-      await commit('set_episode', res)
+      await commit('set_active_episode', res)
       // Set episode data for uploading audio into episode
       // data.episodeId = res.id
       // await dispatch('createEpisodeAudio', data)
@@ -59,41 +59,7 @@ export const actions = {
           }
         })
         .then(({ data }) => data && data.episode)
-      await commit('set_episode', res)
-    } catch (e) {
-      throw Error(e)
-    }
-  },
-  createEpisodeAudio: async function createEpisodeAudio({ dispatch }, data) {
-    data.token = this.$apolloHelpers.getToken()
-    try {
-      const res = await restEpisode.createAudio(data).then(data => {
-        return data && data.data
-      })
-      const params = await {
-        title: data.title,
-        file: data.file,
-        id: res.id,
-        token: this.$apolloHelpers.getToken()
-      }
-      await dispatch('uploadEpisodeAudio', params)
-    } catch (e) {
-      throw Error(e)
-    }
-  },
-  uploadEpisodeAudio: async function uploadEpisodeAudio({ dispatch }, data) {
-    try {
-      const res = await restEpisode.uploadAudio(data).then(data => {
-        return data && data.data
-      })
-      console.log('RES uploadEpisodeAudio', res)
-      await dispatch(
-        'networks/getNetworks',
-        {
-          token: this.$apolloHelpers.getToken()
-        },
-        { root: true }
-      )
+      await commit('set_active_episode', res)
     } catch (e) {
       throw Error(e)
     }

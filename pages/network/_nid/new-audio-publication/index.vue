@@ -172,6 +172,13 @@ export default {
                 this.audioUploadResult = this.activeAudio
                 this.audioFileState = 'SUCCESS'
               })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
           })
           .catch(error => {
             this.audioFileState = 'ERROR'

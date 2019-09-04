@@ -44,13 +44,9 @@ export const actions = {
       const res = await restAudio.createPodcastAudio(data).then(data => {
         return data && data.data
       })
-      const params = await {
-        title: data.title,
-        file: data.file,
-        id: res.id,
-        token: this.$apolloHelpers.getToken()
-      }
-      return await dispatch('createAudioFile', params)
+      await dispatch('getAudio', {
+        id: res.id
+      })
     } catch (e) {
       throw Error(e)
     }

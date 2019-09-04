@@ -19,7 +19,7 @@ query episode($id: ID!) {
     },
     guid,
     id,
-    image,
+    # image,
     isPublished,
     number,
     podcast {

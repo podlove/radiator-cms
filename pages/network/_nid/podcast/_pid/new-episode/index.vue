@@ -127,7 +127,7 @@ import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import Upload from '~/components/Upload'
 import WikidataInput from '~/components/WikidataInput'
-import { ToastProgrammatic as Toast } from 'buefy'
+// import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
@@ -156,6 +156,8 @@ export default {
   },
   computed: mapState({
     episode: state => state.episodes.episode,
+    activeAudio: state => state.audio.activeAudio,
+    activeEpisode: state => state.episodes.activeEpisode,
     activePodcast: state => state.podcasts.activePodcast,
     activeNetwork: state => state.networks.activeNetwork
   }),
@@ -172,16 +174,16 @@ export default {
         })
         .then(result => {
           this.loading = false
-          Toast.open({
-            message:
-              'Your new episode was susccessfully created. You will be redirected to your new episode page.',
-            type: 'is-success'
-          })
+          // Toast.open({
+          //   message:
+          //     'Your new episode was susccessfully created. You will be redirected to your new episode page.',
+          //   type: 'is-success'
+          // })
           setTimeout(() => {
             this.$router.replace(
-              `/networks/${this.activeNetwork.id}/podcasts/${
+              `/network/${this.activeNetwork.id}/podcast/${
                 this.activePodcast.id
-              }/episodes/${this.episode.id}`
+              }/episode/${this.activeEpisode.id}`
             )
           }, 1000)
         })
@@ -194,39 +196,170 @@ export default {
         })
     },
     handleCoverFileDrop(params) {
-      console.log('params', params)
-      // TODO: Implement API Upload
-      //       and get the public url of the image
-      //       to show a preview
-      this.coverFileState = 'SUCCESS'
+      console.log('cover', params)
+      this.coverFileState = 'LOADING'
       this.cover = params.file
-    },
-    handleFileDrop(params) {
-      console.log('params', params)
+      // Check if there is an activeAudio object in store
+      // and if not create one first
+      // TODO: refactor
+      console.log('this.activeAudio', this.activeAudio)
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            this.cover = this.activeAudio.image
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('audio/updateAudio', {
+            id: this.activeAudio.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            this.cover = this.activeAudio.image
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
     },
     handleAudioFileDrop(params) {
       this.audioFileState = 'LOADING'
-      this.$store
-        .dispatch('audio/createAudio', {
-          file: params.file,
-          networkId: this.activeNetwork.id,
-          title: params.file.name
-        })
-        .then(result => {
-          this.audioUploadResult = result
-          this.audioFileState = 'SUCCESS'
-        })
-        .catch(error => {
-          this.audioFileState = 'ERROR'
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
-    },
-    toast() {
-      Toast.open(this.alert)
+      console.log('this.activePodcast', this.activePodcast)
+      console.log('this.activeEpisode', this.activeEpisode)
+      console.log('this.activeAudio', this.activeAudio)
+      // Check if there is an activeEpisode object in store
+      // and if not create one first
+      // TODO: refactor
+      if (!this.activeEpisode) {
+        console.log('1')
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            description: this.description,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title
+              })
+              .then(() => {
+                this.$store
+                  .dispatch('audio/createAudioFile', {
+                    file: params.file,
+                    title: params.file.name,
+                    byteSize: params.file.size,
+                    mimeType: params.file.type,
+                    audioId: this.activeAudio.id
+                  })
+                  .then(() => {
+                    this.audioUploadResult = this.activeAudio
+                    this.audioFileState = 'SUCCESS'
+                  })
+                  .catch(error => {
+                    this.audioFileState = 'ERROR'
+                    this.alert = {
+                      type: 'is-danger',
+                      message: error
+                    }
+                  })
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createAudioFile', {
+                file: params.file,
+                title: params.file.name,
+                byteSize: params.file.size,
+                mimeType: params.file.type,
+                audioId: this.activeAudio.id
+              })
+              .then(() => {
+                this.audioUploadResult = this.activeAudio
+                this.audioFileState = 'SUCCESS'
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('audio/createAudioFile', {
+            file: params.file,
+            title: params.file.name,
+            byteSize: params.file.size,
+            mimeType: params.file.type,
+            audioId: this.activeAudio.id
+          })
+          .then(() => {
+            this.audioUploadResult = this.activeAudio
+            this.audioFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
     }
+    // toast() {
+    //   Toast.open(this.alert)
+    // }
   }
 }
 </script>

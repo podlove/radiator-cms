@@ -21,8 +21,8 @@
       </div>
     </section>
     <section class="r_episode-highlights">
-      <EpisodeTags :episode="episode"></EpisodeTags>
-      <EpisodeInfo :episode="episode"></EpisodeInfo>
+      <EpisodeTags v-if="episode" :episode="episode"></EpisodeTags>
+      <EpisodeInfo v-if="episode" :episode="episode"></EpisodeInfo>
     </section>
     <section class="container r_episode-main">
       <section v-if="episode" class="r_episode-main">
@@ -110,7 +110,7 @@ export default {
     }
   },
   computed: mapState({
-    episode: state => state.episodes.episode,
+    episode: state => state.episodes.activeEpisode,
     podcast: state => state.podcasts.podcast
   }),
   created() {
