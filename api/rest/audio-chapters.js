@@ -41,6 +41,19 @@ export default {
       }
     )
   },
+  deleteChapter: data => {
+    return axios.delete(
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
+        data.audio_id
+      }/chapters/${data.chapter.start}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   getChapters: data => {
     return axios.get(
       `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
