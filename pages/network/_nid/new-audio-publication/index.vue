@@ -48,6 +48,10 @@
         :type="'IMAGE'"
         @dropped="params => handleCoverFileDrop(params)"
       />
+      <EpisodeChapters
+        v-if="activeAudio"
+        :editable="activeAudioChapters.length === 0"
+      ></EpisodeChapters>
       <b-button
         type="is-primary"
         outlined
@@ -96,9 +100,10 @@
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
+import EpisodeChapters from '~/components/EpisodeChapters'
 
 export default {
-  components: { Upload },
+  components: { Upload, EpisodeChapters },
   data() {
     return {
       alert: null,
@@ -113,6 +118,7 @@ export default {
   },
   computed: mapState({
     activeAudio: state => state.audio.activeAudio,
+    activeAudioChapters: state => state.audio.activeAudioChapters,
     networks: state => state.networks.networks,
     activeNetwork: state => state.networks.activeNetwork
   }),
