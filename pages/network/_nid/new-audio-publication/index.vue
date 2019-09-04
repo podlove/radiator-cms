@@ -94,6 +94,10 @@
       :contributor="activeContributor"
       @contributorUpdated="contributor => handleUpdateContributor(contributor)"
     ></EditContributorModal>
+    <EpisodeChapters
+      v-if="activeAudio"
+      :editable="activeAudioChapters.length === 0"
+    ></EpisodeChapters>
   </section>
 </template>
 
@@ -145,12 +149,14 @@ import { ToastProgrammatic as Toast } from 'buefy'
 import Upload from '~/components/Upload'
 import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
+import EpisodeChapters from '~/components/EpisodeChapters'
 import NewContributorModal from '~/components/NewContributorModal'
 
 export default {
   components: {
     ContributionsField,
     EditContributorModal,
+    EpisodeChapters,
     NewContributorModal,
     Upload
   },
@@ -174,6 +180,7 @@ export default {
     activeNetwork: state => state.networks.activeNetwork,
     activeAudio: state => state.audio.activeAudio,
     contributionRoles: state => state.contributions.contributionRoles,
+    activeAudioChapters: state => state.audio.activeAudioChapters,
     networks: state => state.networks.networks
   }),
   methods: {
