@@ -98,14 +98,14 @@
     </section>
     <edit-contributor-modal
       v-if="podcast && podcast.contributions"
-      :contributionRoles="contributionRoles"
+      :contribution-roles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
       @contributorUpdated="id => handleUpdateContributor(id)"
     ></edit-contributor-modal>
     <new-contributor-modal
       v-if="podcast"
-      :contributionRoles="contributionRoles"
+      :contribution-roles="contributionRoles"
       :is-modal-active="isNewContributorModalActive"
       @contributorAdded="contributor => handleNewContributor(contributor)"
     ></new-contributor-modal>

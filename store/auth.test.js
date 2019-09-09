@@ -1,7 +1,7 @@
 import { mutations } from './auth'
 
 describe('Test auth mutations', () => {
-  let state = {
+  const state = {
     isLoggedIn: null,
     username: null,
     token: null

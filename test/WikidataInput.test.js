@@ -10,7 +10,7 @@ const data = {
     search: [
       {
         title: 'Kleid',
-        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+        snippet: 'Das <span class="searchmatch">Kleid</span> und so weiter'
       },
       {
         title: 'Kleider',
@@ -22,11 +22,11 @@ const data = {
       },
       {
         title: 'Kleidung',
-        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+        snippet: 'Das <span class="searchmatch">Kleid</span> und so weiter'
       },
       {
         title: 'Kleiderbügel',
-        snippet: 'Das <span class=\"searchmatch\">Kleid</span> und so weiter'
+        snippet: 'Das <span class="searchmatch">Kleid</span> und so weiter'
       }
     ]
   }
