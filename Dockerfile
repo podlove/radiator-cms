@@ -17,7 +17,11 @@ RUN npm rebuild node-sass
 # environment
 ENV NUXT_HOST 0.0.0.0
 ENV NUXT_PORT 3000
-ARG RADIATOR_BASE_URL
+
+# these needs to be a build variables, as nuxt bakes the env in on build
+ARG NUXT_ROOT="/"
+ENV NUXT_ROOT=$NUXT_ROOT
+ARG RADIATOR_BASE_URL="http://localhost:4000"
 ENV RADIATOR_BASE_URL=$RADIATOR_BASE_URL
 
 # dyanmic build

@@ -13,6 +13,11 @@ export default {
     backendVersion: 'v1'
   },
 
+  // potentially run in a subfolder (e.g. /manage/ in the default radiator installation)
+  // just in preparation for full support, see https://github.com/podlove/radiator-cms/issues/114
+  router: {
+    base: process.env.NUXT_ROOT || '/'
+  },
   /*
    ** Headers of the page
    */
