@@ -6,7 +6,7 @@ import Login from '../components/Login'
 import WikidataInput from '../components/WikidataInput'
 
 describe('pages-index.vue', () => {
-  let wrapper;
+  let wrapper
 
   beforeEach(() => {
     const localVue = createLocalVue()

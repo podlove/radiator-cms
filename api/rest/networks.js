@@ -13,7 +13,9 @@ export default {
       query.append('network[slug]', data.slug)
     }
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/networks`,
       query,
       {
         headers: {
@@ -25,9 +27,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
-        data.networkId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/networks/${data.networkId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -45,9 +47,9 @@ export default {
       query.append('network[image]', data.image)
     }
     return axios.put(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
-        data.networkId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/networks/${data.networkId}`,
       query,
       {
         headers: {

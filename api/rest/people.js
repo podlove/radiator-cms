@@ -23,7 +23,7 @@ export default {
       query.append('person[email]', data.email)
     }
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/people`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/people`,
       query,
       {
         headers: {
@@ -55,9 +55,9 @@ export default {
       query.append('person[email]', data.email)
     }
     return axios.patch(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/people/${
-        data.personId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/people/${data.personId}`,
       query,
       {
         headers: {

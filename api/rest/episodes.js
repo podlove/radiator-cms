@@ -12,7 +12,9 @@ export default {
       }
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes`,
       query,
       {
         headers: {
@@ -24,9 +26,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes/${
-        data.episodeId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes/${data.episodeId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -43,9 +45,9 @@ export default {
       }
     })
     return axios.put(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes/${
-        data.episodeId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes/${data.episodeId}`,
       query,
       {
         headers: {

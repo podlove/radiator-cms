@@ -1,13 +1,23 @@
 import pkg from './package'
 
+// Do some local enving so we can reuse it in this file already
+const localenv = {
+  apiBaseUrl: process.env.RADIATOR_BASE_URL || 'http://localhost:4000'
+}
+
 export default {
   mode: 'universal',
 
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:4000',
+    apiBaseUrl: localenv.apiBaseUrl,
     backendVersion: 'v1'
   },
 
+  // potentially run in a subfolder (e.g. /manage/ in the default radiator installation)
+  // just in preparation for full support, see https://github.com/podlove/radiator-cms/issues/114
+  router: {
+    base: process.env.NUXT_ROOT || '/'
+  },
   /*
    ** Headers of the page
    */
@@ -18,9 +28,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
-    script: [
-      { src: 'http://cdn.podlove.org/web-player/embed.js' }
-    ],
+    script: [{ src: 'http://cdn.podlove.org/web-player/embed.js' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
@@ -61,8 +69,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        // TODO: use dynamic process.env.baseUrl
-        httpEndpoint: 'http://localhost:4000/api/graphql'
+        httpEndpoint: `${localenv.apiBaseUrl}/api/graphql`
       }
     }
   },
@@ -77,9 +84,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    '@/assets/css/main.scss'
-  ],
+  css: ['@/assets/css/main.scss'],
 
   /*
    ** Build configuration

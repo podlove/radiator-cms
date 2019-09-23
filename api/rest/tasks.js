@@ -12,7 +12,7 @@ export default {
       }
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/tasks`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks`,
       query,
       {
         headers: {
@@ -24,7 +24,7 @@ export default {
   },
   read: data => {
     return axios.get(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/tasks/${
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${
         data.taskId
       }`,
       {
@@ -37,7 +37,7 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/tasks/${
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${
         data.taskId
       }`,
       {

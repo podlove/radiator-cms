@@ -32,7 +32,9 @@ export default {
       query.append('podcast[owner_email]', data.owner_email)
     }
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts`,
       query,
       {
         headers: {
@@ -44,9 +46,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
-        data.podcastId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -57,9 +59,9 @@ export default {
   },
   read: data => {
     return axios.get(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
-        data.podcastId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -99,9 +101,9 @@ export default {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
     return axios.put(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/podcasts/${
-        data.podcastId
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       query,
       {
         headers: {
