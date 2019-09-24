@@ -38,29 +38,6 @@ export const actions = {
     try {
       const res = await restEpisode.create(data).then(data => data && data.data)
       await commit('set_active_episode', res)
-      // Set episode data for uploading audio into episode
-      // data.episodeId = res.id
-      // await dispatch('createEpisodeAudio', data)
-    } catch (e) {
-      throw Error(e)
-    }
-  },
-
-  /**
-   * Gets an episode by id and saves the episode data in store.
-   */
-  getEpisode: async function getEpisode({ commit }, data) {
-    const client = this.app.apolloProvider.defaultClient
-    try {
-      const res = await client
-        .query({
-          query: episode,
-          variables: {
-            id: data.id
-          }
-        })
-        .then(({ data }) => data && data.episode)
-      await commit('set_active_episode', res)
     } catch (e) {
       throw Error(e)
     }
@@ -76,5 +53,40 @@ export const actions = {
     data
   ) {
     await commit('set_episode_transcripts', data)
+  },
+  /**
+   * Gets an episode by id and saves the episode data in store.
+   */
+  getEpisode: async function getEpisode({ commit }, data) {
+    console.log('get episode', data)
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .query({
+          query: episode,
+          variables: {
+            id: data.id
+          }
+        })
+        .then(({ data }) => data && data.episode)
+      await commit('set_active_episode', res)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  setActiveEpisodeId({ dispatch }, data) {
+    dispatch('getEpisode', {
+      id: data
+    })
+  },
+  update: async function updateEpisode({ commit }, data) {
+    console.log('Update Episode', data)
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      const res = await restEpisode.update(data).then(data => data && data.data)
+      await commit('set_active_episode', res)
+    } catch (e) {
+      throw Error(e)
+    }
   }
 }

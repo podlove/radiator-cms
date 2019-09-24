@@ -101,7 +101,7 @@ export default {
     }
   },
   computed: mapState({
-    episode: state => state.episodes.episode,
+    episode: state => state.episodes.activeEpisode,
     podcast: state => state.podcasts.podcast
   }),
   created() {

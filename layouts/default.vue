@@ -11,7 +11,7 @@ import Navigation from '~/components/Navigation'
 const NETWORKS_REGEX = /\/network\/(?<network_id>\d+)/
 const PODCASTS_REGEX = /\/network\/(?<network_id>\d+)\/podcast\/(?<podcast_id>\d+)/
 const AUDIO_REGEX = /\/network\/(?<network_id>\d+)\/audio-publications\/(?<audio_id>\d+)/
-// const EPISODES_REGEX = /\/network\/(?<network_id>\d+)\/podcast\/(?<podcast_id>\d+)\/episode\/(?<episode_id>\d+)/
+const EPISODES_REGEX = /\/network\/(?<network_id>\d+)\/podcast\/(?<podcast_id>\d+)\/episode\/(?<episode_id>\d+)/
 
 export default {
   components: { Navigation },
@@ -65,9 +65,19 @@ export default {
       const activeAudio = path.match(AUDIO_REGEX)
         ? path.match(AUDIO_REGEX).groups
         : null
+      const activeEpisode = path.match(EPISODES_REGEX)
+        ? path.match(EPISODES_REGEX).groups
+        : null
       // Set active Audio
       if (activeAudio) {
         this.$store.dispatch('audio/setActiveAudioId', activeAudio.audio_id)
+      }
+      // Set active Episode
+      if (activeEpisode) {
+        this.$store.dispatch(
+          'episodes/setActiveEpisodeId',
+          activeEpisode.episode_id
+        )
       }
       // Set active Podcast
       if (activePodcast) {

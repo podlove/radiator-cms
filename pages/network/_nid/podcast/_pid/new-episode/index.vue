@@ -193,16 +193,18 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
-      console.log('this.activeAudio', this.activeAudio)
-      if (!this.activeAudio) {
+      console.log('this.activeEpisode', this.activeEpisode)
+      if (!this.activeEpisode) {
         this.$store
-          .dispatch('audio/createPodcastAudio', {
+          .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
             title: this.title,
-            image: params.file
+            subtitle: this.subtitle,
+            description: this.description,
+            number: this.number,
+            image: this.cover
           })
           .then(() => {
-            this.cover = this.activeAudio.image
             this.coverFileState = 'SUCCESS'
           })
           .catch(error => {
@@ -214,13 +216,15 @@ export default {
           })
       } else {
         this.$store
-          .dispatch('audio/updateAudio', {
-            id: this.activeAudio.id,
+          .dispatch('episodes/update', {
+            episodeId: this.activeEpisode.id,
             title: this.title,
-            image: params.file
+            subtitle: this.subtitle,
+            description: this.description,
+            number: this.number,
+            image: this.cover
           })
           .then(() => {
-            this.cover = this.activeAudio.image
             this.coverFileState = 'SUCCESS'
           })
           .catch(error => {

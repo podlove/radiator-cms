@@ -48,7 +48,7 @@ export default {
     const query = JSON.stringify({
       episode: {
         title: data.title,
-        podcast_id: data.podcastId
+        episode_id: data.episodeId
       }
     })
     return axios.put(

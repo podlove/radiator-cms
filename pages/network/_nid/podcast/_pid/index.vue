@@ -126,6 +126,7 @@
 .r_podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_podcast-hero__container {
   margin-left: 12.5rem;
