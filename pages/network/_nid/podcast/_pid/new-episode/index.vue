@@ -36,7 +36,7 @@
       <b-field label="Subtitle">
         <b-input v-model="subtitle"></b-input>
       </b-field>
-      <b-field label="Description">
+      <b-field label="Zusammenfassung">
         <b-input v-model="description"></b-input>
       </b-field>
       <upload
@@ -51,11 +51,6 @@
         "
         @dropped="params => handleAudioFileDrop(params)"
       />
-      <b-field label="Shownotes">
-        <no-ssr>
-          <EpisodesShownotesEditor />
-        </no-ssr>
-      </b-field>
       <upload
         class="field"
         label="Episode Cover"
@@ -116,13 +111,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
-    EpisodesShownotesEditor,
     Upload
   },
   data() {
