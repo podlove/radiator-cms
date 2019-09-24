@@ -37,7 +37,7 @@
         <b-input v-model="subtitle"></b-input>
       </b-field>
       <b-field label="Zusammenfassung">
-        <b-input v-model="description"></b-input>
+        <b-input v-model="summary"></b-input>
       </b-field>
       <upload
         class="field"
@@ -126,7 +126,7 @@ export default {
       audioUploadResult: null,
       cover: null,
       coverFileState: null,
-      description: '',
+      summary: '',
       dropEpisodeCover: null,
       id: null,
       loading: false,
@@ -151,7 +151,7 @@ export default {
             podcastId: this.activePodcast.id,
             title: this.title,
             subtitle: this.subtitle,
-            description: this.description,
+            summary: this.summary,
             number: this.number
           })
           .then(result => {
@@ -185,7 +185,7 @@ export default {
             episodeId: this.activeEpisode.id,
             title: this.title,
             subtitle: this.subtitle,
-            description: this.description,
+            summary: this.summary,
             number: this.number,
             image: this.cover
           })
@@ -230,9 +230,9 @@ export default {
             podcastId: this.activePodcast.id,
             title: this.title,
             subtitle: this.subtitle,
-            description: this.description,
+            summary: this.summary,
             number: this.number,
-            image: this.cover
+            image: params.file
           })
           .then(() => {
             this.coverFileState = 'SUCCESS'
@@ -250,9 +250,9 @@ export default {
             episodeId: this.activeEpisode.id,
             title: this.title,
             subtitle: this.subtitle,
-            description: this.description,
+            summary: this.summary,
             number: this.number,
-            image: this.cover
+            image: params.file
           })
           .then(() => {
             this.coverFileState = 'SUCCESS'
@@ -281,7 +281,7 @@ export default {
             podcastId: this.activePodcast.id,
             title: this.title,
             subtitle: this.subtitle,
-            description: this.description,
+            summary: this.summary,
             number: this.number
           })
           .then(() => {

@@ -2,15 +2,21 @@ import axios from 'axios'
 
 export default {
   create: data => {
-    const query = JSON.stringify({
-      episode: {
-        title: data.title || null,
-        podcast_id: data.podcastId || null,
-        subtitle: data.subtitle || null,
-        summary: data.description || null,
-        short_id: data.shortId || null
-      }
-    })
+    const query = new FormData()
+    query.append('episode[title]', data.title)
+    query.append('episode[podcast_id]', data.podcastId)
+    if (data.image) {
+      query.append('episode[image]', data.image)
+    }
+    if (data.shortId) {
+      query.append('episode[short_id]', data.shortId)
+    }
+    if (data.subtitle) {
+      query.append('episode[subtitle]', data.subtitle)
+    }
+    if (data.summary) {
+      query.append('episode[summary]', data.summary)
+    }
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -18,7 +24,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }
@@ -38,12 +44,21 @@ export default {
     )
   },
   update: data => {
-    const query = JSON.stringify({
-      episode: {
-        title: data.title,
-        episode_id: data.episodeId
-      }
-    })
+    const query = new FormData()
+    query.append('episode[title]', data.title)
+    query.append('episode[episode_id]', data.episodeId)
+    if (data.image) {
+      query.append('episode[image]', data.image)
+    }
+    if (data.shortId) {
+      query.append('episode[short_id]', data.shortId)
+    }
+    if (data.subtitle) {
+      query.append('episode[subtitle]', data.subtitle)
+    }
+    if (data.summary) {
+      query.append('episode[summary]', data.summary)
+    }
     return axios.put(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -51,7 +66,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }
