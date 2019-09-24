@@ -35,16 +35,16 @@
       <b-table-column width="100">
         <b-tooltip label="Edit contributor" type="is-dark">
           <b-button
-            @click.prevent="handleEditContributor(props.row.id)"
             type="is-text"
+            @click.prevent="handleEditContributor(props.row.id)"
           >
             <b-icon icon="pencil"></b-icon>
           </b-button>
         </b-tooltip>
         <b-tooltip label="Delete contributor" type="is-danger">
           <b-button
-            @click.prevent="handleDeleteContributor(props.row.id)"
             type="is-text"
+            @click.prevent="handleDeleteContributor(props.row.id)"
           >
             <b-icon icon="delete"></b-icon>
           </b-button>

@@ -8,7 +8,7 @@ export default {
     query.append('contribution[contribution_role_id]', data.contributionRoleId)
     query.append('contribution[person_id]', data.personId)
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/contributions`,
       query,
@@ -22,7 +22,7 @@ export default {
   },
   deleteContribution: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/contributions/${data.contributionId}`,
       {
@@ -40,7 +40,7 @@ export default {
     query.append('contribution[contribution_role_id]', data.contributionRoleId)
     query.append('contribution[person_id]', data.personId)
     return axios.patch(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/contributions/${data.contributionId}`,
       query,

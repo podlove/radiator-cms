@@ -102,6 +102,9 @@
 import Upload from '~/components/Upload'
 
 export default {
+  components: {
+    Upload
+  },
   props: {
     contributor: {
       type: Object,
@@ -116,11 +119,6 @@ export default {
     isModalActive: {
       type: Boolean,
       required: true
-    }
-  },
-  computed: {
-    isActive() {
-      return this.isModalActive
     }
   },
   data() {
@@ -138,8 +136,10 @@ export default {
       }
     }
   },
-  components: {
-    Upload
+  computed: {
+    isActive() {
+      return this.isModalActive
+    }
   },
   mounted() {
     console.log(this.contributor)

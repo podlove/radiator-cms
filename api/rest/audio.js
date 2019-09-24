@@ -9,9 +9,9 @@ export default {
     query.append('audio_file[mime_type]', data.mimeType)
     query.append('audio_file[byte_size]', data.byteSize)
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.audioId
-      }/audio_files`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audios/${data.audioId}/audio_files`,
       query,
       {
         headers: {
@@ -30,9 +30,9 @@ export default {
       query.append('audio[image]', data.image)
     }
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/networks/${
-        data.networkId
-      }/audios`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/networks/${data.networkId}/audios`,
       query,
       {
         headers: {
@@ -50,7 +50,7 @@ export default {
       query.append('audio[image]', data.image)
     }
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/episodes/${
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${
         data.episodeId
       }/audios`,
       query,
@@ -64,7 +64,7 @@ export default {
   },
   deleteAudioFile: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/audio_files/${data.id}`,
       {
@@ -77,7 +77,7 @@ export default {
   },
   deleteAudioPublication: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/audio_publications/${data.id}`,
       {
@@ -94,9 +94,9 @@ export default {
       query.append('audio[image]', data.image)
     }
     return axios.patch(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.id
-      }`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audios/${data.id}`,
       query,
       {
         headers: {
@@ -114,7 +114,7 @@ export default {
       }
     })
     return axios.patch(
-      `${process.env.baseUrl}/api/rest/${
+      `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/audio_publications/${data.id}`,
       query,

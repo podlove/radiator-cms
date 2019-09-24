@@ -70,8 +70,8 @@
               :state="avatarFileState"
               :type="'IMAGE'"
               :image="newContributor.image"
-              @dropped="params => handleAvatarFileDrop(params)"
               required
+              @dropped="params => handleAvatarFileDrop(params)"
             />
           </b-field>
         </section>
