@@ -100,42 +100,6 @@
           />
         </div>
       </section>
-      <section class="r_audio-pub-main__container r_audio-pub__contributions">
-        <h3 class="is-size-4">Contributions:</h3>
-        <div
-          v-if="
-            !activeAudio.contributions || activeAudio.contributions.length === 0
-          "
-        >
-          <p class="r_audio-pub__info-text">
-            There are no contributions.
-          </p>
-          <!-- TODO: Add button/link and upload field when button/link was pressed, to upload contributions. -->
-        </div>
-        <div
-          v-for="contribution in activeAudio.contributions"
-          :key="contribution.id"
-          class="r_audio-pub__contribution"
-        >
-          {{ contribution.title }}
-        </div>
-      </section>
-      <section class="r_audio-pub-main__container r_audio-pub__files">
-        <h3 class="is-size-4">Chapter Marks:</h3>
-        <div v-if="!activeAudio.chapters || activeAudio.chapters.length === 0">
-          <p class="r_audio-pub__info-text">
-            There are no chapter marks.
-          </p>
-          <!-- TODO: Add button/link and upload field when button/link was pressed, to upload chapter marks. -->
-        </div>
-        <div
-          v-for="chapter in activeAudio.chapters"
-          :key="chapter.id"
-          class="r_audio-pub__chapter"
-        >
-          {{ chapter.title }}
-        </div>
-      </section>
       <section class="r_audio-pub__interaction">
         <b-button
           v-if="isDisabled"
