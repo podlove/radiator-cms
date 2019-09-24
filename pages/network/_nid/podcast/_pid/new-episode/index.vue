@@ -56,13 +56,6 @@
           <EpisodesShownotesEditor />
         </no-ssr>
       </b-field>
-      <b-field>
-        <no-ssr>
-          <WikidataInput language="de" />
-        </no-ssr>
-      </b-field>
-      <EpisodeChapters :editable="true"></EpisodeChapters>
-      <EpisodeTranscripts :editable="true"></EpisodeTranscripts>
       <upload
         class="field"
         label="Episode Cover"
@@ -122,20 +115,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
-import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import Upload from '~/components/Upload'
-import WikidataInput from '~/components/WikidataInput'
 import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
-    EpisodeChapters,
     EpisodesShownotesEditor,
-    EpisodeTranscripts,
-    Upload,
-    WikidataInput
+    Upload
   },
   data() {
     return {
