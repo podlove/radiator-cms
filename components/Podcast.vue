@@ -111,6 +111,7 @@
   bottom: -20px;
   margin-right: 10px;
   width: 100px;
+  min-width: 100px;
   height: 100px;
 }
 .r_podcast__episodes__element {
