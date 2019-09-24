@@ -16,13 +16,7 @@
           aria-current-label="Current page"
         >
           <template slot-scope="props">
-            <b-table-column
-              v-if="props.row.number"
-              field="number"
-              label="Number"
-              width="40"
-              sortable
-            >
+            <b-table-column field="number" label="Number" width="40" sortable>
               {{ props.row.number }}
             </b-table-column>
             <b-table-column field="title" label="Title" sortable>
