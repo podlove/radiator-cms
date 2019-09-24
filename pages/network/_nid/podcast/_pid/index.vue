@@ -39,41 +39,9 @@
           <episodes-table
             v-if="podcast && podcast.episodes && podcast.episodes.length"
             :episodes="podcast.episodes"
+            :network="network"
+            :podcast="podcast"
           ></episodes-table>
-        </b-tab-item>
-        <b-tab-item label="Team">
-          <section>
-            <p v-if="network" class="r_podcast__contributor__new">
-              <b-button
-                outlined
-                type="is-primary"
-                icon-left="plus-circle"
-                @click="isNewContributorModalActive = true"
-              >
-                <span>Add new team member</span>
-              </b-button>
-            </p>
-            <h3 class="is-size-4">Podcast Team</h3>
-            <p
-              v-if="
-                podcast &&
-                  (!podcast.contributions || !podcast.contributions.length > 0)
-              "
-            >
-              There are no contributions to your podcast yet.
-            </p>
-            <contributors-table
-              v-if="
-                podcast &&
-                  podcast.contributions &&
-                  podcast.contributions.length > 0
-              "
-              class="r_podcast__contributor__table"
-              :contributors="podcast.contributions"
-              @delete="contributor => handleDeleteContributor(contributor)"
-              @edit="contributor => handleEditContributor(contributor)"
-            ></contributors-table>
-          </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
@@ -96,19 +64,6 @@
         </b-tab-item>
       </b-tabs>
     </section>
-    <edit-contributor-modal
-      v-if="podcast && podcast.contributions"
-      :contribution-roles="contributionRoles"
-      :is-modal-active="isEditContributorModalActive"
-      :contributor="activeContributor"
-      @contributorUpdated="id => handleUpdateContributor(id)"
-    ></edit-contributor-modal>
-    <new-contributor-modal
-      v-if="podcast"
-      :contribution-roles="contributionRoles"
-      :is-modal-active="isNewContributorModalActive"
-      @contributorAdded="contributor => handleNewContributor(contributor)"
-    ></new-contributor-modal>
   </section>
 </template>
 
@@ -116,12 +71,6 @@
 .r_episodes__header {
   text-align: right;
   padding: 0 0 1rem 0;
-}
-.r_podcast__contributor__new {
-  float: right;
-}
-.r_podcast__contributor__table {
-  margin-top: 1rem;
 }
 .r_podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
@@ -155,33 +104,22 @@
 
 <script>
 import { mapState } from 'vuex'
-import ContributorsTable from '~/components/ContributorsTable'
 import EpisodesTable from '~/components/EpisodesTable'
-import EditContributorModal from '~/components/EditContributorModal'
-import NewContributorModal from '~/components/NewContributorModal'
 import PodcastSettings from '~/components/PodcastSettings'
 
 export default {
   components: {
-    ContributorsTable,
     EpisodesTable,
-    EditContributorModal,
-    NewContributorModal,
     PodcastSettings
   },
   data() {
     return {
-      activeContributor: null,
       activeTab: 0,
-      editableContributor: null,
-      isEditContributorModalActive: false,
-      isNewContributorModalActive: false,
       isDisabled: true,
       isLoading: false
     }
   },
   computed: mapState({
-    contributionRoles: state => state.contributions.contributionRoles,
     podcast: state => state.podcasts.activePodcast,
     network: state => state.networks.activeNetwork
   }),
@@ -214,79 +152,6 @@ export default {
     },
     edit() {
       this.isDisabled = false
-    },
-    handleDeleteContributor(id) {
-      console.log('delete id', id)
-      this.$store
-        .dispatch('contributions/deleteContribution', {
-          contributionId: id,
-          podcastId: this.podcast.id
-        })
-        .then(() => {
-          this.alert = {
-            type: 'is-success',
-            message: 'Contributor successfully removed.'
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
-    },
-    handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
-      this.activeContributor = contributor
-      this.isEditContributorModalActive = true
-    },
-    handleUpdateContributor(contributor) {
-      console.log('update contributor', contributor)
-      this.isEditContributorModalActive = false
-      this.$store
-        .dispatch('people/update', {
-          contributionId: this.activeContributor.id,
-          contributionRoleId: contributor.contributionRoleId,
-          displayName: contributor.displayName,
-          email: contributor.email,
-          image: contributor.image,
-          link: contributor.link,
-          name: contributor.name,
-          networkId: this.network.id,
-          nick: contributor.nick,
-          personId: this.activeContributor.person.id,
-          podcastId: this.podcast.id
-        })
-        .catch(error => {
-          console.log(error)
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
-    },
-    handleNewContributor(contributor) {
-      this.isNewContributorModalActive = false
-      this.$store
-        .dispatch('people/create', {
-          contributionRoleId: contributor.contributionRoleId,
-          displayName: contributor.displayName,
-          email: contributor.email,
-          image: contributor.image,
-          link: contributor.link,
-          name: contributor.name,
-          networkId: this.network.id,
-          nick: contributor.nick,
-          podcastId: this.podcast.id
-        })
-        .catch(error => {
-          console.log(error)
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
     },
     save(newPodcastSettings) {
       this.isLoading = true

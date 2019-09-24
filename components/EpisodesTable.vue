@@ -48,12 +48,20 @@
             </b-table-column>
             <b-table-column width="100">
               <b-tooltip label="Edit episode" type="is-dark">
-                <b-button
-                  type="is-text"
-                  @click="$router.push(`episodes/${props.row.id}`)"
+                <nuxt-link
+                  :to="
+                    '/network/' +
+                      network.id +
+                      '/podcast/' +
+                      podcast.id +
+                      '/episode/' +
+                      props.row.id
+                  "
                 >
-                  <b-icon icon="pencil"></b-icon>
-                </b-button>
+                  <b-button type="is-text">
+                    <b-icon icon="pencil"></b-icon>
+                  </b-button>
+                </nuxt-link>
               </b-tooltip>
               <b-tooltip label="Open episode page in new tab" type="is-dark">
                 <b-button type="is-text">
@@ -117,6 +125,14 @@ export default {
   props: {
     episodes: {
       type: Array,
+      required: true
+    },
+    network: {
+      type: Object,
+      required: true
+    },
+    podcast: {
+      type: Object,
       required: true
     }
   }
