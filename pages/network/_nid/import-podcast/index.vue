@@ -141,18 +141,10 @@
             >
               {{ currentTask.progress }} / {{ currentTask.total }}
             </b-progress>
-            <div>
-              <episodes-table
-                v-if="podcast && podcast.episodes && podcast.episodes.length"
-                :episodes="podcast.episodes"
-              ></episodes-table>
-              <b-button class="is-primary" @click.stop.prevent="stopImport()">
-                Stop Import
-              </b-button>
-              <b-button class="is-primary" @click.stop.prevent="showTask()">
-                show Task
-              </b-button>
-            </div>
+            <episodes-table
+              v-if="podcast && podcast.episodes && podcast.episodes.length"
+              :episodes="podcast.episodes"
+            ></episodes-table>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
                 <b-table-column field="id" label="ID" width="40" numeric>
@@ -199,10 +191,12 @@
               </template>
             </b-table>
             <div class="podlove-step-navigation-group">
-              <b-button class="is-primary">Stop Import</b-button>
+              <b-button class="is-primary" @click.stop.prevent="stopImport()">
+                Stop Import
+              </b-button>
               <b-button
                 class="is-primary"
-                @click="$router.push(`/networks/${networkId}/podcasts`)"
+                @click="$router.push(`/network/${networkId}/podcast/${pid}`)"
               >
                 Go to Podcast Overview
               </b-button>
@@ -234,6 +228,7 @@ export default {
       },
       importMetaData: true,
       networkId: null,
+      pid: null,
       url: 'https://www.zeitsprung.fm/feed/mp3/'
     }
   },
@@ -302,8 +297,9 @@ export default {
           self.currentTask._links['rad:subject'] !== undefined
         ) {
           const pid = self.currentTask._links['rad:subject'].href.split('/')
+          self.pid = pid[pid.length - 1]
           self.$store.dispatch('podcasts/getPodcast', {
-            id: pid[pid.length - 1]
+            id: self.pid
           })
         }
         if (self.currentTask.id !== undefined) {
