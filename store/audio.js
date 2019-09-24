@@ -39,18 +39,16 @@ export const actions = {
     }
   },
   createPodcastAudio: async function createPodcastAudio({ dispatch }, data) {
+    console.log('Create Podcast Audio', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restAudio.createPodcastAudio(data).then(data => {
         return data && data.data
       })
-      const params = await {
-        title: data.title,
-        file: data.file,
-        id: res.id,
-        token: this.$apolloHelpers.getToken()
-      }
-      return await dispatch('createAudioFile', params)
+      console.log('res', res)
+      await dispatch('getAudio', {
+        id: res.id
+      })
     } catch (e) {
       throw Error(e)
     }

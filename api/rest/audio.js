@@ -23,12 +23,11 @@ export default {
   },
   createAudio: data => {
     const query = new FormData()
+    query.append('audio[network_id]', data.networkId)
+    query.append('audio_publication[title]', data.title)
     if (data.image) {
       query.append('audio[image]', data.image)
     }
-    query.append('audio[episode_id]', data.episodeId)
-    query.append('audio[network_id]', data.networkId)
-    query.append('audio_publication[title]', data.title)
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -43,19 +42,22 @@ export default {
     )
   },
   createPodcastAudio: data => {
-    const query = JSON.stringify({
-      audio: {
-        episode_id: data.episodeId,
-        title: data.file.name,
-        network_id: data.networkId
-      }
-    })
+    console.log('create podcast audio', data)
+    console.log('create podcast process.env.baseUrl', process.env.apiBaseUrl)
+    const query = new FormData()
+    query.append('audio[episode_id]', data.episodeId)
+    query.append('audio_publication[title]', data.title)
+    if (data.image) {
+      query.append('audio[image]', data.image)
+    }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audios`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes/${data.episodeId}/audios`,
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }
