@@ -31,9 +31,6 @@
             <div id="podlove-webplayer" class="r_episode_player"></div>
             <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
-            <EpisodeChapters></EpisodeChapters>
-            <EpisodeTranscripts></EpisodeTranscripts>
-            <EpisodeContributors :episode="episode"></EpisodeContributors>
           </b-tab-item>
           <b-tab-item label="Analytics">
             <div class="tile">
@@ -86,22 +83,16 @@
 <script>
 import { mapState } from 'vuex'
 import EpisodeAudioFiles from '~/components/EpisodeAudioFiles'
-import EpisodeChapters from '~/components/EpisodeChapters'
 import EpisodeContent from '~/components/EpisodeContent'
-import EpisodeContributors from '~/components/EpisodeContributors'
 import EpisodeInfo from '~/components/EpisodeInfo'
 import EpisodeTags from '~/components/EpisodeTags'
-import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 
 export default {
   components: {
     EpisodeAudioFiles,
-    EpisodeChapters,
     EpisodeContent,
-    EpisodeContributors,
     EpisodeInfo,
-    EpisodeTags,
-    EpisodeTranscripts
+    EpisodeTags
   },
   data() {
     return {
