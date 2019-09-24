@@ -64,7 +64,7 @@
             <p>
               {{ feedInfo.title }} has
               {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
-              Episodes
+              Episodes.
             </p>
             <b-field horizontal label="Short ID">
               <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
@@ -72,27 +72,6 @@
             <b-field horizontal label="Podcast Url">
               <b-input v-model="feedInfo.link" disabled></b-input>
             </b-field>
-            <div class="field import-switch">
-              <b-switch v-model="importMetaData">Import Meta Data</b-switch>
-            </div>
-            <div class="field import-switch">
-              <b-switch v-model="importAudioFiles">Import Audio Files</b-switch>
-            </div>
-            <div class="field import-switch">
-              <b-switch v-model="importMedia.mp3" :disabled="!importAudioFiles">
-                mp3
-              </b-switch>
-            </div>
-            <div class="field import-switch">
-              <b-switch v-model="importMedia.m4a" :disabled="!importAudioFiles">
-                m4a
-              </b-switch>
-            </div>
-            <div class="field import-switch">
-              <b-switch v-model="importMedia.ogg" :disabled="!importAudioFiles">
-                ogg
-              </b-switch>
-            </div>
             <div class="podlove-step-navigation-group">
               <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
                 Back
