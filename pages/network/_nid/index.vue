@@ -26,16 +26,25 @@
       <b-tabs v-model="activeTab" class="r_network-tabs">
         <b-tab-item label="Podcasts and Audio Publications">
           <section class="r_network__podcasts">
-            <p v-if="network" class="r_network__podcasts__new">
-              <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
-                <b-button outlined type="is-primary" icon-left="plus-circle">
-                  <span>Add new podcast</span>
-                </b-button>
-              </nuxt-link>
-            </p>
             <h3 class="is-size-4">
               Podcasts
             </h3>
+            <div class="r_network__podcasts__buttongroup">
+              <p v-if="network" class="r_network__podcasts__new">
+                <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Add new podcast</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+              <p v-if="network" class="r_network__podcasts__import">
+                <nuxt-link :to="'/network/' + network.id + '/import-podcast'">
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Import existing podcast</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+            </div>
             <div
               v-if="
                 network && (!network.podcasts || !network.podcasts.length > 0)
@@ -179,19 +188,29 @@
 </template>
 
 <style>
-.r_network__podcast {
-  margin: 2.5rem 0;
-}
 .r_network__info-text {
   padding: 1rem 0 1rem 0;
 }
-.r_network__audio-pubs,
 .r_network__podcasts {
+  display: flex;
+  flex-direction: column;
   padding: 1rem 0 2rem 0;
 }
-.r_network__audio-pubs__new,
-.r_network__podcasts__new {
+.r_network__audio-pubs {
+  padding: 1rem 0 2rem 0;
+}
+.r_network__podcasts__buttongroup {
   float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.r_network__audio-pubs__new {
+  float: right;
+}
+.r_network__podcasts__import,
+.r_network__podcasts__new {
+  margin: 0.25em 0;
 }
 .r_network__audio-pubs__table {
   margin-top: 1rem;
