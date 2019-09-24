@@ -10,7 +10,10 @@
           })`
         }"
       ></div>
-      <nuxt-link :to="'/network/' + network.id + '/podcast/' + podcast.id">
+      <nuxt-link
+        :to="'/network/' + network.id + '/podcast/' + podcast.id"
+        class="r_podcast__header__episode-title"
+      >
         <h1 class="is-size-5">{{ podcast.title }}</h1>
         <h2 class="is-size-7">{{ podcast.subtitle }}</h2>
       </nuxt-link>
@@ -48,9 +51,7 @@
           :key="episode.id"
           class="r_podcast__episodes__element"
         >
-          <a href="">
-            <div class="r_podcast__episode-cover has-background-dark"></div>
-          </a>
+          <div class="r_podcast__episode-cover has-background-dark"></div>
           <h3 class="r_podcast__episode-title">
             <nuxt-link
               :to="
@@ -99,7 +100,7 @@
 
 <style>
 .r_podcast {
-  margin: 0.5em 0;
+  margin: 0.5em 0 2em 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .r_podcast__cover {
@@ -137,6 +138,9 @@
   align-items: flex-end;
   justify-content: space-between;
   padding: 10px 20px;
+}
+.r_podcast__header__episode-title {
+  flex-grow: 1;
 }
 .r_podcast__main {
   padding: 20px 20px;

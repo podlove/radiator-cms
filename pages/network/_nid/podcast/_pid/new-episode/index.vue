@@ -36,7 +36,7 @@
       <b-field label="Subtitle">
         <b-input v-model="subtitle"></b-input>
       </b-field>
-      <b-field label="Description">
+      <b-field label="Zusammenfassung">
         <b-input v-model="description"></b-input>
       </b-field>
       <upload
@@ -51,11 +51,6 @@
         "
         @dropped="params => handleAudioFileDrop(params)"
       />
-      <b-field label="Shownotes">
-        <no-ssr>
-          <EpisodesShownotesEditor />
-        </no-ssr>
-      </b-field>
       <upload
         class="field"
         label="Episode Cover"
@@ -116,13 +111,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import EpisodesShownotesEditor from '~/components/EpisodesShownotesEditor'
 import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
-    EpisodesShownotesEditor,
     Upload
   },
   data() {
@@ -152,39 +145,76 @@ export default {
   methods: {
     createEpisode() {
       this.loading = true
-      this.$store
-        .dispatch('episodes/create', {
-          podcastId: this.activePodcast.id,
-          title: this.title,
-          subtitle: this.subtitle,
-          description: this.description,
-          number: this.number
-        })
-        .then(result => {
-          this.loading = false
-          Toast.open({
-            message:
-              'Your new episode was susccessfully created. You will be redirected to your new episode page.',
-            type: 'is-success'
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            description: this.description,
+            number: this.number
           })
-          console.log('this.activeNetwork', this.activeNetwork)
-          console.log('this.activePodcast', this.activePodcast)
-          console.log('this.activeEpisode', this.activeEpisode)
-          setTimeout(() => {
-            this.$router.replace(
-              `/network/${this.activeNetwork.id}/podcast/${
-                this.activePodcast.id
-              }/episode/${this.activeEpisode.id}`
-            )
-          }, 1000)
-        })
-        .catch(error => {
-          this.loading = false
-          this.alert = {
-            type: 'is-danger',
-            message: error
-          }
-        })
+          .then(result => {
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new episode was susccessfully created. You will be redirected to your new episode page.',
+              type: 'is-success'
+            })
+            console.log('this.activeNetwork', this.activeNetwork)
+            console.log('this.activePodcast', this.activePodcast)
+            console.log('this.activeEpisode', this.activeEpisode)
+            setTimeout(() => {
+              this.$router.push(
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }/episode/${this.activeEpisode.id}`
+              )
+            }, 1000)
+          })
+          .catch(error => {
+            this.loading = false
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('episodes/update', {
+            episodeId: this.activeEpisode.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            description: this.description,
+            number: this.number,
+            image: this.cover
+          })
+          .then(() => {
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new episode was susccessfully created. You will be redirected to your new episode page.',
+              type: 'is-success'
+            })
+            console.log('this.activeNetwork', this.activeNetwork)
+            console.log('this.activePodcast', this.activePodcast)
+            console.log('this.activeEpisode', this.activeEpisode)
+            setTimeout(() => {
+              this.$router.push(
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }/episode/${this.activeEpisode.id}`
+              )
+            }, 1000)
+          })
+          .catch(error => {
+            this.loading = false
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
     },
     handleCoverFileDrop(params) {
       console.log('cover', params)

@@ -11,13 +11,6 @@ export default {
         short_id: data.shortId || null
       }
     })
-    console.log('apiBaseUrl', process.env.apiBaseUrl)
-    console.log('backendVersion', process.env.backendVersion)
-    console.log(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/episodes`
-    )
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
