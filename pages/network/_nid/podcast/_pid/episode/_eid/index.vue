@@ -50,6 +50,7 @@
 .r_episode-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_episode-hero__container {
   margin-left: 12.5rem;
@@ -102,21 +103,8 @@ export default {
   },
   computed: mapState({
     episode: state => state.episodes.activeEpisode,
-    podcast: state => state.podcasts.podcast
+    podcast: state => state.podcasts.activePodcast
   }),
-  created() {
-    this.$store
-      .dispatch('episodes/getEpisode', {
-        id: this.$route.params.eid
-      })
-      .catch(error => {
-        console.log(error)
-        this.$router.push('/404')
-      })
-    this.$store.dispatch('podcasts/getPodcast', {
-      id: this.$route.params.pid
-    })
-  },
   updated() {
     if (typeof this.episode === 'object' && typeof this.podcast === 'object') {
       const playerConfig = {

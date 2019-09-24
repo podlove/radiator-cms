@@ -1,6 +1,6 @@
 <template>
   <!-- Shows the most important episode data as tags. -->
-  <div class="tile r_episode-tags">
+  <div v-if="episode" class="tile r_episode-tags">
     <div class="tile">
       <b-taglist attached>
         <b-tag type="is-dark">State:</b-tag>
@@ -45,7 +45,8 @@ export default {
   props: {
     episode: {
       type: Object,
-      required: true
+      required: false,
+      default: null
     }
   }
 }

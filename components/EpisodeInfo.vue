@@ -1,6 +1,6 @@
 <template>
   <!-- Shows the most important information of an episode in a box. -->
-  <ul class="r_episode-info">
+  <ul v-if="episode" class="r_episode-info">
     <li class="r_episode-info__item">
       <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
         Number:
@@ -80,7 +80,8 @@ export default {
   props: {
     episode: {
       type: Object,
-      required: true
+      required: false,
+      default: null
     }
   }
 }
