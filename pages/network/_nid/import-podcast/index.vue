@@ -62,12 +62,10 @@
               </div>
             </div>
             <p>
-              With
+              {{ feedInfo.title }} has
               {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
+              Episodes
             </p>
-            <b-field horizontal label="Limit import to episode count">
-              <b-input v-model="episodeCount"></b-input>
-            </b-field>
             <b-field horizontal label="Short ID">
               <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
             </b-field>
@@ -229,7 +227,8 @@ export default {
       importMetaData: true,
       networkId: null,
       pid: null,
-      url: 'https://www.zeitsprung.fm/feed/mp3/'
+      url:
+        'http://feeds.soundcloud.com/users/soundcloud:users:284192316/sounds.rss'
     }
   },
   computed: {
