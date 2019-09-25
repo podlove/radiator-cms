@@ -19,12 +19,18 @@
       ></b-input>
     </b-field>
     <b-field label="Summary">
-      <b-input v-if="isDisabled" v-model="podcast.summary" disabled></b-input>
+      <b-input
+        v-if="isDisabled"
+        v-model="podcast.summary"
+        disabled
+        type="textarea"
+      ></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="summary"
         :placeholder="podcast.summary"
         :is-loading="isLoading"
+        type="textarea"
       ></b-input>
     </b-field>
     <b-field label="Slug">

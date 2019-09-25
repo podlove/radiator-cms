@@ -67,7 +67,7 @@
             </article>
           </div>
         </b-tab-item>
-        <b-tab-item label="Settings">
+        <b-tab-item label="Info">
           <podcast-settings
             :is-disabled="isDisabled"
             :is-loading="isLoading"
