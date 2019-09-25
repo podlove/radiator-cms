@@ -82,7 +82,8 @@
                   <a
                     class="r_podcast-highlights__link"
                     :href="feed.feedUrl"
-                    target="_blank">
+                    target="_blank"
+                  >
                     {{ feed.feedUrl }}
                   </a>
                 </b-tag>
