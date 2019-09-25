@@ -27,38 +27,56 @@
       >
         {{ alert.message }}
       </b-notification>
-      <b-field label="Number">
-        <b-numberinput v-model="number" placeholder="0"></b-numberinput>
-      </b-field>
-      <b-field label="Title">
-        <b-input v-model="title"></b-input>
-      </b-field>
-      <b-field label="Subtitle">
-        <b-input v-model="subtitle"></b-input>
-      </b-field>
-      <b-field label="Zusammenfassung">
-        <b-input v-model="summary"></b-input>
-      </b-field>
-      <upload
-        class="field"
-        label="Audio File"
-        :state="audioFileState"
-        :type="'AUDIO'"
-        :audio="
-          audioUploadResult && audioUploadResult.public_url
-            ? audioUploadResult.public_url
-            : null
-        "
-        @dropped="params => handleAudioFileDrop(params)"
-      />
-      <upload
-        class="field"
-        label="Episode Cover"
-        :drop-files="dropEpisodeCover"
-        :type="'IMAGE'"
-        :state="coverFileState"
-        @dropped="params => handleCoverFileDrop(params)"
-      />
+      <div class="columns">
+        <b-field class="column is-four-fifths" label="Title">
+          <b-input v-model="title" placeholder="Episode title"></b-input>
+        </b-field>
+        <b-field class="column" label="Number">
+          <b-numberinput
+            v-model="number"
+            controls-position="compact"
+            placeholder="1"
+          ></b-numberinput>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Subtitle">
+          <b-input v-model="subtitle" placeholder="Episode subtitle"></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Summary">
+          <b-input
+            v-model="summary"
+            placeholder="Episode summary"
+            type="textarea"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <upload
+          class="field column"
+          label="Audio File"
+          :state="audioFileState"
+          :type="'AUDIO'"
+          :audio="
+            audioUploadResult && audioUploadResult.public_url
+              ? audioUploadResult.public_url
+              : null
+          "
+          @dropped="params => handleAudioFileDrop(params)"
+        />
+      </div>
+      <div class="columns">
+        <upload
+          class="field column"
+          label="Episode Cover"
+          :drop-files="dropEpisodeCover"
+          :type="'IMAGE'"
+          :state="coverFileState"
+          @dropped="params => handleCoverFileDrop(params)"
+        />
+      </div>
       <b-button
         type="is-primary"
         outlined
@@ -105,7 +123,7 @@
   font-weight: 400;
 }
 .r_new-episode__main {
-  margin: 40px auto;
+  margin: 5rem auto;
 }
 </style>
 
@@ -130,9 +148,9 @@ export default {
       dropEpisodeCover: null,
       id: null,
       loading: false,
-      number: null,
-      subtitle: 'Episode Placeholder Subtitle',
-      title: 'Episode Placeholder Title'
+      number: 1,
+      subtitle: null,
+      title: null
     }
   },
   computed: mapState({
