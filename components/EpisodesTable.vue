@@ -64,9 +64,11 @@
                 </nuxt-link>
               </b-tooltip>
               <b-tooltip label="Open episode page in new tab" type="is-dark">
-                <b-button type="is-text">
-                  <b-icon icon="open-in-new"></b-icon>
-                </b-button>
+                <a :href="props.row.publicPage" target="_blank">
+                  <b-button type="is-text">
+                    <b-icon icon="open-in-new"></b-icon>
+                  </b-button>
+                </a>
               </b-tooltip>
             </b-table-column>
           </template>

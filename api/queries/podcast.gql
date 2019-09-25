@@ -27,6 +27,7 @@ query podcast($id: ID!) {
       image,
       isPublished,
       number,
+      publicPage,
       publishedAt,
       shortId,
       slug,
@@ -46,6 +47,10 @@ query podcast($id: ID!) {
     ownerName,
     publicPage,
     publishedAt,
+    publishedFeeds {
+      enclosureMimeType,
+      feedUrl
+    },
     slug,
     shortId,
     subtitle,
