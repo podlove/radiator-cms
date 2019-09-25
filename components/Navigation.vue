@@ -94,6 +94,13 @@
               >
                 {{ podcast.title }}
               </a>
+              <hr class="navbar-divider" />
+              <a
+                :href="'/network/' + activeNetwork.id + '/new-podcast/'"
+                class="navbar-item"
+              >
+                New Podcast
+              </a>
             </div>
           </div>
         </div>
