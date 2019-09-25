@@ -24,11 +24,8 @@
     </section>
     <section class="container r_networks__main">
       <b-tabs v-model="activeTab" class="r_network-tabs">
-        <b-tab-item label="Podcasts and Audio Publications">
+        <b-tab-item label="Podcasts">
           <section class="r_network__podcasts">
-            <h3 class="is-size-4">
-              Podcasts
-            </h3>
             <div class="r_network__podcasts__buttongroup">
               <p v-if="network" class="r_network__podcasts__new">
                 <nuxt-link :to="'/network/' + network.id + '/new-podcast'">
@@ -65,43 +62,6 @@
                 <podcast :network="network" :podcast="podcast" />
               </li>
             </ul>
-          </section>
-          <section class="r_network__audio-pubs">
-            <p v-if="network" class="r_network__audio-pubs__new">
-              <nuxt-link
-                :to="'/network/' + network.id + '/new-audio-publication'"
-              >
-                <b-button outlined type="is-primary" icon-left="plus-circle">
-                  <span>Add new audio publication</span>
-                </b-button>
-              </nuxt-link>
-            </p>
-            <h3 class="is-size-4">
-              Audio Publications
-            </h3>
-            <div
-              v-if="
-                network &&
-                  (!network.audioPublications ||
-                    !network.audioPublications.length > 0)
-              "
-            >
-              <p class="r_network__info-text">
-                There are no audio publications in your network.
-              </p>
-            </div>
-            <section
-              v-if="
-                network &&
-                  network.audioPublications &&
-                  network.audioPublications.length > 0
-              "
-              class="r_network__audio-pubs__table"
-            >
-              <AudioPublicationsTable
-                :network="network"
-              ></AudioPublicationsTable>
-            </section>
           </section>
         </b-tab-item>
         <b-tab-item label="Analytics">
@@ -202,15 +162,13 @@
 .r_network__podcasts__buttongroup {
   float: right;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.r_network__audio-pubs__new {
-  float: right;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 .r_network__podcasts__import,
 .r_network__podcasts__new {
-  margin: 0.25em 0;
+  margin-left: 0.5rem;
 }
 .r_network__audio-pubs__table {
   margin-top: 1rem;
@@ -257,13 +215,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import AudioPublicationsTable from '~/components/AudioPublicationsTable'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
-    AudioPublicationsTable,
     Podcast,
     Upload
   },
