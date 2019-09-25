@@ -27,9 +27,6 @@
           <b-tab-item label="Sign-up">
             <signup />
           </b-tab-item>
-          <b-tab-item label="Reset your password">
-            <reset-password />
-          </b-tab-item>
         </b-tabs>
       </no-ssr>
     </section>
@@ -46,12 +43,14 @@
 import { mapState } from 'vuex'
 
 import Login from '~/components/Login'
-import ResetPassword from '~/components/ResetPassword'
 import Signup from '~/components/Signup'
 
 export default {
   name: 'HomePage',
-  components: { Login, ResetPassword, Signup },
+  components: {
+    Login,
+    Signup
+  },
   data() {
     return {
       activeTab: 0
