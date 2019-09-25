@@ -44,9 +44,6 @@
         <b-step-item label="Check Podcast">
           <section>
             <b-loading :active.sync="isFetchingInfos"></b-loading>
-            <b-field horizontal label="Feed Url">
-              <b-input v-model="url" disabled></b-input>
-            </b-field>
             <div class="podcast-name">
               <div
                 class="r_podcast__cover has-background-dark"
@@ -61,17 +58,39 @@
                 <h2 class="is-size-7">{{ feedInfo.subtitle }}</h2>
               </div>
             </div>
-            <p>
-              {{ feedInfo.title }} has
-              {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
-              Episodes.
-            </p>
-            <b-field horizontal label="Short ID">
-              <b-input v-model="feedInfo.suggestedShortId" disabled></b-input>
-            </b-field>
-            <b-field horizontal label="Podcast Url">
-              <b-input v-model="feedInfo.link" disabled></b-input>
-            </b-field>
+            <div class="r_podcast__details">
+              <b-field class="customfield" horizontal label="Feed Url">
+                <span>{{ url }}</span>
+              </b-field>
+              <b-field horizontal label="Short ID">
+                <b-input v-model="feedInfo.suggestedShortId"></b-input>
+              </b-field>
+              <b-field class="customfield" horizontal label="Podcast Url">
+                <span>{{ feedInfo.link }}</span>
+              </b-field>
+              <b-field class="customfield" horizontal label=" ">
+                <span>
+                  <span class="r_podcast__count">
+                    {{ feedInfo.feeds ? feedInfo.feeds[0].episodeCount : 0 }}
+                    Episodes
+                  </span>
+                  <span>
+                    are published in
+                    {{ feedInfo.title }}.
+                  </span>
+                </span>
+              </b-field>
+              <b-field horizontal label="Download latest">
+                <b-input
+                  v-model="episodeCount"
+                  placeholder="123"
+                  expanded
+                ></b-input>
+                <p class="control">
+                  <span class="button is-static">Episodes</span>
+                </p>
+              </b-field>
+            </div>
             <div class="podlove-step-navigation-group">
               <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
                 Back
@@ -197,7 +216,7 @@ export default {
   data() {
     return {
       activeStep: 0,
-      episodeCount: 0,
+      episodeCount: 10,
       importAudioFiles: false,
       importMedia: {
         mp3: false,
@@ -299,7 +318,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scopped>
 .podcasts__main {
   margin: 40px auto;
 }
@@ -309,6 +328,16 @@ export default {
 }
 .podcast__import {
   text-align: center;
+}
+.field.customfield.is-horizontal {
+  margin: 0.5em 0;
+  align-items: baseline;
+}
+.field-body {
+  text-align: left;
+}
+.r_podcast__count {
+  font-weight: bold;
 }
 .podcast-name {
   display: flex;
