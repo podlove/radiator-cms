@@ -7,7 +7,7 @@
         <div
           class="r_episode-hero__cover has-background-light"
           :style="{
-            backgroundImage: `url(${cover ? cover : ''})`
+            backgroundImage: `url(${episode.image ? episode.image : ''})`
           }"
         ></div>
         <div class="r_episode-hero__container">
@@ -105,8 +105,7 @@ export default {
   },
   data() {
     return {
-      activeTab: 0,
-      cover: null
+      activeTab: 0
     }
   },
   computed: mapState({
