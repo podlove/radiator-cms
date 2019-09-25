@@ -3,6 +3,8 @@ query episode($id: ID!) {
     audio {
       audioFiles {
         byteLength,
+        file,
+        id,
         mimeType,
         title
       },

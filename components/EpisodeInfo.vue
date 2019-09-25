@@ -41,14 +41,6 @@
         {{ episode && episode.subtitle ? episode.subtitle : '' }}
       </p>
     </li>
-    <li class="r_episode-info__item">
-      <label class="r_episode-info__item__label is-size-7 has-text-weight-bold">
-        Description:
-      </label>
-      <p class="r_episode-info__item__value">
-        {{ episode && episode.summary ? episode.summary : '' }}
-      </p>
-    </li>
   </ul>
 </template>
 

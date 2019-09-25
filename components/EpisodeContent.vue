@@ -5,12 +5,8 @@
       <h2 class="title is-size-5 r_episode-content__headline">
         Shownotes
       </h2>
-      <b-button>
-        <b-icon size="is-small" icon="pencil"></b-icon>
-        <a> Edit shownotes</a>
-      </b-button>
     </section>
-    <div class="r_episode-content__text" v-html="episode.summaryHtml"></div>
+    <div class="r_episode-content__text" v-html="episode.summary"></div>
   </div>
 </template>
 

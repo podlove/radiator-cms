@@ -29,7 +29,15 @@
         <b-tabs v-model="activeTab" class="r_network-tabs">
           <b-tab-item label="Content">
             <div id="podlove-webplayer" class="r_episode_player"></div>
-            <EpisodeAudioFiles :episode="episode"></EpisodeAudioFiles>
+            <EpisodeAudioFiles
+              v-if="
+                episode &&
+                  episode.audio &&
+                  episode.audio.audioFiles &&
+                  episode.audio.audioFiles.length > 0
+              "
+              :audioFiles="episode.audio.audioFiles"
+            ></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
           </b-tab-item>
           <b-tab-item label="Analytics">

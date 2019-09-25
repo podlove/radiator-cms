@@ -5,46 +5,18 @@
       <h2 class="title is-size-5 r_episode-af__headline">
         Audio Files
       </h2>
-      <b-button>
-        <b-icon size="is-small" icon="plus-circle-outline"></b-icon>
-        <a> Add audio files</a>
-      </b-button>
     </section>
     <ul class="r_episode-af__list">
-      <li
-        v-for="file in mockData.audioFiles"
-        :key="file.type"
-        class="r_episode-af__item"
-      >
-        <b-icon
-          type="is-success"
-          class="r_episode-af__icon"
-          size="is-small"
-          icon="check-circle-outline"
-        ></b-icon>
+      <li v-for="file in audioFiles" :key="file.id" class="r_episode-af__item">
         <p class="r_episode-af__url">
-          <a :href="file.url" target="_blank">
-            {{ file.url }}
+          <a :href="file.file" target="_blank">
+            {{ file.title }}
           </a>
         </p>
         <b-tag class="r_episode-af__type" type="is-primary" rounded>
-          {{ file.type }}
+          {{ file.mimeType }}
         </b-tag>
-        <span class="r_episode-af__duration">2:48:23</span>
-        <b-tooltip
-          class="r_episode-af__icon"
-          label="Edit audio file"
-          type="is-dark"
-        >
-          <b-button type="is-text">
-            <b-icon icon="pencil"></b-icon>
-          </b-button>
-        </b-tooltip>
-        <b-tooltip label="Delete audio file" type="is-danger">
-          <b-button type="is-text">
-            <b-icon icon="delete"></b-icon>
-          </b-button>
-        </b-tooltip>
+        <span class="r_episode-af__duration">{{ file.byteLength }}</span>
       </li>
     </ul>
   </section>
@@ -94,41 +66,9 @@
 <script>
 export default {
   props: {
-    episode: {
-      type: Object,
+    audioFiles: {
+      type: Array,
       required: true
-    }
-  },
-  data() {
-    return {
-      mockData: {
-        audioFiles: [
-          {
-            type: 'oga',
-            url:
-              'http://forschergeist.de/podlove/file/1894/s/feed/c/m4a/fg068-risikoforschung.m4a',
-            state: 'success'
-          },
-          {
-            type: 'mp3',
-            url:
-              'http://forschergeist.de/podlove/file/1894/s/feed/c/m4a/fg068-risikoforschung.m4a',
-            state: 'success'
-          },
-          {
-            type: 'm4a',
-            url:
-              'http://forschergeist.de/podlove/file/1894/s/feed/c/m4a/fg068-risikoforschung.m4a',
-            state: 'success'
-          },
-          {
-            type: 'opus',
-            url:
-              'http://forschergeist.de/podlove/file/1894/s/feed/c/m4a/fg068-risikoforschung.m4a',
-            state: 'success'
-          }
-        ]
-      }
     }
   }
 }
