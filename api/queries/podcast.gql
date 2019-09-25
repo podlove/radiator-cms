@@ -44,6 +44,7 @@ query podcast($id: ID!) {
     lastBuiltAt,
     ownerEmail,
     ownerName,
+    publicPage,
     publishedAt,
     slug,
     shortId,

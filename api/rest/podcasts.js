@@ -25,7 +25,7 @@ export default {
     if (data.author) {
       query.append('podcast[author]', data.author)
     }
-    if (data.owner) {
+    if (data.ownerName) {
       query.append('podcast[owner_name]', data.ownerName)
     }
     if (data.owner_email) {
@@ -94,7 +94,7 @@ export default {
     if (data.author) {
       query.append('podcast[author]', data.author)
     }
-    if (data.owner) {
+    if (data.ownerName) {
       query.append('podcast[owner_name]', data.ownerName)
     }
     if (data.ownerEmail) {

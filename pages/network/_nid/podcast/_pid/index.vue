@@ -15,6 +15,20 @@
         <div class="r_podcast-hero__container">
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
             {{ podcast.title }}
+            <b-tooltip
+              label="Open public podcast page in new tab"
+              v-if="podcast && podcast.publicPage"
+              type="is-dark"
+            >
+              <a :href="podcast.publicPage" target="_blank">
+                <b-button
+                  type="is-text is-light"
+                  class="r_podcast-hero__button"
+                >
+                  <b-icon icon="open-in-new"></b-icon>
+                </b-button>
+              </a>
+            </b-tooltip>
           </h1>
           <h2 v-if="podcast" class="subtitle is-size-6">
             {{ podcast.subtitle }}
@@ -79,6 +93,10 @@
   position: relative;
   width: 100%;
 }
+.r_podcast-hero__button {
+  opacity: 0.25;
+  transform: scale(0.85);
+}
 .r_podcast-hero__container {
   margin-left: 12.5rem;
   min-height: 3.8125rem;
@@ -94,6 +112,10 @@
 }
 .r_podcast-hero__title {
   font-weight: 400;
+}
+.r_podcast-highlights {
+  background-color: #e8e8e8;
+  padding: 3.5rem 0 2rem 0;
 }
 .r_podcast-tabs {
   margin: 3.75rem 0;
@@ -163,7 +185,7 @@ export default {
           author: newPodcastSettings.author,
           image: newPodcastSettings.cover,
           language: newPodcastSettings.language,
-          owner: newPodcastSettings.owner,
+          ownerName: newPodcastSettings.ownerName,
           ownerEmail: newPodcastSettings.ownerEmail,
           summary: newPodcastSettings.summary,
           shortId: newPodcastSettings.shortId,

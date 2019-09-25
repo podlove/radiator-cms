@@ -52,7 +52,7 @@
       <b-input v-if="isDisabled" v-model="podcast.ownerName" disabled></b-input>
       <b-input
         v-if="!isDisabled"
-        v-model="owner"
+        v-model="ownerName"
         :placeholder="podcast.ownerName"
         :is-loading="isLoading"
       ></b-input>
@@ -168,7 +168,7 @@ export default {
       cover: null,
       coverFileState: null,
       language: '',
-      owner: '',
+      ownerName: '',
       ownerEmail: '',
       shortId: '',
       subtitle: '',
@@ -186,7 +186,7 @@ export default {
         author: this.author,
         cover: this.cover,
         language: this.language,
-        owner: this.owner,
+        ownerName: this.ownerName,
         ownerEmail: this.ownerEmail,
         shortId: this.shortId,
         subtitle: this.subtitle,
