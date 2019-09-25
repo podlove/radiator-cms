@@ -37,7 +37,9 @@
             </nuxt-link>
           </section>
           <episodes-table
-            v-if="podcast && podcast.episodes && podcast.episodes.length"
+            v-if="
+              network && podcast && podcast.episodes && podcast.episodes.length
+            "
             :episodes="podcast.episodes"
             :network="network"
             :podcast="podcast"
