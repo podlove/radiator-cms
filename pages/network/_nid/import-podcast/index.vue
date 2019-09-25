@@ -62,9 +62,6 @@
               <b-field class="customfield" horizontal label="Feed Url">
                 <span>{{ url }}</span>
               </b-field>
-              <b-field horizontal label="Short ID">
-                <b-input v-model="feedInfo.suggestedShortId"></b-input>
-              </b-field>
               <b-field class="customfield" horizontal label="Podcast Url">
                 <span>{{ feedInfo.link }}</span>
               </b-field>
@@ -80,15 +77,20 @@
                   </span>
                 </span>
               </b-field>
-              <b-field horizontal label="Download latest">
+              <b-field horizontal label="Import latest">
                 <b-input
                   v-model="episodeCount"
                   placeholder="123"
+                  class="smallfield"
                   expanded
                 ></b-input>
-                <p class="control">
-                  <span class="button is-static">Episodes</span>
-                </p>
+                <p>Episodes</p>
+              </b-field>
+              <b-field horizontal label="Short ID">
+                <b-input
+                  v-model="feedInfo.suggestedShortId"
+                  class="smallfield"
+                ></b-input>
               </b-field>
             </div>
             <div class="podlove-step-navigation-group">
@@ -261,11 +263,13 @@ export default {
     fetchEpisodes() {
       let enclosureType = ''
       let feedUrl = ''
+      let feedLength = 0
 
       this.feedInfo.feeds.forEach(d => {
         if (d.enclosureType === 'audio/mpeg') {
           enclosureType = d.enclosureType
           feedUrl = d.feedUrl
+          feedLength = d.episodeCount
         }
       })
       const importPodcastFeed = {
@@ -274,6 +278,11 @@ export default {
         enclosure_types: enclosureType,
         short_id: this.feedInfo.suggestedShortId
       }
+
+      if (this.episodeCount > 0 && this.episodeCount <= feedLength) {
+        importPodcastFeed.limit = this.episodeCount
+      }
+
       this.$store.dispatch('feedInfo/createTask', importPodcastFeed)
       this.navigateTo(2)
       this.observeTaskStatus()
@@ -329,12 +338,15 @@ export default {
 .podcast__import {
   text-align: center;
 }
-.field.customfield.is-horizontal {
+.field.customfield {
   margin: 0.5em 0;
   align-items: baseline;
 }
 .field-body {
   text-align: left;
+}
+.smallfield {
+  width: 5em;
 }
 .r_podcast__count {
   font-weight: bold;
