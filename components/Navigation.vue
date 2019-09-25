@@ -76,16 +76,6 @@
       </div>
       <div class="navbar-menu" :class="{ 'is-active': isOpen }">
         <div v-if="isLoggedIn && activeNetwork" class="navbar-start">
-          <a
-            v-if="
-              activeNetwork.audioPublications &&
-                activeNetwork.audioPublications.length
-            "
-            class="navbar-item"
-            :href="'/network/' + activeNetwork.id + '/audio-publications'"
-          >
-            Audio Publications
-          </a>
           <div
             v-if="activeNetwork.podcasts && activeNetwork.podcasts.length"
             class="navbar-item has-dropdown is-hoverable"
@@ -108,95 +98,6 @@
           </div>
         </div>
         <div class="navbar-end">
-          <div
-            v-if="isLoggedIn && activeNetwork && activeNetwork.id"
-            class="navbar-item has-dropdown is-hoverable"
-          >
-            <a class="navbar-link is-arrowless">
-              <b-icon icon="plus-circle"></b-icon>
-            </a>
-            <div class="navbar-dropdown is-boxed is-right">
-              <a
-                class="navbar-item"
-                :href="'/network/' + activeNetwork.id + '/new-podcast'"
-              >
-                <b-icon icon="library-books"></b-icon>
-                <span class="r_menu__item">New podcast</span>
-              </a>
-              <a
-                class="navbar-item"
-                :href="'/network/' + activeNetwork.id + '/import-podcast'"
-              >
-                <b-icon icon="library-books"></b-icon>
-                <span class="r_menu__item">Import podcast</span>
-              </a>
-              <a
-                class="navbar-item"
-                :href="
-                  '/network/' + activeNetwork.id + '/new-audio-publication'
-                "
-              >
-                <b-icon icon="help"></b-icon>
-                <span class="r_menu__item">New audio publication</span>
-              </a>
-              <a
-                v-if="activePodcast && activePodcast.id"
-                class="navbar-item"
-                :href="
-                  '/network/' +
-                    activeNetwork.id +
-                    '/podcast/' +
-                    activePodcast.id +
-                    '/new-episode'
-                "
-              >
-                <b-icon icon="lifebuoy"></b-icon>
-                <span class="r_menu__item">New episode</span>
-              </a>
-            </div>
-          </div>
-          <div v-if="isLoggedIn" class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-arrowless">
-              <b-icon icon="account-circle"></b-icon>
-            </a>
-            <div class="navbar-dropdown is-boxed is-right">
-              <div class="navbar-item">
-                <b-icon
-                  class="r__usermenu__avatar"
-                  type="is-white"
-                  icon="account-circle"
-                ></b-icon>
-                <span class="r__usermenu__container">
-                  <span class="has-text-weight-bold">{{ username }}</span>
-                  <span class="r__usermenu__email">email@address.com</span>
-                </span>
-              </div>
-              <hr class="navbar-divider" />
-              <a class="navbar-item" href="/settings">
-                <b-icon icon="settings"></b-icon>
-                <span class="r_menu__item">Account Settings</span>
-              </a>
-              <hr class="navbar-divider" />
-              <a class="navbar-item" href="/documentation">
-                <b-icon icon="library-books"></b-icon>
-                <span class="r_menu__item">Documentation</span>
-              </a>
-              <a class="navbar-item" href="/help">
-                <b-icon icon="help"></b-icon>
-                <span class="r_menu__item">Help & FAQ</span>
-              </a>
-              <a class="navbar-item" href="/support">
-                <b-icon icon="lifebuoy"></b-icon>
-                <span class="r_menu__item">Contact Support</span>
-              </a>
-              <a class="navbar-item">
-                <b-icon icon="bug"></b-icon>
-                <span class="r_menu__item">Submit an Issue</span>
-              </a>
-              <hr class="navbar-divider" />
-              <a class="r_usermenu__simple-item navbar-item">Privacy Policy</a>
-            </div>
-          </div>
           <div v-if="isLoggedIn" class="navbar-item">
             <div class="r_navbar-end">
               <b-button type="is-light" outlined @click.stop.prevent="logout()">
