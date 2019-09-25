@@ -16,8 +16,8 @@
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
             {{ podcast.title }}
             <b-tooltip
-              label="Open public podcast page in new tab"
               v-if="podcast && podcast.publicPage"
+              label="Open public podcast page in new tab"
               type="is-dark"
             >
               <a :href="podcast.publicPage" target="_blank">
@@ -33,6 +33,62 @@
           <h2 v-if="podcast" class="subtitle is-size-6">
             {{ podcast.subtitle }}
           </h2>
+        </div>
+      </div>
+    </section>
+    <section class="r_podcast-highlights">
+      <!-- TODO: change to publishedState -->
+      <!-- v-if="podcast && podcast.publishedState" -->
+      <div v-if="podcast" class="r_podcast-highlights__info columns">
+        <div class="column">
+          <p class="is-size-7 has-text-weight-bold">
+            Publishing:
+          </p>
+          <b-taglist class="r_podcast-highlights__state__tags" attached>
+            <b-tag type="is-dark">Publishing state:</b-tag>
+            <b-tag type="is-info">Drafted</b-tag>
+            <!-- <b-tag type="is-warning">Scheduled</b-tag>
+            <b-tag type="is-success">Published</b-tag>
+            <b-tag type="is-danger">Depublished</b-tag> -->
+          </b-taglist>
+          <b-taglist attached>
+            <b-tag type="is-dark">Publishing date:</b-tag>
+            <b-tag v-if="podcast.publishedAt" type="is-info">{{
+              $moment(podcast.publishedAt).format('MMMM Do YYYY, h:mm:ss a')
+            }}</b-tag>
+            <b-tag v-if="!podcast.publishedAt" type="is-warning">
+              not published yet
+            </b-tag>
+          </b-taglist>
+        </div>
+        <div class="column">
+          <p class="is-size-7 has-text-weight-bold">
+            Feeds:
+          </p>
+          <p
+            v-if="!podcast.publishedFeeds || podcast.publishedFeeds.length <= 0"
+          >
+            No active feeds yet.
+          </p>
+          <ul
+            v-if="podcast.publishedFeeds && podcast.publishedFeeds.length > 0"
+          >
+            <li v-for="feed in podcast.publishedFeeds" :key="feed.feedUrl">
+              <b-taglist attached>
+                <b-tag type="is-dark">
+                  {{ feed.enclosureMimeType }}
+                </b-tag>
+                <b-tag type="is-light">
+                  <a
+                    class="r_podcast-highlights__link"
+                    :href="feed.feedUrl"
+                    target="_blank">
+                    {{ feed.feedUrl }}
+                  </a>
+                </b-tag>
+              </b-taglist>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -84,6 +140,12 @@
 </template>
 
 <style>
+/* Overwrite Bulma */
+.tags,
+.tag {
+  margin-bottom: 0 !important;
+  margin-top: 0.25rem;
+}
 .r_episodes__header {
   text-align: right;
   padding: 0 0 1rem 0;
@@ -115,7 +177,25 @@
 }
 .r_podcast-highlights {
   background-color: #e8e8e8;
-  padding: 3.5rem 0 2rem 0;
+  padding: 2rem 0 4rem 0;
+}
+.r_podcast-highlights__info {
+  margin: 1rem auto;
+  max-width: 960px;
+}
+.r_podcast-highlights__link,
+.r_podcast-highlights__link:hover,
+.r_podcast-highlights__link:focus,
+.r_podcast-highlights__link:active {
+  color: #4a4a4a;
+}
+.r_podcast-highlights__state {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.r_podcast-highlights__state__tags {
+  margin-right: 1rem;
 }
 .r_podcast-tabs {
   margin: 3.75rem 0;

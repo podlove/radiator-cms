@@ -55,6 +55,6 @@ query podcast($id: ID!) {
     shortId,
     subtitle,
     summary,
-    title,
+    title
   }
 }

@@ -65,6 +65,7 @@ query network($id: ID!) {
       nick
     },
     podcasts {
+      author,
       episodes(itemsPerPage: 5, page: 1) {
         guid,
         id,
@@ -80,12 +81,25 @@ query network($id: ID!) {
         summarySource,
         title
       },
+      episodesCount,
       id,
       image,
+      isPublished,
+      language,
+      lastBuiltAt,
+      ownerEmail,
+      ownerName,
+      publicPage,
       publishedAt,
+      publishedFeeds {
+        enclosureMimeType,
+        feedUrl
+      },
       slug,
+      shortId,
       subtitle,
-      title,
+      summary,
+      title
     },
     slug,
     title
