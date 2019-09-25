@@ -26,10 +26,10 @@ export default {
       query.append('podcast[author]', data.author)
     }
     if (data.owner) {
-      query.append('podcast[owner_name]', data.owner)
+      query.append('podcast[owner_name]', data.ownerName)
     }
     if (data.owner_email) {
-      query.append('podcast[owner_email]', data.owner_email)
+      query.append('podcast[owner_email]', data.ownerEmail)
     }
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
@@ -95,7 +95,7 @@ export default {
       query.append('podcast[author]', data.author)
     }
     if (data.owner) {
-      query.append('podcast[owner_name]', data.owner)
+      query.append('podcast[owner_name]', data.ownerName)
     }
     if (data.ownerEmail) {
       query.append('podcast[owner_email]', data.ownerEmail)

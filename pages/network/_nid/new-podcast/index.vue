@@ -24,36 +24,68 @@
       >
         {{ alert.message }}
       </b-notification>
-      <b-field label="Short Id">
-        <b-input v-model="shortId" placeholder="NE"></b-input>
-      </b-field>
-      <b-field label="Title">
-        <b-input v-model="title" placeholder="New Podcast"></b-input>
-      </b-field>
-      <b-field label="Subtitle">
-        <b-input
-          v-model="subtitle"
-          placeholder="Subtitle of the New Podcast"
-        ></b-input>
-      </b-field>
-      <b-field label="Summary">
-        <b-input v-model="summary" placeholder="Podcast Summary"></b-input>
-      </b-field>
-      <b-field label="Author">
-        <b-input v-model="author" placeholder="Author's name"></b-input>
-      </b-field>
-      <b-field label="Language">
-        <b-input v-model="language" placeholder="Podcast language"></b-input>
-      </b-field>
-      <b-field label="Podcast Cover">
-        <upload
-          class="field"
-          :type="'IMAGE'"
-          :state="coverFileState"
-          :image="cover"
-          @dropped="params => handleCoverFileDrop(params)"
-        />
-      </b-field>
+      <div class="columns">
+        <b-field class="column is-four-fifths" label="Title">
+          <b-input v-model="title" placeholder="New Podcast"></b-input>
+        </b-field>
+        <b-field class="column" label="Short Id">
+          <b-input v-model="shortId" placeholder="NP"></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Subtitle">
+          <b-input
+            v-model="subtitle"
+            placeholder="Subtitle of the New Podcast"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Summary">
+          <b-input
+            v-model="summary"
+            type="textarea"
+            placeholder="Podcast Summary"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Author">
+          <b-input v-model="author" placeholder="Author's name"></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Language">
+          <b-input v-model="language" placeholder="Podcast language"></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Podcast Cover">
+          <upload
+            class="field"
+            :type="'IMAGE'"
+            :state="coverFileState"
+            :image="cover"
+            @dropped="params => handleCoverFileDrop(params)"
+          />
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Feed Owner Name">
+          <b-input
+            v-model="ownerName"
+            placeholder="Feed owner's name"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Feed Owner Email">
+          <b-input
+            v-model="ownerEmail"
+            placeholder="Feed owner's email adress"
+          ></b-input>
+        </b-field>
+      </div>
       <b-button
         type="is-primary"
         outlined
@@ -68,9 +100,14 @@
 </template>
 
 <style>
+/* Overwrite Bulma */
+.field {
+  margin-bottom: 0 !important;
+}
 .r_new-podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_new-podcast__header {
   align-items: center;
@@ -93,14 +130,14 @@
   height: 11.25rem;
 }
 .r_new-podcast__main {
-  margin: 40px auto;
+  margin: 5rem auto;
 }
 </style>
 
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
-// import { ToastProgrammatic as Toast } from 'buefy'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: { Upload },
@@ -112,11 +149,12 @@ export default {
       coverFileState: null,
       language: 'DE',
       ownerName: null,
+      ownerEmail: null,
       summary: null,
       loading: false,
-      shortId: 'NE',
+      shortId: null,
       subtitle: null,
-      title: 'New Podcast'
+      title: null
     }
   },
   computed: mapState({
@@ -132,6 +170,8 @@ export default {
           image: this.cover,
           language: this.language,
           networkId: this.activeNetwork.id,
+          ownerName: this.ownerName,
+          ownerEmail: this.ownerEmail,
           summary: this.summary,
           shortId: this.shortId,
           subtitle: this.subtitle,
@@ -139,11 +179,11 @@ export default {
         })
         .then(() => {
           this.loading = false
-          // Toast.open({
-          //   message:
-          //     'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
-          //   type: 'is-success'
-          // })
+          Toast.open({
+            message:
+              'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
+            type: 'is-success'
+          })
           setTimeout(() => {
             this.$router.replace(
               `/network/${this.activeNetwork.id}/podcast/${
