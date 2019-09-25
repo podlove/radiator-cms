@@ -121,6 +121,7 @@
             <episodes-table
               v-if="podcast && podcast.episodes && podcast.episodes.length"
               :episodes="podcast.episodes"
+              :podcast="podcast"
             ></episodes-table>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
