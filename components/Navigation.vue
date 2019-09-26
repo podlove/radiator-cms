@@ -185,6 +185,7 @@ export default {
   }),
   methods: {
     logout() {
+      this.$store.dispatch('networks/resetNetworkState')
       this.$store.dispatch('auth/logout')
     }
   }
