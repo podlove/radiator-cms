@@ -7,7 +7,7 @@ export default {
     query.append('audio_file[file]', data.file)
     query.append('audio_file[title]', data.title)
     query.append('audio_file[mime_type]', data.mimeType)
-    query.append('audio_file[byte_size]', data.byteSize)
+    query.append('audio_file[byte_length]', data.byteSize)
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -100,7 +100,7 @@ export default {
     return axios.patch(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
-      }/audios/${data.id}`,
+      }/audios/${data.audioId}`,
       query,
       {
         headers: {

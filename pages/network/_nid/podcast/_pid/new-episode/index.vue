@@ -298,7 +298,7 @@ export default {
       } else {
         this.$store
           .dispatch('audio/updateAudio', {
-            episodeId: this.activeEpisode.id,
+            audioId: this.activeAudio.id,
             title: this.title,
             image: params.file
           })

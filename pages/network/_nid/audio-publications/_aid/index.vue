@@ -267,7 +267,7 @@ export default {
       this.isLoading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          id: 1,
+          audioId: 1,
           title: this.title
         })
         .then(() => {
