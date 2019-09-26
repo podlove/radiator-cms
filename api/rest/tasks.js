@@ -3,14 +3,18 @@ import axios from 'axios'
 export default {
   create: data => {
     console.log('data create:', data)
-    const query = JSON.stringify({
-      import_podcast_feed: {
-        network_id: data.network_id,
-        feed_url: data.feed_url,
-        enclosure_types: data.enclosure_types,
-        short_id: data.short_id
-      }
-    })
+    const importPodcastFeed = {
+      network_id: data.network_id,
+      feed_url: data.feed_url,
+      enclosure_types: data.enclosure_types,
+      short_id: data.short_id
+    }
+    if (data.limit) {
+      importPodcastFeed.limit = parseInt(data.limit)
+    }
+
+    const query = JSON.stringify(importPodcastFeed)
+    console.log(query)
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks`,
       query,
