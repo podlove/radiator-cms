@@ -27,7 +27,7 @@
           backgroundImage: `url(${image ? image : ''})`
         }"
       >
-        <b-icon size="is-small" icon="image"></b-icon>
+        <b-icon v-if="!image" size="is-small" icon="image"></b-icon>
       </span>
       <span
         v-if="dropFile || newDropFile"
@@ -93,11 +93,12 @@
 }
 .r_peview__cover {
   background-color: #e9e9e9;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 1rem;
-  width: 3.25rem;
+  width: 3.5rem;
 }
 .r_upload-progress {
   background-color: #dbdbdb;

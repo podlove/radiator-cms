@@ -46,6 +46,9 @@ export default {
     if (data.image) {
       query.append('network[image]', data.image)
     }
+    if (data.slug) {
+      query.append('network[slug]', data.slug)
+    }
     return axios.put(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion

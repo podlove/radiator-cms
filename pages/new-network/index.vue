@@ -5,7 +5,15 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body">
         <div class="container r_new-network__header">
-          <div class="r_new-network__header__image has-background-white"></div>
+          <div
+            class="r_new-network__header__image has-background-white"
+            :style="{
+              backgroundImage: `url(${
+                activeNetwork && activeNetwork.image ? activeNetwork.image : ''
+              })`,
+              opacity: 1
+            }"
+          ></div>
           <h1 class="title">{{ title }}</h1>
         </div>
       </div>
@@ -27,7 +35,9 @@
           class="field"
           :type="'IMAGE'"
           :state="coverFileState"
-          :image="cover"
+          :image="
+            activeNetwork && activeNetwork.image ? activeNetwork.image : null
+          "
           @dropped="params => handleCoverFileDrop(params)"
         />
       </b-field>
@@ -36,7 +46,7 @@
         outlined
         :loading="loading"
         :disabled="loading"
-        @click.stop.prevent="createNetwork()"
+        @click.stop.prevent="saveNetwork()"
       >
         Add New Network
       </b-button>
@@ -51,6 +61,7 @@
   justify-content: flex-start;
 }
 .r_new-network__header__image {
+  background-size: cover;
   border-radius: 50%;
   opacity: 0.2;
   margin-right: 20px;
@@ -83,35 +94,119 @@ export default {
     network: state => state.networks.network
   }),
   methods: {
-    createNetwork() {
+    saveNetwork() {
       this.loading = true
+      // Check if there is an activeNetwork object in store
+      // and if not create one first
+      if (this.activeNetwork) {
+        this.updateNetwork(
+          {
+            image: this.cover,
+            title: this.title,
+            networkId: this.activeNetwork.id
+          },
+          true
+        )
+      } else {
+        this.createNetwork(
+          {
+            image: this.cover,
+            title: this.title
+          },
+          true
+        )
+      }
+    },
+    handleCoverFileDrop(params) {
+      this.cover = params.file
+      this.coverFileState = 'LOADING'
+      // Check if there is an activeNetwork object in store
+      // and if not create one first
+      console.log('this.activeNetwork', this.activeNetwork)
+      if (this.activeNetwork) {
+        // update network with image
+        this.updateNetwork(
+          {
+            image: params.file,
+            title: this.title,
+            networkId: this.activeNetwork.id
+          },
+          false
+        )
+      } else {
+        // create network with image
+        this.createNetwork(
+          {
+            image: params.file,
+            title: this.title
+          },
+          false
+        )
+      }
+    },
+    createNetwork(data, isFinal) {
       this.$store
-        .dispatch('networks/create', {
-          image: this.cover,
-          title: this.title
-        })
+        .dispatch('networks/create', data)
         .then(() => {
-          this.loading = false
-          Toast.open({
-            message:
-              'Your new network was susccessfully created. You will be redirected to your new network page.',
-            type: 'is-success'
-          })
-          setTimeout(() => {
-            this.$router.replace(`/network/${this.activeNetwork.id}`)
-          }, 1000)
+          if (!isFinal) {
+            // change cover file upload input
+            this.coverFileState = 'SUCCESS'
+          } else {
+            // redirect to new network
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new network was susccessfully created. You will be redirected to your new network page.',
+              type: 'is-success'
+            })
+            setTimeout(() => {
+              this.$router.replace(`/network/${this.activeNetwork.id}`)
+            }, 1000)
+          }
         })
         .catch(error => {
-          this.loading = false
+          if (!isFinal) {
+            this.coverFileState = 'ERROR'
+          } else {
+            this.loading = false
+          }
           this.alert = {
             type: 'is-danger',
             message: error
           }
         })
     },
-    handleCoverFileDrop(params) {
-      this.cover = params.file
-      this.coverFileState = 'SUCCESS'
+    updateNetwork(data, isFinal) {
+      this.$store
+        .dispatch('networks/update', data)
+        .then(() => {
+          if (!isFinal) {
+            // change cover file upload input
+            this.coverFileState = 'SUCCESS'
+          } else {
+            // redirect to new network
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new network was susccessfully created. You will be redirected to your new network page.',
+              type: 'is-success'
+            })
+            setTimeout(() => {
+              this.$router.replace(`/network/${this.activeNetwork.id}`)
+            }, 1000)
+          }
+        })
+        .catch(error => {
+          if (!isFinal) {
+            this.coverFileState = 'ERROR'
+          } else {
+            this.loading = false
+          }
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     }
   }
 }
