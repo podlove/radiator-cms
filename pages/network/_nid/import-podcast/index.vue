@@ -143,6 +143,7 @@
               v-if="podcast && podcast.episodes && podcast.episodes.length"
               :episodes="podcast.episodes"
               :podcast="podcast"
+              :network="activeNetwork"
             ></episodes-table>
             <b-table :data="feeds[0] ? feeds[0].episodes : []" :striped="true">
               <template slot-scope="props">
@@ -227,6 +228,7 @@ export default {
   },
   computed: {
     ...mapState({
+      activeNetwork: state => state.networks.activeNetwork,
       networks: state => state.networks.networks,
       feedInfo: state => state.feedInfo.feedInfo,
       feeds: state => state.feedInfo.feeds,
