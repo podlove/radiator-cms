@@ -8,6 +8,9 @@ export default {
     if (data.image) {
       query.append('episode[image]', data.image)
     }
+    if (data.number) {
+      query.append('episode[number]', data.number)
+    }
     if (data.shortId) {
       query.append('episode[short_id]', data.shortId)
     }
@@ -49,6 +52,9 @@ export default {
     query.append('episode[episode_id]', data.episodeId)
     if (data.image) {
       query.append('episode[image]', data.image)
+    }
+    if (data.number) {
+      query.append('episode[number]', data.number)
     }
     if (data.shortId) {
       query.append('episode[short_id]', data.shortId)
