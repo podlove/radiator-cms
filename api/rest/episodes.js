@@ -20,6 +20,9 @@ export default {
     if (data.summary) {
       query.append('episode[summary]', data.summary)
     }
+    if (data.publishState) {
+      query.append('episode[publish_state]', data.publishState)
+    }
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -64,6 +67,9 @@ export default {
     }
     if (data.summary) {
       query.append('episode[summary]', data.summary)
+    }
+    if (data.publishState) {
+      query.append('episode[publish_state]', data.publishState)
     }
     return axios.put(
       `${process.env.apiBaseUrl}/api/rest/${

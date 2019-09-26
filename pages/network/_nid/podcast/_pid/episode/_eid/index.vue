@@ -39,8 +39,11 @@
       </div>
     </section>
     <section class="r_episode-highlights">
-      <EpisodeTags :episode="episode"></EpisodeTags>
-      <EpisodeInfo :episode="episode"></EpisodeInfo>
+      <EpisodeTags
+        :episode="episode"
+        @publishEpisode="handlePublishEpisode()"
+        @depublishEpisode="handleDepublishEpisode()"
+      ></EpisodeTags>
     </section>
     <section class="container r_episode-main">
       <section v-if="episode" class="r_episode-main">
@@ -115,14 +118,12 @@
 import { mapState } from 'vuex'
 import EpisodeAudioFiles from '~/components/EpisodeAudioFiles'
 import EpisodeContent from '~/components/EpisodeContent'
-import EpisodeInfo from '~/components/EpisodeInfo'
 import EpisodeTags from '~/components/EpisodeTags'
 
 export default {
   components: {
     EpisodeAudioFiles,
     EpisodeContent,
-    EpisodeInfo,
     EpisodeTags
   },
   data() {
@@ -165,6 +166,38 @@ export default {
             : null
       }
       window.podlovePlayer('#podlove-webplayer', playerConfig)
+    }
+  },
+  methods: {
+    handleDepublishEpisode() {
+      this.$store
+        .dispatch('episodes/update', {
+          title: this.episode.title,
+          episodeId: this.episode.id,
+          publishState: 'depublished'
+        })
+        .then(() => {
+          console.log('depublished', this.activeEpisode)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handlePublishEpisode() {
+      this.$store
+        .dispatch('episodes/update', {
+          title: this.episode.title,
+          episodeId: this.episode.id,
+          publishState: 'published'
+        })
+        .then(() => {
+          console.log('published', this.activeEpisode)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
     }
   }
 }

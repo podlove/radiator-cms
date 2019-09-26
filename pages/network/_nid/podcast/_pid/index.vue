@@ -37,9 +37,10 @@
       </div>
     </section>
     <section class="r_podcast-highlights">
-      <!-- TODO: change to publishedState -->
-      <!-- v-if="podcast && podcast.publishedState" -->
-      <div v-if="podcast" class="r_podcast-highlights__info columns">
+      <div
+        v-if="podcast && podcast.publishedState"
+        class="container r_podcast-highlights__info columns"
+      >
         <div class="column">
           <p class="is-size-7 has-text-weight-bold">
             Publishing:
@@ -59,7 +60,7 @@
               no public website yet
             </b-tag>
           </b-taglist>
-          <b-taglist class="r_podcast-highlights__state__tags" attached>
+          <b-taglist class="r_podcast-highlights__state" attached>
             <b-tag type="is-dark">Publishing state:</b-tag>
             <b-tag v-if="podcast.publishState === 'drafted'" type="is-info">
               Drafted
@@ -242,7 +243,6 @@
 }
 .r_podcast-highlights__info {
   margin: 1rem auto;
-  max-width: 960px;
 }
 .r_podcast-highlights__link,
 .r_podcast-highlights__link:hover,
@@ -251,11 +251,6 @@
   color: #4a4a4a;
 }
 .r_podcast-highlights__state {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.r_podcast-highlights__state__tags {
   margin-right: 1rem;
 }
 .r_podcast-tabs {
