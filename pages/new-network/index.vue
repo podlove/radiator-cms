@@ -65,7 +65,7 @@
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
-// import { ToastProgrammatic as Toast } from 'buefy'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: { Upload },
@@ -92,11 +92,11 @@ export default {
         })
         .then(() => {
           this.loading = false
-          // Toast.open({
-          //   message:
-          //     'Your new network was susccessfully created. You will be redirected to your new network page.',
-          //   type: 'is-success'
-          // })
+          Toast.open({
+            message:
+              'Your new network was susccessfully created. You will be redirected to your new network page.',
+            type: 'is-success'
+          })
           setTimeout(() => {
             this.$router.replace(`/network/${this.activeNetwork.id}`)
           }, 1000)
