@@ -19,7 +19,7 @@ export const mutations = {
   },
   reset_current_task(store) {
     store.feeds = {}
-    store.feedInfo =  {}
+    store.feedInfo = {}
     store.currentTask = {}
   }
 }
