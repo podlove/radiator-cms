@@ -70,6 +70,7 @@ export const actions = {
           fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.episode)
+      await console.log('res', res)
       await commit('set_active_episode', res)
     } catch (e) {
       throw Error(e)
@@ -80,12 +81,14 @@ export const actions = {
       id: data
     })
   },
-  update: async function updateEpisode({ commit }, data) {
+  update: async function updateEpisode({ dispatch }, data) {
     console.log('Update Episode', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restEpisode.update(data).then(data => data && data.data)
-      await commit('set_active_episode', res)
+      await restEpisode.update(data).then(data => data && data.data)
+      await dispatch('getEpisode', {
+        id: data.episodeId
+      })
     } catch (e) {
       throw Error(e)
     }

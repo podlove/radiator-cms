@@ -37,29 +37,14 @@
       </div>
     </section>
     <section class="r_podcast-highlights">
-      <!-- TODO: change to publishedState -->
-      <!-- v-if="podcast && podcast.publishedState" -->
-      <div v-if="podcast" class="r_podcast-highlights__info columns">
+      <div
+        v-if="podcast && podcast.publishedState"
+        class="container r_podcast-highlights__info columns"
+      >
         <div class="column">
           <p class="is-size-7 has-text-weight-bold">
             Publishing:
           </p>
-          <b-taglist class="r_podcast-highlights__state__tags" attached>
-            <b-tag type="is-dark">Publishing state:</b-tag>
-            <b-tag type="is-info">Drafted</b-tag>
-            <!-- <b-tag type="is-warning">Scheduled</b-tag>
-            <b-tag type="is-success">Published</b-tag>
-            <b-tag type="is-danger">Depublished</b-tag> -->
-          </b-taglist>
-          <b-taglist attached>
-            <b-tag type="is-dark">Publishing date:</b-tag>
-            <b-tag v-if="podcast.publishedAt" type="is-info">{{
-              $moment(podcast.publishedAt).format('MMMM Do YYYY, h:mm:ss a')
-            }}</b-tag>
-            <b-tag v-if="!podcast.publishedAt" type="is-warning">
-              not published yet
-            </b-tag>
-          </b-taglist>
           <b-taglist attached>
             <b-tag type="is-dark">Public website:</b-tag>
             <b-tag v-if="podcast.publicPage" type="is-light">
@@ -75,6 +60,64 @@
               no public website yet
             </b-tag>
           </b-taglist>
+          <b-taglist class="r_podcast-highlights__state" attached>
+            <b-tag type="is-dark">Publishing state:</b-tag>
+            <b-tag v-if="podcast.publishState === 'drafted'" type="is-info">
+              Drafted
+            </b-tag>
+            <b-tag
+              v-if="podcast.publishState === 'scheduled'"
+              type="is-warning"
+            >
+              Scheduled
+            </b-tag>
+            <b-tag
+              v-if="podcast.publishState === 'published'"
+              type="is-success"
+            >
+              Published
+            </b-tag>
+            <b-tag
+              v-if="podcast.publishState === 'depublished'"
+              type="is-danger"
+            >
+              Depublished
+            </b-tag>
+          </b-taglist>
+          <b-taglist attached>
+            <b-tag type="is-dark">Publishing date:</b-tag>
+            <b-tag v-if="podcast.publishedAt" type="is-light">{{
+              $moment(podcast.publishedAt).format('MMMM Do YYYY, h:mm:ss a')
+            }}</b-tag>
+            <b-tag v-if="!podcast.publishedAt" type="is-warning">
+              not published yet
+            </b-tag>
+          </b-taglist>
+          <b-button
+            v-if="
+              podcast.publishState === 'drafted' ||
+                podcast.publishState === 'depublished'
+            "
+            @click.prevent="handlePublishPodcast()"
+            class="r_podcast-highlights__button"
+            type="is-primary"
+          >
+            <b-icon size="is-small" icon="cloud-upload"></b-icon>
+            <span> Publish Podcast</span>
+          </b-button>
+          <b-button
+            v-if="
+              podcast.publishState === 'published' ||
+                podcast.publishState === 'scheduled'
+            "
+            @click.prevent="handleDepublishPodcast()"
+            class="r_podcast-highlights__button"
+            type="is-danger"
+            outlined
+          >
+            <b-icon size="is-small" icon="cloud-upload"></b-icon>
+            <span> Depublish Podcast</span>
+          </b-button>
         </div>
         <div class="column">
           <p class="is-size-7 has-text-weight-bold">
@@ -195,9 +238,11 @@
   background-color: #e8e8e8;
   padding: 2rem 0 4rem 0;
 }
+.r_podcast-highlights__button {
+  margin-top: 2rem;
+}
 .r_podcast-highlights__info {
   margin: 1rem auto;
-  max-width: 960px;
 }
 .r_podcast-highlights__link,
 .r_podcast-highlights__link:hover,
@@ -206,11 +251,6 @@
   color: #4a4a4a;
 }
 .r_podcast-highlights__state {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-.r_podcast-highlights__state__tags {
   margin-right: 1rem;
 }
 .r_podcast-tabs {
@@ -272,6 +312,34 @@ export default {
     },
     edit() {
       this.isDisabled = false
+    },
+    handleDepublishPodcast() {
+      this.$store
+        .dispatch('podcasts/update', {
+          podcastId: this.podcast.id,
+          publishState: 'depublished'
+        })
+        .then(() => {
+          console.log('depublished', this.activePodcast)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handlePublishPodcast() {
+      this.$store
+        .dispatch('podcasts/update', {
+          podcastId: this.podcast.id,
+          publishState: 'published'
+        })
+        .then(() => {
+          console.log('published', this.activePodcast)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
     },
     save(newPodcastSettings) {
       this.isLoading = true
