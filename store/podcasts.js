@@ -18,7 +18,6 @@ export const mutations = {
 
 export const getters = {
   activePodcast: state => state.activePodcast,
-  podcasts: state => state.podcasts,
   podcastsCollaborators: state => state.podcastsCollaborators
 }
 
