@@ -89,7 +89,8 @@ export const actions = {
           query: network,
           variables: {
             id: data.id
-          }
+          },
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.network)
       await commit('set_active_network', res)

@@ -66,7 +66,8 @@ export const actions = {
           query: episode,
           variables: {
             id: data.id
-          }
+          },
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.episode)
       await commit('set_active_episode', res)

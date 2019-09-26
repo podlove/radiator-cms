@@ -116,7 +116,8 @@ export const actions = {
           query: audio,
           variables: {
             id: data.id
-          }
+          },
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.audio)
       await commit('set_active_audio', res)

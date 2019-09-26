@@ -39,7 +39,8 @@ export const actions = {
           query: feedInfo,
           variables: {
             url: data.url
-          }
+          },
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data.feedInfo)
       await commit('set_feedInfo', res)
@@ -56,7 +57,8 @@ export const actions = {
           query: getFeeds,
           variables: {
             url: data.url
-          }
+          },
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data.feedInfo.feeds)
       await commit('set_feeds', res)
