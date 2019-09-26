@@ -4,7 +4,14 @@
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-podcast-hero">
-        <div class="r_new-podcast__header__image has-background-light"></div>
+        <div
+          class="r_new-podcast__header__image has-background-light"
+          :style="{
+            backgroundImage: `url(${
+              activePodcast && activePodcast.image ? activePodcast.image : ''
+            })`
+          }"
+        ></div>
         <div class="r_new-podcast__header__container">
           <h1 class="title is-size-3 r_new-podcast__header__title">
             {{ title }}
@@ -65,7 +72,9 @@
             class="field"
             :type="'IMAGE'"
             :state="coverFileState"
-            :image="cover"
+            :image="
+              activePodcast && activePodcast.image ? activePodcast.image : null
+            "
             @dropped="params => handleCoverFileDrop(params)"
           />
         </b-field>
@@ -91,7 +100,7 @@
         outlined
         :loading="loading"
         :disabled="loading"
-        @click.stop.prevent="createPodcast()"
+        @click.stop.prevent="savePodcast()"
       >
         Add New Podcast
       </b-button>
@@ -119,6 +128,7 @@
   min-height: 3.8125rem;
 }
 .r_new-podcast__header__image {
+  background-size: cover;
   border-radius: 0.3125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-right: 20px;
@@ -162,47 +172,160 @@ export default {
     activePodcast: state => state.podcasts.activePodcast
   }),
   methods: {
-    createPodcast() {
+    savePodcast() {
       this.loading = true
+      // Check if there is an activePodcast object in store
+      // and if not create one first
+      if (this.activePodcast) {
+        this.updatePodcast(
+          {
+            author: this.author,
+            image: this.cover,
+            language: this.language,
+            networkId: this.activeNetwork.id,
+            ownerName: this.ownerName,
+            ownerEmail: this.ownerEmail,
+            summary: this.summary,
+            shortId: this.shortId,
+            subtitle: this.subtitle,
+            title: this.title,
+            podcastId: this.activePodcast.id
+          },
+          true
+        )
+      } else {
+        this.createPodcast(
+          {
+            author: this.author,
+            image: this.cover,
+            language: this.language,
+            networkId: this.activeNetwork.id,
+            ownerName: this.ownerName,
+            ownerEmail: this.ownerEmail,
+            summary: this.summary,
+            shortId: this.shortId,
+            subtitle: this.subtitle,
+            title: this.title || 'New Podcast'
+          },
+          true
+        )
+      }
+    },
+    handleCoverFileDrop(params) {
+      this.cover = params.file
+      this.coverFileState = 'LOADING'
+      // Check if there is an activePodcast object in store
+      // and if not create one first
+      console.log('this.activePodcast', this.activePodcast.id)
+      if (this.activePodcast && this.activePodcast.id) {
+        // update network with image
+        this.updatePodcast(
+          {
+            author: this.author,
+            image: this.cover,
+            language: this.language,
+            networkId: this.activeNetwork.id,
+            ownerName: this.ownerName,
+            ownerEmail: this.ownerEmail,
+            summary: this.summary,
+            shortId: this.shortId,
+            subtitle: this.subtitle,
+            title: this.title,
+            podcastId: this.activePodcast.id
+          },
+          false
+        )
+      } else {
+        // create network with image
+        console.log('!!')
+        this.createPodcast(
+          {
+            author: this.author,
+            image: this.cover,
+            language: this.language,
+            networkId: this.activeNetwork.id,
+            ownerName: this.ownerName,
+            ownerEmail: this.ownerEmail,
+            summary: this.summary,
+            shortId: this.shortId,
+            subtitle: this.subtitle,
+            title: this.title || 'New Podcast'
+          },
+          false
+        )
+      }
+    },
+    createPodcast(data, isFinal) {
       this.$store
-        .dispatch('podcasts/create', {
-          author: this.author,
-          image: this.cover,
-          language: this.language,
-          networkId: this.activeNetwork.id,
-          ownerName: this.ownerName,
-          ownerEmail: this.ownerEmail,
-          summary: this.summary,
-          shortId: this.shortId,
-          subtitle: this.subtitle,
-          title: this.title
-        })
+        .dispatch('podcasts/create', data)
         .then(() => {
-          this.loading = false
-          Toast.open({
-            message:
-              'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
-            type: 'is-success'
-          })
-          setTimeout(() => {
-            this.$router.replace(
-              `/network/${this.activeNetwork.id}/podcast/${
-                this.activePodcast.id
-              }`
-            )
-          }, 1000)
+          if (!isFinal) {
+            // change cover file upload input
+            this.coverFileState = 'SUCCESS'
+          } else {
+            // redirect to new podcast
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
+              type: 'is-success'
+            })
+            setTimeout(() => {
+              this.$router.replace(
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }`
+              )
+            }, 1000)
+          }
         })
         .catch(error => {
-          this.loading = false
+          if (!isFinal) {
+            this.coverFileState = 'ERROR'
+          } else {
+            this.loading = false
+          }
           this.alert = {
             type: 'is-danger',
             message: error
           }
         })
     },
-    handleCoverFileDrop(params) {
-      this.cover = params.file
-      this.coverFileState = 'SUCCESS'
+    updatePodcast(data, isFinal) {
+      this.$store
+        .dispatch('podcasts/update', data)
+        .then(() => {
+          if (!isFinal) {
+            // change cover file upload input
+            this.coverFileState = 'SUCCESS'
+          } else {
+            // redirect to new podcast
+            this.loading = false
+            Toast.open({
+              message:
+                'Your new podcast was susccessfully created. You will be redirected to your new podcast page.',
+              type: 'is-success'
+            })
+            setTimeout(() => {
+              this.$router.replace(
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }`
+              )
+            }, 1000)
+          }
+        })
+        .catch(error => {
+          if (!isFinal) {
+            this.coverFileState = 'ERROR'
+          } else {
+            this.loading = false
+          }
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
     }
   }
 }
