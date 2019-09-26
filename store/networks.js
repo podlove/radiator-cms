@@ -105,7 +105,8 @@ export const actions = {
     try {
       const res = await client
         .query({
-          query: networks
+          query: networks,
+          fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.networks)
       await commit('set_networks', res)
