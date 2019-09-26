@@ -22,11 +22,12 @@ query episode($id: ID!) {
     guid,
     id,
     image,
-    isPublished,
     number,
     podcast {
     	title
   	},
+    publicPage,
+    publishState,
     publishedAt,
     shortId,
     slug,
