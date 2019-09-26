@@ -4,8 +4,14 @@
   <section>
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">
-        <!-- TODO: show uploaded image as preview -->
-        <div class="r_new-episode__header__image has-background-light"></div>
+        <div
+          class="r_new-episode__header__image has-background-light"
+          :style="{
+            backgroundImage: `url(${
+              activeAudio && activeAudio.image ? activeAudio.image : ''
+            })`
+          }"
+        ></div>
         <div class="r_new-episode__header__container">
           <h1 class="title is-size-3 r_new-episode__header__title">
             {{ number }}
@@ -71,8 +77,9 @@
         <upload
           class="field column"
           label="Episode Cover"
-          :drop-files="dropEpisodeCover"
           :type="'IMAGE'"
+          :drop-files="dropEpisodeCover"
+          :image="activeAudio && activeAudio.image ? activeAudio.image : null"
           :state="coverFileState"
           @dropped="params => handleCoverFileDrop(params)"
         />
@@ -109,6 +116,7 @@
   justify-content: flex-start;
 }
 .r_new-episode__header__image {
+  background-size: cover;
   border-radius: 0.3125rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   margin-right: 20px;
@@ -179,9 +187,6 @@ export default {
                 'Your new episode was susccessfully created. You will be redirected to your new episode page.',
               type: 'is-success'
             })
-            console.log('this.activeNetwork', this.activeNetwork)
-            console.log('this.activePodcast', this.activePodcast)
-            console.log('this.activeEpisode', this.activeEpisode)
             setTimeout(() => {
               this.$router.push(
                 `/network/${this.activeNetwork.id}/podcast/${
@@ -214,9 +219,6 @@ export default {
                 'Your new episode was susccessfully created. You will be redirected to your new episode page.',
               type: 'is-success'
             })
-            console.log('this.activeNetwork', this.activeNetwork)
-            console.log('this.activePodcast', this.activePodcast)
-            console.log('this.activeEpisode', this.activeEpisode)
             setTimeout(() => {
               this.$router.push(
                 `/network/${this.activeNetwork.id}/podcast/${
@@ -249,7 +251,38 @@ export default {
             title: this.title,
             subtitle: this.subtitle,
             summary: this.summary,
-            number: this.number,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title,
+                image: params.file
+              })
+              .then(() => {
+                this.coverFileState = 'SUCCESS'
+              })
+              .catch(error => {
+                this.coverFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title,
             image: params.file
           })
           .then(() => {
@@ -264,12 +297,9 @@ export default {
           })
       } else {
         this.$store
-          .dispatch('episodes/update', {
-            episodeId: this.activeEpisode.id,
+          .dispatch('audio/updateAudio', {
+            audioId: this.activeAudio.id,
             title: this.title,
-            subtitle: this.subtitle,
-            summary: this.summary,
-            number: this.number,
             image: params.file
           })
           .then(() => {
@@ -286,9 +316,6 @@ export default {
     },
     handleAudioFileDrop(params) {
       this.audioFileState = 'LOADING'
-      console.log('this.activePodcast', this.activePodcast)
-      console.log('this.activeEpisode', this.activeEpisode)
-      console.log('this.activeAudio', this.activeAudio)
       // Check if there is an activeEpisode object in store
       // and if not create one first
       // TODO: refactor

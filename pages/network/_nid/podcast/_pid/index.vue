@@ -60,6 +60,21 @@
               not published yet
             </b-tag>
           </b-taglist>
+          <b-taglist attached>
+            <b-tag type="is-dark">Public website:</b-tag>
+            <b-tag v-if="podcast.publicPage" type="is-light">
+              <a
+                class="r_podcast-highlights__link"
+                :href="podcast.publicPage"
+                target="_blank"
+              >
+                {{ podcast.publicPage }}
+              </a>
+            </b-tag>
+            <b-tag v-if="!podcast.publicPage" type="is-warning">
+              no public website yet
+            </b-tag>
+          </b-taglist>
         </div>
         <div class="column">
           <p class="is-size-7 has-text-weight-bold">

@@ -9,9 +9,7 @@
     <ul class="r_episode-af__list">
       <li v-for="file in audioFiles" :key="file.id" class="r_episode-af__item">
         <p class="r_episode-af__url">
-          <a :href="file.file" target="_blank">
-            {{ file.title }}
-          </a>
+          {{ file.title }}
         </p>
         <b-tag class="r_episode-af__type" type="is-primary" rounded>
           {{ file.mimeType }}

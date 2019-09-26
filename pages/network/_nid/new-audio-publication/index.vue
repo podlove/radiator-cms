@@ -121,7 +121,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          id: this.activeAudio.audioPublication.id,
+          audioId: this.activeAudio.audioPublication.id,
           title: this.title
         })
         .then(() => {
@@ -229,7 +229,7 @@ export default {
       } else {
         this.$store
           .dispatch('audio/updateAudio', {
-            id: this.activeAudio.id,
+            audioId: this.activeAudio.id,
             title: this.title,
             image: params.file
           })

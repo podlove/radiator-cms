@@ -137,7 +137,7 @@ export const actions = {
         return data && data.data
       })
       return await dispatch('getAudio', {
-        id: data.id
+        id: data.audioId
       })
     } catch (e) {
       throw Error(e)

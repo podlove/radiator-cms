@@ -7,7 +7,11 @@
         <div
           class="r_episode-hero__cover has-background-light"
           :style="{
-            backgroundImage: `url(${episode.image ? episode.image : ''})`
+            backgroundImage: `url(${
+              episode && episode.audio && episode.audio.image
+                ? episode.audio.image
+                : ''
+            })`
           }"
         ></div>
         <div class="r_episode-hero__container">
@@ -113,7 +117,11 @@ export default {
     podcast: state => state.podcasts.activePodcast
   }),
   updated() {
-    if (typeof this.episode === 'object' && typeof this.podcast === 'object') {
+    if (
+      typeof this.episode === 'object' &&
+      typeof this.podcast === 'object' &&
+      typeof this.episode.audio === 'object'
+    ) {
       const playerConfig = {
         title: this.episode.title,
         subtitle: this.episode.subtitle,
@@ -129,90 +137,7 @@ export default {
         },
         duration: '04:15:32',
         chapters: this.episode.audio ? this.episode.audio.chapters : null,
-        audio: [
-          {
-            url:
-              'http://freakshow.fm/podlove/file/4468/s/download/c/select-show/fs171-invasion.m4a',
-            mimeType: 'audio/mp4',
-            size: 93260000,
-            title: 'Audio MP4'
-          },
-          {
-            url:
-              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.mp3',
-            mimeType: 'audio/mpeg',
-            size: 14665000,
-            title: 'Audio MP3'
-          },
-          {
-            url:
-              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.oga',
-            mimeType: 'audio/ogg',
-            size: 94400000,
-            title: 'Audio Ogg'
-          },
-          {
-            url:
-              'http://freakshow.fm/podlove/file/4467/s/download/c/select-show/fs171-invasion.opus',
-            mimeType: 'audio/opus',
-            size: 94400000,
-            title: 'Audio Opus'
-          }
-        ],
-        reference: {
-          config: '//podlove-player.surge.sh/fixtures/example.json',
-          share: '//podlove-player.surge.sh/share'
-        },
-        contributors: [
-          {
-            name: 'Tim Pritlove',
-            avatar:
-              'https://freakshow.fm/wp-content/cache/podlove/47/08928e3c26dcb1141d67ad75869619/tim-pritlove_150x150.jpg',
-            role: { id: '9', slug: 'team', title: 'Team' },
-            group: { id: '1', slug: 'onair', title: 'On Air' },
-            comment: null
-          },
-          {
-            name: 'Clemens Schrimpe',
-            avatar:
-              'https://freakshow.fm/wp-content/cache/podlove/0f/9c18f5e825496b9060337f92814142/clemens-schrimpe_150x150.jpg',
-            role: { id: '9', slug: 'team', title: 'Team' },
-            group: { id: '1', slug: 'onair', title: 'On Air' },
-            comment: null
-          },
-          {
-            name: 'hukl',
-            avatar:
-              'https://freakshow.fm/wp-content/cache/podlove/8e/f30cbe274c3f5e43dc4a7219676f50/hukl_150x150.jpg',
-            role: { id: '9', slug: 'team', title: 'Team' },
-            group: { id: '1', slug: 'onair', title: 'On Air' },
-            comment: null
-          },
-          {
-            name: 'Denis Ahrens',
-            avatar:
-              'https://freakshow.fm/wp-content/cache/podlove/b2/425e5c8f180ddf548c95be1c2d7bcf/denis-ahrens_150x150.jpg',
-            role: { id: '9', slug: 'team', title: 'Team' },
-            group: { id: '1', slug: 'onair', title: 'On Air' },
-            comment: null
-          },
-          {
-            name: 'David Scribane',
-            avatar:
-              'https://freakshow.fm/wp-content/cache/podlove/b3/c8cc8a1989aa0fc4488d473517b1ee/david-scribane_150x150.jpg',
-            role: { id: '7', slug: 'composition', title: 'Komposition' },
-            group: { id: '3', slug: 'support', title: 'Support' },
-            comment: null
-          },
-          {
-            name: 'Xenim Streaming Network',
-            avatar:
-              'https://freakshow.fm/podlove/image/687474703a2f2f6d6574612e6d6574616562656e652e6d652f6d656469612f6d6574616562656e652f636f6e7472696275746f72732f78656e696d2d73747265616d696e672d6e6574776f726b2e706e67/150/150/0/xenim-streaming-network',
-            role: { id: '10', slug: 'streaming', title: 'Streaming' },
-            group: { id: '3', slug: 'support', title: 'Support' },
-            comment: null
-          }
-        ]
+        audio: this.episode.audio.audioFiles
       }
       window.podlovePlayer('#podlove-webplayer', playerConfig)
     }
