@@ -67,6 +67,26 @@
     podcasts {
       author,
       episodes(itemsPerPage: 5, page: 1) {
+        audio {
+          audioFiles {
+            byteLength,
+            file,
+            id,
+            mimeType,
+            title
+          },
+          chapters {
+            image,
+            link,
+            start,
+            startString,
+            title
+          },
+          duration,
+          durationString,
+          id,
+          image
+        },
         guid,
         id,
         image,
@@ -82,7 +102,6 @@
       },
       episodesCount,
       id,
-      image,
       language,
       lastBuiltAt,
       ownerEmail,

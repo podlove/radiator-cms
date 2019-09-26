@@ -94,6 +94,9 @@ export default {
     if (data.image) {
       query.append('audio[image]', data.image)
     }
+    if (data.title) {
+      query.append('audio[title]', data.title)
+    }
     return axios.patch(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
