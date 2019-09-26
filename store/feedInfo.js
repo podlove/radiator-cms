@@ -18,6 +18,8 @@ export const mutations = {
     store.currentTask = data
   },
   reset_current_task(store) {
+    store.feeds = {}
+    store.feedInfo =  {}
     store.currentTask = {}
   }
 }
