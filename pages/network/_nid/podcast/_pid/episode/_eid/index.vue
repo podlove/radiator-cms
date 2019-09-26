@@ -17,6 +17,20 @@
         <div class="r_episode-hero__container">
           <h1 v-if="episode" class="title is-size-3 r_podcast-hero__title">
             {{ episode.title }}
+            <b-tooltip
+              v-if="episode && episode.publicPage"
+              label="Open public podcast page in new tab"
+              type="is-dark"
+            >
+              <a :href="podcast.publicPage" target="_blank">
+                <b-button
+                  type="is-text is-light"
+                  class="r_episode-hero__button"
+                >
+                  <b-icon icon="open-in-new"></b-icon>
+                </b-button>
+              </a>
+            </b-tooltip>
           </h1>
           <h2 v-if="episode" class="subtitle is-size-6">
             {{ episode.subtitle }}
@@ -40,7 +54,7 @@
                   episode.audio.audioFiles &&
                   episode.audio.audioFiles.length > 0
               "
-              :audioFiles="episode.audio.audioFiles"
+              :audio-files="episode.audio.audioFiles"
             ></EpisodeAudioFiles>
             <EpisodeContent :episode="episode"></EpisodeContent>
           </b-tab-item>
@@ -63,6 +77,10 @@
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
   width: 100%;
+}
+.r_episode-hero__button {
+  opacity: 0.25;
+  transform: scale(0.85);
 }
 .r_episode-hero__container {
   margin-left: 12.5rem;
@@ -136,8 +154,15 @@ export default {
           poster: this.podcast.image
         },
         duration: '04:15:32',
-        chapters: this.episode.audio ? this.episode.audio.chapters : null,
-        audio: this.episode.audio.audioFiles
+        chapters:
+          this.episode.audio.chapters && this.episode.audio.chapters.length > 0
+            ? this.episode.audio.chapters
+            : null,
+        audio:
+          this.episode.audio.audioFiles &&
+          this.episode.audio.audioFiles.length > 0
+            ? this.episode.audio.audioFiles
+            : null
       }
       window.podlovePlayer('#podlove-webplayer', playerConfig)
     }
