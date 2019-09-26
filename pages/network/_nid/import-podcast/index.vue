@@ -219,13 +219,6 @@ export default {
     return {
       activeStep: 0,
       episodeCount: 10,
-      importAudioFiles: false,
-      importMedia: {
-        mp3: false,
-        m4a: false,
-        ogg: false
-      },
-      importMetaData: true,
       networkId: null,
       pid: null,
       url:
