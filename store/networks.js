@@ -18,6 +18,13 @@ export const mutations = {
   },
   set_networks_collaborators(store, data) {
     store.networksCollaborators = data
+  },
+  resetState(store) {
+    Object.assign(store, {
+      activeNetwork: null,
+      networks: [],
+      networksCollaborators: []
+    })
   }
 }
 
@@ -168,5 +175,8 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
+  },
+  resetNetworkState: function resetNetworkState({ commit }) {
+    commit('resetState')
   }
 }
