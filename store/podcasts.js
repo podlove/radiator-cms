@@ -33,7 +33,9 @@ export const actions = {
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPodcast.create(data).then(data => data && data.data)
-      await commit('set_active_podcast', res)
+      await dispatch('getPodcast', {
+        id: res.id
+      })
       await dispatch(
         'networks/getNetworks',
         {
@@ -111,10 +113,12 @@ export const actions = {
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restPodcast.update(data).then(data => {
+      await restPodcast.update(data).then(data => {
         return data && data.data
       })
-      await commit('set_active_podcast', res)
+      await dispatch('getPodcast', {
+        id: data.podcastId
+      })
       await dispatch(
         'networks/getNetworks',
         {

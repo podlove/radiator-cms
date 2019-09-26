@@ -31,6 +31,12 @@ export default {
     if (data.owner_email) {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
+    if (data.publishState) {
+      query.append('podcast[publish_state]', data.publishState)
+    }
+    if (data.publishedAt) {
+      query.append('podcast[published_at]', data.publishedAt)
+    }
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
@@ -99,6 +105,12 @@ export default {
     }
     if (data.ownerEmail) {
       query.append('podcast[owner_email]', data.ownerEmail)
+    }
+    if (data.publishState) {
+      query.append('podcast[publish_state]', data.publishState)
+    }
+    if (data.publishedAt) {
+      query.append('podcast[published_at]', data.publishedAt)
     }
     return axios.put(
       `${process.env.apiBaseUrl}/api/rest/${
