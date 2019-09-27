@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export default {
   create: data => {
-    console.log('data create:', data)
     const importPodcastFeed = {
       network_id: data.network_id,
       feed_url: data.feed_url,
@@ -14,7 +13,6 @@ export default {
     }
 
     const query = JSON.stringify({ import_podcast_feed: importPodcastFeed })
-    console.log(query)
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks`,
       query,
