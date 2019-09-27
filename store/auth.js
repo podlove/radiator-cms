@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
+import prolongSession from '~/api/mutations/prolongSession.gql'
 import userSignup from '~/api/mutations/userSignup.gql'
 
 export const state = () => ({
@@ -10,7 +11,7 @@ export const mutations = {
   reset_session(store) {
     Vue.set(store, 'isLoggedIn', false)
   },
-  set_session(store) {
+  set_session(store, data) {
     Vue.set(store, 'isLoggedIn', true)
   }
 }
@@ -59,6 +60,20 @@ export const actions = {
   logout({ commit }) {
     this.$apolloHelpers.onLogout()
     commit('reset_session')
+  },
+  renewToken: async function renewToken({ dispatch }) {
+    const client = this.app.apolloProvider.defaultClient
+    try {
+      const res = await client
+        .mutate({
+          mutation: prolongSession
+        })
+        .then(({ data }) => data && data.prolongSession)
+      await this.$apolloHelpers.onLogin(res.token, undefined, 7)
+      await dispatch('setSession')
+    } catch (e) {
+      throw Error(e)
+    }
   },
   /**
    * Can be used to make the store be aware
