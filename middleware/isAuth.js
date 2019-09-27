@@ -11,9 +11,9 @@ export default async function({ app, store, redirect }) {
     const decoded = jwtDecode(app.$apolloHelpers.getToken())
     const expDate = new Date(decoded.exp * 1000)
     const timeRemaining = (expDate - datenow) / 1000 / 60
-    if (timeRemaining > 8) {
+    if (timeRemaining > 20) {
       store.dispatch('auth/setSession')
-    } else if (timeRemaining < 8 && timeRemaining > 0) {
+    } else if (timeRemaining < 20 && timeRemaining > 0) {
       await store.dispatch('auth/renewToken')
     } else {
       store.dispatch('auth/logout')
