@@ -40,8 +40,6 @@ export default {
     )
   },
   createPodcastAudio: data => {
-    console.log('create podcast audio', data)
-    console.log('create podcast process.env.baseUrl', process.env.apiBaseUrl)
     const query = new FormData()
     query.append('audio[episode_id]', data.episodeId)
     query.append('audio_publication[title]', data.title)
