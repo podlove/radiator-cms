@@ -211,6 +211,7 @@
 <script>
 import { mapState } from 'vuex'
 import EpisodesTable from '~/components/EpisodesTable'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: {
@@ -283,6 +284,10 @@ export default {
       this.observeTaskStatus()
     },
     stopImport() {
+      Toast.open({
+        message: `Import ${this.podcast.title} was stopped.`,
+        type: 'is-danger'
+      })
       this.$store.dispatch('feedInfo/deleteTask', {
         taskId: this.currentTask.id
       })
@@ -312,6 +317,10 @@ export default {
         if (self.currentTask.state !== 'done') {
           setTimeout(checkTaskStatus, 2000)
         } else {
+          Toast.open({
+            message: `Import ${self.podcast.title} was successful.`,
+            type: 'is-success'
+          })
           self.$store.dispatch('feedInfo/deleteTask', {
             taskId: self.currentTask.id
           })
