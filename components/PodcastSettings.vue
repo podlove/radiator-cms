@@ -1,7 +1,7 @@
 <template>
   <section>
     <b-field label="Title">
-      <b-input v-if="isDisabled" v-model="podcast.title" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.title"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="title"
@@ -10,7 +10,7 @@
       ></b-input>
     </b-field>
     <b-field label="Subtitle">
-      <b-input v-if="isDisabled" v-model="podcast.subtitle" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.subtitle"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="subtitle"
@@ -22,7 +22,6 @@
       <b-input
         v-if="isDisabled"
         v-model="podcast.summary"
-        disabled
         type="textarea"
       ></b-input>
       <b-input
@@ -34,10 +33,10 @@
       ></b-input>
     </b-field>
     <b-field label="Slug">
-      <b-input v-model="podcast.slug" disabled></b-input>
+      <b-input v-model="podcast.slug"></b-input>
     </b-field>
     <b-field label="Short Id">
-      <b-input v-if="isDisabled" v-model="podcast.shortId" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.shortId"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="shortId"
@@ -46,7 +45,7 @@
       ></b-input>
     </b-field>
     <b-field label="Author">
-      <b-input v-if="isDisabled" v-model="podcast.author" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.author"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="author"
@@ -55,7 +54,7 @@
       ></b-input>
     </b-field>
     <b-field label="Owner">
-      <b-input v-if="isDisabled" v-model="podcast.ownerName" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.ownerName"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="ownerName"
@@ -64,11 +63,7 @@
       ></b-input>
     </b-field>
     <b-field label="Owner Email">
-      <b-input
-        v-if="isDisabled"
-        v-model="podcast.ownerEmail"
-        disabled
-      ></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.ownerEmail"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="ownerEmail"
@@ -77,7 +72,7 @@
       ></b-input>
     </b-field>
     <b-field label="Language">
-      <b-input v-if="isDisabled" v-model="podcast.language" disabled></b-input>
+      <b-input v-if="isDisabled" v-model="podcast.language"></b-input>
       <b-input
         v-if="!isDisabled"
         v-model="language"
@@ -109,7 +104,7 @@
         outlined
         @click.stop.prevent="$emit('edit')"
       >
-        Edit Settings
+        Edit Details
       </b-button>
       <b-button
         v-if="!isDisabled"
