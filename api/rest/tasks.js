@@ -13,7 +13,7 @@ export default {
       importPodcastFeed.limit = parseInt(data.limit)
     }
 
-    const query = JSON.stringify(importPodcastFeed)
+    const query = JSON.stringify({ import_podcast_feed: importPodcastFeed })
     console.log(query)
     return axios.post(
       `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks`,
