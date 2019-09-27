@@ -1,12 +1,23 @@
+import jwtDecode from 'jwt-decode'
 /**
  * Use Apollo to check if user has a valid token.
  * If not logout user,
  * if token is valid, update store.
  */
-export default function({ app, store, redirect }) {
+export default async function({ app, store, redirect }) {
   const hasToken = !!app.$apolloHelpers.getToken()
   if (hasToken) {
-    store.dispatch('auth/setSession')
+    const datenow = new Date()
+    const decoded = jwtDecode(app.$apolloHelpers.getToken())
+    const expDate = new Date(decoded.exp * 1000)
+    const timeRemaining = (expDate - datenow) / 1000 / 60
+    if (timeRemaining > 8) {
+      store.dispatch('auth/setSession')
+    } else if (timeRemaining < 8 && timeRemaining > 0) {
+      await store.dispatch('auth/renewToken')
+    } else {
+      store.dispatch('auth/logout')
+    }
   } else {
     store.dispatch('auth/logout')
   }
