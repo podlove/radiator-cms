@@ -1,0 +1,7 @@
+mutation prolongSession {
+  prolongSession {
+    expiresAt,
+    token,
+    username
+  }
+}
