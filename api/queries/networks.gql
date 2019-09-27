@@ -4,7 +4,7 @@
       audio {
         audioFiles {
           byteLength,
-          file,
+          direct_url,
           id,
           mimeType,
           title
@@ -70,7 +70,7 @@
         audio {
           audioFiles {
             byteLength,
-            file,
+            direct_url,
             id,
             mimeType,
             title
@@ -97,7 +97,6 @@
         subtitle,
         summary,
         summaryHtml,
-        summarySource,
         title
       },
       episodesCount,

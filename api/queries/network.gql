@@ -4,7 +4,7 @@ query network($id: ID!) {
       audio {
         audioFiles {
           byteLength,
-          file,
+          direct_url,
           id,
           mimeType,
           title

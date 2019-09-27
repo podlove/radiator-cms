@@ -2,7 +2,7 @@ query audio($id: ID!) {
   audio(id: $id) {
     audioFiles {
       byteLength,
-      file,
+      direct_url,
       id
       mimeType,
       title
