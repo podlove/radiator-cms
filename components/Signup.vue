@@ -51,9 +51,7 @@
       </form>
     </div>
     <div v-else>
-      <p>
-        Your will recive an email with authentication information..
-      </p>
+      <p>Verification email sent to {{ email }}.</p>
     </div>
   </section>
 </template>
