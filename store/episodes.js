@@ -33,7 +33,6 @@ export const actions = {
    * and saves the episode response in store.
    */
   create: async function create({ dispatch, commit }, data) {
-    console.log('2', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restEpisode.create(data).then(data => data && data.data)
@@ -58,7 +57,6 @@ export const actions = {
    * Gets an episode by id and saves the episode data in store.
    */
   getEpisode: async function getEpisode({ commit }, data) {
-    console.log('get episode', data)
     const client = this.app.apolloProvider.defaultClient
     try {
       const res = await client
@@ -70,7 +68,6 @@ export const actions = {
           fetchPolicy: 'network-only'
         })
         .then(({ data }) => data && data.episode)
-      await console.log('res', res)
       await commit('set_active_episode', res)
     } catch (e) {
       throw Error(e)
@@ -82,7 +79,6 @@ export const actions = {
     })
   },
   update: async function updateEpisode({ dispatch }, data) {
-    console.log('Update Episode', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       await restEpisode.update(data).then(data => data && data.data)

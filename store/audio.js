@@ -137,9 +137,19 @@ export const actions = {
       await restAudio.updateAudio(data).then(data => {
         return data && data.data
       })
-      return await dispatch('getAudio', {
+      await dispatch('getAudio', {
         id: data.audioId
       })
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            id: data.episodeId,
+            token: this.$apolloHelpers.getToken()
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }

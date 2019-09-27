@@ -266,6 +266,78 @@
                 </p>
               </b-field>
             </div>
+            <b-field label="Episode Cover">
+              <div
+                v-if="!editable.image"
+                class="r_inactive-input__cover"
+                :style="{
+                  backgroundImage: `url(${episode.image ? episode.image : ''})`
+                }"
+              ></div>
+              <upload
+                v-if="editable.image"
+                class="field"
+                :state="coverFileState"
+                :type="'IMAGE'"
+                :image="currentContent.image"
+                @dropped="
+                  params =>
+                    handleUpdateAudio('image', {
+                      image: params.file
+                    })
+                "
+              />
+              <b-button
+                v-if="!editable.image"
+                type="is-text"
+                @click.stop.prevent="editable.image = true"
+              >
+                <b-icon icon="pencil"></b-icon>
+              </b-button>
+            </b-field>
+            <b-field label="Audio File">
+              <ul v-if="!editable.audio">
+                <li
+                  v-for="file in episode.audio.audioFiles"
+                  :key="file.id"
+                  class="r_inactive-input__audiofile"
+                >
+                  <p class="r_inactive-input__audiofile__url">
+                    {{ file.title }}
+                  </p>
+                  <b-tag
+                    class="r_inactive-input__audiofile__type"
+                    type="is-primary"
+                    rounded
+                  >
+                    {{ file.mimeType }}
+                  </b-tag>
+                  <span class="r_inactive-input__audiofile__duration">
+                    {{ episode.audio.durationString }}
+                  </span>
+                </li>
+              </ul>
+              <upload
+                v-if="editable.audio"
+                class="field column"
+                :state="audioFileState"
+                :type="'AUDIO'"
+                :audio="currentContent.audio"
+                @dropped="
+                  params =>
+                    handleUpdateAudio('audio', {
+                      audioFile: params.file
+                    })
+                "
+              />
+              <b-button
+                v-if="!editable.audio"
+                type="is-text"
+                @click.stop.prevent="editable.audio = true"
+              >
+                <b-icon icon="pencil"></b-icon>
+              </b-button>
+            </b-field>
             <EpisodeAudioFiles
               v-if="
                 episode &&
@@ -333,6 +405,12 @@
   justify-content: space-between;
   margin: 0.5rem 0;
 }
+.r_inactive-input__cover {
+  background-size: cover;
+  border-radius: 50%;
+  width: 6rem;
+  height: 6rem;
+}
 .r_inactive-input__input {
   flex-grow: 1;
   margin-right: 0.5rem;
@@ -354,23 +432,31 @@
 import { mapState } from 'vuex'
 import EpisodeAudioFiles from '~/components/EpisodeAudioFiles'
 import EpisodeTags from '~/components/EpisodeTags'
+import Upload from '~/components/Upload'
 
 export default {
   components: {
     EpisodeAudioFiles,
-    EpisodeTags
+    EpisodeTags,
+    Upload
   },
   data() {
     return {
       activeTab: 0,
+      audioFileState: null,
       currentContent: {
+        audio: null,
+        image: null,
         number: '',
         shortId: '',
         subtitle: '',
         summary: '',
         title: ''
       },
+      coverFileState: null,
       editable: {
+        audio: false,
+        image: false,
         number: false,
         shortId: false,
         subtitle: false,
@@ -442,6 +528,38 @@ export default {
           this.$router.push('/404')
         })
     },
+    handleUpdateAudio(propertyToSetToEditableFalse, data) {
+      console.log('Trying to update audio', this.episode, data)
+      data.audioId = this.episode.audio.id
+      data.episodeId = this.episode.id
+      this.$store
+        .dispatch('audio/updateAudio', data)
+        .then(() => {
+          console.log('updated')
+          this.editable[propertyToSetToEditableFalse] = false
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleUpdateAudioFile(propertyToSetToEditableFalse, data) {
+      console.log('Trying to update audio', this.episode, data)
+      data.episodeId = this.episode.id
+      if (!data.title) {
+        data.title = this.episode.title
+      }
+      this.$store
+        .dispatch('episodes/update', data)
+        .then(() => {
+          console.log('updated')
+          this.editable[propertyToSetToEditableFalse] = false
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
     handleUpdateEpisode(propertyToSetToEditableFalse, data) {
       console.log('Trying to update episode', this.episode, data)
       data.episodeId = this.episode.id
@@ -451,7 +569,7 @@ export default {
       this.$store
         .dispatch('episodes/update', data)
         .then(() => {
-          console.log('updated', this.activeEpisode)
+          console.log('updated')
           this.editable[propertyToSetToEditableFalse] = false
         })
         .catch(error => {
