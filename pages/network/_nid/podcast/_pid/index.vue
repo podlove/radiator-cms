@@ -38,7 +38,7 @@
     </section>
     <section class="r_podcast-highlights">
       <div
-        v-if="podcast && podcast.publishedState"
+        v-if="podcast && podcast.publishState"
         class="container r_podcast-highlights__info columns"
       >
         <div class="column">

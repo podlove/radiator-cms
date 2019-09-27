@@ -425,6 +425,9 @@
 .r_inactive-input__audiofile__url {
   flex-grow: 1;
 }
+.r_inactive-input__audiofile__type {
+  margin: 0 1rem;
+}
 .r_inactive-input__cover {
   display: flex;
   align-items: flex-start;
