@@ -25,7 +25,6 @@ export const getters = {
 
 export const actions = {
   createAudio: async function createAudio({ dispatch }, data) {
-    console.log('Create Audio', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restAudio.createAudio(data).then(data => {
@@ -34,18 +33,26 @@ export const actions = {
       await dispatch('getAudio', {
         id: res.id
       })
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            id: data.episodeId,
+            token: this.$apolloHelpers.getToken()
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
   },
   createPodcastAudio: async function createPodcastAudio({ dispatch }, data) {
-    console.log('Create Podcast Audio', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restAudio.createPodcastAudio(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
       await dispatch('getAudio', {
         id: res.id
       })
@@ -54,7 +61,6 @@ export const actions = {
     }
   },
   createAudioFile: async function createAudioFile({ dispatch }, data) {
-    console.log('Create Audio File', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       await restAudio.createAudioFile(data).then(data => {
@@ -65,7 +71,17 @@ export const actions = {
         id: data.audioId,
         token: this.$apolloHelpers.getToken()
       }
-      return await dispatch('getAudio', params)
+      await dispatch('getAudio', params)
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            id: data.episodeId,
+            token: this.$apolloHelpers.getToken()
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -83,6 +99,16 @@ export const actions = {
         },
         { root: true }
       )
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            id: data.episodeId,
+            token: this.$apolloHelpers.getToken()
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -108,7 +134,6 @@ export const actions = {
     }
   },
   getAudio: async function getAudio({ commit }, data) {
-    console.log('Getting GQL Audio', data)
     const client = this.app.apolloProvider.defaultClient
     try {
       const res = await client
@@ -131,15 +156,24 @@ export const actions = {
     })
   },
   updateAudio: async function updateAudio({ dispatch }, data) {
-    console.log('Upadte Audio', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       await restAudio.updateAudio(data).then(data => {
         return data && data.data
       })
-      return await dispatch('getAudio', {
+      await dispatch('getAudio', {
         id: data.audioId
       })
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            id: data.episodeId,
+            token: this.$apolloHelpers.getToken()
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -148,7 +182,6 @@ export const actions = {
     { dispatch },
     data
   ) {
-    console.log('Upadte Audio Publication', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       await restAudio.updateAudioPublication(data).then(data => {

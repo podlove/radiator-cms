@@ -2,60 +2,6 @@
   <!-- Shows the most important episode data as tags. -->
   <div v-if="episode" class="container tile r_episode-tags columns">
     <div class="column">
-      <ul v-if="episode" class="container r_episode-info">
-        <li class="r_episode-info__item">
-          <label
-            class="r_episode-info__item__label is-size-7 has-text-weight-bold"
-          >
-            Number:
-          </label>
-          <p class="r_episode-info__item__value">
-            {{ episode && episode.number ? episode.number : '' }}
-          </p>
-        </li>
-        <li class="r_episode-info__item">
-          <label
-            class="r_episode-info__item__label is-size-7 has-text-weight-bold"
-          >
-            Short-Id:
-          </label>
-          <p class="r_episode-info__item__value">
-            {{ episode && episode.shortId ? episode.shortId : '' }}
-          </p>
-        </li>
-        <li class="r_episode-info__item">
-          <label
-            class="r_episode-info__item__label is-size-7 has-text-weight-bold"
-          >
-            Slug:
-          </label>
-          <p class="r_episode-info__item__value">
-            {{ episode && episode.slug ? episode.slug : '' }}
-          </p>
-        </li>
-        <li class="r_episode-info__item">
-          <label
-            class="r_episode-info__item__label is-size-7 has-text-weight-bold"
-          >
-            Title:
-          </label>
-          <p class="r_episode-info__item__value">
-            {{ episode && episode.title ? episode.title : '' }}
-          </p>
-        </li>
-        <li class="r_episode-info__item">
-          <label
-            class="r_episode-info__item__label is-size-7 has-text-weight-bold"
-          >
-            Subtitle:
-          </label>
-          <p class="r_episode-info__item__value">
-            {{ episode && episode.subtitle ? episode.subtitle : '' }}
-          </p>
-        </li>
-      </ul>
-    </div>
-    <div class="column">
       <p class="is-size-7 has-text-weight-bold">
         Publishing:
       </p>

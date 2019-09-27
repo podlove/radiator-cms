@@ -176,7 +176,7 @@ export default {
       this.loading = true
       // Check if there is an activePodcast object in store
       // and if not create one first
-      if (this.activePodcast) {
+      if (this.activePodcast && this.activePodcast.id) {
         this.updatePodcast(
           {
             author: this.author,

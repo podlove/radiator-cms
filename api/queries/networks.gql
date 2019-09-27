@@ -4,7 +4,7 @@
       audio {
         audioFiles {
           byteLength,
-          direct_url,
+          directUrl,
           id,
           mimeType,
           title
@@ -70,7 +70,7 @@
         audio {
           audioFiles {
             byteLength,
-            direct_url,
+            directUrl,
             id,
             mimeType,
             title

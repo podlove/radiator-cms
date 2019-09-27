@@ -58,7 +58,7 @@
             type="is-dark"
           >
             <b-button
-              v-if="state === 'SUCCESS'"
+              v-if="state === 'SUCCESS' && !isNotDeletable"
               type="is-text"
               @click="deleteDropFile()"
             >
@@ -168,6 +168,10 @@ export default {
       required: false,
       default: null
     },
+    isNotDeletable: {
+      required: false,
+      default: false
+    },
     label: {
       type: String,
       required: false,
@@ -217,7 +221,6 @@ export default {
   },
   methods: {
     deleteDropFile(event) {
-      console.log('deleteDropFile', this)
       this.$emit('deleted', {
         type: this.type,
         file: this.dropFile

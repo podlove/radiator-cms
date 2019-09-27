@@ -29,6 +29,46 @@
               width="130"
             >
               <b-tooltip
+                v-if="props.row.publishState === 'drafted'"
+                :label="'Episode draft'"
+                type="is-dark"
+              >
+                <b-taglist attached>
+                  <b-tag type="is-info">
+                    <b-icon icon="circle-edit-outline" size="is-small"></b-icon>
+                  </b-tag>
+                  <b-tag type="is-dark">
+                    {{
+                      props.row.publishedAt
+                        ? $moment(props.row.publishedAt).format('DD.MM.YYYY')
+                        : 'no date'
+                    }}
+                  </b-tag>
+                </b-taglist>
+              </b-tooltip>
+              <b-tooltip
+                v-if="props.row.publishState === 'scheduled'"
+                :label="
+                  'Your episode is scheduled and will be published on ' +
+                    props.row.publishedAt
+                "
+                type="is-dark"
+              >
+                <b-taglist attached>
+                  <b-tag type="is-warning">
+                    <b-icon icon="clock-outline" size="is-small"></b-icon>
+                  </b-tag>
+                  <b-tag type="is-dark">
+                    {{
+                      props.row.publishedAt
+                        ? $moment(props.row.publishedAt).format('DD.MM.YYYY')
+                        : 'no date'
+                    }}
+                  </b-tag>
+                </b-taglist>
+              </b-tooltip>
+              <b-tooltip
+                v-if="props.row.publishState === 'published'"
                 :label="
                   `Successfully published on ${$moment(
                     props.row.publishedAt
@@ -41,7 +81,32 @@
                     <b-icon icon="check-circle" size="is-small"></b-icon>
                   </b-tag>
                   <b-tag type="is-dark">
-                    {{ $moment(props.row.publishedAt).format('DD.MM.YYYY') }}
+                    {{
+                      props.row.publishedAt
+                        ? $moment(props.row.publishedAt).format('DD.MM.YYYY')
+                        : 'no date'
+                    }}
+                  </b-tag>
+                </b-taglist>
+              </b-tooltip>
+              <b-tooltip
+                v-if="props.row.publishState === 'depublished'"
+                :label="'Episode depublished'"
+                type="is-dark"
+              >
+                <b-taglist attached>
+                  <b-tag type="is-danger">
+                    <b-icon
+                      icon="alert-circle-outline"
+                      size="is-small"
+                    ></b-icon>
+                  </b-tag>
+                  <b-tag type="is-dark">
+                    {{
+                      props.row.publishedAt
+                        ? $moment(props.row.publishedAt).format('DD.MM.YYYY')
+                        : 'no date'
+                    }}
                   </b-tag>
                 </b-taglist>
               </b-tooltip>
@@ -94,7 +159,7 @@
                       Duration:
                     </b-tag>
                     <b-tag type="is-dark">
-                      {{ props.row.duration }}
+                      {{ props.row.duration || 'n/a' }}
                     </b-tag>
                   </b-taglist>
                 </div>
