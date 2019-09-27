@@ -72,7 +72,7 @@
             </article>
           </div>
         </b-tab-item>
-        <b-tab-item label="Settings">
+        <b-tab-item label="Details">
           <section>
             <b-field label="Title">
               <b-input
