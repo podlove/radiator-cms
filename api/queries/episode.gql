@@ -35,7 +35,6 @@ query episode($id: ID!) {
     subtitle,
     summary,
     summaryHtml,
-    summarySource,
     title
   }
 }
