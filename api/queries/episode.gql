@@ -25,6 +25,7 @@ query episode($id: ID!) {
     image,
     number,
     podcast {
+      id,
     	title
   	},
     publicPage,
