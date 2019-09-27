@@ -1,5 +1,6 @@
 mutation authenticatedSession($usernameOrEmail: String!, $password: String!) {
   authenticatedSession(password: $password, usernameOrEmail: $usernameOrEmail) {
+    expiresAt,
     token,
     username
   }
