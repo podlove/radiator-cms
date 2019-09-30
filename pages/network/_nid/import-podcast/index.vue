@@ -321,9 +321,13 @@ export default {
             message: `Import ${self.podcast.title} was successful.`,
             type: 'is-success'
           })
-          self.$store.dispatch('feedInfo/deleteTask', {
-            taskId: self.currentTask.id
-          })
+          self.$store
+            .dispatch('feedInfo/deleteTask', { taskId: self.currentTask.id })
+            .then(() => {
+              self.$router.push(
+                `/network/${self.networkId}/podcast/${self.pid}`
+              )
+            })
         }
       }
     }
