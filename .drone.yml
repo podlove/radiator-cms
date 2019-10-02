@@ -2,6 +2,7 @@ kind: pipeline
 name: default
 
 steps:
+
 - name: docker
   image: plugins/docker
   settings:
@@ -12,5 +13,20 @@ steps:
     tags: latest
   when:
     branch:
-    - master
-    - develop
+      - master
+    event:
+      - push
+
+- name: docker-dev
+  image: plugins/docker
+  settings:
+    username: podloveradiator
+    password:
+      from_secret: docker_password
+    repo: podlove/radiator-cms
+    tags: develop
+  when:
+    branch:
+      - develop
+    event:
+      - push
