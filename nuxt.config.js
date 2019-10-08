@@ -73,7 +73,6 @@ export default {
       }
     }
   },
-
   /**
    * Moment module configuration
    */
@@ -84,7 +83,14 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/css/main.scss'],
+  css: [
+    '@/assets/css/main.scss',
+    '@/assets/mdi/css/materialdesignicons.min.css'
+  ],
+  buefy: {
+    materialDesignIcons: true,
+    materialDesignIconsHRef: '/'
+  },
 
   /*
    ** Build configuration
