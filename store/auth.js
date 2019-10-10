@@ -1,7 +1,7 @@
 import Vue from 'vue'
+import authRest from '~/api/rest/auth'
 import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
 import prolongSession from '~/api/mutations/prolongSession.gql'
-import userSignup from '~/api/mutations/userSignup.gql'
 
 export const state = () => ({
   isLoggedIn: null
@@ -85,19 +85,11 @@ export const actions = {
     commit('set_session')
   },
   signup: async function signup({ dispatch, commit }, data) {
-    const client = this.app.apolloProvider.defaultClient
+    data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await client
-        .mutate({
-          mutation: userSignup,
-          variables: {
-            email: data.email,
-            password: data.password,
-            username: data.username
-          }
-        })
-        .then(({ data }) => data)
-      console.log(res)
+      await authRest.signUp(data).then(data => {
+        return data && data.data
+      })
     } catch (e) {
       throw Error(e)
     }
