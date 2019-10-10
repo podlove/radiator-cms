@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import authRest from '~/api/rest/auth'
-import authenticatedSession from '~/api/mutations/authenticatedSession.gql'
 import prolongSession from '~/api/mutations/prolongSession.gql'
 
 export const state = () => ({
@@ -29,17 +28,11 @@ export const actions = {
    * and podcasts from backend.
    */
   login: async function login({ dispatch }, data) {
-    const client = this.app.apolloProvider.defaultClient
+    data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await client
-        .mutate({
-          mutation: authenticatedSession,
-          variables: {
-            usernameOrEmail: data.username,
-            password: data.password
-          }
-        })
-        .then(({ data }) => data && data.authenticatedSession)
+      const res = await authRest.login(data).then(data => {
+        return data && data.data
+      })
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
       await dispatch('setSession')
       await dispatch(
