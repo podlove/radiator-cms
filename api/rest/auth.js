@@ -12,8 +12,55 @@ export default {
       query,
       {
         headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  },
+  prolongSession: data => {
+    return axios.post(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/prolong`,
+      {},
+      {
+        headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  resendVerificationEmail: data => {
+    const query = JSON.stringify({
+      name_or_email: data.username
+    })
+
+    return axios.post(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/resend_verification_email`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  },
+  resetPassword: data => {
+    const query = JSON.stringify({
+      name_or_email: data.username
+    })
+
+    return axios.post(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/reset_password`,
+      query,
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -32,8 +79,7 @@ export default {
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
+          'Content-Type': 'application/json'
         }
       }
     )

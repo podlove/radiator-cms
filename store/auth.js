@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import authRest from '~/api/rest/auth'
-import prolongSession from '~/api/mutations/prolongSession.gql'
 
 export const state = () => ({
   isLoggedIn: null
@@ -55,13 +54,11 @@ export const actions = {
     commit('reset_session')
   },
   renewToken: async function renewToken({ dispatch }) {
-    const client = this.app.apolloProvider.defaultClient
+    const token = this.$apolloHelpers.getToken()
     try {
-      const res = await client
-        .mutate({
-          mutation: prolongSession
-        })
-        .then(({ data }) => data && data.prolongSession)
+      const res = await authRest.prolongSession({ token: token }).then(data => {
+        return data && data.data
+      })
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
       await dispatch('setSession')
     } catch (e) {
