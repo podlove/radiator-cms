@@ -33,7 +33,7 @@ export default {
   },
   resendVerificationEmail: data => {
     const query = JSON.stringify({
-      name_or_email: data.username
+      name_or_email: data.name_or_email
     })
 
     return axios.post(

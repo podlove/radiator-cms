@@ -52,6 +52,9 @@
     </div>
     <div v-else>
       <p>Verification email sent to {{ email }}.</p>
+      <p>
+        <a @click="resend()">Resend the email to {{ email }}.</a>
+      </p>
     </div>
   </section>
 </template>
@@ -82,6 +85,21 @@ export default {
     isLoggedIn: state => state.auth.isLoggedIn
   }),
   methods: {
+    resend() {
+      this.$store
+        .dispatch('auth/resendEmail', {
+          name_or_email: this.email
+        })
+        .then(result => {
+          Toast.open({
+            message: `We send you another verification e-mail to ${this.email}`,
+            type: 'is-success'
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     signup() {
       if (this.password === this.repeatPassword) {
         this.$store
