@@ -49,9 +49,9 @@
           episode.publishState === 'drafted' ||
             episode.publishState === 'depublished'
         "
-        @click.stop.prevent="$emit('publishEpisode')"
         class="r_episode-tags__button"
         type="is-primary"
+        @click.stop.prevent="$emit('publishEpisode')"
       >
         <b-icon size="is-small" icon="cloud-upload"></b-icon>
         <span> Publish Episode</span>
@@ -61,10 +61,10 @@
           episode.publishState === 'published' ||
             episode.publishState === 'scheduled'
         "
-        @click.stop.prevent="$emit('depublishEpisode')"
         class="r_episode-tags__button"
         type="is-danger"
         outlined
+        @click.stop.prevent="$emit('depublishEpisode')"
       >
         <b-icon size="is-small" icon="cloud-upload"></b-icon>
         <span> Depublish Episode</span>

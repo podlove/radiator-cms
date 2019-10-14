@@ -98,9 +98,9 @@
               podcast.publishState === 'drafted' ||
                 podcast.publishState === 'depublished'
             "
-            @click.prevent="handlePublishPodcast()"
             class="r_podcast-highlights__button"
             type="is-primary"
+            @click.prevent="handlePublishPodcast()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Publish Podcast</span>
@@ -110,10 +110,10 @@
               podcast.publishState === 'published' ||
                 podcast.publishState === 'scheduled'
             "
-            @click.prevent="handleDepublishPodcast()"
             class="r_podcast-highlights__button"
             type="is-danger"
             outlined
+            @click.prevent="handleDepublishPodcast()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Depublish Podcast</span>

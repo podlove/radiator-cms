@@ -341,13 +341,13 @@
                   :state="audioFileState"
                   :type="'AUDIO'"
                   :audio="currentContent.audio"
+                  :is-not-deletable="true"
                   @dropped="
                     params =>
                       handleCreateAudioFile('audio', {
                         file: params.file
                       })
                   "
-                  :isNotDeletable="true"
                 />
               </div>
             </b-field>

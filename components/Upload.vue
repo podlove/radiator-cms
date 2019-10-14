@@ -165,10 +165,12 @@ export default {
       default: null
     },
     image: {
+      type: String,
       required: false,
       default: null
     },
     isNotDeletable: {
+      type: Boolean,
       required: false,
       default: false
     },
