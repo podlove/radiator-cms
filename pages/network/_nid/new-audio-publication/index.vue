@@ -95,6 +95,7 @@
 <script>
 import { mapState } from 'vuex'
 import Upload from '~/components/Upload'
+import { ToastProgrammatic as Toast } from 'buefy'
 
 export default {
   components: { Upload },
@@ -116,17 +117,16 @@ export default {
     activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
-    // TODO: Set audioPublication title
     createAudioPublication() {
       this.loading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          audioId: this.activeAudio.audioPublication.id,
+          id: this.activeAudio.audioPublication.id,
           title: this.title
         })
         .then(() => {
           this.loading = false
-          this.$toast.open({
+          Toast.open({
             message:
               'Your new audio publication was susccessfully created. You will be redirected to the audio publication page.',
             type: 'is-success'
@@ -228,7 +228,6 @@ export default {
         this.$store
           .dispatch('audio/updateAudio', {
             audioId: this.activeAudio.id,
-            title: this.title,
             image: params.file
           })
           .then(() => {
@@ -245,7 +244,7 @@ export default {
       }
     },
     toast() {
-      this.$toast.open(this.alert)
+      Toast.open(this.alert)
     }
   }
 }

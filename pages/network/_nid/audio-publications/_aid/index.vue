@@ -14,7 +14,7 @@
         ></div>
         <div class="r_audio-pub-hero__container">
           <h1
-            v-if="activeAudio"
+            v-if="activeAudio && activeAudio.audioPublication"
             class="title is-size-3 r_audio-pub-hero__title"
           >
             {{ activeAudio.audioPublication.title }}
@@ -22,7 +22,10 @@
         </div>
       </div>
     </section>
-    <section v-if="activeAudio" class="r_audio-pub-highlights">
+    <section
+      v-if="activeAudio && activeAudio.audioPublication"
+      class="r_audio-pub-highlights"
+    >
       <div class="tile r_audio-pub-highlights__tile">
         <div class="tile">
           <b-taglist attached>
@@ -50,7 +53,10 @@
         </div>
       </div>
     </section>
-    <section v-if="activeAudio" class="container r_audio-pub-main">
+    <section
+      v-if="activeAudio && activeAudio.audioPublication"
+      class="container r_audio-pub-main"
+    >
       <section class="r_audio-pub-main__container r_audio-pub__info">
         <b-field label="Title">
           <p v-if="isDisabled && !activeAudio.audioPublication.title">
@@ -152,6 +158,7 @@
 .r_audio-pub-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_audio-pub-hero__container {
   margin-left: 12.5rem;
