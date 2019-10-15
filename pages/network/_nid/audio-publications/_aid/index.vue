@@ -112,41 +112,90 @@
       v-if="activeAudio && activeAudio.audioPublication"
       class="container r_audio-pub-main"
     >
-      <section class="r_audio-pub-main__container r_audio-pub__info">
-        <b-field label="Title">
-          <p v-if="isDisabled && !activeAudio.audioPublication.title">
-            No title set.
-          </p>
+      <b-field label="Title">
+        <!-- <p v-if="!activeAudio.audioPublication.title">
+          No title set.
+        </p>
+        <b-input
+          v-if="activeAudio.audioPublication.title"
+          v-model="activeAudio.audioPublication.title"
+          disabled
+        ></b-input>
+        <b-input
+          v-model="title"
+          :placeholder="activeAudio.audioPublication.title"
+          :is-loading="isLoading"
+        ></b-input> -->
+        <p class="r_inactive-input">
           <b-input
-            v-if="isDisabled && activeAudio.audioPublication.title"
-            v-model="activeAudio.audioPublication.title"
-            disabled
-          ></b-input>
-          <b-input
-            v-if="!isDisabled"
-            v-model="title"
+            v-if="editable.title"
+            v-model="currentContent.title"
+            type="text"
             :placeholder="activeAudio.audioPublication.title"
-            :is-loading="isLoading"
+            class="r_inactive-input__input"
           ></b-input>
-        </b-field>
-      </section>
-      <section class="r_audio-pub-main__container r_audio-pub__files">
-        <h3 class="is-size-4">Audio Files:</h3>
+          <span v-if="!editable.title" class="r_inactive-input__text">
+            {{ activeAudio.audioPublication.title }}
+          </span>
+          <b-button
+            v-if="!editable.title"
+            type="is-text"
+            @click.stop.prevent="editable.title = true"
+          >
+            <b-icon icon="pencil"></b-icon>
+          </b-button>
+          <b-button
+            v-if="editable.title"
+            type="is-text"
+            @click.stop.prevent="editable.title = false"
+          >
+            <b-icon icon="cancel"></b-icon>
+          </b-button>
+          <b-button
+            v-if="editable.title"
+            type="is-text"
+            @click.stop.prevent="
+              handleUpdateAudioPublication('title', {
+                title: currentContent.title
+              })
+            "
+          >
+            <b-icon icon="check"></b-icon>
+          </b-button>
+        </p>
+      </b-field>
+      <b-field label="Audio Files">
         <div
           v-for="file in activeAudio.audioFiles"
           :key="file.id"
-          class="r_audio-pub__audio-file"
+          class="r_inactive-input__audiofile"
         >
-          <upload
-            class="field"
-            :state="'SUCCESS'"
-            :type="'AUDIO'"
-            :drop-file="file"
-            :audio="file.file"
-            @deleted="params => handleAudioFileDelete(params)"
-          />
+          <div class="r_inactive-input__audiofile__container">
+            <p class="r_inactive-input__audiofile__url">
+              {{ file.title }}
+            </p>
+            <b-tag
+              v-if="file.mimeType"
+              class="r_inactive-input__audiofile__type"
+              type="is-primary"
+              rounded
+            >
+              {{ file.mimeType }}
+            </b-tag>
+            <span class="r_inactive-input__audiofile__duration">
+              {{ activeAudio.durationString }}
+            </span>
+          </div>
+          <b-button
+            type="is-text"
+            @click.prevent="handleAudioFileDelete({ id: file.id })"
+          >
+            <b-icon icon="delete"></b-icon>
+          </b-button>
         </div>
-        <div v-if="!isDisabled">
+        <div
+          v-if="!activeAudio.audioFiles || activeAudio.audioFiles.length <= 0"
+        >
           <upload
             class="field"
             :state="audioFileState"
@@ -160,40 +209,17 @@
             @deleted="params => handleAudioFileDelete(params)"
           />
         </div>
-      </section>
-      <section class="r_audio-pub__interaction">
-        <b-button
-          v-if="isDisabled"
-          type="is-primary"
-          outlined
-          @click.stop.prevent="edit()"
-        >
-          Edit Audio
-        </b-button>
-        <b-button
-          v-if="!isDisabled"
-          type="is-danger"
-          outlined
-          @click.stop.prevent="deleteAudioPublication()"
-        >
-          Delete Audio
-        </b-button>
-        <b-button
-          v-if="!isDisabled"
-          type="is-dark"
-          outlined
-          @click.stop.prevent="cancel()"
-        >
-          Cancel
-        </b-button>
-        <b-button
-          v-if="!isDisabled"
-          type="is-primary"
-          @click.stop.prevent="save()"
-        >
-          Save
-        </b-button>
-      </section>
+      </b-field>
+      <b-button
+        v-if="activeAudio.audioPublication"
+        class="r_audio-pub-highlights__button"
+        type="is-danger"
+        outlined
+        @click.prevent="deleteAudioPublication()"
+      >
+        <b-icon size="is-small" icon="delete"></b-icon>
+        <span> Delete Audio Publication</span>
+      </b-button>
     </section>
   </section>
 </template>
@@ -256,6 +282,59 @@
 .r_audio-pub-main__container {
   padding: 2rem 0 0 0;
 }
+.r_inactive-input {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+.r_inactive-input__audiofile {
+  display: flex;
+}
+.r_inactive-input__audiofile__container {
+  background-color: #e8e8e8;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-right: 0.5rem;
+  padding: 0.425rem 1rem;
+  min-height: 2.375rem;
+}
+.r_inactive-input__audiofile__url {
+  flex-grow: 1;
+}
+.r_inactive-input__audiofile__type {
+  margin: 0 1rem;
+}
+.r_inactive-input__cover {
+  display: flex;
+  align-items: flex-start;
+}
+.r_inactive-input__cover__image {
+  background-size: cover;
+  border-radius: 50%;
+  margin-right: 1rem;
+  width: 6rem;
+  height: 6rem;
+}
+.r_inactive-input__input {
+  background-color: #e8e8e8;
+  border-radius: 0.25rem;
+  flex-grow: 1;
+  margin-right: 0.5rem;
+}
+.r_inactive-input__text--textarea {
+  min-height: 6.75rem;
+}
+.r_inactive-input__text {
+  background-color: #e8e8e8;
+  border-radius: 0.25rem;
+  flex-grow: 1;
+  margin-right: 0.5rem;
+  padding: 0.425rem 1rem;
+  min-height: 2.375rem;
+}
 </style>
 
 <script>
@@ -268,7 +347,14 @@ export default {
     return {
       audioFileState: null,
       audioUploadResult: null,
-      isDisabled: true,
+      currentContent: {
+        audio: null,
+        title: ''
+      },
+      editable: {
+        audio: false,
+        title: false
+      },
       isLoading: false,
       title: this.activeAudio ? this.activeAudio.audioPublication.title : ''
     }
@@ -278,9 +364,6 @@ export default {
     activeNetwork: state => state.networks.activeNetwork
   }),
   methods: {
-    cancel() {
-      this.isDisabled = true
-    },
     deleteAudioPublication() {
       this.$store
         .dispatch('audio/deleteAudioPublication', {
@@ -294,14 +377,24 @@ export default {
           this.$router.push('/404')
         })
     },
-    edit() {
-      this.isDisabled = false
-    },
     handleAudioFileDelete(params) {
       if (params && params.file && params.file.id) {
         this.$store
           .dispatch('audio/deleteAudioFile', {
             id: params.file.id
+          })
+          .then(() => {
+            this.$store.dispatch('audio/getAudio', {
+              id: this.activeAudio.id
+            })
+          })
+          .catch(error => {
+            console.warn(error)
+          })
+      } else if (params && params.id) {
+        this.$store
+          .dispatch('audio/deleteAudioFile', {
+            id: params.id
           })
           .then(() => {
             this.$store.dispatch('audio/getAudio', {
@@ -335,15 +428,17 @@ export default {
           }
         })
     },
-    save() {
+    handleUpdateAudioPublication(propertyToSetToEditableFalse, data) {
       this.isLoading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          audioId: 1,
-          title: this.title
+          id: this.activeAudio.audioPublication.id,
+          audioId: this.activeAudio.id,
+          title: data.title
         })
         .then(() => {
-          this.isDisabled = true
+          console.log('updated')
+          this.editable[propertyToSetToEditableFalse] = false
         })
         .catch(error => {
           console.warn(error)
