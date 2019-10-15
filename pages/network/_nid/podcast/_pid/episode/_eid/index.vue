@@ -433,6 +433,7 @@
   align-items: flex-start;
 }
 .r_inactive-input__cover__image {
+  background-color: #e8e8e8;
   background-size: cover;
   border-radius: 50%;
   margin-right: 1rem;

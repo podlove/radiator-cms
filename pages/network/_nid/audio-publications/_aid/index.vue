@@ -87,7 +87,7 @@
             "
             class="r_audio-pub-highlights__button"
             type="is-primary"
-            @click.prevent="handlePublishPodcast()"
+            @click.prevent="handlePublishAudioPublication()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Publish Audio Publication</span>
@@ -100,7 +100,7 @@
             class="r_audio-pub-highlights__button"
             type="is-danger"
             outlined
-            @click.prevent="handleDepublishPodcast()"
+            @click.prevent="handleDepublishAudioPublication()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Depublish Audio Publication</span>
@@ -210,6 +210,39 @@
           />
         </div>
       </b-field>
+      <b-field label="Audio Publication Cover">
+        <div class="r_inactive-input__cover">
+          <div
+            v-if="!editable.image"
+            class="r_inactive-input__cover__image"
+            :style="{
+              backgroundImage: `url(${
+                activeAudio.image ? activeAudio.image : ''
+              })`
+            }"
+          ></div>
+          <upload
+            v-if="editable.image"
+            class="field"
+            :state="coverFileState"
+            :type="'IMAGE'"
+            :image="currentContent.image"
+            @dropped="
+              params =>
+                handleUpdateAudio('image', {
+                  image: params.file
+                })
+            "
+          />
+          <b-button
+            v-if="!editable.image"
+            type="is-text"
+            @click.stop.prevent="editable.image = true"
+          >
+            <b-icon icon="pencil"></b-icon>
+          </b-button>
+        </div>
+      </b-field>
       <b-button
         v-if="activeAudio.audioPublication"
         class="r_audio-pub-highlights__button"
@@ -312,6 +345,7 @@
   align-items: flex-start;
 }
 .r_inactive-input__cover__image {
+  background-color: #e8e8e8;
   background-size: cover;
   border-radius: 50%;
   margin-right: 1rem;
@@ -349,10 +383,12 @@ export default {
       audioUploadResult: null,
       currentContent: {
         audio: null,
+        image: null,
         title: ''
       },
       editable: {
         audio: false,
+        image: false,
         title: false
       },
       isLoading: false,
@@ -426,6 +462,44 @@ export default {
             type: 'is-danger',
             message: error
           }
+        })
+    },
+    handleDepublishAudioPublication() {
+      this.$store
+        .dispatch('audio/updateAudioPublication', {
+          title: this.activeAudio.title,
+          id: this.activeAudio.audioPublication.id,
+          audioId: this.activeAudio.id,
+          publishState: 'depublished'
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handlePublishAudioPublication() {
+      this.$store
+        .dispatch('audio/updateAudioPublication', {
+          title: this.activeAudio.title,
+          id: this.activeAudio.audioPublication.id,
+          audioId: this.activeAudio.id,
+          publishState: 'published'
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleUpdateAudio(propertyToSetToEditableFalse, data) {
+      data.audioId = this.activeAudio.id
+      this.$store
+        .dispatch('audio/updateAudio', data)
+        .then(() => {
+          this.editable[propertyToSetToEditableFalse] = false
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
         })
     },
     handleUpdateAudioPublication(propertyToSetToEditableFalse, data) {
