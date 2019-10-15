@@ -26,30 +26,85 @@
       v-if="activeAudio && activeAudio.audioPublication"
       class="r_audio-pub-highlights"
     >
-      <div class="tile r_audio-pub-highlights__tile">
-        <div class="tile">
-          <b-taglist attached>
-            <b-tag type="is-dark">State:</b-tag>
-            <b-tag type="is-success">
-              {{ activeAudio.audioPublication.publishState }}
+      <div
+        v-if="activeAudio.audioPublication.publishState"
+        class="container r_audio-pub-highlights__info columns"
+      >
+        <div class="column">
+          <p class="is-size-7 has-text-weight-bold">
+            Publishing:
+          </p>
+          <b-taglist class="r_audio-pub-highlights__state" attached>
+            <b-tag type="is-dark">Publishing state:</b-tag>
+            <b-tag
+              v-if="activeAudio.audioPublication.publishState === 'drafted'"
+              type="is-info"
+            >
+              Drafted
+            </b-tag>
+            <b-tag
+              v-if="activeAudio.audioPublication.publishState === 'scheduled'"
+              type="is-warning"
+            >
+              Scheduled
+            </b-tag>
+            <b-tag
+              v-if="activeAudio.audioPublication.publishState === 'published'"
+              type="is-success"
+            >
+              Published
+            </b-tag>
+            <b-tag
+              v-if="activeAudio.audioPublication.publishState === 'depublished'"
+              type="is-danger"
+            >
+              Depublished
             </b-tag>
           </b-taglist>
-        </div>
-        <div class="tile">
           <b-taglist attached>
-            <b-tag type="is-dark">Published at:</b-tag>
-            <b-tag type="is-success">
-              {{ activeAudio.audioPublication.publishedAt }}
+            <b-tag type="is-dark">Publishing date:</b-tag>
+            <b-tag
+              v-if="activeAudio.audioPublication.publishedAt"
+              type="is-light"
+            >
+              {{
+                $moment(activeAudio.audioPublication.publishedAt).format(
+                  'MMMM Do YYYY, h:mm:ss a'
+                )
+              }}
+            </b-tag>
+            <b-tag
+              v-if="!activeAudio.audioPublication.publishedAt"
+              type="is-warning"
+            >
+              not published yet
             </b-tag>
           </b-taglist>
-        </div>
-        <div class="tile">
-          <b-taglist attached>
-            <b-tag type="is-dark">Duration:</b-tag>
-            <b-tag type="is-primary">
-              {{ activeAudio.durationString }}
-            </b-tag>
-          </b-taglist>
+          <b-button
+            v-if="
+              activeAudio.audioPublication.publishState === 'drafted' ||
+                activeAudio.audioPublication.publishState === 'depublished'
+            "
+            class="r_audio-pub-highlights__button"
+            type="is-primary"
+            @click.prevent="handlePublishPodcast()"
+          >
+            <b-icon size="is-small" icon="cloud-upload"></b-icon>
+            <span> Publish Audio Publication</span>
+          </b-button>
+          <b-button
+            v-if="
+              activeAudio.audioPublication.publishState === 'published' ||
+                activeAudio.audioPublication.publishState === 'scheduled'
+            "
+            class="r_audio-pub-highlights__button"
+            type="is-danger"
+            outlined
+            @click.prevent="handleDepublishPodcast()"
+          >
+            <b-icon size="is-small" icon="cloud-upload"></b-icon>
+            <span> Depublish Audio Publication</span>
+          </b-button>
         </div>
       </div>
     </section>
@@ -144,6 +199,12 @@
 </template>
 
 <style>
+/* Overwrite Bulma */
+.tags,
+.tag {
+  margin-bottom: 0 !important;
+  margin-top: 0.25rem;
+}
 .r_audio-pub__audio-file {
   margin-bottom: 1rem;
 }
@@ -178,12 +239,16 @@
 }
 .r_audio-pub-highlights {
   background-color: #e8e8e8;
-  padding: 3.5rem 0 2rem 0;
+  padding: 2rem 0 4rem 0;
 }
-.r_audio-pub-highlights__tile {
+.r_audio-pub-highlights__button {
+  margin-top: 2rem;
+}
+.r_audio-pub-highlights__info {
   margin: 1rem auto;
-  padding: 1rem 0;
-  max-width: 960px;
+}
+.r_audio-pub-highlights__state {
+  margin-right: 1rem;
 }
 .r_audio-pub-main {
   padding: 1rem 0 3rem 0;
