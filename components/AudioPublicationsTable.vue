@@ -3,7 +3,7 @@
     :data="network.audioPublications"
     :mobile-cards="true"
     :paginated="true"
-    :per-page="5"
+    :per-page="10"
     aria-next-label="Next page"
     aria-previous-label="Previous page"
     aria-page-label="Page"
@@ -34,7 +34,7 @@
       <b-table-column field="durationString" label="Duration" sortable>
         {{ props.row.audio.durationString }}
       </b-table-column>
-      <b-table-column width="100">
+      <b-table-column width="50">
         <b-tooltip label="Edit audio" type="is-dark">
           <nuxt-link
             :to="
@@ -43,17 +43,6 @@
           >
             <b-button type="is-text">
               <b-icon icon="pencil"></b-icon>
-            </b-button>
-          </nuxt-link>
-        </b-tooltip>
-        <b-tooltip label="Open audio page in new tab" type="is-dark">
-          <nuxt-link
-            :to="
-              '/network/' + network.id + '/audio-publications/' + props.row.id
-            "
-          >
-            <b-button type="is-text">
-              <b-icon icon="open-in-new"></b-icon>
             </b-button>
           </nuxt-link>
         </b-tooltip>
