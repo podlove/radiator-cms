@@ -38,7 +38,10 @@
         <b-tooltip label="Edit audio" type="is-dark">
           <nuxt-link
             :to="
-              '/network/' + network.id + '/audio-publications/' + props.row.id
+              '/network/' +
+                network.id +
+                '/audio-publications/' +
+                props.row.audio.id
             "
           >
             <b-button type="is-text">

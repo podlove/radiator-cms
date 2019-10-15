@@ -95,17 +95,19 @@ export default {
     )
   },
   updateAudioPublication: data => {
-    const query = JSON.stringify({
-      audio_publication: {
-        title: data.title
-      }
-    })
+    const query = new FormData()
+    if (data.title) {
+      query.append('audio_publication[title]', data.title)
+    }
+    if (data.publishState) {
+      query.append('audio_publication[publish_state]', data.publishState)
+    }
     return axios.patch(
       `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_publications/${data.id}`,
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }
