@@ -1,7 +1,7 @@
-import WikidataInput from './WikidataInput'
+import WikidataInput from '../components/WikidataInput'
 
 export default {
-  title: 'WikidataInput',
+  title: 'Design Sytem|Molecule/WikidataInput',
   component: WikidataInput
 }
 

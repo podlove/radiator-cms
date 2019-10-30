@@ -1,9 +1,17 @@
 import { configure } from '@storybook/vue'
-import WikidataInput from '../components/WikidataInput'
 import Buefy from 'buefy'
 import Vue from 'vue'
 
 Vue.use(Buefy)
-// Vue.component('wikidata-input', WikidataInput)
 
-configure(require.context('../components', true, /\.story\.js$/), module)
+// function requireAll (requireContext) {
+//   return requireContext.keys().map(requireContext)
+// }
+
+// function loadStories () {
+//   requireAll(require.context('..', true, /^((?![\\/]node_modules|vendor[\\/]).)*\.story\.js?$/))
+// }
+
+// configure(loadStories, module)
+
+configure(require.context('../stories', true, /\.story\.js$/), module);
