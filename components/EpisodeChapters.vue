@@ -112,7 +112,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import Upload from '~/components/Upload'
+import Upload from './Upload'
 export default {
   components: {
     Upload
