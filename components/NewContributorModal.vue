@@ -102,7 +102,7 @@
 </style>
 
 <script>
-import Upload from '~/components/Upload'
+import Upload from './Upload'
 
 export default {
   components: {
