@@ -210,8 +210,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import EpisodesTable from '~/components/EpisodesTable'
 import { ToastProgrammatic as Toast } from 'buefy'
+import EpisodesTable from '~/components/EpisodesTable'
 
 export default {
   components: {

@@ -146,8 +146,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
+import Upload from '~/components/Upload'
 
 export default {
   components: { Upload },
@@ -272,9 +272,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
               )
             }, 1000)
           }
@@ -308,9 +306,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
               )
             }, 1000)
           }
