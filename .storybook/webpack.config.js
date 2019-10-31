@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
@@ -10,40 +10,17 @@ module.exports = async ({ config, mode }) => {
   config.module.rules.push({
     test: /\.scss$/,
     use: ['style-loader', 'css-loader', 'sass-loader'],
-    include: path.resolve(__dirname, '../'),
-  });
+    include: path.resolve(__dirname, '../')
+  })
 
+  config.module.rules.push({
+    test: /\.(eot|svg|ttf|woff|woff2)$/,
+    loader: 'file-loader',
+    include: path.resolve(__dirname, '../assets/'),
+    options: {
+      name: 'fonts/[name].[ext]?[hash]'
+    }
+  })
   // Return the altered config
-  return config;
-};
-
-// const path = require('path')
-
-// const base = path.resolve(__dirname, '..', 'components')
-
-// module.exports = {
-//   module: {
-//     rules: [
-//       {
-//         test: /\.scss$/,
-//         use: [
-//           {
-//             loader: 'vue-style-loader'
-//           },
-//           {
-//             loader: 'css-loader'
-//           },
-//           {
-//             loader: 'sass-loader',
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   resolve: {
-//     alias: {
-//       components: path.resolve(base, 'components'),
-//       '@': base
-//     }
-//   }
-// }
+  return config
+}
