@@ -75,8 +75,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
+import Upload from '~/components/Upload'
 
 export default {
   components: { Upload },

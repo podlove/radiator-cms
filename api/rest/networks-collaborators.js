@@ -9,9 +9,7 @@ export default {
       permisssion: data.permisssion
     })
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/networks/${data.id}/collaborators`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/networks/${data.id}/collaborators`,
       query,
       {
         headers: {
@@ -23,9 +21,7 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/networks/${data.id}/collaborators/${data.username}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/networks/${data.id}/collaborators/${data.username}`,
       null,
       {
         headers: {
@@ -43,9 +39,7 @@ export default {
       }
     })
     return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/networks/${data.id}/collaborators/${data.username}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/networks/${data.id}/collaborators/${data.username}`,
       query,
       {
         headers: {
