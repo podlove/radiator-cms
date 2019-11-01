@@ -19,6 +19,7 @@
     "@nuxtjs/apollo": "^4.0.0-rc7",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/moment": "^1.2.0",
+    "@storybook/addon-knobs": "^5.2.5",
     "cross-env": "^5.2.0",
     "d3": "^5.9.7",
     "graphql-tag": "^2.10.1",
