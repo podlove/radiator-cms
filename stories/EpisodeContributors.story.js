@@ -1,11 +1,12 @@
+import { storiesOf } from '@storybook/vue'
 import EpisodeContributors from '../components/EpisodeContributors'
 
-export default {
-  title: 'Design Sytem|Molecule/EpisodeContributors',
-  component: EpisodeContributors
-}
-
-export const blank = () => ({
-  components: { EpisodeContributors },
-  template: '<episode-contributors></episode-contributors>'
-})
+storiesOf('Design Sytem|Molecule/EpisodeContributors', module).add(
+  'default',
+  () => {
+    return {
+      components: { EpisodeContributors },
+      template: '<episode-contributors></episode-contributors>'
+    }
+  }
+)

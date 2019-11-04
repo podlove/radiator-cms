@@ -1,11 +1,11 @@
+import { storiesOf } from '@storybook/vue'
 import Navigation from '../components/Navigation'
 
-export default {
-  title: 'Design Sytem|Molecule/Navigation',
-  component: Navigation
-}
-
-export const blank = () => ({
-  components: { Navigation },
-  template: '<navigation></navigation>'
+storiesOf('Design Sytem|Molecule/Navigation', module).add('default', () => {
+  return {
+    components: { Navigation },
+    template: '<navigation></navigation>'
+  }
 })
+
+// TODO further stories like user is logged in

@@ -1,11 +1,12 @@
+import { storiesOf } from '@storybook/vue'
 import NewContributorModal from '../components/NewContributorModal'
 
-export default {
-  title: 'Design Sytem|Molecule/NewContributorModal',
-  component: NewContributorModal
-}
-
-export const blank = () => ({
-  components: { NewContributorModal },
-  template: '<new-contributor-modal></new-contributor-modal>'
-})
+storiesOf('Design Sytem|Molecule/NewContributorModal', module).add(
+  'default',
+  () => {
+    return {
+      components: { NewContributorModal },
+      template: '<new-contributor-modal></new-contributor-modal>'
+    }
+  }
+)
