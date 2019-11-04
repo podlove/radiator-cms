@@ -1,11 +1,9 @@
+import { storiesOf } from '@storybook/vue'
 import WikidataInput from '../components/WikidataInput'
 
-export default {
-  title: 'Design Sytem|Molecule/WikidataInput',
-  component: WikidataInput
-}
-
-export const input = () => ({
-  components: { WikidataInput },
-  template: '<wikidata-input></wikidata-input>'
+storiesOf('Design Sytem|Molecule/WikidataInput', module).add('default', () => {
+  return {
+    components: { WikidataInput },
+    template: '<wikidata-input></wikidata-input>'
+  }
 })
