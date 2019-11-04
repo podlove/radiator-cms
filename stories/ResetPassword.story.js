@@ -1,11 +1,9 @@
+import { storiesOf } from '@storybook/vue'
 import ResetPassword from '../components/ResetPassword'
 
-export default {
-  title: 'Design Sytem|Molecule/ResetPassword',
-  component: ResetPassword
-}
-
-export const blank = () => ({
-  components: { ResetPassword },
-  template: '<reset-password></reset-password>'
+storiesOf('Design Sytem|Molecule/ResetPassword', module).add('default', () => {
+  return {
+    components: { ResetPassword },
+    template: '<reset-password></reset-password>'
+  }
 })

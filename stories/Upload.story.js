@@ -1,11 +1,9 @@
+import { storiesOf } from '@storybook/vue'
 import Upload from '../components/Upload'
 
-export default {
-  title: 'Design Sytem|Molecule/Upload',
-  component: Upload
-}
-
-export const blank = () => ({
-  components: { Upload },
-  template: '<upload></upload>'
+storiesOf('Design Sytem|Molecule/Upload', module).add('default', () => {
+  return {
+    components: { Upload },
+    template: '<upload></upload>'
+  }
 })
