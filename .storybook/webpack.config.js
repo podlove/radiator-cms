@@ -21,6 +21,13 @@ module.exports = async ({ config, mode }) => {
       name: 'fonts/[name].[ext]?[hash]'
     }
   })
+
+  // why is this not working?!
+  // TODO alias
+  // config.resolve.alias = {
+  //   '@': path.dirname(path.resolve(__dirname, '../'))
+  // }
+
   // Return the altered config
   return config
 }
