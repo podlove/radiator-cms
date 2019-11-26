@@ -21,7 +21,7 @@
     "@nuxtjs/moment": "^1.2.0",
     "@storybook/addon-knobs": "^5.2.5",
     "cross-env": "^5.2.0",
-    "d3": "^5.9.7",
+    "d3": "^5.14.2",
     "graphql-tag": "^2.10.1",
     "jwt-decode": "^2.2.0",
     "nuxt": "^2.6.3",
