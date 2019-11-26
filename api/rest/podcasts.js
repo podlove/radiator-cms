@@ -38,7 +38,9 @@ export default {
       query.append('podcast[published_at]', data.publishedAt)
     }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts`,
       query,
       {
         headers: {
@@ -50,7 +52,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +65,9 @@ export default {
   },
   read: data => {
     return axios.get(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +113,9 @@ export default {
       query.append('podcast[published_at]', data.publishedAt)
     }
     return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/podcasts/${data.podcastId}`,
       query,
       {
         headers: {

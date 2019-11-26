@@ -272,7 +272,9 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }`
               )
             }, 1000)
           }
@@ -306,7 +308,9 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }`
               )
             }, 1000)
           }

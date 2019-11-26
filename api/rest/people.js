@@ -55,7 +55,9 @@ export default {
       query.append('person[email]', data.email)
     }
     return axios.patch(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/people/${data.personId}`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/people/${data.personId}`,
       query,
       {
         headers: {

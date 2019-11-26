@@ -189,7 +189,9 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })
@@ -219,7 +221,9 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${
+                  this.activePodcast.id
+                }/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })
