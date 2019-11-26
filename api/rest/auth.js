@@ -19,7 +19,9 @@ export default {
   },
   prolongSession: data => {
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/auth/prolong`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/prolong`,
       {},
       {
         headers: {
@@ -35,7 +37,9 @@ export default {
     })
 
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/auth/resend_verification_email`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/resend_verification_email`,
       query,
       {
         headers: {
@@ -50,7 +54,9 @@ export default {
     })
 
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/auth/reset_password`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/reset_password`,
       query,
       {
         headers: {
@@ -67,7 +73,9 @@ export default {
     })
 
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/auth/signup`,
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/auth/signup`,
       query,
       {
         headers: {

@@ -26,7 +26,9 @@ export default {
   },
   read: data => {
     return axios.get(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${data.taskId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${
+        data.taskId
+      }`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +39,9 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${data.taskId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${
+        data.taskId
+      }`,
       {
         headers: {
           'Content-Type': 'application/json',

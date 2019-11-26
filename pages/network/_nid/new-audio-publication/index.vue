@@ -133,7 +133,9 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/network/${this.activeNetwork.id}/audio-publications/${this.activeAudio.id}`
+              `/network/${this.activeNetwork.id}/audio-publications/${
+                this.activeAudio.id
+              }`
             )
           }, 1000)
         })
