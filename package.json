@@ -27,9 +27,9 @@
     "nuxt": "^2.11.0",
     "nuxt-buefy": "^0.3.20",
     "nuxt-vuex-localstorage": "^1.2.6",
-    "tiptap": "^1.26.6",
-    "tiptap-extensions": "^1.28.6",
-    "vue": "^2.6.11"
+    "tiptap": "^1.22.0",
+    "tiptap-extensions": "^1.28.5",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
