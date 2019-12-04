@@ -237,7 +237,6 @@ export default {
         )
       } else {
         // create network with image
-        console.log('!!')
         this.createPodcast(
           {
             author: this.author,

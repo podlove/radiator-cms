@@ -26,28 +26,39 @@
       >
         {{ alert.message }}
       </b-notification>
-      <b-field label="Title">
-        <b-input v-model="title" placeholder="New Audio Publication"></b-input>
-      </b-field>
-      <upload
-        class="field"
-        label="Audio File"
-        :state="audioFileState"
-        :type="'AUDIO'"
-        :audio="
-          audioUploadResult && audioUploadResult.public_url
-            ? audioUploadResult.public_url
-            : null
-        "
-        @dropped="params => handleAudioFileDrop(params)"
-      />
-      <upload
-        class="field"
-        label="Audio Publication Cover"
-        :state="coverFileState"
-        :type="'IMAGE'"
-        @dropped="params => handleCoverFileDrop(params)"
-      />
+      <div class="columns">
+        <b-field class="column" label="Title">
+          <b-input
+            v-model="title"
+            placeholder="New Audio Publication"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Audio File">
+          <upload
+            class="field"
+            :state="audioFileState"
+            :type="'AUDIO'"
+            :audio="
+              audioUploadResult && audioUploadResult.public_url
+                ? audioUploadResult.public_url
+                : null
+            "
+            @dropped="params => handleAudioFileDrop(params)"
+          />
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Audio Publication Cover">
+          <upload
+            class="field"
+            :state="coverFileState"
+            :type="'IMAGE'"
+            @dropped="params => handleCoverFileDrop(params)"
+          />
+        </b-field>
+      </div>
       <b-button
         type="is-primary"
         outlined
@@ -65,6 +76,7 @@
 .r_new-audio-pub-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_new-audio-pub__header {
   align-items: center;
@@ -122,7 +134,8 @@ export default {
       this.$store
         .dispatch('audio/updateAudioPublication', {
           id: this.activeAudio.audioPublication.id,
-          title: this.title
+          title: this.title,
+          audioId: this.activeAudio.id
         })
         .then(() => {
           this.loading = false
@@ -208,6 +221,7 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
+      console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {

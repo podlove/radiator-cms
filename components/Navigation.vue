@@ -76,6 +76,16 @@
       </div>
       <div class="navbar-menu" :class="{ 'is-active': isOpen }">
         <div v-if="isLoggedIn && activeNetwork" class="navbar-start">
+          <a
+            v-if="
+              activeNetwork.audioPublications &&
+                activeNetwork.audioPublications.length
+            "
+            class="navbar-item"
+            :href="'/network/' + activeNetwork.id + '/audio-publications'"
+          >
+            Audio Publications
+          </a>
           <div
             v-if="activeNetwork.podcasts && activeNetwork.podcasts.length"
             class="navbar-item has-dropdown is-hoverable"
