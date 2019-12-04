@@ -43,6 +43,7 @@
 .r_audio-pubs-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_audio-pubs-hero__container {
   margin-left: 12.5rem;

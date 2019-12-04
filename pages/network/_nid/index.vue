@@ -64,6 +64,44 @@
             </ul>
           </section>
         </b-tab-item>
+        <b-tab-item label="Audio Publications">
+          <section class="r_network__audio-pubs">
+            <div class="r_network__audio-pubs__buttongroup">
+              <p v-if="network" class="r_network__audio-pubs__new">
+                <nuxt-link
+                  :to="'/network/' + network.id + '/new-audio-publication'"
+                >
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Add new audio publication</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+            </div>
+            <div
+              v-if="
+                network &&
+                  (!network.audioPublications ||
+                    !network.audioPublications.length > 0)
+              "
+            >
+              <p class="r_network__info-text">
+                There are no audio publications in your network.
+              </p>
+            </div>
+            <section
+              v-if="
+                network &&
+                  network.audioPublications &&
+                  network.audioPublications.length > 0
+              "
+              class="r_network__audio-pubs__table"
+            >
+              <AudioPublicationsTable
+                :network="network"
+              ></AudioPublicationsTable>
+            </section>
+          </section>
+        </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
             <article class="tile is-child notification is-warning">
@@ -159,6 +197,7 @@
 .r_network__audio-pubs {
   padding: 1rem 0 2rem 0;
 }
+.r_network__audio-pubs__buttongroup,
 .r_network__podcasts__buttongroup {
   float: right;
   display: flex;
@@ -215,11 +254,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import AudioPublicationsTable from '~/components/AudioPublicationsTable'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
+    AudioPublicationsTable,
     Podcast,
     Upload
   },
