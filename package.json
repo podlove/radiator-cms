@@ -59,7 +59,7 @@
     "jest-fetch-mock": "^2.1.2",
     "node-sass": "^4.13.0",
     "nodemon": "^1.18.9",
-    "prettier": "^1.16.4",
+    "prettier": "^1.19.1",
     "sass-loader": "^7.1.0",
     "typescript": "^3.6.4",
     "vue-jest": "^3.0.5",
