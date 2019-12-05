@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@mdi/font": "^4.4.95",
-    "@nuxtjs/apollo": "^4.0.0-rc7",
+    "@nuxtjs/apollo": "^4.0.0-rc18",
     "@nuxtjs/axios": "^5.8.0",
     "@nuxtjs/moment": "^1.2.0",
     "@storybook/addon-knobs": "^5.2.5",
