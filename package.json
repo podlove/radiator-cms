@@ -61,7 +61,7 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.19.1",
     "sass-loader": "^7.1.0",
-    "typescript": "^3.6.4",
+    "typescript": "^3.7.3",
     "vue-jest": "^3.0.5",
     "vue-loader": "^15.7.1",
     "vue-template-compiler": "^2.6.10"
