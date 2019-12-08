@@ -30,5 +30,6 @@ RUN npm run build
 # expose the fact the we are running on port 3000
 EXPOSE ${NUXT_PORT}
 
-# start the app
-CMD ["npm", "start"]
+COPY entrypoint.sh .
+
+ENTRYPOINT [ "./entrypoint.sh" ]
