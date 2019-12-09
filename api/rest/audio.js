@@ -85,6 +85,32 @@ export default {
       }
     )
   },
+  depublishAudioPublication: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audio_publications/${data.id}/depublish`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  publishAudioPublication: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/audio_publications/${data.id}/publish`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   updateAudio: data => {
     const query = new FormData()
     if (data.image) {

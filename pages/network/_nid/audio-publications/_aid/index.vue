@@ -466,11 +466,9 @@ export default {
     },
     handleDepublishAudioPublication() {
       this.$store
-        .dispatch('audio/updateAudioPublication', {
-          title: this.activeAudio.title,
+        .dispatch('audio/depublishAudioPublication', {
           id: this.activeAudio.audioPublication.id,
-          audioId: this.activeAudio.id,
-          publishState: 'depublished'
+          audioId: this.activeAudio.id
         })
         .catch(error => {
           console.warn(error)
@@ -479,11 +477,9 @@ export default {
     },
     handlePublishAudioPublication() {
       this.$store
-        .dispatch('audio/updateAudioPublication', {
-          title: this.activeAudio.title,
+        .dispatch('audio/publishAudioPublication', {
           id: this.activeAudio.audioPublication.id,
-          audioId: this.activeAudio.id,
-          publishState: 'published'
+          audioId: this.activeAudio.id
         })
         .catch(error => {
           console.warn(error)
