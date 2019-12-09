@@ -34,9 +34,9 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@nuxtjs/eslint-config": "^1.1.2",
-    "@storybook/vue": "^5.2.5",
-    "@vue/cli-shared-utils": "^4.1.2",
-    "@vue/test-utils": "^1.0.0-beta.29",
+    "@storybook/vue": "^5.2.8",
+    "@vue/cli-shared-utils": "^3.12.1",
+    "@vue/test-utils": "^1.0.0-beta.30",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
