@@ -24,7 +24,7 @@
     "d3": "^5.14.2",
     "graphql-tag": "^2.10.1",
     "jwt-decode": "^2.2.0",
-    "nuxt": "^2.6.3",
+    "nuxt": "^2.10.2",
     "nuxt-buefy": "^0.3.19",
     "nuxt-vuex-localstorage": "^1.2.6",
     "tiptap": "^1.26.5",
@@ -32,7 +32,7 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.7.5",
     "@nuxtjs/eslint-config": "^1.1.2",
     "@storybook/vue": "^5.2.8",
     "@vue/cli-shared-utils": "^4.1.1",
