@@ -53,6 +53,19 @@ export const actions = {
   ) {
     await commit('set_episode_transcripts', data)
   },
+  depublishEpisode: async function depublishEpisode({ dispatch }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restEpisode.depublishEpisode(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getEpisode', {
+        id: data.episodeId
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   /**
    * Gets an episode by id and saves the episode data in store.
    */
@@ -69,6 +82,19 @@ export const actions = {
         })
         .then(({ data }) => data && data.episode)
       await commit('set_active_episode', res)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  publishEpisode: async function publishEpisode({ dispatch }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restEpisode.publishEpisode(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getEpisode', {
+        id: data.episodeId
+      })
     } catch (e) {
       throw Error(e)
     }

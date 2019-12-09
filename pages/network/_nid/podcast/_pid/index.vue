@@ -315,12 +315,11 @@ export default {
     },
     handleDepublishPodcast() {
       this.$store
-        .dispatch('podcasts/update', {
-          podcastId: this.podcast.id,
-          publishState: 'depublished'
+        .dispatch('podcasts/depublishPodcast', {
+          podcastId: this.podcast.id
         })
         .then(() => {
-          console.log('depublished', this.activePodcast)
+          console.log('depublished', this.podcast)
         })
         .catch(error => {
           console.warn(error)
@@ -329,12 +328,11 @@ export default {
     },
     handlePublishPodcast() {
       this.$store
-        .dispatch('podcasts/update', {
-          podcastId: this.podcast.id,
-          publishState: 'published'
+        .dispatch('podcasts/publishPodcast', {
+          podcastId: this.podcast.id
         })
         .then(() => {
-          console.log('published', this.activePodcast)
+          console.log('published', this.podcast)
         })
         .catch(error => {
           console.warn(error)
