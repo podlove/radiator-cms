@@ -133,6 +133,22 @@ export const actions = {
       throw Error(e)
     }
   },
+  depublishAudioPublication: async function depublishAudioPublication(
+    { dispatch },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudio.depublishAudioPublication(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getAudio', {
+        id: data.audioId
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   getAudio: async function getAudio({ commit }, data) {
     const client = this.app.apolloProvider.defaultClient
     try {
@@ -146,6 +162,22 @@ export const actions = {
         })
         .then(({ data }) => data && data.audio)
       await commit('set_active_audio', res)
+    } catch (e) {
+      throw Error(e)
+    }
+  },
+  publishAudioPublication: async function publishAudioPublication(
+    { dispatch },
+    data
+  ) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await restAudio.publishAudioPublication(data).then(data => {
+        return data && data.data
+      })
+      await dispatch('getAudio', {
+        id: data.audioId
+      })
     } catch (e) {
       throw Error(e)
     }
