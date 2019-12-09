@@ -49,6 +49,34 @@ export default {
       }
     )
   },
+  depublishEpisode: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes/${data.episodeId}/depublish`,
+      null,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  publishEpisode: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${
+        process.env.backendVersion
+      }/episodes/${data.episodeId}/publish`,
+      null,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
   update: data => {
     const query = new FormData()
     query.append('episode[title]', data.title)

@@ -595,10 +595,8 @@ export default {
     },
     handleDepublishEpisode() {
       this.$store
-        .dispatch('episodes/update', {
-          title: this.episode.title,
-          episodeId: this.episode.id,
-          publishState: 'depublished'
+        .dispatch('episodes/depublishEpisode', {
+          episodeId: this.episode.id
         })
         .catch(error => {
           console.warn(error)
@@ -607,10 +605,8 @@ export default {
     },
     handlePublishEpisode() {
       this.$store
-        .dispatch('episodes/update', {
-          title: this.episode.title,
-          episodeId: this.episode.id,
-          publishState: 'published'
+        .dispatch('episodes/publishEpisode', {
+          episodeId: this.episode.id
         })
         .catch(error => {
           console.warn(error)

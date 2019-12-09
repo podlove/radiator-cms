@@ -90,6 +90,7 @@ export default {
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/audio_publications/${data.id}/depublish`,
+      null,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -103,6 +104,7 @@ export default {
       `${process.env.apiBaseUrl}/api/rest/${
         process.env.backendVersion
       }/audio_publications/${data.id}/publish`,
+      null,
       {
         headers: {
           'Content-Type': 'application/json',
