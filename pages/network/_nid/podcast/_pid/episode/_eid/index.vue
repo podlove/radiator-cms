@@ -49,21 +49,6 @@
       <section v-if="episode" class="r_episode-main">
         <b-tabs v-model="activeTab" class="r_network-tabs">
           <b-tab-item label="Content">
-            <!-- <div
-              v-if="
-                episode &&
-                  podcast &&
-                  typeof episode === 'object' &&
-                  typeof podcast === 'object' &&
-                  typeof episode.audio === 'object' &&
-                  episode.audio.audioFiles &&
-                  episode.audio.audioFiles.length > 0 &&
-                  typeof episode.audio.audioFiles[0] === 'object'
-              "
-              id="podlove-webplayer"
-              class="r_episode_player"
-            ></div> -->
-            <!-- Title Field -->
             <b-field v-if="episode" label="Title">
               <p class="r_inactive-input">
                 <b-input
@@ -351,6 +336,42 @@
                 />
               </div>
             </b-field>
+            <b-field label="Contributions">
+              <ul
+                v-if="
+                  episode.contributions &&
+                    episode.contributions.length &&
+                    episode.contributions.length > 0
+                "
+              >
+                <li
+                  v-for="contribution in episode.contributions"
+                  :key="contribution.id"
+                >
+                  <p class="inactive-input">
+                    <span
+                      v-if="!editable.contributions"
+                      class="r_inactive-input__text r_inactive-input__text--textarea"
+                    >
+                      {{ contribution.person.name }}
+                    </span>
+                  </p>
+                </li>
+              </ul>
+              <div
+                v-if="
+                  !episode.contributions ||
+                    !episode.contributions.length ||
+                    !episode.contributions.length > 0
+                "
+                class="r_empty-contributions"
+              >
+                <p>No contributions in this episode yet.</p>
+                <b-button @click.stop.prevent="addContributionModalOpen = true">
+                  Add contribution
+                </b-button>
+              </div>
+            </b-field>
           </b-tab-item>
           <b-tab-item label="Analytics">
             <div class="tile">
@@ -363,10 +384,18 @@
         </b-tabs>
       </section>
     </section>
+    <NewContributorModal
+      :is-modal-active="addContributionModalOpen"
+    ></NewContributorModal>
   </section>
 </template>
 
 <style>
+.r_empty-contributions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
 .r_episode-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
@@ -462,16 +491,19 @@
 <script>
 import { mapState } from 'vuex'
 import EpisodeTags from '~/components/EpisodeTags'
+import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
     EpisodeTags,
+    NewContributorModal,
     Upload
   },
   data() {
     return {
       activeTab: 0,
+      addContributionModalOpen: false,
       audioFileState: null,
       currentContent: {
         audio: null,
@@ -500,32 +532,6 @@ export default {
       podcast: state => state.podcasts.activePodcast
     })
   },
-  // updated() {
-  //   const playerConfig = {
-  //     title: this.episode.title || '',
-  //     subtitle: this.episode.subtitle || '',
-  //     description: this.episode.description || '',
-  //     publicationDate: this.episode.publishedAt,
-  //     poster: this.episode.image,
-  //     summary: this.episode.summary,
-  //     show: {
-  //       title: this.podcast.title,
-  //       subtitle: this.podcast.subtitle,
-  //       summary: this.podcast.summary,
-  //       poster: this.podcast.image
-  //     },
-  //     duration: '04:15:32',
-  //     audio: [
-  //       {
-  //         url: this.episode.audio.audioFiles[0].directUrl,
-  //         mimeType: this.episode.audio.audioFiles[0].mimeType,
-  //         size: this.episode.audio.audioFiles[0].byteLength,
-  //         title: this.episode.audio.audioFiles[0].title
-  //       }
-  //     ]
-  //   }
-  //   window.podlovePlayer('#podlove-webplayer', playerConfig)
-  // },
   methods: {
     handleCreateAudioFile(propertyToSetToEditableFalse, data) {
       if (!this.episode.audio) {
