@@ -337,27 +337,15 @@
               </div>
             </b-field>
             <b-field label="Contributions">
-              <ul
+              <div
                 v-if="
                   episode.contributions &&
                     episode.contributions.length &&
                     episode.contributions.length > 0
                 "
               >
-                <li
-                  v-for="contribution in episode.contributions"
-                  :key="contribution.id"
-                >
-                  <p class="inactive-input">
-                    <span
-                      v-if="!editable.contributions"
-                      class="r_inactive-input__text r_inactive-input__text--textarea"
-                    >
-                      {{ contribution.person.name }}
-                    </span>
-                  </p>
-                </li>
-              </ul>
+                <ContributorsTable></ContributorsTable>
+              </div>
               <div
                 v-if="
                   !episode.contributions ||
@@ -386,6 +374,7 @@
     </section>
     <NewContributorModal
       :is-modal-active="addContributionModalOpen"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
     ></NewContributorModal>
   </section>
 </template>
@@ -490,12 +479,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import ContributorsTable from '~/components/ContributorsTable'
 import EpisodeTags from '~/components/EpisodeTags'
 import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
+    ContributorsTable,
     EpisodeTags,
     NewContributorModal,
     Upload
