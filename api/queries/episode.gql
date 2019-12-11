@@ -15,6 +15,24 @@ query episode($id: ID!) {
         startString,
         title
       },
+      contributions {
+        contributionRole {
+          id,
+          isPublic,
+          title
+        },
+        id,
+        person {
+          displayName,
+          email,
+          id,
+          image,
+          link,
+          name,
+          nick
+        },
+        position
+      },
       duration,
       durationString,
       id,

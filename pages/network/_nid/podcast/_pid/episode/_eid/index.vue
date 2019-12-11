@@ -339,18 +339,18 @@
             <b-field label="Contributions">
               <div
                 v-if="
-                  episode.contributions &&
-                    episode.contributions.length &&
-                    episode.contributions.length > 0
+                  episode.audio.contributions &&
+                    episode.audio.contributions.length &&
+                    episode.audio.contributions.length > 0
                 "
               >
                 <ContributorsTable></ContributorsTable>
               </div>
               <div
                 v-if="
-                  !episode.contributions ||
-                    !episode.contributions.length ||
-                    !episode.contributions.length > 0
+                  !episode.audio.contributions ||
+                    !episode.audio.contributions.length ||
+                    !episode.audio.contributions.length > 0
                 "
                 class="r_empty-contributions"
               >
@@ -373,6 +373,7 @@
       </section>
     </section>
     <NewContributorModal
+      :contribution-roles="contributionRoles"
       :is-modal-active="addContributionModalOpen"
       @contributorAdded="contributor => handleNewContributor(contributor)"
     ></NewContributorModal>
@@ -519,7 +520,9 @@ export default {
   },
   computed: {
     ...mapState({
+      contributionRoles: state => state.contributions.contributionRoles,
       episode: state => state.episodes.activeEpisode,
+      network: state => state.networks.activeNetwork,
       podcast: state => state.podcasts.activePodcast
     })
   },
@@ -594,6 +597,36 @@ export default {
       this.$store
         .dispatch('episodes/depublishEpisode', {
           episodeId: this.episode.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleNewContributor(contributor) {
+      console.log('handle new contributor', contributor, this.episode)
+      this.$store
+        .dispatch('people/create', {
+          networkId: this.network.id,
+          name: contributor.name || null,
+          displayName: contributor.displayName || null,
+          image: contributor.image || null,
+          nick: contributor.nick || null,
+          podcastId: this.podcast.id
+        })
+        .then(result => {
+          console.log('result', result)
+          this.$store
+            .dispatch('contributions/create', {
+              audioId: this.episode.audio.id,
+              podcastId: this.podcast.id,
+              contributionRoleId: contributor.contributionRoleId,
+              personId: result.id
+            })
+            .catch(error => {
+              console.warn(error)
+              this.$router.push('/404')
+            })
         })
         .catch(error => {
           console.warn(error)

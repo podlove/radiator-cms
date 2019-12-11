@@ -10,15 +10,14 @@ export const actions = {
       })
       console.log('res', res)
       await dispatch(
-        'contributions/create',
+        'networks/getNetwork',
         {
           token: this.$apolloHelpers.getToken(),
-          personId: res.id,
-          podcastId: data.podcastId,
-          contributionRoleId: data.contributionRoleId
+          id: data.networkId
         },
         { root: true }
       )
+      return res
     } catch (e) {
       throw Error(e)
     }

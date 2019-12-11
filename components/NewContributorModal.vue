@@ -3,7 +3,7 @@
     <form action="">
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
-          <p class="modal-card-title">New Team Member</p>
+          <p class="modal-card-title">New Contribution</p>
         </header>
         <section class="modal-card-body">
           <b-field label="Name">
