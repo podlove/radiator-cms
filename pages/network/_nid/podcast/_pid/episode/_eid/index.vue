@@ -382,7 +382,11 @@
     <NewContributorModal
       :contribution-roles="contributionRoles"
       :is-modal-active="addContributionModalOpen"
+      :persons="this.network ? this.network.people : null"
       @contributorAdded="contributor => handleNewContributor(contributor)"
+      @contributorSelected="
+        contributor => handleContributorSelected(contributor)
+      "
     ></NewContributorModal>
     <EditContributorModal
       v-if="podcast && podcast.contributions"
@@ -600,6 +604,21 @@ export default {
             }
           })
       }
+    },
+    handleContributorSelected(contributor) {
+      console.log('selecte', contributor)
+      this.$store
+        .dispatch('contributions/create', {
+          audioId: this.episode.audio.id,
+          episodeId: this.episode.id,
+          podcastId: this.podcast.id,
+          contributionRoleId: contributor.contributionRoleId,
+          personId: contributor.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
     },
     handleDeleteAudioFile(id) {
       this.$store
