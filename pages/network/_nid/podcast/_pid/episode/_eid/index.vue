@@ -344,7 +344,14 @@
                     episode.audio.contributions.length > 0
                 "
               >
-                <ContributorsTable></ContributorsTable>
+                <ContributorsTable
+                  :contributors="episode.audio.contributions"
+                  @delete="contributor => handleDeleteContributor(contributor)"
+                  @edit="contributor => handleEditContributor(contributor)"
+                ></ContributorsTable>
+                <b-button @click.stop.prevent="addContributionModalOpen = true">
+                  Add contribution
+                </b-button>
               </div>
               <div
                 v-if="
@@ -377,6 +384,13 @@
       :is-modal-active="addContributionModalOpen"
       @contributorAdded="contributor => handleNewContributor(contributor)"
     ></NewContributorModal>
+    <EditContributorModal
+      v-if="podcast && podcast.contributions"
+      :contributionRoles="contributionRoles"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="activeContributor"
+      @contributorUpdated="id => handleUpdateContributor(id)"
+    ></EditContributorModal>
   </section>
 </template>
 
@@ -481,6 +495,7 @@
 <script>
 import { mapState } from 'vuex'
 import ContributorsTable from '~/components/ContributorsTable'
+import EditContributorModal from '~/components/EditContributorModal'
 import EpisodeTags from '~/components/EpisodeTags'
 import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
@@ -488,12 +503,14 @@ import Upload from '~/components/Upload'
 export default {
   components: {
     ContributorsTable,
+    EditContributorModal,
     EpisodeTags,
     NewContributorModal,
     Upload
   },
   data() {
     return {
+      activeContributor: null,
       activeTab: 0,
       addContributionModalOpen: false,
       audioFileState: null,
@@ -515,7 +532,9 @@ export default {
         subtitle: false,
         summary: false,
         title: false
-      }
+      },
+      isEditContributorModalActive: false,
+      isNewContributorModalActive: false
     }
   },
   computed: {
@@ -593,6 +612,28 @@ export default {
           this.$router.push('/404')
         })
     },
+    handleDeleteContributor(id) {
+      console.log('delete id', id)
+      this.$store
+        .dispatch('contributions/deleteContribution', {
+          contributionId: id,
+          episodeId: this.episode.id,
+          podcastId: this.podcast.id
+        })
+        .then(() => {
+          this.alert = {
+            type: 'is-success',
+            message: 'Contributor successfully removed.'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
     handleDepublishEpisode() {
       this.$store
         .dispatch('episodes/depublishEpisode', {
@@ -603,14 +644,20 @@ export default {
           this.$router.push('/404')
         })
     },
+    handleEditContributor(contributor) {
+      console.log('edit contributor', contributor)
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
     handleNewContributor(contributor) {
       console.log('handle new contributor', contributor, this.episode)
+      this.isNewContributorModalActive = false
       this.$store
         .dispatch('people/create', {
-          networkId: this.network.id,
-          name: contributor.name || null,
           displayName: contributor.displayName || null,
           image: contributor.image || null,
+          name: contributor.name || null,
+          networkId: this.network.id,
           nick: contributor.nick || null,
           podcastId: this.podcast.id
         })
@@ -619,6 +666,7 @@ export default {
           this.$store
             .dispatch('contributions/create', {
               audioId: this.episode.audio.id,
+              episodeId: this.episode.id,
               podcastId: this.podcast.id,
               contributionRoleId: contributor.contributionRoleId,
               personId: result.id
@@ -677,6 +725,32 @@ export default {
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
+        })
+    },
+    handleUpdateContributor(contributor) {
+      console.log('update contributor', contributor)
+      this.isEditContributorModalActive = false
+      this.$store
+        .dispatch('people/update', {
+          contributionId: this.activeContributor.id,
+          contributionRoleId: contributor.contributionRoleId,
+          displayName: contributor.displayName,
+          email: contributor.email,
+          episodeId: this.episode.id,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
+          networkId: this.network.id,
+          nick: contributor.nick,
+          personId: this.activeContributor.person.id,
+          podcastId: this.podcast.id
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
         })
     },
     handleUpdateEpisode(propertyToSetToEditableFalse, data) {

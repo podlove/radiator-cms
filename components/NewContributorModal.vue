@@ -69,7 +69,7 @@
               class="field"
               :state="avatarFileState"
               :type="'IMAGE'"
-              :image="newContributor.image"
+              :image="newContributor.image ? newContributor.image : null"
               required
               @dropped="params => handleAvatarFileDrop(params)"
             />

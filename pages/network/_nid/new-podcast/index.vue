@@ -109,10 +109,6 @@
 </template>
 
 <style>
-/* Overwrite Bulma */
-.field {
-  margin-bottom: 0 !important;
-}
 .r_new-podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;

@@ -40,10 +40,10 @@ export const actions = {
         return data && data.data
       })
       await dispatch(
-        'podcasts/getPodcast',
+        'episodes/getEpisode',
         {
           token: this.$apolloHelpers.getToken(),
-          id: data.podcastId
+          id: data.episodeId
         },
         { root: true }
       )
@@ -59,10 +59,10 @@ export const actions = {
         return data && data.data
       })
       await dispatch(
-        'podcasts/getPodcast',
+        'episodes/getEpisode',
         {
           token: this.$apolloHelpers.getToken(),
-          id: data.podcastId
+          id: data.episodeId
         },
         { root: true }
       )
@@ -97,6 +97,14 @@ export const actions = {
         return data && data.data
       })
       console.log('res', res)
+      await dispatch(
+        'episodes/getEpisode',
+        {
+          token: this.$apolloHelpers.getToken(),
+          id: data.episodeId
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
