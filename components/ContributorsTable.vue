@@ -3,8 +3,7 @@
   <b-table
     :data="contributors"
     :mobile-cards="true"
-    :paginated="true"
-    :per-page="5"
+    :paginated="false"
     aria-next-label="Next page"
     aria-previous-label="Previous page"
     aria-page-label="Page"

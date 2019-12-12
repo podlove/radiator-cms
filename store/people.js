@@ -51,6 +51,14 @@ export const actions = {
         },
         { root: true }
       )
+      await dispatch(
+        'episodes/getEpisode',
+        {
+          token: this.$apolloHelpers.getToken(),
+          id: data.episodeId
+        },
+        { root: true }
+      )
     } catch (e) {
       throw Error(e)
     }
