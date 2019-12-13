@@ -245,9 +245,9 @@
       </b-field>
       <b-field label="Contributions">
         <ContributionsField
-          :contributions="this.activeAudio.contributions"
-          @addContributionModalOpen="handleOpenAddContributionModal()"
-          @delete="contributor => handleDeleteContributor(contributor)"
+          :contributions="activeAudio.contributions"
+          @addContributionModalOpen="() => (addContributionModalOpen = true)"
+          @delete="id => handleDeleteContributor(id)"
           @edit="contributor => handleEditContributor(contributor)"
         ></ContributionsField>
       </b-field>
@@ -265,17 +265,17 @@
     <NewContributorModal
       :contribution-roles="contributionRoles"
       :is-modal-active="addContributionModalOpen"
-      :persons="this.activeNetwork ? this.activeNetwork.people : null"
+      :persons="activeNetwork ? activeNetwork.people : null"
       @contributorAdded="contributor => handleNewContributor(contributor)"
       @contributorSelected="
         contributor => handleContributorSelected(contributor)
       "
     ></NewContributorModal>
     <EditContributorModal
-      :contributionRoles="contributionRoles"
+      :contribution-roles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
-      @contributorUpdated="id => handleUpdateContributor(id)"
+      @contributorUpdated="contributor => handleUpdateContributor(contributor)"
     ></EditContributorModal>
   </section>
 </template>
@@ -508,9 +508,6 @@ export default {
           }
         })
     },
-    handleOpenAddContributionModal() {
-      this.addContributionModalOpen = true
-    },
     handleContributorSelected(contributor) {
       this.$store
         .dispatch('contributions/create', {
@@ -567,16 +564,15 @@ export default {
           displayName: contributor.displayName || null,
           image: contributor.image || null,
           name: contributor.name || null,
-          networkId: this.network.id,
+          networkId: this.activeNetwork.id,
           nick: contributor.nick || null,
-          audioId: this.audio.id
+          audioId: this.activeAudio.id
         })
         .then(result => {
           console.log('result', result)
           this.$store
             .dispatch('contributions/create', {
-              audioId: this.episode.audio.id,
-              episodeId: this.episode.id,
+              audioId: this.activeAudio.id,
               contributionRoleId: contributor.contributionRoleId,
               personId: result.id
             })
