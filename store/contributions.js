@@ -59,6 +59,16 @@ export const actions = {
           { root: true }
         )
       }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -86,6 +96,16 @@ export const actions = {
           {
             token: this.$apolloHelpers.getToken(),
             id: data.audioId
+          },
+          { root: true }
+        )
+      }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
           },
           { root: true }
         )
@@ -137,6 +157,16 @@ export const actions = {
           {
             token: this.$apolloHelpers.getToken(),
             id: data.audioId
+          },
+          { root: true }
+        )
+      }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
           },
           { root: true }
         )

@@ -102,6 +102,14 @@
         @dropped="params => handleCoverFileDrop(params)"
       />
     </b-field>
+    <b-field label="Contributions">
+      <ContributionsField
+        :contributions="podcast.contributions"
+        @addContributionModalOpen="() => (addContributionModalOpen = true)"
+        @delete="contributor => handleDeleteContributor(contributor)"
+        @edit="contributor => handleEditContributor(contributor)"
+      ></ContributionsField>
+    </b-field>
     <div class="r_settings__interaction">
       <b-button
         v-if="isDisabled"
@@ -135,26 +143,62 @@
         Save
       </b-button>
     </div>
+    <NewContributorModal
+      v-if="contributionRoles && network"
+      :contribution-roles="contributionRoles"
+      :is-modal-active="addContributionModalOpen"
+      :persons="network ? network.people : null"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
+      @contributorSelected="
+        contributor => handleContributorSelected(contributor)
+      "
+    ></NewContributorModal>
+    <EditContributorModal
+      :contribution-roles="contributionRoles"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="activeContributor"
+      @contributorUpdated="contributor => handleUpdateContributor(contributor)"
+    ></EditContributorModal>
   </section>
 </template>
 
 <style>
+/* Overwrite Bulma */
+.field:not(:last-child) {
+  margin-bottom: 1.5rem !important;
+}
 .r_settings__cover {
   background-size: cover;
   border-radius: 50%;
   width: 6rem;
   height: 6rem;
 }
+.r_settings__interaction {
+  clear: both;
+  margin-top: 4rem;
+  text-align: right;
+}
 </style>
 
 <script>
+import ContributionsField from '~/components/ContributionsField'
+import EditContributorModal from '~/components/EditContributorModal'
+import NewContributorModal from '~/components/NewContributorModal'
 import Upload from './Upload'
 
 export default {
   components: {
+    ContributionsField,
+    EditContributorModal,
+    NewContributorModal,
     Upload
   },
   props: {
+    contributionRoles: {
+      type: Array,
+      required: false,
+      default: null
+    },
     isDisabled: {
       type: Boolean,
       required: true
@@ -163,6 +207,11 @@ export default {
       type: Boolean,
       required: true
     },
+    network: {
+      type: Object,
+      required: false,
+      default: null
+    },
     podcast: {
       type: Object,
       required: true
@@ -170,9 +219,13 @@ export default {
   },
   data() {
     return {
+      activeContributor: null,
+      addContributionModalOpen: false,
       author: '',
       cover: null,
       coverFileState: null,
+      isEditContributorModalActive: false,
+      isNewContributorModalActive: false,
       language: '',
       ownerName: '',
       ownerEmail: '',
@@ -183,9 +236,23 @@ export default {
     }
   },
   methods: {
+    handleContributorSelected(contributor) {
+      this.$emit('contributorSelected', contributor)
+    },
     handleCoverFileDrop(params) {
       this.cover = params.file
       this.coverFileState = 'SUCCESS'
+    },
+    handleDeleteContributor(contributor) {
+      this.$emit('deleteContributor', contributor)
+    },
+    handleEditContributor(contributor) {
+      console.log('edit contributor', contributor)
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
+    handleNewContributor(contributor) {
+      this.$emit('newContributor', contributor)
     },
     handlePodcastSave() {
       const newPodcastSettings = {
@@ -200,6 +267,9 @@ export default {
         title: this.title
       }
       this.$emit('save', newPodcastSettings)
+    },
+    handleUpdateContributor(contributor) {
+      this.$emit('updateContributor', contributor, this.activeContributor)
     }
   }
 }

@@ -184,13 +184,25 @@
         </b-tab-item>
         <b-tab-item label="Details">
           <podcast-settings
+            :contribution-roles="contributionRoles"
             :is-disabled="isDisabled"
             :is-loading="isLoading"
             :podcast="podcast"
+            :network="network"
             @cancel="cancel()"
+            @contributorSelected="
+              contributor => handleContributorSelected(contributor)
+            "
             @delete="deletePodcast()"
+            @deleteContributor="id => handleDeleteContributor(id)"
             @edit="edit()"
+            @editContributor="contributor => handleEditContributor(contributor)"
+            @newContributor="contributor => handleNewContributor(contributor)"
             @save="newPodcastSettings => save(newPodcastSettings)"
+            @updateContributor="
+              (contributor, activeContributor) =>
+                handleUpdateContributor(contributor, activeContributor)
+            "
           ></podcast-settings>
         </b-tab-item>
       </b-tabs>
@@ -256,10 +268,6 @@
 .r_podcast-tabs {
   margin: 3.75rem 0;
 }
-.r_settings__interaction {
-  margin-top: 1rem;
-  text-align: right;
-}
 </style>
 
 <script>
@@ -280,6 +288,7 @@ export default {
     }
   },
   computed: mapState({
+    contributionRoles: state => state.contributions.contributionRoles,
     podcast: state => state.podcasts.activePodcast,
     network: state => state.networks.activeNetwork
   }),
@@ -313,6 +322,38 @@ export default {
     edit() {
       this.isDisabled = false
     },
+    handleContributorSelected(contributor) {
+      this.$store
+        .dispatch('contributions/create', {
+          podcastId: this.podcast.id,
+          contributionRoleId: contributor.contributionRoleId,
+          personId: contributor.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleDeleteContributor(id) {
+      this.$store
+        .dispatch('contributions/deleteContribution', {
+          contributionId: id,
+          podcastId: this.podcast.id
+        })
+        .then(() => {
+          this.alert = {
+            type: 'is-success',
+            message: 'Contributor successfully removed.'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
     handleDepublishPodcast() {
       this.$store
         .dispatch('podcasts/depublishPodcast', {
@@ -320,6 +361,36 @@ export default {
         })
         .then(() => {
           console.log('depublished', this.podcast)
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleNewContributor(contributor) {
+      console.log('handle new contributor', contributor, this.episode)
+      this.isNewContributorModalActive = false
+      this.$store
+        .dispatch('people/create', {
+          displayName: contributor.displayName || null,
+          image: contributor.image || null,
+          name: contributor.name || null,
+          networkId: this.network.id,
+          nick: contributor.nick || null,
+          podcastId: this.podcast.id
+        })
+        .then(result => {
+          console.log('result', result)
+          this.$store
+            .dispatch('contributions/create', {
+              podcastId: this.podcast.id,
+              contributionRoleId: contributor.contributionRoleId,
+              personId: result.id
+            })
+            .catch(error => {
+              console.warn(error)
+              this.$router.push('/404')
+            })
         })
         .catch(error => {
           console.warn(error)
@@ -337,6 +408,31 @@ export default {
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
+        })
+    },
+    handleUpdateContributor(contributor, activeContributor) {
+      console.log('update contributor', contributor)
+      this.isEditContributorModalActive = false
+      this.$store
+        .dispatch('people/update', {
+          contributionId: activeContributor.id,
+          contributionRoleId: contributor.contributionRoleId,
+          displayName: contributor.displayName,
+          email: contributor.email,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
+          networkId: this.network.id,
+          nick: contributor.nick,
+          personId: activeContributor.person.id,
+          podcastId: this.podcast.id
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
         })
     },
     save(newPodcastSettings) {
