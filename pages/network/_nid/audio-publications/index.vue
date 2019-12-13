@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_audio-pubs-hero">
         <div
-          class="r_audio-pubs-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               activeNetwork && activeNetwork.image ? activeNetwork.image : ''
             })`
           }"
+          class="r_audio-pubs-hero__cover has-background-light"
         ></div>
         <div class="r_audio-pubs-hero__container">
           <h1

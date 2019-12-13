@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">
         <div
-          class="r_new-episode__header__image has-background-light"
           :style="{
             backgroundImage: `url(${
               activeAudio && activeAudio.image ? activeAudio.image : ''
             })`
           }"
+          class="r_new-episode__header__image has-background-light"
         ></div>
         <div class="r_new-episode__header__container">
           <h1 class="title is-size-3 r_new-episode__header__title">
@@ -61,8 +61,6 @@
       </div>
       <div class="columns">
         <upload
-          class="field column"
-          label="Audio File"
           :state="audioFileState"
           :type="'AUDIO'"
           :audio="
@@ -71,17 +69,19 @@
               : null
           "
           @dropped="params => handleAudioFileDrop(params)"
+          class="field column"
+          label="Audio File"
         />
       </div>
       <div class="columns">
         <upload
-          class="field column"
-          label="Episode Cover"
           :type="'IMAGE'"
           :drop-files="dropEpisodeCover"
           :image="activeAudio && activeAudio.image ? activeAudio.image : null"
           :state="coverFileState"
           @dropped="params => handleCoverFileDrop(params)"
+          class="field column"
+          label="Episode Cover"
         />
       </div>
       <b-field label="Contributions">
@@ -93,11 +93,11 @@
         ></ContributionsField>
       </b-field>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="createEpisode()"
+        type="is-primary"
+        outlined
       >
         Add New Episode
       </b-button>
@@ -230,9 +230,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })
@@ -262,9 +260,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })

@@ -6,13 +6,13 @@
       <div class="hero-body">
         <div class="container r_new-network__header">
           <div
-            class="r_new-network__header__image has-background-white"
             :style="{
               backgroundImage: `url(${
                 activeNetwork && activeNetwork.image ? activeNetwork.image : ''
               })`,
               opacity: 1
             }"
+            class="r_new-network__header__image has-background-white"
           ></div>
           <h1 class="title">{{ title }}</h1>
         </div>
@@ -32,21 +32,21 @@
       </b-field>
       <b-field label="Network Cover">
         <upload
-          class="field"
           :type="'IMAGE'"
           :state="coverFileState"
           :image="
             activeNetwork && activeNetwork.image ? activeNetwork.image : null
           "
           @dropped="params => handleCoverFileDrop(params)"
+          class="field"
         />
       </b-field>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="saveNetwork()"
+        type="is-primary"
+        outlined
       >
         Add New Network
       </b-button>

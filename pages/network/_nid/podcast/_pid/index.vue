@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_podcast-hero">
         <div
-          class="r_podcast-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               podcast && podcast.image ? podcast.image : ''
             })`
           }"
+          class="r_podcast-hero__cover has-background-light"
         ></div>
         <div class="r_podcast-hero__container">
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
@@ -49,8 +49,8 @@
             <b-tag type="is-dark">Public website:</b-tag>
             <b-tag v-if="podcast.publicPage" type="is-light">
               <a
-                class="r_podcast-highlights__link"
                 :href="podcast.publicPage"
+                class="r_podcast-highlights__link"
                 target="_blank"
               >
                 {{ podcast.publicPage }}
@@ -98,9 +98,9 @@
               podcast.publishState === 'drafted' ||
                 podcast.publishState === 'depublished'
             "
-            class="r_podcast-highlights__button"
-            type="is-primary"
             @click.prevent="handlePublishPodcast()"
+            type="is-primary"
+            class="r_podcast-highlights__button"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Publish Podcast</span>
@@ -110,10 +110,10 @@
               podcast.publishState === 'published' ||
                 podcast.publishState === 'scheduled'
             "
+            @click.prevent="handleDepublishPodcast()"
             class="r_podcast-highlights__button"
             type="is-danger"
             outlined
-            @click.prevent="handleDepublishPodcast()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Depublish Podcast</span>
@@ -138,8 +138,8 @@
                 </b-tag>
                 <b-tag type="is-light">
                   <a
-                    class="r_podcast-highlights__link"
                     :href="feed.feedUrl"
+                    class="r_podcast-highlights__link"
                     target="_blank"
                   >
                     {{ feed.feedUrl }}

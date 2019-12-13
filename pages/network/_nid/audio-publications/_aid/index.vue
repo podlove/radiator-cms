@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_audio-pub-hero">
         <div
-          class="r_audio-pub-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               activeAudio && activeAudio.image ? activeAudio.image : ''
             })`
           }"
+          class="r_audio-pub-hero__cover has-background-light"
         ></div>
         <div class="r_audio-pub-hero__container">
           <h1
@@ -85,9 +85,9 @@
               activeAudio.audioPublication.publishState === 'drafted' ||
                 activeAudio.audioPublication.publishState === 'depublished'
             "
+            @click.prevent="handlePublishAudioPublication()"
             class="r_audio-pub-highlights__button"
             type="is-primary"
-            @click.prevent="handlePublishAudioPublication()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Publish Audio Publication</span>
@@ -97,10 +97,10 @@
               activeAudio.audioPublication.publishState === 'published' ||
                 activeAudio.audioPublication.publishState === 'scheduled'
             "
+            @click.prevent="handleDepublishAudioPublication()"
             class="r_audio-pub-highlights__button"
             type="is-danger"
             outlined
-            @click.prevent="handleDepublishAudioPublication()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Depublish Audio Publication</span>
@@ -130,8 +130,8 @@
           <b-input
             v-if="editable.title"
             v-model="currentContent.title"
-            type="text"
             :placeholder="activeAudio.audioPublication.title"
+            type="text"
             class="r_inactive-input__input"
           ></b-input>
           <span v-if="!editable.title" class="r_inactive-input__text">
@@ -139,26 +139,26 @@
           </span>
           <b-button
             v-if="!editable.title"
-            type="is-text"
             @click.stop.prevent="editable.title = true"
+            type="is-text"
           >
             <b-icon icon="pencil"></b-icon>
           </b-button>
           <b-button
             v-if="editable.title"
-            type="is-text"
             @click.stop.prevent="editable.title = false"
+            type="is-text"
           >
             <b-icon icon="cancel"></b-icon>
           </b-button>
           <b-button
             v-if="editable.title"
-            type="is-text"
             @click.stop.prevent="
               handleUpdateAudioPublication('title', {
                 title: currentContent.title
               })
             "
+            type="is-text"
           >
             <b-icon icon="check"></b-icon>
           </b-button>
@@ -187,8 +187,8 @@
             </span>
           </div>
           <b-button
-            type="is-text"
             @click.prevent="handleAudioFileDelete({ id: file.id })"
+            type="is-text"
           >
             <b-icon icon="delete"></b-icon>
           </b-button>
@@ -197,7 +197,6 @@
           v-if="!activeAudio.audioFiles || activeAudio.audioFiles.length <= 0"
         >
           <upload
-            class="field"
             :state="audioFileState"
             :type="'AUDIO'"
             :audio="
@@ -207,6 +206,7 @@
             "
             @dropped="params => handleAudioFileDrop(params)"
             @deleted="params => handleAudioFileDelete(params)"
+            class="field"
           />
         </div>
       </b-field>
@@ -214,16 +214,15 @@
         <div class="r_inactive-input__cover">
           <div
             v-if="!editable.image"
-            class="r_inactive-input__cover__image"
             :style="{
               backgroundImage: `url(${
                 activeAudio.image ? activeAudio.image : ''
               })`
             }"
+            class="r_inactive-input__cover__image"
           ></div>
           <upload
             v-if="editable.image"
-            class="field"
             :state="coverFileState"
             :type="'IMAGE'"
             :image="currentContent.image"
@@ -233,11 +232,12 @@
                   image: params.file
                 })
             "
+            class="field"
           />
           <b-button
             v-if="!editable.image"
-            type="is-text"
             @click.stop.prevent="editable.image = true"
+            type="is-text"
           >
             <b-icon icon="pencil"></b-icon>
           </b-button>
@@ -253,10 +253,10 @@
       </b-field>
       <b-button
         v-if="activeAudio.audioPublication"
+        @click.prevent="deleteAudioPublication()"
         class="r_audio-pub-highlights__button"
         type="is-danger"
         outlined
-        @click.prevent="deleteAudioPublication()"
       >
         <b-icon size="is-small" icon="delete"></b-icon>
         <span> Delete Audio Publication</span>

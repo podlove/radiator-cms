@@ -19,32 +19,32 @@
         <b-field label="Password">
           <b-input
             v-model="password"
+            @keyup.native.enter.prevent="signup()"
             password-reveal
             placeholder="Your secure password"
             type="password"
-            @keyup.native.enter.prevent="signup()"
           ></b-input>
         </b-field>
         <b-field
-          label="Repeat Password"
           :type="{ 'is-danger': password !== repeatPassword }"
           :message="{
             'Your passwords are not the same.': password !== repeatPassword
           }"
+          label="Repeat Password"
         >
           <b-input
             v-model="repeatPassword"
+            @keyup.native.enter.prevent="signup()"
             password-reveal
             placeholder="Repeat your secure password"
             type="password"
-            @keyup.native.enter.prevent="signup()"
           ></b-input>
         </b-field>
         <b-button
-          type="is-primary"
           :loading="loading"
           :disabled="loading"
           @click.stop.prevent="signup()"
+          type="is-primary"
         >
           Signup
         </b-button>

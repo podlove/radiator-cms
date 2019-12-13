@@ -3,12 +3,12 @@
   <article class="r_podcast">
     <header class="r_podcast__header has-background-light">
       <div
-        class="r_podcast__cover has-background-dark"
         :style="{
           backgroundImage: `url(${
             podcast && podcast.image ? podcast.image : ''
           })`
         }"
+        class="r_podcast__cover has-background-dark"
       ></div>
       <nuxt-link
         :to="'/network/' + network.id + '/podcast/' + podcast.id"

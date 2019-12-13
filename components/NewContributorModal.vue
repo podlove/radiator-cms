@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active.sync="active" has-modal-card :width="900" :can-cancel="[]">
+  <b-modal :active.sync="active" :width="900" :can-cancel="[]" has-modal-card>
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
         <p class="modal-card-title">New Contribution</p>
@@ -13,8 +13,8 @@
             <b-select
               ref="select"
               v-model="existingSelectedContributor"
-              placeholder="Select a name"
               @input="handleSelectContributor()"
+              placeholder="Select a name"
             >
               <option :value="null">
                 Select a name
@@ -113,12 +113,12 @@
             </b-field>
             <b-field label="Avatar">
               <upload
-                class="field"
                 :state="avatarFileState"
                 :type="'IMAGE'"
                 :image="newContributor.image ? newContributor.image : null"
-                required
                 @dropped="params => handleAvatarFileDrop(params)"
+                required
+                class="field"
               />
             </b-field>
           </form>
@@ -126,10 +126,10 @@
       </div>
     </div>
     <footer class="modal-card-foot">
-      <button class="button" type="button" @click.prevent="handleCloseModal()">
+      <button @click.prevent="handleCloseModal()" class="button" type="button">
         Close
       </button>
-      <button class="button is-primary" @click.prevent="handleAddContributor()">
+      <button @click.prevent="handleAddContributor()" class="button is-primary">
         Add new contributor
       </button>
     </footer>
