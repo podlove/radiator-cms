@@ -109,7 +109,6 @@ export default {
             password: this.password
           })
           .then(result => {
-            console.log(result)
             this.success = true
           })
           .catch(error => {

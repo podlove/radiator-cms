@@ -553,12 +553,10 @@ export default {
         })
     },
     handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
       this.activeContributor = contributor
       this.isEditContributorModalActive = true
     },
     handleNewContributor(contributor) {
-      console.log('handle new contributor', contributor, this.episode)
       this.isNewContributorModalActive = false
       this.$store
         .dispatch('people/create', {
@@ -570,7 +568,6 @@ export default {
           audioId: this.activeAudio.id
         })
         .then(result => {
-          console.log('result', result)
           this.$store
             .dispatch('contributions/create', {
               audioId: this.activeAudio.id,
@@ -619,7 +616,6 @@ export default {
           title: data.title
         })
         .then(() => {
-          console.log('updated')
           this.editable[propertyToSetToEditableFalse] = false
         })
         .catch(error => {
@@ -628,7 +624,6 @@ export default {
         })
     },
     handleUpdateContributor(contributor) {
-      console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
       this.$store
         .dispatch('people/update', {

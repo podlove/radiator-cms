@@ -248,7 +248,6 @@ export default {
       this.$emit('deleteContributor', contributor)
     },
     handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
       this.activeContributor = contributor
       this.isEditContributorModalActive = true
     },

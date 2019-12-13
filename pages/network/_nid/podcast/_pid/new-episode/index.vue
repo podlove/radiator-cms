@@ -283,7 +283,6 @@ export default {
       // and if not create one first
       // TODO: refactor
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
@@ -392,7 +391,6 @@ export default {
     },
     handleContributorSelected(contributor) {
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
@@ -479,13 +477,11 @@ export default {
       }
     },
     handleCoverFileDrop(params) {
-      console.log('cover', params)
       this.coverFileState = 'LOADING'
       this.cover = params.file
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
-      console.log('this.activeEpisode', this.activeEpisode)
       if (!this.activeEpisode) {
         this.$store
           .dispatch('episodes/create', {
@@ -557,9 +553,7 @@ export default {
       }
     },
     handleDeleteContributor(id) {
-      console.log('delete id', id)
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
@@ -667,15 +661,12 @@ export default {
       }
     },
     handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
       this.activeContributor = contributor
       this.isEditContributorModalActive = true
     },
     handleNewContributor(contributor) {
-      console.log('handle new contributor', contributor, this.activeEpisode)
       this.isNewContributorModalActive = false
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
@@ -701,7 +692,6 @@ export default {
                     podcastId: this.activePodcast.id
                   })
                   .then(result => {
-                    console.log('result', result)
                     this.$store
                       .dispatch('contributions/create', {
                         audioId: this.activeAudio.id,
@@ -752,7 +742,6 @@ export default {
                 podcastId: this.activePodcast.id
               })
               .then(result => {
-                console.log('result', result)
                 this.$store
                   .dispatch('contributions/create', {
                     audioId: this.activeAudio.id,
@@ -789,7 +778,6 @@ export default {
             podcastId: this.activePodcast.id
           })
           .then(result => {
-            console.log('result', result)
             this.$store
               .dispatch('contributions/create', {
                 audioId: this.activeAudio.id,
@@ -810,10 +798,8 @@ export default {
       }
     },
     handleUpdateContributor(contributor) {
-      console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
