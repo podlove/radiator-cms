@@ -105,7 +105,7 @@
     <b-field label="Contributions">
       <ContributionsField
         :contributions="podcast.contributions"
-        @addContributionModalOpen="() => (addContributionModalOpen = true)"
+        @addContributionModalOpen="() => (isNewContributorModalActive = true)"
         @delete="contributor => handleDeleteContributor(contributor)"
         @edit="contributor => handleEditContributor(contributor)"
       ></ContributionsField>
@@ -145,18 +145,20 @@
     </div>
     <NewContributorModal
       v-if="contributionRoles && network"
+      :active="isNewContributorModalActive"
       :contribution-roles="contributionRoles"
-      :is-modal-active="addContributionModalOpen"
       :persons="network ? network.people : null"
+      @close="() => (isNewContributorModalActive = false)"
       @contributorAdded="contributor => handleNewContributor(contributor)"
       @contributorSelected="
         contributor => handleContributorSelected(contributor)
       "
     ></NewContributorModal>
     <EditContributorModal
-      :contribution-roles="contributionRoles"
-      :is-modal-active="isEditContributorModalActive"
+      :active="isEditContributorModalActive"
       :contributor="activeContributor"
+      :contribution-roles="contributionRoles"
+      @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="contributor => handleUpdateContributor(contributor)"
     ></EditContributorModal>
   </section>
@@ -220,7 +222,6 @@ export default {
   data() {
     return {
       activeContributor: null,
-      addContributionModalOpen: false,
       author: '',
       cover: null,
       coverFileState: null,

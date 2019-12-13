@@ -340,7 +340,7 @@
               <ContributionsField
                 :contributions="episode.audio.contributions"
                 @addContributionModalOpen="
-                  () => (addContributionModalOpen = true)
+                  () => (isNewContributorModalActive = true)
                 "
                 @delete="contributor => handleDeleteContributor(contributor)"
                 @edit="contributor => handleEditContributor(contributor)"
@@ -359,9 +359,10 @@
       </section>
     </section>
     <NewContributorModal
+      :active="isNewContributorModalActive"
       :contribution-roles="contributionRoles"
-      :is-modal-active="addContributionModalOpen"
       :persons="network ? network.people : null"
+      @close="() => (isNewContributorModalActive = false)"
       @contributorAdded="contributor => handleNewContributor(contributor)"
       @contributorSelected="
         contributor => handleContributorSelected(contributor)
@@ -369,8 +370,8 @@
     ></NewContributorModal>
     <EditContributorModal
       v-if="episode && episode.audio && episode.audio.contributions"
-      :contribution-roles="contributionRoles"
       :active="isEditContributorModalActive"
+      :contribution-roles="contributionRoles"
       :contributor="activeContributor"
       @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="id => handleUpdateContributor(id)"
@@ -500,7 +501,6 @@ export default {
     return {
       activeContributor: null,
       activeTab: 0,
-      addContributionModalOpen: false,
       audioFileState: null,
       currentContent: {
         audio: null,
@@ -732,6 +732,7 @@ export default {
     handleUpdateContributor(contributor) {
       console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
+      this.activeContributor = null
       this.$store
         .dispatch('people/update', {
           contributionId: this.activeContributor.id,
