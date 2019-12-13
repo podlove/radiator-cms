@@ -1,5 +1,10 @@
 <template>
-  <b-modal :active.sync="isModalActive" has-modal-card>
+  <b-modal
+    :active.sync="isModalActive"
+    has-modal-card
+    :width="900"
+    :can-cancel="[]"
+  >
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
         <p class="modal-card-title">New Contribution</p>
@@ -137,6 +142,9 @@
 </template>
 
 <style>
+.modal-card {
+  max-height: calc(100vh - 140px);
+}
 .r_contributor__cover {
   background-size: cover;
   border-radius: 0.2125rem;

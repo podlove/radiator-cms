@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active.sync="isActive" has-modal-card>
+  <b-modal :active.sync="active" has-modal-card :width="600" :can-cancel="[]">
     <form v-if="contributor">
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
@@ -11,7 +11,6 @@
               v-model="newContributor.name"
               type="text"
               :placeholder="contributor.person.name"
-              required
             >
             </b-input>
           </b-field>
@@ -19,7 +18,6 @@
             <b-select
               v-model="newContributor.contributionRoleId"
               placeholder="Select a contribution role"
-              required
             >
               <option
                 v-for="role in contributionRoles"
@@ -73,7 +71,11 @@
           </b-field>
         </section>
         <footer class="modal-card-foot">
-          <button class="button" type="button" @click="$parent.close()">
+          <button
+            class="button"
+            type="button"
+            @click.prevent="handleCloseModal()"
+          >
             Close
           </button>
           <button
@@ -106,6 +108,11 @@ export default {
     Upload
   },
   props: {
+    active: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     contributor: {
       type: Object,
       required: false,
@@ -115,10 +122,6 @@ export default {
       type: Array,
       required: false,
       default: null
-    },
-    isModalActive: {
-      type: Boolean,
-      required: true
     }
   },
   data() {
@@ -134,11 +137,6 @@ export default {
         name: null,
         nick: null
       }
-    }
-  },
-  computed: {
-    isActive() {
-      return this.isModalActive
     }
   },
   mounted() {
@@ -160,6 +158,9 @@ export default {
     handleAvatarFileDrop(params) {
       this.newContributor.image = params.file
       this.avatarFileState = 'SUCCESS'
+    },
+    handleCloseModal() {
+      this.$emit('close')
     },
     handleSelectContributor() {
       console.log('handleSelectContributor', this.existingSelectedContributor)
