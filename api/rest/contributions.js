@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export default {
   create: data => {
-    console.log('rest', data)
     const query = new FormData()
     // You can either send a podcast contribution or an audio contribution
     // If the data has an audioID parameter, than its an episode/audio publication contribution
@@ -40,7 +39,6 @@ export default {
     )
   },
   update: data => {
-    console.log('update', data)
     const query = new FormData()
     query.append('contribution[podcast_id]', data.podcastId)
     query.append('contribution[contribution_role_id]', data.contributionRoleId)

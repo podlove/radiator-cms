@@ -615,7 +615,6 @@ export default {
         })
     },
     handleDeleteContributor(id) {
-      console.log('delete id', id)
       this.$store
         .dispatch('contributions/deleteContribution', {
           contributionId: id,
@@ -647,12 +646,10 @@ export default {
         })
     },
     handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
       this.activeContributor = contributor
       this.isEditContributorModalActive = true
     },
     handleNewContributor(contributor) {
-      console.log('handle new contributor', contributor, this.episode)
       this.isNewContributorModalActive = false
       this.$store
         .dispatch('people/create', {
@@ -664,7 +661,6 @@ export default {
           podcastId: this.podcast.id
         })
         .then(result => {
-          console.log('result', result)
           this.$store
             .dispatch('contributions/create', {
               audioId: this.episode.audio.id,
@@ -730,7 +726,6 @@ export default {
         })
     },
     handleUpdateContributor(contributor) {
-      console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
       this.activeContributor = null
       this.$store
@@ -764,7 +759,6 @@ export default {
       this.$store
         .dispatch('episodes/update', data)
         .then(() => {
-          console.log('updated')
           this.editable[propertyToSetToEditableFalse] = false
         })
         .catch(error => {

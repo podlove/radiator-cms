@@ -2,13 +2,11 @@ import restPeople from '~/api/rest/people'
 
 export const actions = {
   create: async function create({ dispatch }, data) {
-    console.log('Create Person', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPeople.create(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
       await dispatch(
         'networks/getNetwork',
         {
@@ -23,13 +21,11 @@ export const actions = {
     }
   },
   update: async function update({ dispatch }, data) {
-    console.log('Update Person', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPeople.update(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
       if (data.contributionRoleId) {
         await dispatch(
           'contributions/update',

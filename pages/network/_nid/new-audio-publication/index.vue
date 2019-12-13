@@ -213,7 +213,6 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
-      console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {
@@ -363,7 +362,6 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
-      console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {
@@ -402,12 +400,10 @@ export default {
       }
     },
     handleEditContributor(contributor) {
-      console.log('edit contributor', contributor)
       this.activeContributor = contributor
       this.isEditContributorModalActive = true
     },
     handleNewContributor(contributor) {
-      console.log('handle new contributor', contributor, this.episode)
       this.isNewContributorModalActive = false
       if (!this.activeAudio) {
         this.$store
@@ -480,7 +476,6 @@ export default {
       }
     },
     handleUpdateContributor(contributor) {
-      console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
       if (!this.activeAudio) {
         this.$store

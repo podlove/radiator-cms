@@ -359,16 +359,12 @@ export default {
         .dispatch('podcasts/depublishPodcast', {
           podcastId: this.podcast.id
         })
-        .then(() => {
-          console.log('depublished', this.podcast)
-        })
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
         })
     },
     handleNewContributor(contributor) {
-      console.log('handle new contributor', contributor, this.episode)
       this.isNewContributorModalActive = false
       this.$store
         .dispatch('people/create', {
@@ -380,7 +376,6 @@ export default {
           podcastId: this.podcast.id
         })
         .then(result => {
-          console.log('result', result)
           this.$store
             .dispatch('contributions/create', {
               podcastId: this.podcast.id,
@@ -402,16 +397,12 @@ export default {
         .dispatch('podcasts/publishPodcast', {
           podcastId: this.podcast.id
         })
-        .then(() => {
-          console.log('published', this.podcast)
-        })
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
         })
     },
     handleUpdateContributor(contributor, activeContributor) {
-      console.log('update contributor', contributor)
       this.isEditContributorModalActive = false
       this.$store
         .dispatch('people/update', {

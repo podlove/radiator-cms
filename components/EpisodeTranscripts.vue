@@ -322,7 +322,6 @@ export default {
   },
   methods: {
     handleTranscriptsDrop(params) {
-      console.log('params', params)
       this.transcriptsState = 'LOADING'
       this.$store
         .dispatch('episodes/createEpisodeTranscripts', this.transcripts)

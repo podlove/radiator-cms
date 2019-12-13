@@ -139,9 +139,6 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this.contributor)
-  },
   methods: {
     handleEditContributor() {
       this.$emit('contributorUpdated', {
@@ -160,9 +157,6 @@ export default {
     },
     handleCloseModal() {
       this.$emit('close')
-    },
-    handleSelectContributor() {
-      console.log('handleSelectContributor', this.existingSelectedContributor)
     }
   }
 }

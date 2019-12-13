@@ -173,7 +173,6 @@ export default {
   },
   methods: {
     handleChapterMarksDrop(params) {
-      console.log('params', params)
       this.chapterMarksState = 'LOADING'
       this.$store
         .dispatch('episodes/createEpisodeChapterMarks', this.default_chapter)
