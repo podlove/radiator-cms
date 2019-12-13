@@ -370,8 +370,9 @@
     <EditContributorModal
       v-if="episode && episode.audio && episode.audio.contributions"
       :contribution-roles="contributionRoles"
-      :is-modal-active="isEditContributorModalActive"
+      :active="isEditContributorModalActive"
       :contributor="activeContributor"
+      @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="id => handleUpdateContributor(id)"
     ></EditContributorModal>
   </section>
