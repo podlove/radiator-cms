@@ -109,10 +109,6 @@
 </template>
 
 <style>
-/* Overwrite Bulma */
-.field {
-  margin-bottom: 0 !important;
-}
 .r_new-podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
@@ -216,7 +212,6 @@ export default {
       this.coverFileState = 'LOADING'
       // Check if there is an activePodcast object in store
       // and if not create one first
-      console.log('this.activePodcast', this.activePodcast.id)
       if (this.activePodcast && this.activePodcast.id) {
         // update network with image
         this.updatePodcast(

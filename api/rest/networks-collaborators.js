@@ -2,7 +2,6 @@ import axios from 'axios'
 
 export default {
   create: data => {
-    console.log('data', data)
     const query = JSON.stringify({
       username: data.username,
       // one of "own", "manage", "edit", "readonly",

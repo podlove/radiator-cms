@@ -39,14 +39,36 @@ export const actions = {
       await restContributions.create(data).then(data => {
         return data && data.data
       })
-      await dispatch(
-        'podcasts/getPodcast',
-        {
-          token: this.$apolloHelpers.getToken(),
-          id: data.podcastId
-        },
-        { root: true }
-      )
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.episodeId
+          },
+          { root: true }
+        )
+      }
+      if (data.audioId) {
+        await dispatch(
+          'audio/getAudio',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.audioId
+          },
+          { root: true }
+        )
+      }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -58,14 +80,36 @@ export const actions = {
       await restContributions.deleteContribution(data).then(data => {
         return data && data.data
       })
-      await dispatch(
-        'podcasts/getPodcast',
-        {
-          token: this.$apolloHelpers.getToken(),
-          id: data.podcastId
-        },
-        { root: true }
-      )
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.episodeId
+          },
+          { root: true }
+        )
+      }
+      if (data.audioId) {
+        await dispatch(
+          'audio/getAudio',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.audioId
+          },
+          { root: true }
+        )
+      }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
@@ -97,6 +141,36 @@ export const actions = {
         return data && data.data
       })
       console.log('res', res)
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.episodeId
+          },
+          { root: true }
+        )
+      }
+      if (data.audioId) {
+        await dispatch(
+          'audio/getAudio',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.audioId
+          },
+          { root: true }
+        )
+      }
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }
