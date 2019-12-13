@@ -19,6 +19,8 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'no-console': 0
+    'no-console': 0,
+    'object-shorthand': 0,
+    'unicorn/throw-new-error': 0
   }
 }
