@@ -1,10 +1,5 @@
 <template>
-  <b-modal
-    :active.sync="isModalActive"
-    has-modal-card
-    :width="900"
-    :can-cancel="[]"
-  >
+  <b-modal :active.sync="active" has-modal-card :width="900" :can-cancel="[]">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
         <p class="modal-card-title">New Contribution</p>
@@ -131,7 +126,7 @@
       </div>
     </div>
     <footer class="modal-card-foot">
-      <button class="button" type="button" @click="$parent.close()">
+      <button class="button" type="button" @click.prevent="handleCloseModal()">
         Close
       </button>
       <button class="button is-primary" @click.prevent="handleAddContributor()">
@@ -162,14 +157,14 @@ export default {
     Upload
   },
   props: {
+    active: {
+      type: Boolean,
+      required: true
+    },
     contributionRoles: {
       type: Array,
       required: false,
       default: null
-    },
-    isModalActive: {
-      type: Boolean,
-      required: true
     },
     persons: {
       type: Array,
@@ -195,9 +190,7 @@ export default {
   },
   methods: {
     handleAddContributor() {
-      console.log('handleAddContributor', this.newContributor)
       if (this.hasContributorSelected) {
-        console.log('here', this)
         this.$emit('contributorSelected', {
           contributionRoleId: this.newContributor.contributionRoleId,
           id: this.existingSelectedContributor
@@ -213,13 +206,19 @@ export default {
           nick: this.newContributor.nick
         })
       }
+      this.hasContributorSelected = false
+      this.existingSelectedContributor = null
+      this.$emit('close')
     },
     handleAvatarFileDrop(params) {
       this.newContributor.image = params.file
       this.avatarFileState = 'SUCCESS'
     },
+    handleCloseModal() {
+      this.existingSelectedContributor = null
+      this.$emit('close')
+    },
     handleSelectContributor() {
-      console.log('handleSelectContributor', this.existingSelectedContributor)
       this.hasContributorSelected = true
     }
   }

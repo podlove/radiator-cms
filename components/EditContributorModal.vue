@@ -153,7 +153,6 @@ export default {
         name: this.newContributor.name,
         nick: this.newContributor.nick
       })
-      // this.$parent.close()
     },
     handleAvatarFileDrop(params) {
       this.newContributor.image = params.file

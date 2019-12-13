@@ -246,7 +246,7 @@
       <b-field label="Contributions">
         <ContributionsField
           :contributions="activeAudio.contributions"
-          @addContributionModalOpen="() => (addContributionModalOpen = true)"
+          @addContributionModalOpen="() => (isNewContributorModalActive = true)"
           @delete="id => handleDeleteContributor(id)"
           @edit="contributor => handleEditContributor(contributor)"
         ></ContributionsField>
@@ -263,18 +263,20 @@
       </b-button>
     </section>
     <NewContributorModal
+      :active="isNewContributorModalActive"
       :contribution-roles="contributionRoles"
-      :is-modal-active="addContributionModalOpen"
       :persons="activeNetwork ? activeNetwork.people : null"
+      @close="() => (isNewContributorModalActive = false)"
       @contributorAdded="contributor => handleNewContributor(contributor)"
       @contributorSelected="
         contributor => handleContributorSelected(contributor)
       "
     ></NewContributorModal>
     <EditContributorModal
+      :active="isEditContributorModalActive"
       :contribution-roles="contributionRoles"
-      :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
+      @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="contributor => handleUpdateContributor(contributor)"
     ></EditContributorModal>
   </section>
@@ -419,7 +421,6 @@ export default {
   data() {
     return {
       activeContributor: null,
-      addContributionModalOpen: false,
       audioFileState: null,
       audioUploadResult: null,
       currentContent: {
