@@ -337,35 +337,14 @@
               </div>
             </b-field>
             <b-field label="Contributions">
-              <div
-                v-if="
-                  episode.audio.contributions &&
-                    episode.audio.contributions.length &&
-                    episode.audio.contributions.length > 0
+              <ContributionsField
+                :contributions="this.episode.audio.contributions"
+                @addContributionModalOpen="
+                  () => (addContributionModalOpen = true)
                 "
-              >
-                <ContributorsTable
-                  :contributors="episode.audio.contributions"
-                  @delete="contributor => handleDeleteContributor(contributor)"
-                  @edit="contributor => handleEditContributor(contributor)"
-                ></ContributorsTable>
-                <b-button @click.stop.prevent="addContributionModalOpen = true">
-                  Add contribution
-                </b-button>
-              </div>
-              <div
-                v-if="
-                  !episode.audio.contributions ||
-                    !episode.audio.contributions.length ||
-                    !episode.audio.contributions.length > 0
-                "
-                class="r_empty-contributions"
-              >
-                <p>No contributions in this episode yet.</p>
-                <b-button @click.stop.prevent="addContributionModalOpen = true">
-                  Add contribution
-                </b-button>
-              </div>
+                @delete="contributor => handleDeleteContributor(contributor)"
+                @edit="contributor => handleEditContributor(contributor)"
+              ></ContributionsField>
             </b-field>
           </b-tab-item>
           <b-tab-item label="Analytics">
@@ -389,7 +368,7 @@
       "
     ></NewContributorModal>
     <EditContributorModal
-      v-if="podcast && podcast.contributions"
+      v-if="episode && episode.audio && episode.audio.contributions"
       :contributionRoles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
@@ -399,6 +378,10 @@
 </template>
 
 <style>
+/* Overwrite Bulma */
+.field:not(:last-child) {
+  margin-bottom: 1.5rem !important;
+}
 .r_empty-contributions {
   align-items: center;
   display: flex;
@@ -498,7 +481,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import ContributorsTable from '~/components/ContributorsTable'
+import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
 import EpisodeTags from '~/components/EpisodeTags'
 import NewContributorModal from '~/components/NewContributorModal'
@@ -506,7 +489,7 @@ import Upload from '~/components/Upload'
 
 export default {
   components: {
-    ContributorsTable,
+    ContributionsField,
     EditContributorModal,
     EpisodeTags,
     NewContributorModal,
@@ -606,7 +589,6 @@ export default {
       }
     },
     handleContributorSelected(contributor) {
-      console.log('selecte', contributor)
       this.$store
         .dispatch('contributions/create', {
           audioId: this.episode.audio.id,
