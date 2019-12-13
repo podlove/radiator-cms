@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_network-hero">
         <div
-          class="r_network-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               network && network.image ? network.image : ''
             })`
           }"
+          class="r_network-hero__cover has-background-light"
         ></div>
         <div class="container r_network-hero__container">
           <h2 v-if="network" lass="subtitle is-size-6 r_network-hero__subtitle">
@@ -131,49 +131,49 @@
             <b-field label="Network Cover">
               <div
                 v-if="isDisabled && network"
-                class="r_settings__cover"
                 :style="{
                   backgroundImage: `url(${network.image ? network.image : ''})`
                 }"
+                class="r_settings__cover"
               ></div>
               <upload
                 v-if="!isDisabled && network"
-                class="field"
                 :state="coverFileState"
                 :type="'IMAGE'"
                 :image="cover"
                 @dropped="params => handleCoverFileDrop(params)"
+                class="field"
               />
             </b-field>
             <div class="r_settings__interaction">
               <b-button
                 v-if="isDisabled"
+                @click.stop.prevent="edit()"
                 type="is-primary"
                 outlined
-                @click.stop.prevent="edit()"
               >
                 Edit Settings
               </b-button>
               <b-button
                 v-if="!isDisabled"
+                @click.stop.prevent="deleteNetwork()"
                 type="is-danger"
                 outlined
-                @click.stop.prevent="deleteNetwork()"
               >
                 Delete Network
               </b-button>
               <b-button
                 v-if="!isDisabled"
+                @click.stop.prevent="cancel()"
                 type="is-dark"
                 outlined
-                @click.stop.prevent="cancel()"
               >
                 Cancel
               </b-button>
               <b-button
                 v-if="!isDisabled"
-                type="is-primary"
                 @click.stop.prevent="save()"
+                type="is-primary"
               >
                 Save
               </b-button>

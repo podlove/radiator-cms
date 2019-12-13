@@ -5,10 +5,10 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-audio-pub-hero">
         <div
-          class="r_new-audio-pub__header__image has-background-light"
           :style="{
             backgroundImage: `url(${cover ? cover : ''})`
           }"
+          class="r_new-audio-pub__header__image has-background-light"
         ></div>
         <div class="r_new-audio-pub__header__container">
           <h1 class="title is-size-3 r_new-audio-pub__header__title">
@@ -37,7 +37,6 @@
       <div class="columns">
         <b-field class="column" label="Audio File">
           <upload
-            class="field"
             :state="audioFileState"
             :type="'AUDIO'"
             :audio="
@@ -46,16 +45,17 @@
                 : null
             "
             @dropped="params => handleAudioFileDrop(params)"
+            class="field"
           />
         </b-field>
       </div>
       <div class="columns">
         <b-field class="column" label="Audio Publication Cover">
           <upload
-            class="field"
             :state="coverFileState"
             :type="'IMAGE'"
             @dropped="params => handleCoverFileDrop(params)"
+            class="field"
           />
         </b-field>
       </div>
@@ -70,11 +70,11 @@
         </b-field>
       </div>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="createAudioPublication()"
+        type="is-primary"
+        outlined
       >
         Add New Audio Publication
       </b-button>
@@ -194,9 +194,7 @@ export default {
           })
           setTimeout(() => {
             this.$router.replace(
-              `/network/${this.activeNetwork.id}/audio-publications/${
-                this.activeAudio.id
-              }`
+              `/network/${this.activeNetwork.id}/audio-publications/${this.activeAudio.id}`
             )
           }, 1000)
         })

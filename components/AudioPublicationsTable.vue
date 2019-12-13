@@ -15,7 +15,6 @@
           <template slot-scope="props">
             <b-table-column width="50" field="image" label="Image" sortable>
               <div
-                class="r_audio-pub__cover has-background-light"
                 :style="{
                   backgroundImage: `url(${
                     props.row.audio && props.row.audio.image
@@ -23,6 +22,7 @@
                       : ''
                   })`
                 }"
+                class="r_audio-pub__cover has-background-light"
               ></div>
             </b-table-column>
             <b-table-column field="title" label="Title" sortable>

@@ -13,9 +13,7 @@ export default {
     query.append('contribution[contribution_role_id]', data.contributionRoleId)
     query.append('contribution[person_id]', data.personId)
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/contributions`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/contributions`,
       query,
       {
         headers: {
@@ -27,9 +25,7 @@ export default {
   },
   deleteContribution: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/contributions/${data.contributionId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/contributions/${data.contributionId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -44,9 +40,7 @@ export default {
     query.append('contribution[contribution_role_id]', data.contributionRoleId)
     query.append('contribution[person_id]', data.personId)
     return axios.patch(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/contributions/${data.contributionId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/contributions/${data.contributionId}`,
       query,
       {
         headers: {

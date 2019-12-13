@@ -9,9 +9,9 @@
         @edit="contributor => handleEditContributor(contributor)"
       ></ContributorsTable>
       <b-button
+        @click.stop.prevent="handleAddContributionModalOpen()"
         class="r_add-button"
         icon-left="plus-circle"
-        @click.stop.prevent="handleAddContributionModalOpen()"
       >
         Add contribution
       </b-button>
@@ -24,8 +24,8 @@
     >
       <p>No contributions in this episode yet.</p>
       <b-button
-        icon-left="plus-circle"
         @click.stop.prevent="handleAddContributionModalOpen()"
+        icon-left="plus-circle"
       >
         Add contribution
       </b-button>

@@ -88,18 +88,18 @@
     <b-field label="Cover">
       <div
         v-if="isDisabled"
-        class="r_settings__cover"
         :style="{
           backgroundImage: `url(${podcast.image ? podcast.image : ''})`
         }"
+        class="r_settings__cover"
       ></div>
       <upload
         v-if="!isDisabled"
-        class="field"
         :state="coverFileState"
         :type="'IMAGE'"
         :image="cover"
         @dropped="params => handleCoverFileDrop(params)"
+        class="field"
       />
     </b-field>
     <b-field label="Contributions">
@@ -113,32 +113,32 @@
     <div class="r_settings__interaction">
       <b-button
         v-if="isDisabled"
+        @click.stop.prevent="$emit('edit')"
         type="is-primary"
         outlined
-        @click.stop.prevent="$emit('edit')"
       >
         Edit Details
       </b-button>
       <b-button
         v-if="!isDisabled"
+        @click.stop.prevent="$emit('delete')"
         type="is-danger"
         outlined
-        @click.stop.prevent="$emit('delete')"
       >
         Delete Podcast
       </b-button>
       <b-button
         v-if="!isDisabled"
+        @click.stop.prevent="$emit('cancel')"
         type="is-dark"
         outlined
-        @click.stop.prevent="$emit('cancel')"
       >
         Cancel
       </b-button>
       <b-button
+        @click.stop.prevent="handlePodcastSave()"
         v-if="!isDisabled"
         type="is-primary"
-        @click.stop.prevent="handlePodcastSave()"
       >
         Save
       </b-button>
@@ -183,10 +183,10 @@
 </style>
 
 <script>
+import Upload from './Upload'
 import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
 import NewContributorModal from '~/components/NewContributorModal'
-import Upload from './Upload'
 
 export default {
   components: {

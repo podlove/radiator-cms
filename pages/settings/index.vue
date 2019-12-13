@@ -5,10 +5,10 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_settings-hero">
         <div
-          class="r_settings-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${user.image ? user.image : ''})`
           }"
+          class="r_settings-hero__cover has-background-light"
         ></div>
         <div class="container r_settings-hero__container">
           <h2 lass="subtitle is-size-6 r_settings-hero__subtitle">
@@ -28,7 +28,7 @@
         <b-input :value="user.email"></b-input>
       </b-field>
       <b-field label="Password">
-        <b-input type="password" :value="user.password"></b-input>
+        <b-input :value="user.password" type="password"></b-input>
       </b-field>
     </section>
   </section>

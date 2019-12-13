@@ -32,9 +32,9 @@
             </b-field>
             <div class="podlove-step-navigation-group">
               <b-button
-                class="is-primary"
                 :disabled="networkId === null"
                 @click.stop.prevent="fetchPodcastInfos()"
+                class="is-primary"
               >
                 Check Podcast
               </b-button>
@@ -46,12 +46,12 @@
             <b-loading :active.sync="isFetchingInfos"></b-loading>
             <div class="podcast-name">
               <div
-                class="r_podcast__cover has-background-dark"
                 :style="{
                   backgroundImage: `url(${
                     feedInfo && feedInfo.image ? feedInfo.image : ''
                   })`
                 }"
+                class="r_podcast__cover has-background-dark"
               ></div>
               <div class="r_podcast__title">
                 <h1 class="is-size-5">{{ feedInfo.title }}</h1>
@@ -94,12 +94,12 @@
               </b-field>
             </div>
             <div class="podlove-step-navigation-group">
-              <b-button class="is-primary" @click.stop.prevent="navigateTo(0)">
+              <b-button @click.stop.prevent="navigateTo(0)" class="is-primary">
                 Back
               </b-button>
               <b-button
-                class="is-primary"
                 @click.stop.prevent="fetchEpisodes()"
+                class="is-primary"
               >
                 Import Podcast
               </b-button>
@@ -110,12 +110,12 @@
           <section>
             <div class="podcast-name">
               <div
-                class="r_podcast__cover has-background-dark"
                 :style="{
                   backgroundImage: `url(${
                     feedInfo && feedInfo.image ? feedInfo.image : ''
                   })`
                 }"
+                class="r_podcast__cover has-background-dark"
               ></div>
               <div class="r_podcast__title">
                 <h1 class="is-size-5">{{ feedInfo.title }}</h1>
@@ -154,49 +154,49 @@
                   {{ props.row.title }}
                 </b-table-column>
                 <b-table-column
+                  :class="checkField(props.row.mp3)"
                   field="mp3"
                   label="mp3"
-                  :class="checkField(props.row.mp3)"
                 >
                   {{ props.row.mp3 }}
                 </b-table-column>
                 <b-table-column
+                  :class="checkField(props.row.m4a)"
                   field="m4a"
                   label="m4a"
-                  :class="checkField(props.row.m4a)"
                 >
                   {{ props.row.m4a }}
                 </b-table-column>
                 <b-table-column
+                  :class="checkField(props.row.ogg)"
                   field="ogg"
                   label="ogg"
-                  :class="checkField(props.row.ogg)"
                 >
                   {{ props.row.ogg }}
                 </b-table-column>
                 <b-table-column
+                  :class="checkField(props.row.transcripts)"
                   field="transcripts"
                   label="Transcripts"
-                  :class="checkField(props.row.transcripts)"
                 >
                   {{ props.row.transcripts }}
                 </b-table-column>
                 <b-table-column
+                  :class="checkField(props.row.chapter_marks)"
                   field="chapter_marks"
                   label="Chapter Marks"
-                  :class="checkField(props.row.chapter_marks)"
                 >
                   {{ props.row.chapter_marks }}
                 </b-table-column>
               </template>
             </b-table>
             <div class="podlove-step-navigation-group">
-              <b-button class="is-primary" @click.stop.prevent="stopImport()">
+              <b-button @click.stop.prevent="stopImport()" class="is-primary">
                 Stop Import
               </b-button>
               <b-button
-                class="is-primary"
                 @click="$router.push(`/network/${networkId}/podcast/${pid}`)"
+                class="is-primary"
               >
                 Go to Podcast Overview
               </b-button>

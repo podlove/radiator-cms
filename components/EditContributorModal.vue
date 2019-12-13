@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active.sync="active" has-modal-card :width="600" :can-cancel="[]">
+  <b-modal :active.sync="active" :width="600" :can-cancel="[]" has-modal-card>
     <form v-if="contributor">
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
@@ -9,8 +9,8 @@
           <b-field label="Name">
             <b-input
               v-model="newContributor.name"
-              type="text"
               :placeholder="contributor.person.name"
+              type="text"
             >
             </b-input>
           </b-field>
@@ -39,48 +39,48 @@
           <b-field label="Display name">
             <b-input
               v-model="newContributor.displayName"
-              type="text"
               :placeholder="contributor.person.displayName"
+              type="text"
             >
             </b-input>
           </b-field>
           <b-field label="Email">
             <b-input
               v-model="newContributor.email"
-              type="email"
               :placeholder="contributor.person.email"
+              type="email"
             >
             </b-input>
           </b-field>
           <b-field label="Link">
             <b-input
               v-model="newContributor.link"
-              type="text"
               :placeholder="contributor.person.link"
+              type="text"
             >
             </b-input>
           </b-field>
           <b-field label="Avatar">
             <upload
-              class="field"
               :state="avatarFileState"
               :type="'IMAGE'"
               :image="newContributor.image"
               @dropped="params => handleAvatarFileDrop(params)"
+              class="field"
             />
           </b-field>
         </section>
         <footer class="modal-card-foot">
           <button
+            @click.prevent="handleCloseModal()"
             class="button"
             type="button"
-            @click.prevent="handleCloseModal()"
           >
             Close
           </button>
           <button
-            class="button is-primary"
             @click.prevent="handleEditContributor()"
+            class="button is-primary"
           >
             Save
           </button>

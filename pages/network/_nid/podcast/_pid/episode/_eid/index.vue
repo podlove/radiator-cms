@@ -5,7 +5,6 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_episode-hero">
         <div
-          class="r_episode-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               episode && episode.audio && episode.audio.image
@@ -13,6 +12,7 @@
                 : ''
             })`
           }"
+          class="r_episode-hero__cover has-background-light"
         ></div>
         <div class="r_episode-hero__container">
           <h1 v-if="episode" class="title is-size-3 r_podcast-hero__title">
@@ -54,8 +54,8 @@
                 <b-input
                   v-if="editable.title"
                   v-model="currentContent.title"
-                  type="text"
                   :placeholder="episode.title"
+                  type="text"
                   class="r_inactive-input__input"
                 ></b-input>
                 <span v-if="!editable.title" class="r_inactive-input__text">
@@ -63,26 +63,26 @@
                 </span>
                 <b-button
                   v-if="!editable.title"
-                  type="is-text"
                   @click.stop.prevent="editable.title = true"
+                  type="is-text"
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.title"
-                  type="is-text"
                   @click.stop.prevent="editable.title = false"
+                  type="is-text"
                 >
                   <b-icon icon="cancel"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.title"
-                  type="is-text"
                   @click.stop.prevent="
                     handleUpdateEpisode('title', {
                       title: currentContent.title
                     })
                   "
+                  type="is-text"
                 >
                   <b-icon icon="check"></b-icon>
                 </b-button>
@@ -94,8 +94,8 @@
                 <b-input
                   v-if="editable.subtitle"
                   v-model="currentContent.subtitle"
-                  type="text"
                   :placeholder="episode.subtitle"
+                  type="text"
                   class="r_inactive-input__input"
                 ></b-input>
                 <span v-if="!editable.subtitle" class="r_inactive-input__text">
@@ -103,26 +103,26 @@
                 </span>
                 <b-button
                   v-if="!editable.subtitle"
-                  type="is-text"
                   @click.stop.prevent="editable.subtitle = true"
+                  type="is-text"
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.subtitle"
-                  type="is-text"
                   @click.stop.prevent="editable.subtitle = false"
+                  type="is-text"
                 >
                   <b-icon icon="cancel"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.subtitle"
-                  type="is-text"
                   @click.stop.prevent="
                     handleUpdateEpisode('subtitle', {
                       subtitle: currentContent.subtitle
                     })
                   "
+                  type="is-text"
                 >
                   <b-icon icon="check"></b-icon>
                 </b-button>
@@ -134,8 +134,8 @@
                 <b-input
                   v-if="editable.summary"
                   v-model="currentContent.summary"
-                  type="textarea"
                   :placeholder="episode.summary"
+                  type="textarea"
                   class="r_inactive-input__input"
                 ></b-input>
                 <span
@@ -146,26 +146,26 @@
                 </span>
                 <b-button
                   v-if="!editable.summary"
-                  type="is-text"
                   @click.stop.prevent="editable.summary = true"
+                  type="is-text"
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.summary"
-                  type="is-text"
                   @click.stop.prevent="editable.summary = false"
+                  type="is-text"
                 >
                   <b-icon icon="cancel"></b-icon>
                 </b-button>
                 <b-button
                   v-if="editable.summary"
-                  type="is-text"
                   @click.stop.prevent="
                     handleUpdateEpisode('summary', {
                       summary: currentContent.summary
                     })
                   "
+                  type="is-text"
                 >
                   <b-icon icon="check"></b-icon>
                 </b-button>
@@ -186,26 +186,26 @@
                   </span>
                   <b-button
                     v-if="!editable.shortId"
-                    type="is-text"
                     @click.stop.prevent="editable.shortId = true"
+                    type="is-text"
                   >
                     <b-icon icon="pencil"></b-icon>
                   </b-button>
                   <b-button
                     v-if="editable.shortId"
-                    type="is-text"
                     @click.stop.prevent="editable.shortId = false"
+                    type="is-text"
                   >
                     <b-icon icon="cancel"></b-icon>
                   </b-button>
                   <b-button
                     v-if="editable.shortId"
-                    type="is-text"
                     @click.stop.prevent="
                       handleUpdateEpisode('shortId', {
                         shortId: currentContent.shortId
                       })
                     "
+                    type="is-text"
                   >
                     <b-icon icon="check"></b-icon>
                   </b-button>
@@ -225,26 +225,26 @@
                   </span>
                   <b-button
                     v-if="!editable.number"
-                    type="is-text"
                     @click.stop.prevent="editable.number = true"
+                    type="is-text"
                   >
                     <b-icon icon="pencil"></b-icon>
                   </b-button>
                   <b-button
                     v-if="editable.number"
-                    type="is-text"
                     @click.stop.prevent="editable.number = false"
+                    type="is-text"
                   >
                     <b-icon icon="cancel"></b-icon>
                   </b-button>
                   <b-button
                     v-if="editable.number"
-                    type="is-text"
                     @click.stop.prevent="
                       handleUpdateEpisode('number', {
                         number: currentContent.number
                       })
                     "
+                    type="is-text"
                   >
                     <b-icon icon="check"></b-icon>
                   </b-button>
@@ -255,16 +255,15 @@
               <div class="r_inactive-input__cover">
                 <div
                   v-if="!editable.image"
-                  class="r_inactive-input__cover__image"
                   :style="{
                     backgroundImage: `url(${
                       episode.image ? episode.image : ''
                     })`
                   }"
+                  class="r_inactive-input__cover__image"
                 ></div>
                 <upload
                   v-if="editable.image"
-                  class="field"
                   :state="coverFileState"
                   :type="'IMAGE'"
                   :image="currentContent.image"
@@ -274,11 +273,12 @@
                         image: params.file
                       })
                   "
+                  class="field"
                 />
                 <b-button
                   v-if="!editable.image"
-                  type="is-text"
                   @click.stop.prevent="editable.image = true"
+                  type="is-text"
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
@@ -309,8 +309,8 @@
                       </span>
                     </div>
                     <b-button
-                      type="is-text"
                       @click.prevent="handleDeleteAudioFile(file.id)"
+                      type="is-text"
                     >
                       <b-icon icon="delete"></b-icon>
                     </b-button>
@@ -322,7 +322,6 @@
                       !episode.audio.audioFiles ||
                       episode.audio.audioFiles.length <= 0
                   "
-                  class="field"
                   :state="audioFileState"
                   :type="'AUDIO'"
                   :audio="currentContent.audio"
@@ -333,6 +332,7 @@
                         file: params.file
                       })
                   "
+                  class="field"
                 />
               </div>
             </b-field>
