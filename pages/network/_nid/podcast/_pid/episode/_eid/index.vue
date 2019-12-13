@@ -338,7 +338,7 @@
             </b-field>
             <b-field label="Contributions">
               <ContributionsField
-                :contributions="this.episode.audio.contributions"
+                :contributions="episode.audio.contributions"
                 @addContributionModalOpen="
                   () => (addContributionModalOpen = true)
                 "
@@ -361,7 +361,7 @@
     <NewContributorModal
       :contribution-roles="contributionRoles"
       :is-modal-active="addContributionModalOpen"
-      :persons="this.network ? this.network.people : null"
+      :persons="network ? network.people : null"
       @contributorAdded="contributor => handleNewContributor(contributor)"
       @contributorSelected="
         contributor => handleContributorSelected(contributor)
@@ -369,7 +369,7 @@
     ></NewContributorModal>
     <EditContributorModal
       v-if="episode && episode.audio && episode.audio.contributions"
-      :contributionRoles="contributionRoles"
+      :contribution-roles="contributionRoles"
       :is-modal-active="isEditContributorModalActive"
       :contributor="activeContributor"
       @contributorUpdated="id => handleUpdateContributor(id)"
