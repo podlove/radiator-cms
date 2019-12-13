@@ -243,6 +243,14 @@
           </b-button>
         </div>
       </b-field>
+      <b-field label="Contributions">
+        <ContributionsField
+          :contributions="this.activeAudio.contributions"
+          @addContributionModalOpen="handleOpenAddContributionModal()"
+          @delete="contributor => handleDeleteContributor(contributor)"
+          @edit="contributor => handleEditContributor(contributor)"
+        ></ContributionsField>
+      </b-field>
       <b-button
         v-if="activeAudio.audioPublication"
         class="r_audio-pub-highlights__button"
@@ -254,11 +262,29 @@
         <span> Delete Audio Publication</span>
       </b-button>
     </section>
+    <NewContributorModal
+      :contribution-roles="contributionRoles"
+      :is-modal-active="addContributionModalOpen"
+      :persons="this.activeNetwork ? this.activeNetwork.people : null"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
+      @contributorSelected="
+        contributor => handleContributorSelected(contributor)
+      "
+    ></NewContributorModal>
+    <EditContributorModal
+      :contributionRoles="contributionRoles"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="activeContributor"
+      @contributorUpdated="id => handleUpdateContributor(id)"
+    ></EditContributorModal>
   </section>
 </template>
 
 <style>
 /* Overwrite Bulma */
+.field:not(:last-child) {
+  margin-bottom: 1.5rem !important;
+}
 .tags,
 .tag {
   margin-bottom: 0 !important;
@@ -314,6 +340,11 @@
 }
 .r_audio-pub-main__container {
   padding: 2rem 0 0 0;
+}
+.r_empty-contributions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 .r_inactive-input {
   display: flex;
@@ -373,12 +404,22 @@
 
 <script>
 import { mapState } from 'vuex'
+import ContributionsField from '~/components/ContributionsField'
+import EditContributorModal from '~/components/EditContributorModal'
+import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
 
 export default {
-  components: { Upload },
+  components: {
+    ContributionsField,
+    EditContributorModal,
+    NewContributorModal,
+    Upload
+  },
   data() {
     return {
+      activeContributor: null,
+      addContributionModalOpen: false,
       audioFileState: null,
       audioUploadResult: null,
       currentContent: {
@@ -391,13 +432,16 @@ export default {
         image: false,
         title: false
       },
+      isEditContributorModalActive: false,
+      isNewContributorModalActive: false,
       isLoading: false,
       title: this.activeAudio ? this.activeAudio.audioPublication.title : ''
     }
   },
   computed: mapState({
     activeAudio: state => state.audio.activeAudio,
-    activeNetwork: state => state.networks.activeNetwork
+    activeNetwork: state => state.networks.activeNetwork,
+    contributionRoles: state => state.contributions.contributionRoles
   }),
   methods: {
     deleteAudioPublication() {
@@ -464,11 +508,82 @@ export default {
           }
         })
     },
+    handleOpenAddContributionModal() {
+      this.addContributionModalOpen = true
+    },
+    handleContributorSelected(contributor) {
+      this.$store
+        .dispatch('contributions/create', {
+          audioId: this.activeAudio.id,
+          contributionRoleId: contributor.contributionRoleId,
+          personId: contributor.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleDeleteContributor(id) {
+      this.$store
+        .dispatch('contributions/deleteContribution', {
+          contributionId: id,
+          audioId: this.activeAudio.id
+        })
+        .then(() => {
+          this.alert = {
+            type: 'is-success',
+            message: 'Contributor successfully removed.'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
     handleDepublishAudioPublication() {
       this.$store
         .dispatch('audio/depublishAudioPublication', {
           id: this.activeAudio.audioPublication.id,
           audioId: this.activeAudio.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleEditContributor(contributor) {
+      console.log('edit contributor', contributor)
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
+    handleNewContributor(contributor) {
+      console.log('handle new contributor', contributor, this.episode)
+      this.isNewContributorModalActive = false
+      this.$store
+        .dispatch('people/create', {
+          displayName: contributor.displayName || null,
+          image: contributor.image || null,
+          name: contributor.name || null,
+          networkId: this.network.id,
+          nick: contributor.nick || null,
+          audioId: this.audio.id
+        })
+        .then(result => {
+          console.log('result', result)
+          this.$store
+            .dispatch('contributions/create', {
+              audioId: this.episode.audio.id,
+              episodeId: this.episode.id,
+              contributionRoleId: contributor.contributionRoleId,
+              personId: result.id
+            })
+            .catch(error => {
+              console.warn(error)
+              this.$router.push('/404')
+            })
         })
         .catch(error => {
           console.warn(error)
@@ -513,6 +628,31 @@ export default {
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
+        })
+    },
+    handleUpdateContributor(contributor) {
+      console.log('update contributor', contributor)
+      this.isEditContributorModalActive = false
+      this.$store
+        .dispatch('people/update', {
+          contributionId: this.activeContributor.id,
+          contributionRoleId: contributor.contributionRoleId,
+          displayName: contributor.displayName,
+          email: contributor.email,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
+          networkId: this.activeNetwork.id,
+          nick: contributor.nick,
+          personId: this.activeContributor.person.id,
+          audioId: this.activeAudio.id
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
         })
     }
   }
