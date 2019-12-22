@@ -152,6 +152,8 @@
 </style>
 
 <script>
+import { ToastProgrammatic as Toast } from 'buefy'
+
 export default {
   props: {
     audio: {
@@ -229,10 +231,32 @@ export default {
       })
     },
     handleFileDrop(event) {
-      this.$emit('dropped', {
-        type: this.type,
-        file: this.newDropFile
-      })
+      console.log(this.type)
+      console.log(event)
+      switch (this.type) {
+        case 'IMAGE':
+          if (event.type.split('/')[0] === 'image') {
+            console.log('das ist ein image')
+            this.$emit('dropped', {
+              type: this.type,
+              file: this.newDropFile
+            })
+          } else {
+            console.log('das ist KEIN image')
+            Toast.open({
+              type: 'is-danger',
+              message: 'This is not an image file.'
+            })
+            this.newDropFile = null
+          }
+          break
+        default:
+          console.log('der geht hier rein?')
+          this.$emit('dropped', {
+            type: this.type,
+            file: this.newDropFile
+          })
+      }
     },
     handleFilePlay(sound) {
       if (sound) {
