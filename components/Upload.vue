@@ -248,8 +248,21 @@ export default {
             this.newDropFile = null
           }
           break
+        case 'AUDIO':
+          if (event.type.split('/')[0] === 'audio') {
+            this.$emit('dropped', {
+              type: this.type,
+              file: this.newDropFile
+            })
+          } else {
+            Toast.open({
+              type: 'is-danger',
+              message: 'This is not an audio file.'
+            })
+            this.newDropFile = null
+          }
+          break
         default:
-          console.log('der geht hier rein?')
           this.$emit('dropped', {
             type: this.type,
             file: this.newDropFile
