@@ -75,6 +75,16 @@ export const actions = {
       throw Error(e)
     }
   },
+  resetPassword: async function resetPassword({ dispatch }, data) {
+    data.token = this.$apolloHelpers.getToken()
+    try {
+      await authRest.resetPassword(data).then(data => {
+        return data && data.data
+      })
+    } catch (e) {
+      throw Error(e)
+    }
+  },
   /**
    * Can be used to make the store be aware
    * that a user is logged in.

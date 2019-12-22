@@ -12,15 +12,15 @@
       <b-field label="Forgot your password?">
         <b-input
           v-model="email"
-          placeholder="Your email address"
           @keyup.native.enter.prevent="resetPW()"
+          placeholder="Your email address"
         ></b-input>
       </b-field>
       <b-button
-        type="is-primary"
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="resetPW()"
+        type="is-primary"
       >
         Reset Password
       </b-button>
@@ -52,6 +52,21 @@ export default {
   methods: {
     resetPW() {
       console.log('reset pw')
+      if (this.email) {
+        this.$store
+          .dispatch('auth/resetPassword', {
+            username: this.email
+          })
+          .then(result => {
+            this.alert = {
+              message: 'We send you a password reset link.',
+              type: 'is-success'
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     }
   }
 }
