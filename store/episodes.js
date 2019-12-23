@@ -113,11 +113,5 @@ export const actions = {
     } catch (e) {
       throw Error(e)
     }
-  },
-  createEpisodeTranscripts: async function createEpisodeTranscripts(
-    { commit },
-    data
-  ) {
-    await commit('set_episode_transcripts', data)
   }
 }
