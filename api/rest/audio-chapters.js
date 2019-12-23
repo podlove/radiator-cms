@@ -6,9 +6,7 @@ export default {
       data: data.file
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${
-        process.env.backendVersion
-      }/convert/chapters`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/convert/chapters`,
       query,
       {
         headers: {
@@ -29,9 +27,7 @@ export default {
       }
     })
     return axios.post(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.chapter.audio_id
-      }/chapters`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${data.chapter.audio_id}/chapters`,
       query,
       {
         headers: {
@@ -43,9 +39,7 @@ export default {
   },
   deleteChapter: data => {
     return axios.delete(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.audio_id
-      }/chapters/${data.chapter.start}`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${data.audio_id}/chapters/${data.chapter.start}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -56,9 +50,7 @@ export default {
   },
   getChapters: data => {
     return axios.get(
-      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${
-        data.audio_id
-      }/chapters?format=json`,
+      `${process.env.baseUrl}/api/rest/${process.env.backendVersion}/audios/${data.audio_id}/chapters?format=json`,
       {
         headers: {
           'Content-Type': 'application/json',
