@@ -19,7 +19,7 @@
       </div>
     </section>
     <section class="container">
-      <no-ssr>
+      <client-only>
         <b-tabs v-if="!isLoggedIn" v-model="activeTab" class="r_tabs">
           <b-tab-item label="Login">
             <login />
@@ -31,7 +31,7 @@
             <reset-password />
           </b-tab-item>
         </b-tabs>
-      </no-ssr>
+      </client-only>
     </section>
   </section>
 </template>

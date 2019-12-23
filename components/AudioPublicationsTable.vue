@@ -1,6 +1,6 @@
 <template>
   <section class="r_audio-pubs">
-    <no-ssr>
+    <client-only>
       <section class="r_audio-pubs__main">
         <b-table
           :data="network.audioPublications"
@@ -136,7 +136,7 @@
           </template>
         </b-table>
       </section>
-    </no-ssr>
+    </client-only>
   </section>
 </template>
 
