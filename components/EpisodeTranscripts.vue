@@ -64,10 +64,10 @@
     </section>
     <upload
       v-if="editable"
-      class="field"
       :state="transcriptsState"
       :type="'FILE'"
       @dropped="params => handleTranscriptsDrop(params)"
+      class="field"
     />
     <!-- <p>{{ transcripts }}</p> -->
     <section class="r_episode-transcripts__content">
@@ -334,7 +334,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~/assets/css/main.scss';
+// @import '~/assets/css/main.scss';
 h2 {
   font-size: 1.25em;
   font-weight: bold;
@@ -358,11 +358,10 @@ h2 {
 .r_episode-transcripts__speaker {
   padding-left: 3px;
   padding-right: 5px;
-  background: $primary;
-  color: white;
   font-weight: bold;
   border-radius: 3px;
   float: left;
+  background: #eaeaea;
 }
 .r_episode-transcripts__content {
   padding: 1em 1.5em;

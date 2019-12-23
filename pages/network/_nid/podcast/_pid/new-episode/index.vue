@@ -122,6 +122,7 @@
       :contributor="activeContributor"
       @contributorUpdated="id => handleUpdateContributor(id)"
     ></EditContributorModal>
+    <EpisodeTranscripts></EpisodeTranscripts>
   </section>
 </template>
 
@@ -171,6 +172,7 @@ import { ToastProgrammatic as Toast } from 'buefy'
 
 import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
+import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
 
@@ -178,6 +180,7 @@ export default {
   components: {
     ContributionsField,
     EditContributorModal,
+    EpisodeTranscripts,
     NewContributorModal,
     Upload
   },
