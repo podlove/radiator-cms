@@ -1,7 +1,7 @@
 <template>
   <!-- Shows episodes as a sortable, paginated table. -->
   <section class="has-background-white r_episodes">
-    <no-ssr>
+    <client-only>
       <section class="r_episodes__main">
         <b-table
           :data="episodes"
@@ -168,7 +168,7 @@
           </template>
         </b-table>
       </section>
-    </no-ssr>
+    </client-only>
   </section>
 </template>
 

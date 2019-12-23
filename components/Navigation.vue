@@ -1,6 +1,6 @@
 <template>
   <!-- Main navigation. -->
-  <no-ssr>
+  <client-only>
     <nav
       class="navbar is-primary is-fixed-top"
       role="navigation"
@@ -125,7 +125,7 @@
         </div>
       </div>
     </nav>
-  </no-ssr>
+  </client-only>
 </template>
 
 <style lang="scss" scoped>
