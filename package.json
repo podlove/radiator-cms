@@ -23,12 +23,12 @@
     "cross-env": "^5.2.0",
     "graphql-tag": "^2.10.1",
     "jwt-decode": "^2.2.0",
-    "nuxt": "^2.6.3",
+    "nuxt": "^2.11.0",
     "nuxt-buefy": "^0.3.13",
     "nuxt-vuex-localstorage": "^1.2.6",
     "tiptap": "^1.22.0",
     "tiptap-extensions": "^1.22.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
@@ -63,6 +63,6 @@
     "typescript": "^3.6.4",
     "vue-jest": "^3.0.3",
     "vue-loader": "^15.7.1",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.11"
   }
 }
