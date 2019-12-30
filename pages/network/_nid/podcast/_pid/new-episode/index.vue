@@ -122,7 +122,7 @@
       :contributor="activeContributor"
       @contributorUpdated="id => handleUpdateContributor(id)"
     ></EditContributorModal>
-    <EpisodeTranscripts></EpisodeTranscripts>
+    <EpisodeTranscripts :editable="true"></EpisodeTranscripts>
   </section>
 </template>
 
