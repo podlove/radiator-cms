@@ -286,7 +286,7 @@
             </b-field>
             <b-field label="Audio File">
               <div>
-                <ul>
+                <ul v-if="episode.audio">
                   <li
                     v-for="file in episode.audio.audioFiles"
                     :key="file.id"
@@ -338,6 +338,7 @@
             </b-field>
             <b-field label="Contributions">
               <ContributionsField
+                v-if="episode.audio"
                 :contributions="episode.audio.contributions"
                 @addContributionModalOpen="
                   () => (isNewContributorModalActive = true)
@@ -376,6 +377,7 @@
       @close="() => (isEditContributorModalActive = false)"
       @contributorUpdated="id => handleUpdateContributor(id)"
     ></EditContributorModal>
+    <EpisodeTranscripts></EpisodeTranscripts>
   </section>
 </template>
 
@@ -486,6 +488,7 @@ import { mapState } from 'vuex'
 import ContributionsField from '~/components/ContributionsField'
 import EditContributorModal from '~/components/EditContributorModal'
 import EpisodeTags from '~/components/EpisodeTags'
+import EpisodeTranscripts from '~/components/EpisodeTranscripts'
 import NewContributorModal from '~/components/NewContributorModal'
 import Upload from '~/components/Upload'
 
@@ -494,6 +497,7 @@ export default {
     ContributionsField,
     EditContributorModal,
     EpisodeTags,
+    EpisodeTranscripts,
     NewContributorModal,
     Upload
   },
