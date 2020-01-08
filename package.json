@@ -18,7 +18,7 @@
     "@mdi/font": "^4.4.95",
     "@nuxtjs/apollo": "^4.0.0-rc7",
     "@nuxtjs/axios": "^5.9.2",
-    "@nuxtjs/moment": "^1.2.0",
+    "@nuxtjs/moment": "^1.5.0",
     "@storybook/addon-knobs": "^5.2.5",
     "cross-env": "^5.2.0",
     "graphql-tag": "^2.10.1",
