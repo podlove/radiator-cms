@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
-    "@nuxtjs/eslint-config": "^1.1.2",
+    "@nuxtjs/eslint-config": "^2.0.0",
     "@storybook/vue": "^5.2.5",
     "@vue/cli-shared-utils": "^3.12.1",
     "@vue/test-utils": "^1.0.0-beta.29",
