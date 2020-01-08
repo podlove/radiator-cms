@@ -31,7 +31,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.7.7",
     "@nuxtjs/eslint-config": "^1.1.2",
     "@storybook/vue": "^5.2.5",
     "@vue/cli-shared-utils": "^3.12.1",
