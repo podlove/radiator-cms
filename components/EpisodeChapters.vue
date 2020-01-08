@@ -18,10 +18,10 @@
     </section>
     <upload
       v-if="editable"
-      class="field"
       :state="chapterMarksState"
       :type="'FILE'"
       @dropped="params => handleChapterMarksDrop(params)"
+      class="field"
     />
     <ul v-if="episodeChapters" class="r_episode-chapters__list">
       <li
