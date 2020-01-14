@@ -19,7 +19,7 @@
       </div>
     </section>
     <section class="container">
-      <no-ssr>
+      <client-only>
         <b-tabs v-if="!isLoggedIn" v-model="activeTab" class="r_tabs">
           <b-tab-item label="Login">
             <login />
@@ -27,8 +27,11 @@
           <b-tab-item label="Sign-up">
             <signup />
           </b-tab-item>
+          <b-tab-item label="Reset Password">
+            <reset-password />
+          </b-tab-item>
         </b-tabs>
-      </no-ssr>
+      </client-only>
     </section>
   </section>
 </template>
@@ -43,12 +46,14 @@
 import { mapState } from 'vuex'
 
 import Login from '~/components/Login'
+import ResetPassword from '~/components/ResetPassword'
 import Signup from '~/components/Signup'
 
 export default {
   name: 'HomePage',
   components: {
     Login,
+    ResetPassword,
     Signup
   },
   data() {

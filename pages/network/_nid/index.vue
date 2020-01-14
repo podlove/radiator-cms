@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_network-hero">
         <div
-          class="r_network-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               network && network.image ? network.image : ''
             })`
           }"
+          class="r_network-hero__cover has-background-light"
         ></div>
         <div class="container r_network-hero__container">
           <h2 v-if="network" lass="subtitle is-size-6 r_network-hero__subtitle">
@@ -64,6 +64,44 @@
             </ul>
           </section>
         </b-tab-item>
+        <b-tab-item label="Audio Publications">
+          <section class="r_network__audio-pubs">
+            <div class="r_network__audio-pubs__buttongroup">
+              <p v-if="network" class="r_network__audio-pubs__new">
+                <nuxt-link
+                  :to="'/network/' + network.id + '/new-audio-publication'"
+                >
+                  <b-button outlined type="is-primary" icon-left="plus-circle">
+                    <span>Add new audio publication</span>
+                  </b-button>
+                </nuxt-link>
+              </p>
+            </div>
+            <div
+              v-if="
+                network &&
+                  (!network.audioPublications ||
+                    !network.audioPublications.length > 0)
+              "
+            >
+              <p class="r_network__info-text">
+                There are no audio publications in your network.
+              </p>
+            </div>
+            <section
+              v-if="
+                network &&
+                  network.audioPublications &&
+                  network.audioPublications.length > 0
+              "
+              class="r_network__audio-pubs__table"
+            >
+              <AudioPublicationsTable
+                :network="network"
+              ></AudioPublicationsTable>
+            </section>
+          </section>
+        </b-tab-item>
         <b-tab-item label="Analytics">
           <div class="tile">
             <article class="tile is-child notification is-warning">
@@ -93,49 +131,49 @@
             <b-field label="Network Cover">
               <div
                 v-if="isDisabled && network"
-                class="r_settings__cover"
                 :style="{
                   backgroundImage: `url(${network.image ? network.image : ''})`
                 }"
+                class="r_settings__cover"
               ></div>
               <upload
                 v-if="!isDisabled && network"
-                class="field"
                 :state="coverFileState"
                 :type="'IMAGE'"
                 :image="cover"
                 @dropped="params => handleCoverFileDrop(params)"
+                class="field"
               />
             </b-field>
             <div class="r_settings__interaction">
               <b-button
                 v-if="isDisabled"
+                @click.stop.prevent="edit()"
                 type="is-primary"
                 outlined
-                @click.stop.prevent="edit()"
               >
                 Edit Settings
               </b-button>
               <b-button
                 v-if="!isDisabled"
+                @click.stop.prevent="deleteNetwork()"
                 type="is-danger"
                 outlined
-                @click.stop.prevent="deleteNetwork()"
               >
                 Delete Network
               </b-button>
               <b-button
                 v-if="!isDisabled"
+                @click.stop.prevent="cancel()"
                 type="is-dark"
                 outlined
-                @click.stop.prevent="cancel()"
               >
                 Cancel
               </b-button>
               <b-button
                 v-if="!isDisabled"
-                type="is-primary"
                 @click.stop.prevent="save()"
+                type="is-primary"
               >
                 Save
               </b-button>
@@ -159,6 +197,7 @@
 .r_network__audio-pubs {
   padding: 1rem 0 2rem 0;
 }
+.r_network__audio-pubs__buttongroup,
 .r_network__podcasts__buttongroup {
   float: right;
   display: flex;
@@ -215,11 +254,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import AudioPublicationsTable from '~/components/AudioPublicationsTable'
 import Podcast from '~/components/Podcast'
 import Upload from '~/components/Upload'
 
 export default {
   components: {
+    AudioPublicationsTable,
     Podcast,
     Upload
   },

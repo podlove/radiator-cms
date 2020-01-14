@@ -96,7 +96,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import Upload from '~/components/Upload'
+import Upload from './Upload'
 export default {
   components: {
     Upload
@@ -322,7 +322,6 @@ export default {
   },
   methods: {
     handleTranscriptsDrop(params) {
-      console.log('params', params)
       this.transcriptsState = 'LOADING'
       this.$store
         .dispatch('episodes/createEpisodeTranscripts', this.transcripts)

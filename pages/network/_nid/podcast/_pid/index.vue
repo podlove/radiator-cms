@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_podcast-hero">
         <div
-          class="r_podcast-hero__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               podcast && podcast.image ? podcast.image : ''
             })`
           }"
+          class="r_podcast-hero__cover has-background-light"
         ></div>
         <div class="r_podcast-hero__container">
           <h1 v-if="podcast" class="title is-size-3 r_podcast-hero__title">
@@ -49,8 +49,8 @@
             <b-tag type="is-dark">Public website:</b-tag>
             <b-tag v-if="podcast.publicPage" type="is-light">
               <a
-                class="r_podcast-highlights__link"
                 :href="podcast.publicPage"
+                class="r_podcast-highlights__link"
                 target="_blank"
               >
                 {{ podcast.publicPage }}
@@ -98,9 +98,9 @@
               podcast.publishState === 'drafted' ||
                 podcast.publishState === 'depublished'
             "
-            class="r_podcast-highlights__button"
-            type="is-primary"
             @click.prevent="handlePublishPodcast()"
+            type="is-primary"
+            class="r_podcast-highlights__button"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Publish Podcast</span>
@@ -110,10 +110,10 @@
               podcast.publishState === 'published' ||
                 podcast.publishState === 'scheduled'
             "
+            @click.prevent="handleDepublishPodcast()"
             class="r_podcast-highlights__button"
             type="is-danger"
             outlined
-            @click.prevent="handleDepublishPodcast()"
           >
             <b-icon size="is-small" icon="cloud-upload"></b-icon>
             <span> Depublish Podcast</span>
@@ -138,8 +138,8 @@
                 </b-tag>
                 <b-tag type="is-light">
                   <a
-                    class="r_podcast-highlights__link"
                     :href="feed.feedUrl"
+                    class="r_podcast-highlights__link"
                     target="_blank"
                   >
                     {{ feed.feedUrl }}
@@ -184,13 +184,25 @@
         </b-tab-item>
         <b-tab-item label="Details">
           <podcast-settings
+            :contribution-roles="contributionRoles"
             :is-disabled="isDisabled"
             :is-loading="isLoading"
             :podcast="podcast"
+            :network="network"
             @cancel="cancel()"
+            @contributorSelected="
+              contributor => handleContributorSelected(contributor)
+            "
             @delete="deletePodcast()"
+            @deleteContributor="id => handleDeleteContributor(id)"
             @edit="edit()"
+            @editContributor="contributor => handleEditContributor(contributor)"
+            @newContributor="contributor => handleNewContributor(contributor)"
             @save="newPodcastSettings => save(newPodcastSettings)"
+            @updateContributor="
+              (contributor, activeContributor) =>
+                handleUpdateContributor(contributor, activeContributor)
+            "
           ></podcast-settings>
         </b-tab-item>
       </b-tabs>
@@ -256,10 +268,6 @@
 .r_podcast-tabs {
   margin: 3.75rem 0;
 }
-.r_settings__interaction {
-  margin-top: 1rem;
-  text-align: right;
-}
 </style>
 
 <script>
@@ -280,6 +288,7 @@ export default {
     }
   },
   computed: mapState({
+    contributionRoles: state => state.contributions.contributionRoles,
     podcast: state => state.podcasts.activePodcast,
     network: state => state.networks.activeNetwork
   }),
@@ -313,14 +322,70 @@ export default {
     edit() {
       this.isDisabled = false
     },
-    handleDepublishPodcast() {
+    handleContributorSelected(contributor) {
       this.$store
-        .dispatch('podcasts/update', {
+        .dispatch('contributions/create', {
           podcastId: this.podcast.id,
-          publishState: 'depublished'
+          contributionRoleId: contributor.contributionRoleId,
+          personId: contributor.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleDeleteContributor(id) {
+      this.$store
+        .dispatch('contributions/deleteContribution', {
+          contributionId: id,
+          podcastId: this.podcast.id
         })
         .then(() => {
-          console.log('depublished', this.activePodcast)
+          this.alert = {
+            type: 'is-success',
+            message: 'Contributor successfully removed.'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
+        })
+    },
+    handleDepublishPodcast() {
+      this.$store
+        .dispatch('podcasts/depublishPodcast', {
+          podcastId: this.podcast.id
+        })
+        .catch(error => {
+          console.warn(error)
+          this.$router.push('/404')
+        })
+    },
+    handleNewContributor(contributor) {
+      this.isNewContributorModalActive = false
+      this.$store
+        .dispatch('people/create', {
+          displayName: contributor.displayName || null,
+          image: contributor.image || null,
+          name: contributor.name || null,
+          networkId: this.network.id,
+          nick: contributor.nick || null,
+          podcastId: this.podcast.id
+        })
+        .then(result => {
+          this.$store
+            .dispatch('contributions/create', {
+              podcastId: this.podcast.id,
+              contributionRoleId: contributor.contributionRoleId,
+              personId: result.id
+            })
+            .catch(error => {
+              console.warn(error)
+              this.$router.push('/404')
+            })
         })
         .catch(error => {
           console.warn(error)
@@ -329,16 +394,36 @@ export default {
     },
     handlePublishPodcast() {
       this.$store
-        .dispatch('podcasts/update', {
-          podcastId: this.podcast.id,
-          publishState: 'published'
-        })
-        .then(() => {
-          console.log('published', this.activePodcast)
+        .dispatch('podcasts/publishPodcast', {
+          podcastId: this.podcast.id
         })
         .catch(error => {
           console.warn(error)
           this.$router.push('/404')
+        })
+    },
+    handleUpdateContributor(contributor, activeContributor) {
+      this.isEditContributorModalActive = false
+      this.$store
+        .dispatch('people/update', {
+          contributionId: activeContributor.id,
+          contributionRoleId: contributor.contributionRoleId,
+          displayName: contributor.displayName,
+          email: contributor.email,
+          image: contributor.image,
+          link: contributor.link,
+          name: contributor.name,
+          networkId: this.network.id,
+          nick: contributor.nick,
+          personId: activeContributor.person.id,
+          podcastId: this.podcast.id
+        })
+        .catch(error => {
+          console.log(error)
+          this.alert = {
+            type: 'is-danger',
+            message: error
+          }
         })
     },
     save(newPodcastSettings) {

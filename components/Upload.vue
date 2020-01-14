@@ -5,8 +5,8 @@
       <b-upload
         v-if="!newDropFile"
         v-model="newDropFile"
-        drag-drop
         @input="handleFileDrop($event)"
+        drag-drop
       >
         <section class="section">
           <div class="content has-text-centered">
@@ -22,24 +22,24 @@
       <!-- TODO: show uploaded image as preview -->
       <span
         v-if="state === 'SUCCESS' && type === 'IMAGE'"
-        class="r_peview__cover"
         :style="{
           backgroundImage: `url(${image ? image : ''})`
         }"
+        class="r_peview__cover"
       >
         <b-icon v-if="!image" size="is-small" icon="image"></b-icon>
       </span>
       <span
         v-if="dropFile || newDropFile"
-        class="r_upload-progress"
         :class="classObject"
+        class="r_upload-progress"
       >
         <span class="r_upload-progress__left">
           <b-button
             v-if="state === 'SUCCESS' && audio"
+            @click.prevent="handleFilePlay(audio)"
             type="is-text"
             class="r_upload-progress__left__button"
-            @click.prevent="handleFilePlay(audio)"
           >
             <b-icon size="is-small" icon="play"></b-icon>
           </b-button>
@@ -59,8 +59,8 @@
           >
             <b-button
               v-if="state === 'SUCCESS' && !isNotDeletable"
-              type="is-text"
               @click="deleteDropFile()"
+              type="is-text"
             >
               <b-icon size="is-small" icon="delete"></b-icon>
             </b-button>
@@ -72,8 +72,8 @@
           >
             <b-button
               v-if="state === 'ERROR'"
-              type="is-text"
               @click="handleFileDrop($event)"
+              type="is-text"
             >
               <b-icon size="is-small" icon="autorenew"></b-icon>
             </b-button>
@@ -152,6 +152,8 @@
 </style>
 
 <script>
+import { ToastProgrammatic as Toast } from 'buefy'
+
 export default {
   props: {
     audio: {
@@ -229,10 +231,43 @@ export default {
       })
     },
     handleFileDrop(event) {
-      this.$emit('dropped', {
-        type: this.type,
-        file: this.newDropFile
-      })
+      console.log(this.type)
+      console.log(event)
+      switch (this.type) {
+        case 'IMAGE':
+          if (event.type.split('/')[0] === 'image') {
+            this.$emit('dropped', {
+              type: this.type,
+              file: this.newDropFile
+            })
+          } else {
+            Toast.open({
+              type: 'is-danger',
+              message: 'This is not an image file.'
+            })
+            this.newDropFile = null
+          }
+          break
+        case 'AUDIO':
+          if (event.type.split('/')[0] === 'audio') {
+            this.$emit('dropped', {
+              type: this.type,
+              file: this.newDropFile
+            })
+          } else {
+            Toast.open({
+              type: 'is-danger',
+              message: 'This is not an audio file.'
+            })
+            this.newDropFile = null
+          }
+          break
+        default:
+          this.$emit('dropped', {
+            type: this.type,
+            file: this.newDropFile
+          })
+      }
     },
     handleFilePlay(sound) {
       if (sound) {

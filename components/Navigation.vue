@@ -1,6 +1,6 @@
 <template>
   <!-- Main navigation. -->
-  <no-ssr>
+  <client-only>
     <nav
       class="navbar is-primary is-fixed-top"
       role="navigation"
@@ -27,8 +27,8 @@
                   (activeNetwork && network.id !== activeNetwork.id) ||
                     !activeNetwork
                 "
-                class="navbar-item"
                 :href="'/network/' + network.id"
+                class="navbar-item"
               >
                 {{ network.title }}
               </a>
@@ -44,8 +44,8 @@
         <!-- Logo when user is logged-in -->
         <a
           v-if="isLoggedIn && activeNetwork"
-          class="navbar-item"
           :href="'/network/' + activeNetwork.id"
+          class="navbar-item"
         >
           {{ activeNetwork.title }} Radiator
         </a>
@@ -62,20 +62,30 @@
         <!-- Mobile menu -->
         <a
           v-if="isLoggedIn"
+          :class="{ 'is-active': isOpen }"
+          @click="isOpen = !isOpen"
           role="button"
           class="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
-          :class="{ 'is-active': isOpen }"
-          @click="isOpen = !isOpen"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div class="navbar-menu" :class="{ 'is-active': isOpen }">
+      <div :class="{ 'is-active': isOpen }" class="navbar-menu">
         <div v-if="isLoggedIn && activeNetwork" class="navbar-start">
+          <a
+            v-if="
+              activeNetwork.audioPublications &&
+                activeNetwork.audioPublications.length
+            "
+            :href="'/network/' + activeNetwork.id + '/audio-publications'"
+            class="navbar-item"
+          >
+            Audio Publications
+          </a>
           <div
             v-if="activeNetwork.podcasts && activeNetwork.podcasts.length"
             class="navbar-item has-dropdown is-hoverable"
@@ -87,10 +97,10 @@
               <a
                 v-for="podcast in activeNetwork.podcasts"
                 :key="podcast.id"
-                class="navbar-item"
                 :href="
                   '/network/' + activeNetwork.id + '/podcast/' + podcast.id
                 "
+                class="navbar-item"
               >
                 {{ podcast.title }}
               </a>
@@ -107,7 +117,7 @@
         <div class="navbar-end">
           <div v-if="isLoggedIn" class="navbar-item">
             <div class="r_navbar-end">
-              <b-button type="is-light" outlined @click.stop.prevent="logout()">
+              <b-button @click.stop.prevent="logout()" type="is-light" outlined>
                 Logout
               </b-button>
             </div>
@@ -115,7 +125,7 @@
         </div>
       </div>
     </nav>
-  </no-ssr>
+  </client-only>
 </template>
 
 <style lang="scss" scoped>

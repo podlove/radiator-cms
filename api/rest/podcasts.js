@@ -4,9 +4,7 @@ export default {
   create: data => {
     const query = new FormData()
     query.append('podcast[network_id]', data.networkId)
-    if (data.title) {
-      query.append('podcast[title]', data.title)
-    }
+    query.append('podcast[title]', data.title)
     if (data.image) {
       query.append('podcast[image]', data.image)
     }
@@ -31,16 +29,8 @@ export default {
     if (data.owner_email) {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
-    if (data.publishState) {
-      query.append('podcast[publish_state]', data.publishState)
-    }
-    if (data.publishedAt) {
-      query.append('podcast[published_at]', data.publishedAt)
-    }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/podcasts`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts`,
       query,
       {
         headers: {
@@ -52,9 +42,31 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  depublishPodcast: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}/depublish`,
+      null,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  publishPodcast: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}/publish`,
+      null,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -65,9 +77,7 @@ export default {
   },
   read: data => {
     return axios.get(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -106,16 +116,8 @@ export default {
     if (data.ownerEmail) {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
-    if (data.publishState) {
-      query.append('podcast[publish_state]', data.publishState)
-    }
-    if (data.publishedAt) {
-      query.append('podcast[published_at]', data.publishedAt)
-    }
     return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/podcasts/${data.podcastId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
       query,
       {
         headers: {

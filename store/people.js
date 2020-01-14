@@ -2,35 +2,30 @@ import restPeople from '~/api/rest/people'
 
 export const actions = {
   create: async function create({ dispatch }, data) {
-    console.log('Create Person', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPeople.create(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
       await dispatch(
-        'contributions/create',
+        'networks/getNetwork',
         {
           token: this.$apolloHelpers.getToken(),
-          personId: res.id,
-          podcastId: data.podcastId,
-          contributionRoleId: data.contributionRoleId
+          id: data.networkId
         },
         { root: true }
       )
+      return res
     } catch (e) {
       throw Error(e)
     }
   },
   update: async function update({ dispatch }, data) {
-    console.log('Update Person', data)
     data.token = this.$apolloHelpers.getToken()
     try {
       const res = await restPeople.update(data).then(data => {
         return data && data.data
       })
-      console.log('res', res)
       if (data.contributionRoleId) {
         await dispatch(
           'contributions/update',
@@ -44,14 +39,36 @@ export const actions = {
           { root: true }
         )
       }
-      await dispatch(
-        'podcasts/getPodcast',
-        {
-          token: this.$apolloHelpers.getToken(),
-          id: data.podcastId
-        },
-        { root: true }
-      )
+      if (data.podcastId) {
+        await dispatch(
+          'podcasts/getPodcast',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.podcastId
+          },
+          { root: true }
+        )
+      }
+      if (data.episodeId) {
+        await dispatch(
+          'episodes/getEpisode',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.episodeId
+          },
+          { root: true }
+        )
+      }
+      if (data.audioId) {
+        await dispatch(
+          'audio/getAudio',
+          {
+            token: this.$apolloHelpers.getToken(),
+            id: data.audioId
+          },
+          { root: true }
+        )
+      }
     } catch (e) {
       throw Error(e)
     }

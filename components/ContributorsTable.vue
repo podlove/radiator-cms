@@ -3,8 +3,7 @@
   <b-table
     :data="contributors"
     :mobile-cards="true"
-    :paginated="true"
-    :per-page="5"
+    :paginated="false"
     aria-next-label="Next page"
     aria-previous-label="Previous page"
     aria-page-label="Page"
@@ -13,7 +12,6 @@
     <template slot-scope="props">
       <b-table-column field="image" label="Image" sortable>
         <div
-          class="r_contributor__cover has-background-light"
           :style="{
             backgroundImage: `url(${
               props.row.person && props.row.person.image
@@ -21,6 +19,7 @@
                 : ''
             })`
           }"
+          class="r_contributor__cover has-background-light"
         ></div>
       </b-table-column>
       <b-table-column field="username" label="Name" sortable>
@@ -35,16 +34,16 @@
       <b-table-column width="100">
         <b-tooltip label="Edit contributor" type="is-dark">
           <b-button
-            type="is-text"
             @click.prevent="handleEditContributor(props.row.id)"
+            type="is-text"
           >
             <b-icon icon="pencil"></b-icon>
           </b-button>
         </b-tooltip>
         <b-tooltip label="Delete contributor" type="is-danger">
           <b-button
-            type="is-text"
             @click.prevent="handleDeleteContributor(props.row.id)"
+            type="is-text"
           >
             <b-icon icon="delete"></b-icon>
           </b-button>

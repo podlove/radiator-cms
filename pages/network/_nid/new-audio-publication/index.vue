@@ -5,10 +5,10 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-audio-pub-hero">
         <div
-          class="r_new-audio-pub__header__image has-background-light"
           :style="{
             backgroundImage: `url(${cover ? cover : ''})`
           }"
+          class="r_new-audio-pub__header__image has-background-light"
         ></div>
         <div class="r_new-audio-pub__header__container">
           <h1 class="title is-size-3 r_new-audio-pub__header__title">
@@ -26,45 +26,91 @@
       >
         {{ alert.message }}
       </b-notification>
-      <b-field label="Title">
-        <b-input v-model="title" placeholder="New Audio Publication"></b-input>
-      </b-field>
-      <upload
-        class="field"
-        label="Audio File"
-        :state="audioFileState"
-        :type="'AUDIO'"
-        :audio="
-          audioUploadResult && audioUploadResult.public_url
-            ? audioUploadResult.public_url
-            : null
-        "
-        @dropped="params => handleAudioFileDrop(params)"
-      />
-      <upload
-        class="field"
-        label="Audio Publication Cover"
-        :state="coverFileState"
-        :type="'IMAGE'"
-        @dropped="params => handleCoverFileDrop(params)"
-      />
+      <div class="columns">
+        <b-field class="column" label="Title">
+          <b-input
+            v-model="title"
+            placeholder="New Audio Publication"
+          ></b-input>
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Audio File">
+          <upload
+            :state="audioFileState"
+            :type="'AUDIO'"
+            :audio="
+              audioUploadResult && audioUploadResult.public_url
+                ? audioUploadResult.public_url
+                : null
+            "
+            @dropped="params => handleAudioFileDrop(params)"
+            class="field"
+          />
+        </b-field>
+      </div>
+      <div class="columns">
+        <b-field class="column" label="Audio Publication Cover">
+          <upload
+            :state="coverFileState"
+            :type="'IMAGE'"
+            @dropped="params => handleCoverFileDrop(params)"
+            class="field"
+          />
+        </b-field>
+      </div>
+      <div>
+        <b-field label="Contributions">
+          <ContributionsField
+            :contributions="activeAudio ? activeAudio.contributions : null"
+            @addContributionModalOpen="() => (addContributionModalOpen = true)"
+            @delete="id => handleDeleteContributor(id)"
+            @edit="contributor => handleEditContributor(contributor)"
+          ></ContributionsField>
+        </b-field>
+      </div>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="createAudioPublication()"
+        type="is-primary"
+        outlined
       >
         Add New Audio Publication
       </b-button>
     </section>
+    <NewContributorModal
+      :contribution-roles="contributionRoles"
+      :is-modal-active="addContributionModalOpen"
+      :persons="activeNetwork ? activeNetwork.people : null"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
+      @contributorSelected="
+        contributor => handleContributorSelected(contributor)
+      "
+    ></NewContributorModal>
+    <EditContributorModal
+      :contribution-roles="contributionRoles"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="activeContributor"
+      @contributorUpdated="contributor => handleUpdateContributor(contributor)"
+    ></EditContributorModal>
   </section>
 </template>
 
 <style>
+/* Overwrite Bulma */
+.field:not(:last-child) {
+  margin-bottom: 1.5rem !important;
+}
+.r_empty-contributions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
 .r_new-audio-pub-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
+  width: 100%;
 }
 .r_new-audio-pub__header {
   align-items: center;
@@ -94,48 +140,61 @@
 
 <script>
 import { mapState } from 'vuex'
+import { ToastProgrammatic as Toast } from 'buefy'
+
 import Upload from '~/components/Upload'
+import ContributionsField from '~/components/ContributionsField'
+import EditContributorModal from '~/components/EditContributorModal'
+import NewContributorModal from '~/components/NewContributorModal'
 
 export default {
-  components: { Upload },
+  components: {
+    ContributionsField,
+    EditContributorModal,
+    NewContributorModal,
+    Upload
+  },
   data() {
     return {
+      activeContributor: null,
+      addContributionModalOpen: false,
       alert: null,
       // can be LOADING, ERROR, SUCCESS
       audioFileState: null,
       audioUploadResult: null,
       cover: null,
       coverFileState: null,
+      isEditContributorModalActive: false,
+      isNewContributorModalActive: false,
       loading: false,
       title: 'New Audio Publication'
     }
   },
   computed: mapState({
+    activeNetwork: state => state.networks.activeNetwork,
     activeAudio: state => state.audio.activeAudio,
-    networks: state => state.networks.networks,
-    activeNetwork: state => state.networks.activeNetwork
+    contributionRoles: state => state.contributions.contributionRoles,
+    networks: state => state.networks.networks
   }),
   methods: {
-    // TODO: Set audioPublication title
     createAudioPublication() {
       this.loading = true
       this.$store
         .dispatch('audio/updateAudioPublication', {
-          audioId: this.activeAudio.audioPublication.id,
-          title: this.title
+          id: this.activeAudio.audioPublication.id,
+          title: this.title,
+          audioId: this.activeAudio.id
         })
         .then(() => {
           this.loading = false
-          this.$toast.open({
+          Toast.open({
             message:
               'Your new audio publication was susccessfully created. You will be redirected to the audio publication page.',
             type: 'is-success'
           })
           setTimeout(() => {
             this.$router.replace(
-              `/network/${this.activeNetwork.id}/audio-publications/${
-                this.activeAudio.id
-              }`
+              `/network/${this.activeNetwork.id}/audio-publications/${this.activeAudio.id}`
             )
           }, 1000)
         })
@@ -152,7 +211,6 @@ export default {
       // Check if there is an activeAudio object in store
       // and if not create one first
       // TODO: refactor
-      console.log('this.activeAudio', this.activeAudio)
       if (!this.activeAudio) {
         this.$store
           .dispatch('audio/createAudio', {
@@ -202,6 +260,100 @@ export default {
           })
       }
     },
+    handleContributorSelected(contributor) {
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('contributions/create', {
+                audioId: this.activeAudio.id,
+                contributionRoleId: contributor.contributionRoleId,
+                personId: contributor.id
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('contributions/create', {
+            audioId: this.activeAudio.id,
+            contributionRoleId: contributor.contributionRoleId,
+            personId: contributor.id
+          })
+          .catch(error => {
+            console.warn(error)
+            this.$router.push('/404')
+          })
+      }
+    },
+    handleDeleteContributor(id) {
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('contributions/deleteContribution', {
+                contributionId: id,
+                audioId: this.activeAudio.id
+              })
+              .then(() => {
+                this.alert = {
+                  type: 'is-success',
+                  message: 'Contributor successfully removed.'
+                }
+              })
+              .catch(error => {
+                console.log(error)
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('contributions/deleteContribution', {
+            contributionId: id,
+            audioId: this.activeAudio.id
+          })
+          .then(() => {
+            this.alert = {
+              type: 'is-success',
+              message: 'Contributor successfully removed.'
+            }
+          })
+          .catch(error => {
+            console.log(error)
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
+    },
     handleCoverFileDrop(params) {
       this.coverFileState = 'LOADING'
       this.cover = params.file
@@ -230,7 +382,6 @@ export default {
         this.$store
           .dispatch('audio/updateAudio', {
             audioId: this.activeAudio.id,
-            title: this.title,
             image: params.file
           })
           .then(() => {
@@ -246,8 +397,146 @@ export default {
           })
       }
     },
+    handleEditContributor(contributor) {
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
+    handleNewContributor(contributor) {
+      this.isNewContributorModalActive = false
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('people/create', {
+                displayName: contributor.displayName || null,
+                image: contributor.image || null,
+                name: contributor.name || null,
+                networkId: this.activeNetwork.id,
+                nick: contributor.nick || null,
+                audioId: this.activeAudio.id
+              })
+              .then(result => {
+                console.log('result', result)
+                this.$store
+                  .dispatch('contributions/create', {
+                    audioId: this.activeAudio.id,
+                    contributionRoleId: contributor.contributionRoleId,
+                    personId: result.id
+                  })
+                  .catch(error => {
+                    console.warn(error)
+                    this.$router.push('/404')
+                  })
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('people/create', {
+            displayName: contributor.displayName || null,
+            image: contributor.image || null,
+            name: contributor.name || null,
+            networkId: this.activeNetwork.id,
+            nick: contributor.nick || null,
+            audioId: this.activeAudio.id
+          })
+          .then(result => {
+            console.log('result', result)
+            this.$store
+              .dispatch('contributions/create', {
+                audioId: this.activeAudio.id,
+                contributionRoleId: contributor.contributionRoleId,
+                personId: result.id
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            console.warn(error)
+            this.$router.push('/404')
+          })
+      }
+    },
+    handleUpdateContributor(contributor) {
+      this.isEditContributorModalActive = false
+      if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createAudio', {
+            networkId: this.activeNetwork.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('people/update', {
+                contributionId: this.activeContributor.id,
+                contributionRoleId: contributor.contributionRoleId,
+                displayName: contributor.displayName,
+                email: contributor.email,
+                image: contributor.image,
+                link: contributor.link,
+                name: contributor.name,
+                networkId: this.activeNetwork.id,
+                nick: contributor.nick,
+                personId: this.activeContributor.person.id,
+                audioId: this.activeAudio.id
+              })
+              .catch(error => {
+                console.log(error)
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('people/update', {
+            contributionId: this.activeContributor.id,
+            contributionRoleId: contributor.contributionRoleId,
+            displayName: contributor.displayName,
+            email: contributor.email,
+            image: contributor.image,
+            link: contributor.link,
+            name: contributor.name,
+            networkId: this.activeNetwork.id,
+            nick: contributor.nick,
+            personId: this.activeContributor.person.id,
+            audioId: this.activeAudio.id
+          })
+          .catch(error => {
+            console.log(error)
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
+    },
     toast() {
-      this.$toast.open(this.alert)
+      Toast.open(this.alert)
     }
   }
 }

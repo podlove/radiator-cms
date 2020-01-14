@@ -18,10 +18,10 @@
     </section>
     <upload
       v-if="editable"
-      class="field"
       :state="chapterMarksState"
       :type="'FILE'"
       @dropped="params => handleChapterMarksDrop(params)"
+      class="field"
     />
     <ul v-if="episodeChapters" class="r_episode-chapters__list">
       <li
@@ -112,7 +112,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import Upload from '~/components/Upload'
+import Upload from './Upload'
 export default {
   components: {
     Upload
@@ -173,7 +173,6 @@ export default {
   },
   methods: {
     handleChapterMarksDrop(params) {
-      console.log('params', params)
       this.chapterMarksState = 'LOADING'
       this.$store
         .dispatch('episodes/createEpisodeChapterMarks', this.default_chapter)

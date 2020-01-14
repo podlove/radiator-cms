@@ -24,9 +24,7 @@ export default {
       query.append('episode[publish_state]', data.publishState)
     }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/episodes`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes`,
       query,
       {
         headers: {
@@ -38,9 +36,31 @@ export default {
   },
   delete: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/episodes/${data.episodeId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${data.episodeId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  depublishEpisode: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${data.episodeId}/depublish`,
+      null,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  publishEpisode: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${data.episodeId}/publish`,
+      null,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -72,9 +92,7 @@ export default {
       query.append('episode[publish_state]', data.publishState)
     }
     return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/episodes/${data.episodeId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${data.episodeId}`,
       query,
       {
         headers: {

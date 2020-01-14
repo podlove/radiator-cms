@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-podcast-hero">
         <div
-          class="r_new-podcast__header__image has-background-light"
           :style="{
             backgroundImage: `url(${
               activePodcast && activePodcast.image ? activePodcast.image : ''
             })`
           }"
+          class="r_new-podcast__header__image has-background-light"
         ></div>
         <div class="r_new-podcast__header__container">
           <h1 class="title is-size-3 r_new-podcast__header__title">
@@ -69,13 +69,13 @@
       <div class="columns">
         <b-field class="column" label="Podcast Cover">
           <upload
-            class="field"
             :type="'IMAGE'"
             :state="coverFileState"
             :image="
               activePodcast && activePodcast.image ? activePodcast.image : null
             "
             @dropped="params => handleCoverFileDrop(params)"
+            class="field"
           />
         </b-field>
       </div>
@@ -96,11 +96,11 @@
         </b-field>
       </div>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="savePodcast()"
+        type="is-primary"
+        outlined
       >
         Add New Podcast
       </b-button>
@@ -109,10 +109,6 @@
 </template>
 
 <style>
-/* Overwrite Bulma */
-.field {
-  margin-bottom: 0 !important;
-}
 .r_new-podcast-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
   position: relative;
@@ -146,8 +142,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
+import Upload from '~/components/Upload'
 
 export default {
   components: { Upload },
@@ -216,7 +212,6 @@ export default {
       this.coverFileState = 'LOADING'
       // Check if there is an activePodcast object in store
       // and if not create one first
-      console.log('this.activePodcast', this.activePodcast.id)
       if (this.activePodcast && this.activePodcast.id) {
         // update network with image
         this.updatePodcast(
@@ -237,7 +232,6 @@ export default {
         )
       } else {
         // create network with image
-        console.log('!!')
         this.createPodcast(
           {
             author: this.author,
@@ -272,9 +266,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
               )
             }, 1000)
           }
@@ -308,9 +300,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.replace(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}`
               )
             }, 1000)
           }

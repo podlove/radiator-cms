@@ -5,12 +5,12 @@
     <section class="hero is-medium is-primary">
       <div class="hero-body container r_new-episode-hero">
         <div
-          class="r_new-episode__header__image has-background-light"
           :style="{
             backgroundImage: `url(${
               activeAudio && activeAudio.image ? activeAudio.image : ''
             })`
           }"
+          class="r_new-episode__header__image has-background-light"
         ></div>
         <div class="r_new-episode__header__container">
           <h1 class="title is-size-3 r_new-episode__header__title">
@@ -61,8 +61,6 @@
       </div>
       <div class="columns">
         <upload
-          class="field column"
-          label="Audio File"
           :state="audioFileState"
           :type="'AUDIO'"
           :audio="
@@ -71,35 +69,67 @@
               : null
           "
           @dropped="params => handleAudioFileDrop(params)"
+          class="field column"
+          label="Audio File"
         />
       </div>
       <div class="columns">
         <upload
-          class="field column"
-          label="Episode Cover"
           :type="'IMAGE'"
           :drop-files="dropEpisodeCover"
           :image="activeAudio && activeAudio.image ? activeAudio.image : null"
           :state="coverFileState"
           @dropped="params => handleCoverFileDrop(params)"
+          class="field column"
+          label="Episode Cover"
         />
       </div>
+      <b-field label="Contributions">
+        <ContributionsField
+          :contributions="activeAudio ? activeAudio.contributions : null"
+          @addContributionModalOpen="() => (addContributionModalOpen = true)"
+          @delete="contributor => handleDeleteContributor(contributor)"
+          @edit="contributor => handleEditContributor(contributor)"
+        ></ContributionsField>
+      </b-field>
       <b-button
-        type="is-primary"
-        outlined
         :loading="loading"
         :disabled="loading"
         @click.stop.prevent="createEpisode()"
+        type="is-primary"
+        outlined
       >
         Add New Episode
       </b-button>
     </section>
+    <NewContributorModal
+      :contribution-roles="contributionRoles"
+      :is-modal-active="addContributionModalOpen"
+      :persons="activeNetwork ? activeNetwork.people : null"
+      @contributorAdded="contributor => handleNewContributor(contributor)"
+      @contributorSelected="
+        contributor => handleContributorSelected(contributor)
+      "
+    ></NewContributorModal>
+    <EditContributorModal
+      v-if="
+        activeEpisode &&
+          activeEpisode.audio &&
+          activeEpisode.audio.contributions
+      "
+      :contribution-roles="contributionRoles"
+      :is-modal-active="isEditContributorModalActive"
+      :contributor="activeContributor"
+      @contributorUpdated="id => handleUpdateContributor(id)"
+    ></EditContributorModal>
   </section>
 </template>
 
 <style>
-.field {
-  margin-bottom: 2rem;
+.r_empty-contributions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
 .r_new-episode-hero {
   padding: 11.25rem 0 2.5rem 0 !important;
@@ -137,15 +167,24 @@
 
 <script>
 import { mapState } from 'vuex'
-import Upload from '~/components/Upload'
 import { ToastProgrammatic as Toast } from 'buefy'
+
+import ContributionsField from '~/components/ContributionsField'
+import EditContributorModal from '~/components/EditContributorModal'
+import NewContributorModal from '~/components/NewContributorModal'
+import Upload from '~/components/Upload'
 
 export default {
   components: {
+    ContributionsField,
+    EditContributorModal,
+    NewContributorModal,
     Upload
   },
   data() {
     return {
+      activeContributor: null,
+      addContributionModalOpen: false,
       alert: null,
       // can be LOADING, ERROR, SUCCESS
       audioFileState: null,
@@ -155,6 +194,8 @@ export default {
       summary: '',
       dropEpisodeCover: null,
       id: null,
+      isEditContributorModalActive: false,
+      isNewContributorModalActive: false,
       loading: false,
       number: 1,
       subtitle: null,
@@ -162,7 +203,7 @@ export default {
     }
   },
   computed: mapState({
-    episode: state => state.episodes.episode,
+    contributionRoles: state => state.contributions.contributionRoles,
     activeAudio: state => state.audio.activeAudio,
     activeEpisode: state => state.episodes.activeEpisode,
     activePodcast: state => state.podcasts.activePodcast,
@@ -189,9 +230,7 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })
@@ -221,92 +260,12 @@ export default {
             })
             setTimeout(() => {
               this.$router.push(
-                `/network/${this.activeNetwork.id}/podcast/${
-                  this.activePodcast.id
-                }/episode/${this.activeEpisode.id}`
+                `/network/${this.activeNetwork.id}/podcast/${this.activePodcast.id}/episode/${this.activeEpisode.id}`
               )
             }, 1000)
           })
           .catch(error => {
             this.loading = false
-            this.alert = {
-              type: 'is-danger',
-              message: error
-            }
-          })
-      }
-    },
-    handleCoverFileDrop(params) {
-      console.log('cover', params)
-      this.coverFileState = 'LOADING'
-      this.cover = params.file
-      // Check if there is an activeAudio object in store
-      // and if not create one first
-      // TODO: refactor
-      console.log('this.activeEpisode', this.activeEpisode)
-      if (!this.activeEpisode) {
-        this.$store
-          .dispatch('episodes/create', {
-            podcastId: this.activePodcast.id,
-            title: this.title,
-            subtitle: this.subtitle,
-            summary: this.summary,
-            number: this.number
-          })
-          .then(() => {
-            this.$store
-              .dispatch('audio/createPodcastAudio', {
-                episodeId: this.activeEpisode.id,
-                title: this.title,
-                image: params.file
-              })
-              .then(() => {
-                this.coverFileState = 'SUCCESS'
-              })
-              .catch(error => {
-                this.coverFileState = 'ERROR'
-                this.alert = {
-                  type: 'is-danger',
-                  message: error
-                }
-              })
-          })
-          .catch(error => {
-            this.coverFileState = 'ERROR'
-            this.alert = {
-              type: 'is-danger',
-              message: error
-            }
-          })
-      } else if (!this.activeAudio) {
-        this.$store
-          .dispatch('audio/createPodcastAudio', {
-            episodeId: this.activeEpisode.id,
-            title: this.title,
-            image: params.file
-          })
-          .then(() => {
-            this.coverFileState = 'SUCCESS'
-          })
-          .catch(error => {
-            this.coverFileState = 'ERROR'
-            this.alert = {
-              type: 'is-danger',
-              message: error
-            }
-          })
-      } else {
-        this.$store
-          .dispatch('audio/updateAudio', {
-            audioId: this.activeAudio.id,
-            title: this.title,
-            image: params.file
-          })
-          .then(() => {
-            this.coverFileState = 'SUCCESS'
-          })
-          .catch(error => {
-            this.coverFileState = 'ERROR'
             this.alert = {
               type: 'is-danger',
               message: error
@@ -320,7 +279,6 @@ export default {
       // and if not create one first
       // TODO: refactor
       if (!this.activeEpisode) {
-        console.log('1')
         this.$store
           .dispatch('episodes/create', {
             podcastId: this.activePodcast.id,
@@ -420,6 +378,532 @@ export default {
           })
           .catch(error => {
             this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
+    },
+    handleContributorSelected(contributor) {
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            summary: this.summary,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title
+              })
+              .then(() => {
+                this.$store
+                  .dispatch('contributions/create', {
+                    audioId: this.activeAudio.id,
+                    episodeId: this.activeEpisode.id,
+                    podcastId: this.activePodcast.id,
+                    contributionRoleId: contributor.contributionRoleId,
+                    personId: contributor.id
+                  })
+                  .catch(error => {
+                    console.warn(error)
+                    this.$router.push('/404')
+                  })
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('contributions/create', {
+                audioId: this.activeAudio.id,
+                episodeId: this.activeEpisode.id,
+                podcastId: this.activePodcast.id,
+                contributionRoleId: contributor.contributionRoleId,
+                personId: contributor.id
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('contributions/create', {
+            audioId: this.activeAudio.id,
+            episodeId: this.activeEpisode.id,
+            podcastId: this.activePodcast.id,
+            contributionRoleId: contributor.contributionRoleId,
+            personId: contributor.id
+          })
+          .catch(error => {
+            console.warn(error)
+            this.$router.push('/404')
+          })
+      }
+    },
+    handleCoverFileDrop(params) {
+      this.coverFileState = 'LOADING'
+      this.cover = params.file
+      // Check if there is an activeAudio object in store
+      // and if not create one first
+      // TODO: refactor
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            summary: this.summary,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title,
+                image: params.file
+              })
+              .then(() => {
+                this.coverFileState = 'SUCCESS'
+              })
+              .catch(error => {
+                this.coverFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('audio/updateAudio', {
+            audioId: this.activeAudio.id,
+            title: this.title,
+            image: params.file
+          })
+          .then(() => {
+            this.coverFileState = 'SUCCESS'
+          })
+          .catch(error => {
+            this.coverFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
+    },
+    handleDeleteContributor(id) {
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            summary: this.summary,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title
+              })
+              .then(() => {
+                this.$store
+                  .dispatch('contributions/deleteContribution', {
+                    contributionId: id,
+                    episodeId: this.activeEpisode.id,
+                    podcastId: this.activePodcast.id
+                  })
+                  .then(() => {
+                    this.alert = {
+                      type: 'is-success',
+                      message: 'Contributor successfully removed.'
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error)
+                    this.alert = {
+                      type: 'is-danger',
+                      message: error
+                    }
+                  })
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('contributions/deleteContribution', {
+                contributionId: id,
+                episodeId: this.activeEpisode.id,
+                podcastId: this.activePodcast.id
+              })
+              .then(() => {
+                this.alert = {
+                  type: 'is-success',
+                  message: 'Contributor successfully removed.'
+                }
+              })
+              .catch(error => {
+                console.log(error)
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('contributions/deleteContribution', {
+            contributionId: id,
+            episodeId: this.activeEpisode.id,
+            podcastId: this.activePodcast.id
+          })
+          .then(() => {
+            this.alert = {
+              type: 'is-success',
+              message: 'Contributor successfully removed.'
+            }
+          })
+          .catch(error => {
+            console.log(error)
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      }
+    },
+    handleEditContributor(contributor) {
+      this.activeContributor = contributor
+      this.isEditContributorModalActive = true
+    },
+    handleNewContributor(contributor) {
+      this.isNewContributorModalActive = false
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            summary: this.summary,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title
+              })
+              .then(() => {
+                this.$store
+                  .dispatch('people/create', {
+                    displayName: contributor.displayName || null,
+                    image: contributor.image || null,
+                    name: contributor.name || null,
+                    networkId: this.activeNetwork.id,
+                    nick: contributor.nick || null,
+                    podcastId: this.activePodcast.id
+                  })
+                  .then(result => {
+                    this.$store
+                      .dispatch('contributions/create', {
+                        audioId: this.activeAudio.id,
+                        episodeId: this.activeEpisode.id,
+                        podcastId: this.activePodcast.id,
+                        contributionRoleId: contributor.contributionRoleId,
+                        personId: result.id
+                      })
+                      .catch(error => {
+                        console.warn(error)
+                        this.$router.push('/404')
+                      })
+                  })
+                  .catch(error => {
+                    console.warn(error)
+                    this.$router.push('/404')
+                  })
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('people/create', {
+                displayName: contributor.displayName || null,
+                image: contributor.image || null,
+                name: contributor.name || null,
+                networkId: this.activeNetwork.id,
+                nick: contributor.nick || null,
+                podcastId: this.activePodcast.id
+              })
+              .then(result => {
+                this.$store
+                  .dispatch('contributions/create', {
+                    audioId: this.activeAudio.id,
+                    episodeId: this.activeEpisode.id,
+                    podcastId: this.activePodcast.id,
+                    contributionRoleId: contributor.contributionRoleId,
+                    personId: result.id
+                  })
+                  .catch(error => {
+                    console.warn(error)
+                    this.$router.push('/404')
+                  })
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('people/create', {
+            displayName: contributor.displayName || null,
+            image: contributor.image || null,
+            name: contributor.name || null,
+            networkId: this.activeNetwork.id,
+            nick: contributor.nick || null,
+            podcastId: this.activePodcast.id
+          })
+          .then(result => {
+            this.$store
+              .dispatch('contributions/create', {
+                audioId: this.activeAudio.id,
+                episodeId: this.activeEpisode.id,
+                podcastId: this.activePodcast.id,
+                contributionRoleId: contributor.contributionRoleId,
+                personId: result.id
+              })
+              .catch(error => {
+                console.warn(error)
+                this.$router.push('/404')
+              })
+          })
+          .catch(error => {
+            console.warn(error)
+            this.$router.push('/404')
+          })
+      }
+    },
+    handleUpdateContributor(contributor) {
+      this.isEditContributorModalActive = false
+      if (!this.activeEpisode) {
+        this.$store
+          .dispatch('episodes/create', {
+            podcastId: this.activePodcast.id,
+            title: this.title,
+            subtitle: this.subtitle,
+            summary: this.summary,
+            number: this.number
+          })
+          .then(() => {
+            this.$store
+              .dispatch('audio/createPodcastAudio', {
+                episodeId: this.activeEpisode.id,
+                title: this.title
+              })
+              .then(() => {
+                this.$store
+                  .dispatch('people/update', {
+                    contributionId: this.activeContributor.id,
+                    contributionRoleId: contributor.contributionRoleId,
+                    displayName: contributor.displayName,
+                    email: contributor.email,
+                    episodeId: this.activeEpisode.id,
+                    image: contributor.image,
+                    link: contributor.link,
+                    name: contributor.name,
+                    networkId: this.activeNetwork.id,
+                    nick: contributor.nick,
+                    personId: this.activeContributor.person.id,
+                    podcastId: this.activePodcast.id
+                  })
+                  .catch(error => {
+                    console.log(error)
+                    this.alert = {
+                      type: 'is-danger',
+                      message: error
+                    }
+                  })
+              })
+              .catch(error => {
+                this.audioFileState = 'ERROR'
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else if (!this.activeAudio) {
+        this.$store
+          .dispatch('audio/createPodcastAudio', {
+            episodeId: this.activeEpisode.id,
+            title: this.title
+          })
+          .then(() => {
+            this.$store
+              .dispatch('people/update', {
+                contributionId: this.activeContributor.id,
+                contributionRoleId: contributor.contributionRoleId,
+                displayName: contributor.displayName,
+                email: contributor.email,
+                episodeId: this.activeEpisode.id,
+                image: contributor.image,
+                link: contributor.link,
+                name: contributor.name,
+                networkId: this.activeNetwork.id,
+                nick: contributor.nick,
+                personId: this.activeContributor.person.id,
+                podcastId: this.activePodcast.id
+              })
+              .catch(error => {
+                console.log(error)
+                this.alert = {
+                  type: 'is-danger',
+                  message: error
+                }
+              })
+          })
+          .catch(error => {
+            this.audioFileState = 'ERROR'
+            this.alert = {
+              type: 'is-danger',
+              message: error
+            }
+          })
+      } else {
+        this.$store
+          .dispatch('people/update', {
+            contributionId: this.activeContributor.id,
+            contributionRoleId: contributor.contributionRoleId,
+            displayName: contributor.displayName,
+            email: contributor.email,
+            episodeId: this.activeEpisode.id,
+            image: contributor.image,
+            link: contributor.link,
+            name: contributor.name,
+            networkId: this.activeNetwork.id,
+            nick: contributor.nick,
+            personId: this.activeContributor.person.id,
+            podcastId: this.activePodcast.id
+          })
+          .catch(error => {
+            console.log(error)
             this.alert = {
               type: 'is-danger',
               message: error

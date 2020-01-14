@@ -7,9 +7,7 @@ export default {
     query.append('audio_file[file]', data.file)
     query.append('audio_file[title]', data.title)
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/audios/${data.audioId}/audio_files`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audios/${data.audioId}/audio_files`,
       query,
       {
         headers: {
@@ -27,9 +25,7 @@ export default {
       query.append('audio[image]', data.image)
     }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/networks/${data.networkId}/audios`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/networks/${data.networkId}/audios`,
       query,
       {
         headers: {
@@ -47,9 +43,7 @@ export default {
       query.append('audio[image]', data.image)
     }
     return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/episodes/${data.episodeId}/audios`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/episodes/${data.episodeId}/audios`,
       query,
       {
         headers: {
@@ -61,9 +55,7 @@ export default {
   },
   deleteAudioFile: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/audio_files/${data.id}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_files/${data.id}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -74,9 +66,31 @@ export default {
   },
   deleteAudioPublication: data => {
     return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/audio_publications/${data.id}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_publications/${data.id}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  depublishAudioPublication: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_publications/${data.id}/depublish`,
+      null,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + data.token
+        }
+      }
+    )
+  },
+  publishAudioPublication: data => {
+    return axios.put(
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_publications/${data.id}/publish`,
+      null,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -94,9 +108,7 @@ export default {
       query.append('audio[title]', data.title)
     }
     return axios.patch(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/audios/${data.audioId}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audios/${data.audioId}`,
       query,
       {
         headers: {
@@ -107,19 +119,19 @@ export default {
     )
   },
   updateAudioPublication: data => {
-    const query = JSON.stringify({
-      audio_publication: {
-        title: data.title
-      }
-    })
+    const query = new FormData()
+    if (data.title) {
+      query.append('audio_publication[title]', data.title)
+    }
+    if (data.publishState) {
+      query.append('audio_publication[publish_state]', data.publishState)
+    }
     return axios.patch(
-      `${process.env.apiBaseUrl}/api/rest/${
-        process.env.backendVersion
-      }/audio_publications/${data.id}`,
+      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/audio_publications/${data.id}`,
       query,
       {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + data.token
         }
       }

@@ -20,17 +20,17 @@
         <b-field label="Password">
           <b-input
             v-model="password"
+            @keyup.native.enter.prevent="login()"
             password-reveal
             placeholder="Your secure password"
             type="password"
-            @keyup.native.enter.prevent="login()"
           ></b-input>
         </b-field>
         <b-button
-          type="is-primary"
           :loading="loading"
           :disabled="loading"
           @click.stop.prevent="login()"
+          type="is-primary"
         >
           Login
         </b-button>
