@@ -15,7 +15,7 @@
     "storybook": "start-storybook"
   },
   "dependencies": {
-    "@mdi/font": "^4.4.95",
+    "@mdi/font": "^4.7.95",
     "@nuxtjs/apollo": "^4.0.0-rc7",
     "@nuxtjs/axios": "^5.9.2",
     "@nuxtjs/moment": "^1.5.0",
