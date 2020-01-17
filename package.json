@@ -61,7 +61,7 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.16.4",
     "prosemirror-tables": "^0.9.5",
-    "sass": "^1.24.3",
+    "sass": "^1.24.5",
     "sass-loader": "^8.0.0",
     "typescript": "^3.7.4",
     "vue-jest": "^3.0.3",
