@@ -63,7 +63,7 @@
     "prosemirror-tables": "^0.9.5",
     "sass": "^1.24.3",
     "sass-loader": "^8.0.0",
-    "typescript": "^3.7.4",
+    "typescript": "^3.7.5",
     "vue-jest": "^3.0.3",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.11"
