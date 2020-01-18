@@ -1,16 +1,18 @@
 import pkg from './package'
 
+const pathJoin = (...parts) => parts.map(p => p.replace(/\/*$/, '')).join('')
+
 // Do some local enving so we can reuse it in this file already
 const localenv = {
-  apiBaseUrl: process.env.RADIATOR_BASE_URL || 'http://localhost:4000'
+  apiBaseUrl: process.env.RADIATOR_BASE_URL || 'http://localhost:4000',
+  backendVersion: 'v1'
 }
 
 export default {
   mode: 'universal',
 
   env: {
-    apiBaseUrl: localenv.apiBaseUrl,
-    backendVersion: 'v1'
+    ...localenv
   },
 
   // potentially run in a subfolder (e.g. /manage/ in the default radiator installation)
@@ -40,7 +42,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/axios-inject.js'],
 
   /*
    ** Nuxt.js modules
@@ -61,6 +63,14 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseUrl: pathJoin(
+      localenv.apiBaseUrl,
+      `/api/rest/${localenv.backendVersion}`
+    ),
+    browserBaseURL: pathJoin(
+      localenv.apiBaseUrl,
+      `/api/rest/${localenv.backendVersion}`
+    )
   },
 
   /**

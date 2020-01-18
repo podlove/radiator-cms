@@ -1,5 +1,3 @@
-import restNetwork from '~/api/rest/networks'
-import restNetworkCollaborators from '~/api/rest/networks-collaborators'
 import network from '~/api/queries/network.gql'
 import networks from '~/api/queries/networks.gql'
 
@@ -44,7 +42,7 @@ export const actions = {
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restNetwork.create(data).then(data => {
+      const res = await this.$api.network.create(data).then(data => {
         return data && data.data
       })
       await commit('set_active_network', res)
@@ -61,7 +59,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restNetworkCollaborators.create(data).then(data => {
+      await this.$api.networkCollaborator.create(data).then(data => {
         return data && data.data
       })
       await dispatch('getNetworks', {
@@ -74,7 +72,7 @@ export const actions = {
   deleteNetwork: async function deleteNetwork({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restNetwork.delete(data).then(data => {
+      await this.$api.network.delete(data).then(data => {
         return data && data.data
       })
       await dispatch('getNetworks', {
@@ -148,7 +146,7 @@ export const actions = {
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restNetwork.update(data).then(data => {
+      const res = await this.$api.network.update(data).then(data => {
         return data && data.data
       })
       await commit('set_active_network', res)
@@ -165,7 +163,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restNetwork.update(data).then(data => {
+      const res = await this.$api.network.update(data).then(data => {
         return data && data.data
       })
       await commit('set_active_network', res)

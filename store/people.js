@@ -1,10 +1,8 @@
-import restPeople from '~/api/rest/people'
-
 export const actions = {
   create: async function create({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restPeople.create(data).then(data => {
+      const res = await this.$api.people.create(data).then(data => {
         return data && data.data
       })
       await dispatch(
@@ -23,7 +21,7 @@ export const actions = {
   update: async function update({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restPeople.update(data).then(data => {
+      const res = await this.$api.people.update(data).then(data => {
         return data && data.data
       })
       if (data.contributionRoleId) {

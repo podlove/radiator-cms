@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-export default {
+export default axios => ({
   create: data => {
     const query = JSON.stringify({
       podcast: {
@@ -9,28 +7,20 @@ export default {
         permission: data.permission
       }
     })
-    return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.id}/collaborators`,
-      query,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.post(`podcasts/${data.id}/collaborators`, query, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   delete: data => {
-    return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.id}/collaborators`,
-      null,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.delete(`podcasts/${data.id}/collaborators`, null, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   update: data => {
     const query = JSON.stringify({
@@ -40,7 +30,7 @@ export default {
       }
     })
     return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.id}/collaborators/${data.username}`,
+      `podcasts/${data.id}/collaborators/${data.username}`,
       query,
       {
         headers: {
@@ -50,4 +40,4 @@ export default {
       }
     )
   }
-}
+})

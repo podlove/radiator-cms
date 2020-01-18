@@ -1,4 +1,3 @@
-import restContributions from '~/api/rest/contributions'
 import contributionRoles from '~/api/queries/contributionRoles.gql'
 
 export const state = () => ({
@@ -36,7 +35,7 @@ export const actions = {
     console.log('Create Contribution', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restContributions.create(data).then(data => {
+      await this.$api.contributions.create(data).then(data => {
         return data && data.data
       })
       if (data.episodeId) {
@@ -77,7 +76,7 @@ export const actions = {
     console.log('Delete Contribution', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restContributions.deleteContribution(data).then(data => {
+      await this.$api.contributions.deleteContribution(data).then(data => {
         return data && data.data
       })
       if (data.episodeId) {
@@ -137,7 +136,7 @@ export const actions = {
     console.log('Update Contribution', data)
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restContributions.update(data).then(data => {
+      const res = await this.$api.contributions.update(data).then(data => {
         return data && data.data
       })
       console.log('res', res)
