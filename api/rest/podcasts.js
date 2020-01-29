@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-export default {
+export default axios => ({
   create: data => {
     const query = new FormData()
     query.append('podcast[network_id]', data.networkId)
@@ -29,62 +27,44 @@ export default {
     if (data.owner_email) {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
-    return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts`,
-      query,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.post(`podcasts`, query, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   delete: data => {
-    return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.delete(`podcasts/${data.podcastId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   depublishPodcast: data => {
-    return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}/depublish`,
-      null,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.put(`podcasts/${data.podcastId}/depublish`, null, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   publishPodcast: data => {
-    return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}/publish`,
-      null,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.put(`podcasts/${data.podcastId}/publish`, null, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   read: data => {
-    return axios.get(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.get(`podcasts/${data.podcastId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   update: data => {
     const query = new FormData()
@@ -116,15 +96,11 @@ export default {
     if (data.ownerEmail) {
       query.append('podcast[owner_email]', data.ownerEmail)
     }
-    return axios.put(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/podcasts/${data.podcastId}`,
-      query,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.put(`podcasts/${data.podcastId}`, query, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   }
-}
+})

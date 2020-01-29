@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-export default {
+export default axios => ({
   create: data => {
     const importPodcastFeed = {
       network_id: data.network_id,
@@ -13,37 +11,27 @@ export default {
     }
 
     const query = JSON.stringify({ import_podcast_feed: importPodcastFeed })
-    return axios.post(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks`,
-      query,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.post(`tasks`, query, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   read: data => {
-    return axios.get(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${data.taskId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.get(`tasks/${data.taskId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   },
   delete: data => {
-    return axios.delete(
-      `${process.env.apiBaseUrl}/api/rest/${process.env.backendVersion}/tasks/${data.taskId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + data.token
-        }
+    return axios.delete(`tasks/${data.taskId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + data.token
       }
-    )
+    })
   }
-}
+})

@@ -1,6 +1,4 @@
 import { feedInfo, getFeeds } from '~/api/queries/feedinfo.gql'
-import restTasks from '~/api/rest/tasks'
-
 export const state = () => ({
   feedInfo: {},
   feeds: {},
@@ -71,7 +69,9 @@ export const actions = {
   createTask: async function createTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restTasks.create(data).then(data => data && data.data)
+      const res = await this.$api.tasks
+        .create(data)
+        .then(data => data && data.data)
       await commit('set_current_task', res)
     } catch (e) {
       throw Error(e)
@@ -80,7 +80,7 @@ export const actions = {
   deleteTask: async function deleteTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restTasks.delete(data)
+      await this.$api.tasks.delete(data)
       await commit('reset_current_task')
     } catch (e) {
       throw Error(e)
@@ -89,7 +89,9 @@ export const actions = {
   readTask: async function readTask({ commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restTasks.read(data).then(data => data && data.data)
+      const res = await this.$api.tasks
+        .read(data)
+        .then(data => data && data.data)
       await commit('set_current_task', res)
     } catch (e) {
       throw Error(e)

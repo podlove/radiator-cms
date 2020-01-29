@@ -1,5 +1,3 @@
-import restPodcast from '~/api/rest/podcasts'
-import restPodcastCollaborators from '~/api/rest/podcasts-collaborators'
 import podcast from '~/api/queries/podcast.gql'
 
 export const state = () => ({
@@ -31,7 +29,9 @@ export const actions = {
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restPodcast.create(data).then(data => data && data.data)
+      const res = await this.$api.podcasts
+        .create(data)
+        .then(data => data && data.data)
       await dispatch('getPodcast', {
         id: res.id
       })
@@ -52,7 +52,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restPodcastCollaborators.create(data).then(data => {
+      await this.$api.podcastsCollaborators.create(data).then(data => {
         return data && data.data
       })
       await dispatch(
@@ -69,7 +69,7 @@ export const actions = {
   deletePodcast: async function deletePodcast({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restPodcast.delete(data).then(data => {
+      await this.$api.podcasts.delete(data).then(data => {
         return data && data.data
       })
       await dispatch(
@@ -83,13 +83,13 @@ export const actions = {
       throw Error(e)
     }
   },
-  depublishPodcast: async function depublishPodcast({ dispatch }, data) {
+  depublishPodcast: async function depublishPodcast(app, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restPodcast.depublishPodcast(data).then(data => {
+      await this.$api.depublishPodcast(data).then(data => {
         return data && data.data
       })
-      await dispatch('getPodcast', {
+      await app.dispatch('getPodcast', {
         id: data.podcastId
       })
     } catch (e) {
@@ -120,7 +120,7 @@ export const actions = {
   publishPodcast: async function publishPodcast({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restPodcast.publishPodcast(data).then(data => {
+      await this.$api.publishPodcast(data).then(data => {
         return data && data.data
       })
       await dispatch('getPodcast', {
@@ -138,7 +138,7 @@ export const actions = {
   update: async function update({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restPodcast.update(data).then(data => {
+      await this.$api.podcasts.update(data).then(data => {
         return data && data.data
       })
       await dispatch('getPodcast', {

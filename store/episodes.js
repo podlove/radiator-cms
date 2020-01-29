@@ -1,5 +1,4 @@
 import episode from '~/api/queries/episode.gql'
-import restEpisode from '~/api/rest/episodes'
 
 export const state = () => ({
   activeEpisode: null,
@@ -35,7 +34,9 @@ export const actions = {
   create: async function create({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restEpisode.create(data).then(data => data && data.data)
+      const res = await this.$api.episodes
+        .create(data)
+        .then(data => data && data.data)
       await commit('set_active_episode', res)
     } catch (e) {
       throw Error(e)
@@ -56,7 +57,7 @@ export const actions = {
   depublishEpisode: async function depublishEpisode({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restEpisode.depublishEpisode(data).then(data => {
+      await this.$api.episodes.depublishEpisode(data).then(data => {
         return data && data.data
       })
       await dispatch('getEpisode', {
@@ -89,7 +90,7 @@ export const actions = {
   publishEpisode: async function publishEpisode({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restEpisode.publishEpisode(data).then(data => {
+      await this.$api.episodes.publishEpisode(data).then(data => {
         return data && data.data
       })
       await dispatch('getEpisode', {
@@ -107,7 +108,7 @@ export const actions = {
   update: async function updateEpisode({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restEpisode.update(data).then(data => data && data.data)
+      await this.$api.episodes.update(data).then(data => data && data.data)
       await dispatch('getEpisode', {
         id: data.episodeId
       })

@@ -1,4 +1,3 @@
-import restAudio from '~/api/rest/audio'
 import audio from '~/api/queries/audio.gql'
 
 // An Audio Publication (createAudioPublication)
@@ -27,7 +26,7 @@ export const actions = {
   createAudio: async function createAudio({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restAudio.createAudio(data).then(data => {
+      const res = await this.$api.audio.createAudio(data).then(data => {
         return data && data.data
       })
       await dispatch('getAudio', {
@@ -50,7 +49,7 @@ export const actions = {
   createPodcastAudio: async function createPodcastAudio({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await restAudio.createPodcastAudio(data).then(data => {
+      const res = await this.$api.audio.createPodcastAudio(data).then(data => {
         return data && data.data
       })
       await dispatch('getAudio', {
@@ -63,7 +62,7 @@ export const actions = {
   createAudioFile: async function createAudioFile({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.createAudioFile(data).then(data => {
+      await this.$api.audio.createAudioFile(data).then(data => {
         return data && data.data
       })
       // use audio publication/podcast audio id for audio request
@@ -89,7 +88,7 @@ export const actions = {
   deleteAudioFile: async function deleteAudioFile({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.deleteAudioFile(data).then(data => {
+      await this.$api.audio.deleteAudioFile(data).then(data => {
         return data && data.data
       })
       await dispatch(
@@ -119,7 +118,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.deleteAudioPublication(data).then(data => {
+      await this.$api.audio.deleteAudioPublication(data).then(data => {
         return data && data.data
       })
       await dispatch(
@@ -139,7 +138,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.depublishAudioPublication(data).then(data => {
+      await this.$api.audio.depublishAudioPublication(data).then(data => {
         return data && data.data
       })
       await dispatch('getAudio', {
@@ -172,7 +171,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.publishAudioPublication(data).then(data => {
+      await this.$api.audio.publishAudioPublication(data).then(data => {
         return data && data.data
       })
       await dispatch('getAudio', {
@@ -190,7 +189,7 @@ export const actions = {
   updateAudio: async function updateAudio({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.updateAudio(data).then(data => {
+      await this.$api.audio.updateAudio(data).then(data => {
         return data && data.data
       })
       await dispatch('getAudio', {
@@ -216,7 +215,7 @@ export const actions = {
   ) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await restAudio.updateAudioPublication(data).then(data => {
+      await this.$api.audio.updateAudioPublication(data).then(data => {
         return data && data.data
       })
       return await dispatch('getAudio', {

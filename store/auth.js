@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import authRest from '~/api/rest/auth'
 
 export const state = () => ({
   isLoggedIn: null
@@ -29,7 +28,7 @@ export const actions = {
   login: async function login({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      const res = await authRest.login(data).then(data => {
+      const res = await this.$api.auth.login(data).then(data => {
         return data && data.data
       })
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
@@ -56,9 +55,11 @@ export const actions = {
   renewToken: async function renewToken({ dispatch }) {
     const token = this.$apolloHelpers.getToken()
     try {
-      const res = await authRest.prolongSession({ token: token }).then(data => {
-        return data && data.data
-      })
+      const res = await this.$api.auth
+        .prolongSession({ token: token })
+        .then(data => {
+          return data && data.data
+        })
       await this.$apolloHelpers.onLogin(res.token, undefined, 7)
       await dispatch('setSession')
     } catch (e) {
@@ -68,7 +69,7 @@ export const actions = {
   resendEmail: async function resendEmail({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await authRest.resendVerificationEmail(data).then(data => {
+      await this.$api.auth.resendVerificationEmail(data).then(data => {
         return data && data.data
       })
     } catch (e) {
@@ -78,7 +79,7 @@ export const actions = {
   resetPassword: async function resetPassword({ dispatch }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await authRest.resetPassword(data).then(data => {
+      await this.$api.auth.resetPassword(data).then(data => {
         return data && data.data
       })
     } catch (e) {
@@ -97,7 +98,7 @@ export const actions = {
   signup: async function signup({ dispatch, commit }, data) {
     data.token = this.$apolloHelpers.getToken()
     try {
-      await authRest.signUp(data).then(data => {
+      await this.$api.auth.signUp(data).then(data => {
         return data && data.data
       })
     } catch (e) {
