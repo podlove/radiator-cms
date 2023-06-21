@@ -23,7 +23,7 @@
     "cross-env": "^6.0.3",
     "graphql-tag": "^2.10.1",
     "jwt-decode": "^2.2.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^3.4.3",
     "nuxt-buefy": "^0.3.20",
     "nuxt-vuex-localstorage": "^1.2.6",
     "tiptap": "^1.26.6",
